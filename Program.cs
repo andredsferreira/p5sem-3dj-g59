@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace DDDSample1
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
+namespace DDDSample1 {
+    public class Program {
+        public static void Main(string[] args) {
             CreateWebHostBuilder(args).Build().Run();
         }
 

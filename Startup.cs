@@ -24,7 +24,7 @@ namespace DDDSample1 {
             services.AddDbContext<DDDSample1DbContext>(opt =>
                 opt.UseInMemoryDatabase("DDDSample1DB")
                 .ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>());
-            
+
 
             ConfigureMyServices(services);
 

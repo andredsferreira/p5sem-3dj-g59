@@ -7,6 +7,11 @@ namespace DDDSample1.Domain.OperationRequests {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IOperationRequestRepository _repository;
 
+        public OperationRequestService(IUnitOfWork unitOfWork, IOperationRequestRepository repository) {
+            _unitOfWork = unitOfWork;
+            _repository = repository;
+        }
+
     }
 
 }
