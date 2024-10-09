@@ -10,6 +10,10 @@ using DDDSample1.Infrastructure.OperationRequests;
 using DDDSample1.Infrastructure.Shared;
 using DDDSample1.Domain.Shared;
 using DDDSample1.Domain.OperationRequests;
+using DDDSample1.Domain.Patients;
+using DDDSample1.Infrastructure.Patients;
+using DDDSample1.Domain.Staffs;
+using DDDSample1.Infrastructure.Staffs;
 
 namespace DDDSample1 {
     public class Startup {
@@ -56,8 +60,17 @@ namespace DDDSample1 {
         public void ConfigureMyServices(IServiceCollection services) {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
+            // Operation request services
             services.AddTransient<IOperationRequestRepository, OperationRequestRepository>();
             services.AddTransient<OperationRequestService>();
+
+            // Patient services
+            services.AddTransient<IPatientRepository, PatientRepository>();
+            services.AddTransient<PatientService>();
+
+            // Staff services
+            services.AddTransient<IStaffRepository, StaffRepository>();
+            services.AddTransient<StaffService>();
 
         }
     }
