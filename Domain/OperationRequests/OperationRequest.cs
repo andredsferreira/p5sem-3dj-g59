@@ -1,9 +1,35 @@
+using System;
+using DDDSample1.Domain.OperationTypes;
+using DDDSample1.Domain.Patients;
 using DDDSample1.Domain.Shared;
+using DDDSample1.Domain.Staffs;
 
 namespace DDDSample1.Domain.OperationRequests {
 
     public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
-        
+
+        public Patient patient { get; private set; }
+
+        public Staff staff { get; private set; }
+
+        public OperationType operationType { get; private set; }
+
+        public string priority { get; private set; }
+
+        public DateTime dateTime { get; private set; }
+
+        public RequestStatus requestStatus { get; private set; }
+
+        public OperationRequest(Patient patient, Staff staff, OperationType operationType, string priority, DateTime dateTime, RequestStatus requestStatus) {
+            this.Id = new OperationRequestId(Guid.NewGuid());
+            this.staff = staff;
+            this.patient = patient;
+            this.operationType = operationType;
+            this.priority = priority;
+            this.dateTime = dateTime;
+            this.requestStatus = requestStatus;
+        }
+
     }
 
 }

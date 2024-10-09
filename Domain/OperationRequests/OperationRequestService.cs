@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using DDDSample1.Domain.Shared;
 
 namespace DDDSample1.Domain.OperationRequests {
@@ -10,6 +12,11 @@ namespace DDDSample1.Domain.OperationRequests {
         public OperationRequestService(IUnitOfWork unitOfWork, IOperationRequestRepository repository) {
             _unitOfWork = unitOfWork;
             _repository = repository;
+        }
+
+        // TODO: Add async keyword
+        public Task<OperationRequestDTO> CreateOperationRequest(OperationRequestDTO dto) {
+            throw new NotImplementedException();
         }
 
     }
