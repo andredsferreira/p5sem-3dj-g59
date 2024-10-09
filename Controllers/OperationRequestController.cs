@@ -7,8 +7,8 @@ namespace DDDSample1.Controllers {
     [ApiController]
     public class OperationRequestController : ControllerBase {
 
-            private readonly OperationRequestService _service; 
-            
+        private readonly OperationRequestService _service;
+
     }
 
 }
