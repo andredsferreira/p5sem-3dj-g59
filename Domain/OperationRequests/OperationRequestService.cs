@@ -18,7 +18,8 @@ namespace DDDSample1.Domain.OperationRequests {
             _repository = repository;
         }
 
-        public async Task<OperationRequestDTO> CreateOperationRequest(OperationRequestDTO dto) {
+        // async keyword gives warning
+        public  Task<OperationRequestDTO> CreateOperationRequest(OperationRequestDTO dto) {
             var patient = Patient.createFromDTO(dto.patientDTO);
             var staff = Staff.createFromDTO(dto.staffDTO);
             var operationType = OperationType.createFromDTO(dto.operationTypeDTO);
