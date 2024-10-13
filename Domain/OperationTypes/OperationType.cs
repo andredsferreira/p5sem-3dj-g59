@@ -7,6 +7,10 @@ namespace DDDSample1.Domain.OperationTypes {
 
     public class OperationType {
 
+        public static OperationType createFromDTO(OperationTypeDTO dto) {
+            throw new NotImplementedException();
+        }
+
     }
     
 }

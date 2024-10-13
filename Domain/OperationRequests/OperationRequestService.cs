@@ -1,6 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using DDDSample1.Domain.OperationTypes;
+using DDDSample1.Domain.Patients;
 using DDDSample1.Domain.Shared;
+using DDDSample1.Domain.Staffs;
+using Microsoft.AspNetCore.Routing;
 
 namespace DDDSample1.Domain.OperationRequests {
 
@@ -14,8 +18,11 @@ namespace DDDSample1.Domain.OperationRequests {
             _repository = repository;
         }
 
-        // TODO: Add async keyword
-        public Task<OperationRequestDTO> CreateOperationRequest(OperationRequestDTO dto) {
+        public async Task<OperationRequestDTO> CreateOperationRequest(OperationRequestDTO dto) {
+            var patient = Patient.createFromDTO(dto.patientDTO);
+            var staff = Staff.createFromDTO(dto.staffDTO);
+            var operationType = OperationType.createFromDTO(dto.operationTypeDTO);
+            var operationRequest = new OperationRequest(patient, staff, operationType, dto.priority, dto.dateTime, dto.requestStatus);
             throw new NotImplementedException();
         }
 

@@ -14,7 +14,7 @@ namespace DDDSample1.Controllers {
         [HttpPost]
         public async Task<ActionResult<OperationRequestDTO>> CreateOperationRequest(OperationRequestDTO dto) {
             var cat = await _service.CreateOperationRequest(dto);
-            throw new NotImplementedException();
+            return CreatedAtAction("Operation request creation", cat);
         }
 
     }
