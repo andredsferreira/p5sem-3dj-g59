@@ -8,7 +8,11 @@
 | **[1221071](membros/1221071/readme.md)** | Diogo Cunha      |
 | **[1221023](membros/1221023/readme.md)** | João Monteiro   |
 
-## 2. Task Assignment
+## 2. General Documentation
+
+General documentation (like the **Domain Model** and the **C4 System Views**) are located **[here](geral/readme.md)**.
+
+## 3. Task Assignment
 
 | Student Nr.   | Name    | Sprint A | Sprint B   | Sprint C |
 |--------------------------------------|------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
