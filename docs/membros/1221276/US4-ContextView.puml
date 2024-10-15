@@ -1,0 +1,40 @@
+@startuml
+
+title "Context View 5.1.4"
+
+autonumber
+
+actor Patient as pat
+
+participant "Web Application" as web
+participant "Backoffice API" as api
+database "Database" as db
+
+
+pat -> web : Update Profile Data
+
+activate pat
+activate web
+
+web -> api : Update Profile Data
+
+activate api
+
+api -> api : Validate Data
+
+api -> db : Save Data
+activate db
+deactivate db
+api -> web : Return Confirmation
+deactivate api
+web -> pat : Return Confirmation
+deactivate web
+deactivate pat
+
+
+
+
+
+@enduml
+
+
