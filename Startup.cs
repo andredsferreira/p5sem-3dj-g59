@@ -14,6 +14,9 @@ using DDDSample1.Domain.Patients;
 using DDDSample1.Infrastructure.Patients;
 using DDDSample1.Domain.Staffs;
 using DDDSample1.Infrastructure.Staffs;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace DDDSample1 {
     public class Startup {
@@ -27,13 +30,30 @@ namespace DDDSample1 {
         public void ConfigureServices(IServiceCollection services) {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<DDDSample1DbContext>(options => options.UseMySql(connectionString, MySqlServerVersion.AutoDetect(connectionString)));            
+            services.AddDbContext<DDDSample1DbContext>(options => options.UseMySql(connectionString, MySqlServerVersion.AutoDetect(connectionString)));
 
 
             ConfigureMyServices(services);
 
 
-            services.AddControllers().AddNewtonsoftJson();
+            // services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers().AddJsonOptions(options => {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
+            services.AddEndpointsApiExplorer();
+            // Configure JWT authentication
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => {
+                    options.TokenValidationParameters = new TokenValidationParameters {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +67,8 @@ namespace DDDSample1 {
             }
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseRouting();
 

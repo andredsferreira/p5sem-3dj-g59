@@ -6,7 +6,7 @@ namespace DDDSample1.Infrastructure {
 
     public class DDDSample1DbContext : DbContext {
 
-        public DbSet<OperationRequest> OperationRequests { get; set; }
+        public virtual DbSet<OperationRequest> OperationRequests { get; set; }
 
         public DDDSample1DbContext(DbContextOptions options) : base(options) {
 
