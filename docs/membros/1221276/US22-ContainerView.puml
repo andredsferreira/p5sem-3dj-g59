@@ -1,0 +1,36 @@
+
+' As an Admin, I want to remove obsolete or no longer performed operation types, so that the system stays current with hospital practices.
+'
+' Acceptance Criteria:
+'
+' Admins can search for and mark operation types as inactive (rather than deleting them) to preserve historical records.
+' Inactive operation types are no longer available for future scheduling but remain in historical data.
+' A confirmation prompt is shown before deactivating an operation type.
+
+@startuml
+
+title US22-Container View
+
+actor Admin as A
+participant "Web Application" as web
+participant "Backoffice API" as api
+database "Database" as db
+
+A -> web : Selectes Operation Type to Deactivate
+activate A
+activate web
+
+web -> api : Selectes Operation Type to Deactivate
+activate api
+
+api -> api : Set Operation Type as Inactive
+api -> db : Save Operation Type Changes
+activate db
+deactivate db
+api -> api : Log Operation Type Deactivation
+api -> web : Return Confirmation
+deactivate api
+web -> A : Return Confirmation
+deactivate web
+deactivate A
+
