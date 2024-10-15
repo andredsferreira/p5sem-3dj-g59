@@ -1,0 +1,48 @@
+' 
+' User Story:
+' As an Admin, I want to list/search operation types, so that I can see the details, edit, and remove operation types.
+'
+' Acceptance Criteria:
+' - Admins can search and filter operation types by name, specialization, or status (active/inactive).
+' - The system displays operation types in a searchable list with attributes such as name, required staff, and estimated duration.
+' - Admins can select an operation type to view, edit, or deactivate it.
+
+@startuml
+
+title US23-Container View
+
+actor Admin as A
+participant "Web Application" as web
+participant "Backoffice API" as api
+database "Database" as db
+
+A -> web : List Operation Types
+activate A
+activate web
+
+web -> A : Displays Filters and Operation Types
+deactivate web
+
+A -> web : Selects Filters
+activate web
+
+web --> api : List Operation Types
+activate api
+
+api -> db : Get Operation Types
+activate db
+
+db --> api : Return Operation Types
+deactivate db
+
+api --> web : Return Operation Types
+deactivate api
+
+web --> A : Displays Operation Types
+deactivate web
+deactivate A
+
+
+
+
+

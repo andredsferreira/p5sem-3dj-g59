@@ -1,0 +1,27 @@
+' 
+' User Story:
+' As an Admin, I want to list/search operation types, so that I can see the details, edit, and remove operation types.
+'
+' Acceptance Criteria:
+' - Admins can search and filter operation types by name, specialization, or status (active/inactive).
+' - The system displays operation types in a searchable list with attributes such as name, required staff, and estimated duration.
+' - Admins can select an operation type to view, edit, or deactivate it.
+
+@startuml
+
+title US23-Context View
+
+actor Admin as A
+participant "<<system>>\nHealthcare System" as S
+
+A -> S : List/Search Operation Types
+activate A
+activate S
+
+
+
+S -> A : \n\n\nDisplays Operation Types
+deactivate A
+deactivate S
+
+
