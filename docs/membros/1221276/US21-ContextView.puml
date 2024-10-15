@@ -1,0 +1,27 @@
+' 
+' As an Admin, I want to edit existing operation types, so that I can update or correct information about the procedure.
+'
+' Acceptance Criteria:
+'
+' Admins can search for and select an existing operation type to edit.
+' Editable fields include operation name, required staff by specialization, and estimated duration.
+' Changes are reflected in the system immediately for future operation requests.
+' Historical data is maintained, but new operation requests will use the updated operation type information.
+
+@startuml
+
+title US21-Context View
+
+actor Admin as A
+participant "<<system>>\nHealthcare System" as S
+
+A -> S : Edits Operation Type
+activate A
+activate S
+
+S -> S : Validate Operation Type Data
+S -> S : Log Operation Type Edit
+deactivate A
+
+
+@enduml
