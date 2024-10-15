@@ -1,0 +1,45 @@
+' 
+' User Story: As an Admin, I want to add new types of operations, so that I can reflect the available medical procedures in the system.
+'
+' Acceptance Criteria:
+' 
+' - Admins can add new operation types with attributes like:
+'   - Operation Name
+'   - Required Staff by Specialization
+'   - Estimated Duration
+' - The system validates that the operation name is unique.
+' - The system logs the creation of new operation types and makes them available for scheduling immediately.
+
+@startuml
+
+title US20-Container View
+
+actor Admin as A
+participant "Web Application" as web
+participant "Backoffice API" as api
+database "Database" as db
+
+A -> web : Creates Operation Type with its attributes
+activate A
+activate web
+
+web -> api : Creates Operation Type with its attributes
+activate api
+
+api -> api : Validate Operation Type attributes
+api -> db : Save New Operation Type
+activate db
+deactivate db
+api -> api : Log Operation Type creation
+api -> web : Return Confirmation
+deactivate api
+web -> A : Return Confirmation
+deactivate web
+deactivate A
+
+
+
+
+
+
+@enduml
