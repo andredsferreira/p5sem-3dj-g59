@@ -5,7 +5,7 @@ password if I forget it, so that I can regain access to the system securely.
 
 ## 1. Context
 
-This US is part of **Sprint A**, as part of the **Group of User Stories regarding backoffice user**.
+This US is part of **Sprint A**, as part of the **Group of User Stories regarding backoffice users**.
 
 ## 2. Requirements
 
