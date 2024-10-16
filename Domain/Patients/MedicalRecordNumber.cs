@@ -15,13 +15,20 @@ namespace DDDSample1.Domain.Patients {
         public MedicalRecordNumber(object value) : base(value) {
         }
 
-
-        public override string AsString() {
-            throw new System.NotImplementedException();
+        override
+        protected Object createFromString(String text) {
+            return new Guid(text);
         }
 
-        protected override object createFromString(string text) {
-            throw new System.NotImplementedException();
+        override
+        public String AsString() {
+            Guid obj = (Guid)base.ObjValue;
+            return obj.ToString();
+        }
+
+
+        public Guid AsGuid() {
+            return (Guid)base.ObjValue;
         }
     }
 }

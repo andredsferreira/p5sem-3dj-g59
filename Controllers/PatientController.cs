@@ -1,5 +1,6 @@
-using DDDSample1.Domain.Patients;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using DDDSample1.Domain.Patients;
 
 namespace DDDSample1.Controllers {
 
@@ -7,7 +8,12 @@ namespace DDDSample1.Controllers {
     [ApiController]
     public class PatientController : ControllerBase {
         
-        private readonly PatientService _patientService;
+        private readonly PatientService _service;
 
+        [HttpPost("Create")]
+        public async Task<ActionResult<PatientDTO>> CreatePatient(PatientDTO dto) {
+            var cat = await _service.CreatePatient(dto);
+            return CreatedAtAction("Patient creation", cat);
+        }
     }
 }
