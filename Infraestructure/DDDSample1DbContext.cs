@@ -5,6 +5,7 @@ using DDDSample1.Domain.Auth;
 using DDDSample1.Domain.Patients;
 using DDDSample1.Infrastructure.Patients;
 using DDDSample1.Infrastructure.Auth;
+using DDDSample1.Domain.OperationTypes;
 
 namespace DDDSample1.Infrastructure {
 
@@ -13,6 +14,7 @@ namespace DDDSample1.Infrastructure {
         public virtual DbSet<OperationRequest> OperationRequests { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Patient> Patients {get; set;}
+        public virtual DbSet<OperationType> OperationTypes {get; set;}
 
         public DDDSample1DbContext(DbContextOptions options) : base(options) {
 
