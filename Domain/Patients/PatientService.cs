@@ -17,12 +17,11 @@ namespace DDDSample1.Domain.Patients {
         }
 
         public async Task<PatientDTO> CreatePatient(PatientDTO dto){
-            var patient = new Patient(dto.DateOfBirth, dto.Email, dto.PhoneNumber, new FullName(dto.FullName), [.. dto.Allergies.Split(", ")]); 
+            var patient = Patient.createFromDTO(dto); 
             await this._repository.AddAsync(patient);
             await this._unitOfWork.CommitAsync();
 
-            //TODO!
-            return null;
+            return dto;
         }
     }
 

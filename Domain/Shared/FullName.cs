@@ -6,6 +6,7 @@ namespace DDDSample1.Domain.Shared {
         public string FirstName { get; set; }
         public List<string> MiddleNames { get; set; }
         public string LastName { get; set; }
+        private FullName(){}
         public FullName(string FirstName, List<string> MiddleNames, string LastName){
             this.FirstName = FirstName;
             this.MiddleNames = MiddleNames;

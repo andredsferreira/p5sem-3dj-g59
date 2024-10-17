@@ -19,10 +19,11 @@ namespace DDDSample1.Domain.OperationRequests {
         }
 
         public async Task<OperationRequestDTO> CreateOperationRequest(OperationRequestDTO dto) {
-            var patient = Patient.createFromDTO(dto.patientDTO);
-            var staff = Staff.createFromDTO(dto.staffDTO);
-            var operationType = OperationType.createFromDTO(dto.operationTypeDTO);
-            var operationRequest = new OperationRequest(patient, staff, operationType, dto.priority, dto.dateTime, dto.requestStatus);
+            //var patient = Patient.createFromDTO(dto.patientDTO);
+            //var staff = Staff.createFromDTO(dto.staffDTO);
+            //var operationType = OperationType.createFromDTO(dto.operationTypeDTO);
+            //var operationRequest = new OperationRequest(patient, staff, operationType, dto.priority, dto.dateTime, dto.requestStatus);
+            var operationRequest = new OperationRequest(dto.teste);
 
             await this._repository.AddAsync(operationRequest);
             await this._unitOfWork.CommitAsync();

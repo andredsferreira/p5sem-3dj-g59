@@ -1,11 +1,10 @@
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System;
+using DDDSample1.Domain.OperationRequestsAuth;
+using DDDSample1.Domain.Shared;
 
-namespace DDDSample1.Auth;
+namespace DDDSample1.Domain.Auth;
 
-public class User {
-
-    public int Id { get; set; }
+public class User : Entity<UserId>, IAggregateRoot {
 
     public string Username { get; set; }
 
@@ -13,6 +12,16 @@ public class User {
 
     public string Email { get; set; }
 
-    public List<string> Roles { get; set; } = new List<string>();
+    public UserRole Role { get; set; }
     
+    public User(string Username, string Password, string Email, UserRole Role){
+        Id = new UserId(Guid.NewGuid());
+        this.Username = Username;
+        this.Password = Password;
+        this.Email = Email;
+        this.Role = Role;
+    }
+    public static User createFromDTO(UserDTO dto){
+        return new User(dto.Username, dto.Email, dto.Password, (UserRole)dto.Role);
+    }
 }

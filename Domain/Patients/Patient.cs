@@ -11,6 +11,8 @@ namespace DDDSample1.Domain.Patients {
         public FullName FullName {get; set;}
         public List<string> Allergies {get; set;}
 
+        private Patient() {}
+
         public Patient(DateOnly DateOfBirth, string Email, string PhoneNumber, FullName FullName, List<string> Allergies){
             Id = new MedicalRecordNumber(Guid.NewGuid());
             this.DateOfBirth = DateOfBirth;
@@ -21,7 +23,7 @@ namespace DDDSample1.Domain.Patients {
         }
 
         public static Patient createFromDTO(PatientDTO dto) {
-            throw new NotImplementedException();
+            return new Patient(dto.DateOfBirth, dto.Email, dto.PhoneNumber, new FullName(dto.FullName), [.. dto.Allergies.Split(", ")]);
         }        
         
     }

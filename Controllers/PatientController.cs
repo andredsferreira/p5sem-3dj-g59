@@ -9,6 +9,9 @@ namespace DDDSample1.Controllers {
     public class PatientController : ControllerBase {
         
         private readonly PatientService _service;
+        public PatientController(PatientService service) {
+            _service = service;
+        }
 
         [HttpPost("Create")]
         public async Task<ActionResult<PatientDTO>> CreatePatient(PatientDTO dto) {

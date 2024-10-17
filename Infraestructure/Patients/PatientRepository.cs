@@ -6,9 +6,9 @@ namespace DDDSample1.Infrastructure.Patients {
 
     public class PatientRepository : BaseRepository<Patient, MedicalRecordNumber>, IPatientRepository {
 
-        public PatientRepository(DbSet<Patient> objs) : base(objs) {
+        public PatientRepository(DDDSample1DbContext context) : base(context.Patients) {
             
-        }
+        }         
     }
 
 }
