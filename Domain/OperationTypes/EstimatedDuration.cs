@@ -25,5 +25,7 @@ namespace DDDSample1.Domain.OperationTypes
         }
 
         
+
+        
     }
 }

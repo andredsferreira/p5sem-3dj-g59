@@ -20,7 +20,8 @@ namespace DDDSample1.Domain.OperationTypes {
         }
 
         public static OperationType createFromDTO(OperationTypeDTO dto) {
-            throw new NotImplementedException();
+            return new OperationType(new OperationTypeID(dto.id), new OperationName(dto.name), 
+            new EstimatedDuration(new AnaesthesiaTime(dto.anaesthesiaTime), new SurgeryTime (dto.surgeryTime),new CleaningTime (dto.cleaningTime)));   
         }
 
     }
