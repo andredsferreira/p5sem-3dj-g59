@@ -14,10 +14,14 @@ namespace DDDSample1.Infrastructure.OperationTypes{
             builder.Property(b => b.Id).HasConversion(i => i.AsString(), i => new OperationTypeID(i)).HasColumnName("Id");
 
             builder.Property(b => b.name.name).HasColumnName("Name");
+
             builder.Property(b => b.estimatedDuration.totalDuration.value).HasColumnName("EstimatedDuration");
-            builder.Property(b => b.estimatedDuration.anaesthesiaTime.anaesthesiaTime).HasColumnName("AnaesthesiaTime");
-            builder.Property(b => b.estimatedDuration.surgeryTime.surgeryTime).HasColumnName("SurgeryTime");
-            builder.Property(b => b.estimatedDuration.cleaningTime.cleaningTime).HasColumnName("CleaningTime");
+
+            builder.Property(b => b.estimatedDuration.anaesthesiaTime.duration.value).HasColumnName("AnaesthesiaTime");
+
+            builder.Property(b => b.estimatedDuration.surgeryTime.duration.value).HasColumnName("SurgeryTime");
+            
+            builder.Property(b => b.estimatedDuration.cleaningTime.duration.value).HasColumnName("CleaningTime");
             
         }
 
