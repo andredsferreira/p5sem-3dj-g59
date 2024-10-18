@@ -19,6 +19,13 @@ namespace DDDSample1.Domain.OperationTypes {
             this.estimatedDuration = estimatedDuration;
         }
 
+        public OperationType(OperationName name, EstimatedDuration estimatedDuration) {
+            
+            this.id = new OperationTypeID(Guid.NewGuid().ToString());
+            this.name = name;
+            this.estimatedDuration = estimatedDuration;
+        }
+
         public static OperationType createFromDTO(OperationTypeDTO dto) {
             return new OperationType(new OperationTypeID(dto.id), new OperationName(dto.name), 
             new EstimatedDuration(new AnaesthesiaTime(dto.anaesthesiaTime), new SurgeryTime (dto.surgeryTime),new CleaningTime (dto.cleaningTime)));   
