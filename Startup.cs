@@ -4,10 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using DDDSample1.Infrastructure;
 using DDDSample1.Infrastructure.OperationRequests;
-using DDDSample1.Infrastructure.Shared;
 using DDDSample1.Domain.Shared;
 using DDDSample1.Domain.OperationRequests;
 using DDDSample1.Domain.Patients;
@@ -17,6 +15,7 @@ using DDDSample1.Infrastructure.Staffs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 namespace DDDSample1 {
     public class Startup {
@@ -35,6 +34,8 @@ namespace DDDSample1 {
 
             ConfigureMyServices(services);
 
+            services.AddLogging();
+
             services.AddDbContext<DDDSample1DbContext>();
 
             services.AddDbContext<IdentityContext>();
@@ -47,7 +48,6 @@ namespace DDDSample1 {
 
             services.AddEndpointsApiExplorer();
 
-            // JWT authentication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
                 AddJwtBearer(options => {
                     options.TokenValidationParameters = new TokenValidationParameters {
@@ -59,6 +59,20 @@ namespace DDDSample1 {
                         IssuerSigningKey = new SymmetricSecurityKey(key)
                     };
                 });
+
+            services.AddAuthorization();
+
+            services.AddIdentityApiEndpoints<IdentityUser>().
+                AddEntityFrameworkStores<IdentityContext>();
+
+            services.Configure<IdentityOptions>(opts => {
+                opts.Password.RequiredLength = 6;
+                opts.Password.RequireNonAlphanumeric = false;
+                opts.Password.RequireLowercase = false;
+                opts.Password.RequireUppercase = false;
+                opts.Password.RequireDigit = false;
+            });
+
         }
 
         public void ConfigureMyServices(IServiceCollection services) {
@@ -78,7 +92,6 @@ namespace DDDSample1 {
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
@@ -99,7 +112,5 @@ namespace DDDSample1 {
                 endpoints.MapControllers();
             });
         }
-
-
     }
 }
