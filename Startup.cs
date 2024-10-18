@@ -20,63 +20,45 @@ using System.Text;
 
 namespace DDDSample1 {
     public class Startup {
+
         public Startup(IConfiguration configuration) {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-            services.AddDbContext<DDDSample1DbContext>(options => options.UseMySql(connectionString, MySqlServerVersion.AutoDetect(connectionString)));
-
+            var mySqlVersion = MySqlServerVersion.AutoDetect(connectionString);
+            var jwtSettings = Configuration.GetSection("Jwt");
+            var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
 
             ConfigureMyServices(services);
 
+            services.AddDbContext<DDDSample1DbContext>();
+
+            services.AddDbContext<IdentityContext>();
 
             // services.AddControllers().AddNewtonsoftJson();
+
             services.AddControllers().AddJsonOptions(options => {
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
+
             services.AddEndpointsApiExplorer();
-            // Configure JWT authentication
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options => {
+
+            // JWT authentication
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
+                AddJwtBearer(options => {
                     options.TokenValidationParameters = new TokenValidationParameters {
                         ValidateIssuer = true,
+                        ValidIssuer = jwtSettings["Issuer"],
                         ValidateAudience = true,
-                        ValidateLifetime = true,
+                        ValidAudience = jwtSettings["Audience"],
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = Configuration["Jwt:Issuer"],
-                        ValidAudience = Configuration["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                        IssuerSigningKey = new SymmetricSecurityKey(key)
                     };
                 });
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-            if (env.IsDevelopment()) {
-                app.UseDeveloperExceptionPage();
-            }
-            else {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthentication();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints => {
-                endpoints.MapControllers();
-            });
         }
 
         public void ConfigureMyServices(IServiceCollection services) {
@@ -95,5 +77,29 @@ namespace DDDSample1 {
             services.AddTransient<StaffService>();
 
         }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+            if (env.IsDevelopment()) {
+                app.UseDeveloperExceptionPage();
+            }
+            else {
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseAuthentication();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+            });
+        }
+
+
     }
 }

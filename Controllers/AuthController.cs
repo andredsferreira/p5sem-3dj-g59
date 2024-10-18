@@ -61,6 +61,7 @@ public class AuthController : ControllerBase {
         // Serializes the JWT token to a string and returns it.
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+    
     [HttpPost("Create")]
     public async Task<ActionResult<UserDTO>> CreatePatient(UserDTO dto) {
         var cat = await _service.CreateUser(dto);
