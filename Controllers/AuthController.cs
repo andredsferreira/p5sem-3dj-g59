@@ -1,7 +1,11 @@
 using DDDSample1.Auth;
 using DDDSample1.Domain.Auth;
+using DDDSample1.Infrastructure;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -13,58 +17,95 @@ using System.Threading.Tasks;
 
 namespace DDDSample1.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 [ApiController]
 public class AuthController : ControllerBase {
 
-    private readonly IConfiguration _configuration;
-    private readonly AuthService _service;
+    private readonly IConfiguration configuration;
 
-    public AuthController(IConfiguration configuration) {
-        _configuration = configuration;
+    private readonly ILogger<AuthController> logger;
+
+    private readonly IdentityContext context;
+
+    private readonly UserManager<IdentityUser> userManager;
+
+    private readonly SignInManager<IdentityUser> signInManager;
+
+    public AuthController(IConfiguration configuration, ILogger<AuthController> logger, IdentityContext context, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager) {
+        this.configuration = configuration;
+        this.logger = logger;
+        this.context = context;
+        this.userManager = userManager;
+        this.signInManager = signInManager;
     }
 
-    [HttpPost("Login")]
-    public IActionResult Login([FromBody] LoginDTO request) {
-        if (ModelState.IsValid) {
-            var user = UserStore.Users.FirstOrDefault(u => u.Username == request.Username && u.Password == request.Password);
-            if (user == null) {
-                return Unauthorized("Invalid user credentials.");
+    [HttpPost]
+    public async Task<ActionResult> Register(RegisterDTO dto) {
+        try {
+            if (!ModelState.IsValid) {
+                var details = new ValidationProblemDetails(ModelState);
+                details.Status = StatusCodes.Status400BadRequest;
+                return new BadRequestObjectResult(details);
             }
-            var token = IssueToken(user);
-            return Ok(new { Token = token });
+            var newUser = new IdentityUser();
+            newUser.UserName = dto.UserName;
+            newUser.Email = dto.Email;
+            var result = await userManager.CreateAsync(newUser, dto.Password);
+            if (result.Succeeded) {
+                logger.LogInformation("User {userName} ({email}) has been created.", newUser.UserName, newUser.Email);
+                return StatusCode(201, $"User '{newUser.UserName}' has been created.");
+            }
+            else {
+                throw new Exception(string.Format("Error: {0}", string.Join(" ", result.Errors.Select(e => e.Description))));
+            }
         }
-        return BadRequest("Invalid Request Body");
+        catch (Exception e) {
+            var exceptionDetails = new ProblemDetails();
+            exceptionDetails.Detail = e.Message;
+            exceptionDetails.Status = StatusCodes.Status500InternalServerError;
+            return StatusCode(StatusCodes.Status500InternalServerError, exceptionDetails);
+        }
     }
 
-    private string IssueToken(User user) {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+    [HttpPost]
+    public async Task<ActionResult> Login(LoginDTO dto) {
+        try {
+            if (!ModelState.IsValid) {
+                var details = new ValidationProblemDetails(ModelState);
+                details.Status = StatusCodes.Status400BadRequest;
+                return new BadRequestObjectResult(details);
+            }
 
-        // Defines a set of claims to be included in the token.
-        var claims = new List<Claim> {
-                new Claim("Hospital_User_Id", user.Id.ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Username),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role.ToString())
-            };
+            var user = await userManager.FindByNameAsync(dto.Username);
 
-        // Creates a new JWT token with specified parameters including issuer, audience, claims, expiration time, and signing credentials.
-        var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt:Issuer"],
-            audience: _configuration["Jwt:Audience"],
-            claims: claims,
-            expires: DateTime.Now.AddHours(1), 
-            signingCredentials: credentials);
+            if (user == null || !await userManager.CheckPasswordAsync(user, dto.Password)) {
+                throw new Exception("Invalid login attempt.");
+            }
+            else {
+                var jwtSettings = configuration.GetSection("Jwt");
+                var keyEncoding = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
+                var key = new SymmetricSecurityKey(keyEncoding);
+                var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-        // Serializes the JWT token to a string and returns it.
-        return new JwtSecurityTokenHandler().WriteToken(token);
+                var claims = new List<Claim>();
+                claims.Add(new Claim(ClaimTypes.Name, user.UserName));
+
+                var jwtObject = new JwtSecurityToken(issuer: jwtSettings["Issuer"],
+                    audience: jwtSettings["Audience"],
+                    claims: claims, expires: DateTime.Now.AddSeconds(540),
+                    signingCredentials: signingCredentials);
+
+                var jwtString = new JwtSecurityTokenHandler().WriteToken(jwtObject);
+
+                return StatusCode(StatusCodes.Status200OK, jwtString);
+            }
+        }
+        catch (Exception e) {
+            var exceptionDetails = new ProblemDetails();
+            exceptionDetails.Detail = e.Message;
+            exceptionDetails.Status = StatusCodes.Status401Unauthorized;
+            return StatusCode(StatusCodes.Status401Unauthorized, exceptionDetails);
+        }
     }
-    
-    [HttpPost("Create")]
-    public async Task<ActionResult<UserDTO>> CreatePatient(UserDTO dto) {
-        var cat = await _service.CreateUser(dto);
-        return CreatedAtAction("User creation", cat);
-    }
+
 }
