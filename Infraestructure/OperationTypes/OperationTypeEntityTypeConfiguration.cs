@@ -11,8 +11,13 @@ namespace DDDSample1.Infrastructure.OperationTypes{
 
             builder.ToTable("OperationType", SchemaNames.DDDSample1);
             builder.HasKey(b => b.Id);
-            builder.Property(b => b.name).HasColumnName("Name");
-            builder.Property(b => b.estimatedDuration).HasColumnName("EstimatedDuration");
+            builder.Property(b => b.Id).HasConversion(i => i.AsString(), i => new OperationTypeID(i)).HasColumnName("Id");
+
+            builder.Property(b => b.name.name).HasColumnName("Name");
+            builder.Property(b => b.estimatedDuration.totalDuration.value).HasColumnName("EstimatedDuration");
+            builder.Property(b => b.estimatedDuration.anaesthesiaTime.anaesthesiaTime).HasColumnName("AnaesthesiaTime");
+            builder.Property(b => b.estimatedDuration.surgeryTime.surgeryTime).HasColumnName("SurgeryTime");
+            builder.Property(b => b.estimatedDuration.cleaningTime.cleaningTime).HasColumnName("CleaningTime");
             
         }
 
