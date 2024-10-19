@@ -1,4 +1,4 @@
-# US 9 - Edit a new Patient Profile
+# US 9 - Edit an existing Patient Profile
 
 As an **Admin**, I want to edit an existing patient profile, so that I can update their information when needed.
 
@@ -12,7 +12,7 @@ This US is part of **Sprint A**, as part of the **Group of User Stories regardin
 
 1. Admins can **search for** and **select** a patient profile to edit.
 2. Editable fields include **name**, **contact information**, **medical history**, and **allergies**.
-3. Changes to **sensitive data** (e.g., contact information) trigger an **email notification** to the patient..
+3. Changes to **sensitive data** (e.g., contact information) trigger an **email notification** to the patient.
 4. The system **logs all profile changes** for auditing purposes.
 
 ### 2.2. Dependencies
