@@ -104,6 +104,8 @@ namespace DDDSample1 {
 
             app.UseAuthentication();
 
+            app.UseRouting();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {
