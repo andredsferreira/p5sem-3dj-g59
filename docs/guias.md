@@ -3,5 +3,6 @@ Precisam de fazer isto sempre que derem update do modelo de dominio e quiserem v
 
 - `dotnet ef database drop --froce`
 - apagar a pasta Migrations
-- `dotnet ef migrations add Initial`
+- `dotnet ef migrations add InitialIdentity --context IdentityContext`
+- `dotnet ef migrations add Initial --context DDDSample1DbContext`
 - `dotnet ef database update`

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using DDDSample1.Domain.Shared;
 
 namespace DDDSample1.Infrastructure.Shared {
+    
     public class BaseRepository<TEntity, TEntityId> : IRepository<TEntity, TEntityId>
     where TEntity : Entity<TEntityId>
     where TEntityId : EntityId {

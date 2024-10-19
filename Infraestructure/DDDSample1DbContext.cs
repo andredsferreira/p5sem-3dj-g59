@@ -28,10 +28,10 @@ namespace DDDSample1.Infrastructure {
             optionsBuilder.UseMySql(connectionString, MySqlServerVersion.AutoDetect(connectionString));
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) {
-            modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new PatientEntityTypeConfiguration());
-            base.OnModelCreating(modelBuilder);
-        }
+        // protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        //     modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());
+        //     modelBuilder.ApplyConfiguration(new PatientEntityTypeConfiguration());
+        //     base.OnModelCreating(modelBuilder);
+        // }
     }
 }
