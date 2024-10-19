@@ -5,4 +5,5 @@ Precisam de fazer isto sempre que derem update do modelo de dominio e quiserem v
 - apagar a pasta Migrations
 - `dotnet ef migrations add InitialIdentity --context IdentityContext`
 - `dotnet ef migrations add Initial --context DDDSample1DbContext`
-- `dotnet ef database update`
+- `dotnet ef database update --context IdentityContext`
+- `dotnet ef database update --context DDDSample1DbContext`
