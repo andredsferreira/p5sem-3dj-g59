@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace DDDSample1 {
     public class Startup {
@@ -27,6 +28,7 @@ namespace DDDSample1 {
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services) {
+            // Variáveis para simplificar código
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             var mySqlVersion = MySqlServerVersion.AutoDetect(connectionString);
             var jwtSettings = Configuration.GetSection("Jwt");
@@ -48,6 +50,17 @@ namespace DDDSample1 {
 
             services.AddEndpointsApiExplorer();
 
+            services.AddIdentity<IdentityUser, IdentityRole>(options => {
+                // TODO: Mudar a politica da password
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 6;
+            })
+            .AddEntityFrameworkStores<IdentityContext>()
+            .AddDefaultTokenProviders();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
                 AddJwtBearer(options => {
                     options.TokenValidationParameters = new TokenValidationParameters {
@@ -56,23 +69,10 @@ namespace DDDSample1 {
                         ValidateAudience = true,
                         ValidAudience = jwtSettings["Audience"],
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key)
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ClockSkew = TimeSpan.Zero
                     };
                 });
-
-            services.AddAuthorization();
-
-            services.AddIdentityApiEndpoints<IdentityUser>().
-                AddEntityFrameworkStores<IdentityContext>();
-
-            services.Configure<IdentityOptions>(opts => {
-                opts.Password.RequiredLength = 6;
-                opts.Password.RequireNonAlphanumeric = false;
-                opts.Password.RequireLowercase = false;
-                opts.Password.RequireUppercase = false;
-                opts.Password.RequireDigit = false;
-            });
-
         }
 
         public void ConfigureMyServices(IServiceCollection services) {
@@ -104,13 +104,12 @@ namespace DDDSample1 {
 
             app.UseAuthentication();
 
-            app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
+
         }
     }
 }

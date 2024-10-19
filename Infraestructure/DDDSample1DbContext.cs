@@ -4,7 +4,6 @@ using DDDSample1.Infrastructure.OperationRequests;
 using DDDSample1.Domain.Auth;
 using DDDSample1.Domain.Patients;
 using DDDSample1.Infrastructure.Patients;
-using DDDSample1.Infrastructure.Auth;
 using DDDSample1.Domain.OperationTypes;
 using Microsoft.Extensions.Configuration;
 
@@ -15,8 +14,6 @@ namespace DDDSample1.Infrastructure {
         private readonly IConfiguration configuration;
 
         public virtual DbSet<OperationRequest> OperationRequests { get; set; }
-
-        public virtual DbSet<User> Users { get; set; }
 
         public virtual DbSet<Patient> Patients { get; set; }
 
@@ -33,7 +30,6 @@ namespace DDDSample1.Infrastructure {
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new PatientEntityTypeConfiguration());
             base.OnModelCreating(modelBuilder);
         }

@@ -1,11 +1,10 @@
-using DDDSample1.Auth;
 using DDDSample1.Domain.Auth;
 using DDDSample1.Infrastructure;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -17,95 +16,116 @@ using System.Threading.Tasks;
 
 namespace DDDSample1.Controllers;
 
-[Route("api/[controller]/[action]")]
 [ApiController]
+[Route("api/[controller]")]
 public class AuthController : ControllerBase {
 
-    private readonly IConfiguration configuration;
+    private readonly IConfiguration Configuration;
 
-    private readonly ILogger<AuthController> logger;
+    private readonly IdentityContext Context;
 
-    private readonly IdentityContext context;
+    private readonly UserManager<IdentityUser> UserManager;
 
-    private readonly UserManager<IdentityUser> userManager;
+    private readonly SignInManager<IdentityUser> SignInManager;
 
-    private readonly SignInManager<IdentityUser> signInManager;
-
-    public AuthController(IConfiguration configuration, ILogger<AuthController> logger, IdentityContext context, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager) {
-        this.configuration = configuration;
-        this.logger = logger;
-        this.context = context;
-        this.userManager = userManager;
-        this.signInManager = signInManager;
+    public AuthController(IConfiguration Configuration, IdentityContext Context, UserManager<IdentityUser> UserManager, SignInManager<IdentityUser> SignInManager) {
+        this.Configuration = Configuration;
+        this.Context = Context;
+        this.UserManager = UserManager;
+        this.SignInManager = SignInManager;
     }
 
-    [HttpPost]
-    public async Task<ActionResult> Register(RegisterDTO dto) {
-        try {
-            if (!ModelState.IsValid) {
-                var details = new ValidationProblemDetails(ModelState);
-                details.Status = StatusCodes.Status400BadRequest;
-                return new BadRequestObjectResult(details);
-            }
-            var newUser = new IdentityUser();
-            newUser.UserName = dto.UserName;
-            newUser.Email = dto.Email;
-            var result = await userManager.CreateAsync(newUser, dto.Password);
-            if (result.Succeeded) {
-                logger.LogInformation("User {userName} ({email}) has been created.", newUser.UserName, newUser.Email);
-                return StatusCode(201, $"User '{newUser.UserName}' has been created.");
-            }
-            else {
-                throw new Exception(string.Format("Error: {0}", string.Join(" ", result.Errors.Select(e => e.Description))));
-            }
+    [HttpPost("login")]
+    public async Task<IActionResult> LoginUser([FromBody] LoginDTO dto) {
+        if (!ModelState.IsValid) {
+            return BadRequest(ModelState);
         }
-        catch (Exception e) {
-            var exceptionDetails = new ProblemDetails();
-            exceptionDetails.Detail = e.Message;
-            exceptionDetails.Status = StatusCodes.Status500InternalServerError;
-            return StatusCode(StatusCodes.Status500InternalServerError, exceptionDetails);
+
+        var result = await SignInManager.PasswordSignInAsync(dto.Username, dto.Password, isPersistent: false, lockoutOnFailure: false);
+
+        if (!result.Succeeded) {
+            return Unauthorized("Invalid login attempt.");
         }
+
+        var user = await UserManager.FindByNameAsync(dto.Username);
+
+        var token = await BuildToken(user);
+
+        return Ok(new { token });
     }
 
-    [HttpPost]
-    public async Task<ActionResult> Login(LoginDTO dto) {
-        try {
-            if (!ModelState.IsValid) {
-                var details = new ValidationProblemDetails(ModelState);
-                details.Status = StatusCodes.Status400BadRequest;
-                return new BadRequestObjectResult(details);
-            }
 
-            var user = await userManager.FindByNameAsync(dto.Username);
-
-            if (user == null || !await userManager.CheckPasswordAsync(user, dto.Password)) {
-                throw new Exception("Invalid login attempt.");
-            }
-            else {
-                var jwtSettings = configuration.GetSection("Jwt");
-                var keyEncoding = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
-                var key = new SymmetricSecurityKey(keyEncoding);
-                var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-                var claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.Name, user.UserName));
-
-                var jwtObject = new JwtSecurityToken(issuer: jwtSettings["Issuer"],
-                    audience: jwtSettings["Audience"],
-                    claims: claims, expires: DateTime.Now.AddSeconds(540),
-                    signingCredentials: signingCredentials);
-
-                var jwtString = new JwtSecurityTokenHandler().WriteToken(jwtObject);
-
-                return StatusCode(StatusCodes.Status200OK, jwtString);
-            }
+    [HttpPost("registerpatient")]
+    public async Task<IActionResult> RegisterUser([FromBody] PatientRegisterDTO dto) {
+        if (!ModelState.IsValid) {
+            return BadRequest(ModelState);
         }
-        catch (Exception e) {
-            var exceptionDetails = new ProblemDetails();
-            exceptionDetails.Detail = e.Message;
-            exceptionDetails.Status = StatusCodes.Status401Unauthorized;
-            return StatusCode(StatusCodes.Status401Unauthorized, exceptionDetails);
+
+        var patientUser = new IdentityUser {
+            UserName = dto.Username,
+            Email = dto.Email,
+            PhoneNumber = dto.Phone
+        };
+        var result = await UserManager.CreateAsync(patientUser, dto.Password);
+        if (!result.Succeeded) {
+            return BadRequest(result.Errors);
         }
+
+        var userRoles = await UserManager.GetRolesAsync(patientUser);
+        if (userRoles.Count > 0) {
+            return BadRequest("User already has a role assigned.");
+        }
+
+        await UserManager.AddToRoleAsync(patientUser, HospitalRoles.Patient);
+
+        var token = await BuildToken(patientUser);
+
+        return Ok(new { token });
     }
 
+
+    private async Task<string> BuildToken(IdentityUser user) {
+        // Obter role do user
+        var userRoles = await UserManager.GetRolesAsync(user);
+        var firstRole = userRoles.FirstOrDefault();
+
+        if (user == null) {
+            throw new ArgumentException("User cannot be null.");
+        }
+
+        if (firstRole == null) {
+            throw new ArgumentException("User does not have an assigned role.");
+        }
+
+        // Construir os claims do token
+        var claims = new List<Claim>() {
+            new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.Role, firstRole)
+        };
+
+        var jwtSettings = Configuration.GetSection("Jwt");
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        var expiration = DateTime.UtcNow.AddHours(1);
+
+
+        JwtSecurityToken token = new JwtSecurityToken(
+            issuer: jwtSettings["Issuer"],
+            audience: jwtSettings["Audience"],
+            claims: claims,
+            expires: expiration,
+            signingCredentials: creds
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+
+    [HttpGet("users")]
+    [Authorize(Roles = HospitalRoles.Admin)]
+    public async Task<ActionResult<IEnumerable<IdentityUser>>> GetUsers() {
+        var users = await Context.Users.ToListAsync();
+        return users.Any() ? Ok(users) : NotFound();
+    }
 }

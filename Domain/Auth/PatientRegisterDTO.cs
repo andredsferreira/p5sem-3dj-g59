@@ -2,18 +2,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DDDSample1.Domain.Auth;
 
-public class UserDTO {
+
+public class PatientRegisterDTO {
 
     [Required]
     public string Username { get; set; }
 
     [Required]
-    public string Password { get; set; }
-
-    [Required]
+    [EmailAddress]
     public string Email { get; set; }
 
     [Required]
-    public int Role { get; set; }
-    
+    [Phone]
+    public string Phone { get; set; }
+
+    [Required]
+    public string Password { get; set; }
+
 }
