@@ -35,3 +35,6 @@ For this **US** to work, there needs to be a **Patient Profile** inside the syst
     * **Answer 2:** this requirement is for the editing of the user profile. from a usability point of view, the user should be able to start this feature either by searching for a specific user or listing all users and selecting one.
 
         note that we are not doing the user interface of the system in this sprint.
+
+* **Question 3:** When one of the contents that administrator edits is a sensitive content (eg. email), the notification is sent for what patient's email, the email in patient account, the old email of patient or the new email of patient?
+    * **Answer 3:** if the email is changed, the notification should be sent to the "old" email
