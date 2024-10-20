@@ -1,21 +1,44 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DDDSample1.Domain.Patients;
+using Microsoft.AspNetCore.Authorization;
+using DDDSample1.Domain.Auth;
+using Microsoft.AspNetCore.Identity;
+using Domain.Appointments;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DDDSample1.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class PatientController : ControllerBase {
 
     private readonly PatientService _service;
-    public PatientController(PatientService service) {
+
+    private readonly UserManager<IdentityUser> userManager;
+
+    public PatientController(PatientService service, UserManager<IdentityUser> userManager) {
         _service = service;
+        this.userManager = userManager;
     }
 
     [HttpPost("Create")]
+    [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<PatientDTO>> CreatePatient(PatientDTO dto) {
         var cat = await _service.CreatePatient(dto);
         return CreatedAtAction("Patient creation", cat);
     }
+
+    [HttpGet("Appointments")]
+    [Authorize(Roles =HospitalRoles.Patient)]
+    public async Task<ActionResult<IEnumerable<AppointmentDTO>>> GetPatientAppointments(string patientEmail) {
+        var appointments = await _service.GetPatientAppointments(patientEmail);
+        return appointments.ToList();
+    }
+
+    
+
 }

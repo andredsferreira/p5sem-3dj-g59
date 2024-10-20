@@ -1,3 +1,4 @@
+using DDDSample1.Domain;
 using DDDSample1.Domain.Auth;
 using DDDSample1.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
@@ -54,9 +55,14 @@ public class AuthController : ControllerBase {
         return Ok(new { token });
     }
 
+    [HttpPost("registerbackoffice")]
+    public async Task<IActionResult> RegisterBackoffice([FromBody] RegisterBackofficeDTO dto) {
+        throw new NotImplementedException();
+    }
+
 
     [HttpPost("registerpatient")]
-    public async Task<IActionResult> RegisterUser([FromBody] PatientRegisterDTO dto) {
+    public async Task<IActionResult> RegisterPatient([FromBody] PatientRegisterDTO dto) {
         if (!ModelState.IsValid) {
             return BadRequest(ModelState);
         }
