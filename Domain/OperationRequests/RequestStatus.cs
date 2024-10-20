@@ -1,18 +1,15 @@
-namespace DDDSample1.Domain.OperationRequests {
-    
-    public enum RequestStatus {
+namespace DDDSample1.Domain.OperationRequests;
 
-        Pending,    // 0
+public enum RequestStatus {
 
-        Approved,   // 1
+    Pending,    // 0
 
-        Rejected,   // 2
+    Approved,   // 1
 
-        InProgress, // 3
+    Rejected,   // 2
 
-        Completed   // 4
-        
-    }
+    InProgress, // 3
+
+    Completed   // 4
 
 }
-

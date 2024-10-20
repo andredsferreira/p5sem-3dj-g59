@@ -14,7 +14,7 @@ public class OperationRequestController : ControllerBase {
 
     private readonly OperationRequestService _service;
 
-    [HttpPost]
+    [HttpPost("create")]
     [Authorize(Roles = HospitalRoles.Doctor)]
     public async Task<ActionResult<OperationRequestDTO>> CreateOperationRequest([FromBody] OperationRequestDTO dto) {
         var createdOperationRequest = await _service.CreateOperationRequest(dto);
