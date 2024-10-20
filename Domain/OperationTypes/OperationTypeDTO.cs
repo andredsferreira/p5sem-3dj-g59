@@ -1,15 +1,26 @@
-namespace DDDSample1.Domain.OperationTypes {
+using System;
+using System.ComponentModel.DataAnnotations;
 
-    public class OperationTypeDTO {
+namespace DDDSample1.Domain.OperationTypes;
 
-        public string id { get; set; }
-        public string name { get; set; }
-        public int estimatedDuration { get; set; }
+public class OperationTypeDTO {
 
-        public int anaesthesiaTime { get; set; }
-        public int surgeryTime { get; set; }
-        public int cleaningTime { get; set; }
-        
-   
-    }
+    public Guid id { get; set; } = Guid.NewGuid();
+
+    [Required]
+    public string name { get; set; }
+
+    [Required]
+    public int estimatedDuration { get; set; }
+
+    [Required]
+    public int anaesthesiaTime { get; set; }
+
+    [Required]
+    public int surgeryTime { get; set; }
+
+    [Required]
+    public int cleaningTime { get; set; }
+
+
 }

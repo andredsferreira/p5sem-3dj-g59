@@ -1,7 +1,10 @@
-namespace DDDSample1.Domain.Staffs {
+using System;
 
-    public class StaffDTO {
-        
-    }
+namespace DDDSample1.Domain.Staffs;
+
+public class StaffDTO {
+
+    public Guid id { get; set; } = Guid.NewGuid();
 
 }
+

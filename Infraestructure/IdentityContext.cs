@@ -56,7 +56,10 @@ public class IdentityContext : IdentityDbContext<IdentityUser> {
 
         // Bootsrap de utilizadores usando o método de auxílio SeedHospitalUser():
         SeedHospitalUser(builder, adminRoleId, "admin", "admin@hospital.com", "adminpassword");
-
+        SeedHospitalUser(builder, doctorRoleId, "doctor", "doctor@hospital.com", "doctorpassword");
+        SeedHospitalUser(builder, nurseRoleId, "nurse", "nurse@hospital.com", "nursepassword");
+        SeedHospitalUser(builder, technicianRoleId, "technician", "technician@hospital.com", "technicianpassword");
+        SeedHospitalUser(builder, patientRoleId, "patient", "patient@hospital.com", "patientpassword");
 
     }
 

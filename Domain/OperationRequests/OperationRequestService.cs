@@ -11,6 +11,7 @@ namespace DDDSample1.Domain.OperationRequests {
     public class OperationRequestService {
 
         private readonly IUnitOfWork _unitOfWork;
+
         private readonly IOperationRequestRepository _repository;
 
         public OperationRequestService(IUnitOfWork unitOfWork, IOperationRequestRepository repository) {
@@ -19,17 +20,10 @@ namespace DDDSample1.Domain.OperationRequests {
         }
 
         public async Task<OperationRequestDTO> CreateOperationRequest(OperationRequestDTO dto) {
-            //var patient = Patient.createFromDTO(dto.patientDTO);
-            //var staff = Staff.createFromDTO(dto.staffDTO);
-            //var operationType = OperationType.createFromDTO(dto.operationTypeDTO);
-            //var operationRequest = new OperationRequest(patient, staff, operationType, dto.priority, dto.dateTime, dto.requestStatus);
-            var operationRequest = new OperationRequest(dto.teste);
-
-            await this._repository.AddAsync(operationRequest);
-            await this._unitOfWork.CommitAsync();
-
-            // TODO!
-            return null;
+            var operationRequest = OperationRequest.CreateFromDTO(dto);
+            await _repository.AddAsync(operationRequest);
+            await _unitOfWork.CommitAsync();
+            return dto;
         }
 
     }
