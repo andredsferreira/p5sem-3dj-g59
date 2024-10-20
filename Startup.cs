@@ -17,6 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using System;
+using DDDSample1.Domain.Auth;
 
 namespace DDDSample1 {
     public class Startup {
@@ -61,7 +62,10 @@ namespace DDDSample1 {
             .AddEntityFrameworkStores<IdentityContext>()
             .AddDefaultTokenProviders();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).
                 AddJwtBearer(options => {
                     options.TokenValidationParameters = new TokenValidationParameters {
                         ValidateIssuer = true,
@@ -73,6 +77,14 @@ namespace DDDSample1 {
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+
+            services.AddAuthorization(options => {
+                options.AddPolicy(HospitalRoles.Admin, policy => policy.RequireRole(HospitalRoles.Admin));
+                options.AddPolicy(HospitalRoles.Doctor, policy => policy.RequireRole(HospitalRoles.Doctor));
+                options.AddPolicy(HospitalRoles.Nurse, policy => policy.RequireRole(HospitalRoles.Nurse));
+                options.AddPolicy(HospitalRoles.Technician, policy => policy.RequireRole(HospitalRoles.Technician));
+                options.AddPolicy(HospitalRoles.Patient, policy => policy.RequireRole(HospitalRoles.Patient));
+            });
         }
 
         public void ConfigureMyServices(IServiceCollection services) {
@@ -102,9 +114,10 @@ namespace DDDSample1 {
 
             app.UseHttpsRedirection();
 
+            app.UseRouting();
+
             app.UseAuthentication();
 
-            app.UseRouting();
 
             app.UseAuthorization();
 

@@ -76,7 +76,7 @@ public class IdentityContext : IdentityDbContext<IdentityUser> {
         };
 
         var passwordHasher = new PasswordHasher<IdentityUser>();
-        adminUser.PasswordHash = passwordHasher.HashPassword(adminUser, "adminpassword");
+        adminUser.PasswordHash = passwordHasher.HashPassword(adminUser, password);
 
         builder.Entity<IdentityUser>().HasData(adminUser);
 
