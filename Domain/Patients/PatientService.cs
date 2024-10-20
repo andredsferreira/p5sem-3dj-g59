@@ -29,6 +29,16 @@ public class PatientService {
 
         return dto;
     }
+    
+    public async Task<PatientDTO> DeletePatient(MedicalRecordNumber id){
+            var patient = await this._repository.GetByIdAsync(id);
+            if (patient == null) return null;
+            
+            this._repository.Remove(patient);
+            await this._unitOfWork.CommitAsync();
+
+            return patient.returnDTO();
+        }
 
     public async Task<IEnumerable<AppointmentDTO>> GetPatientAppointments(string patientEmail) {
         throw new NotImplementedException();

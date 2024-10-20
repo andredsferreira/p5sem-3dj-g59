@@ -3,20 +3,16 @@ using System.Linq;
 
 namespace DDDSample1.Domain.Shared {
     public class FullName : IValueObject {
+        public string Full {get;set;}
         public string FirstName { get; set; }
-        public List<string> MiddleNames { get; set; }
         public string LastName { get; set; }
         private FullName(){}
-        public FullName(string FirstName, List<string> MiddleNames, string LastName){
-            this.FirstName = FirstName;
-            this.MiddleNames = MiddleNames;
-            this.LastName = LastName;
-        }
         public FullName(string Names){
-            List<string> NameList = [.. Names.Split(" ")];
+            Full = Names;
+            List<string> NameList = [.. Full.Split(" ")];
             FirstName = NameList.First();
             LastName = NameList.Last();
-            MiddleNames = NameList.GetRange(1,NameList.Count-2);
         }
+        public override string ToString(){return Full;}
     }
 }

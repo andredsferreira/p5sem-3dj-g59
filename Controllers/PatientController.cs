@@ -8,6 +8,7 @@ using Domain.Appointments;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DDDSample1.Domain.Shared;
 
 namespace DDDSample1.Controllers;
 
@@ -30,6 +31,16 @@ public class PatientController : ControllerBase {
     public async Task<ActionResult<PatientDTO>> CreatePatient(PatientDTO dto) {
         var cat = await _service.CreatePatient(dto);
         return CreatedAtAction("Patient creation", cat);
+    }
+
+    public async Task<ActionResult<PatientDTO>> DeletePatient(string id){
+        try{
+            var pat = await _service.DeletePatient(new MedicalRecordNumber(id));
+            if (pat == null) return NotFound();
+            return Ok(pat);
+        } catch (BusinessRuleValidationException ex){
+            return BadRequest(new { ex.Message});
+        }
     }
 
     [HttpGet("Appointments")]

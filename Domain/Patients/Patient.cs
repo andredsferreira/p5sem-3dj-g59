@@ -32,5 +32,7 @@ public class Patient : Entity<MedicalRecordNumber>, IAggregateRoot {
     public static Patient createFromDTO(PatientDTO dto) {
         return new Patient(dto.DateOfBirth, dto.Email, dto.PhoneNumber, new FullName(dto.FullName), [.. dto.Allergies.Split(", ")]);
     }
-
+    public PatientDTO returnDTO(){
+        return new PatientDTO(DateOfBirth, Email, PhoneNumber, FullName.ToString(), Allergies.ToString());
+    }
 }
