@@ -8,7 +8,7 @@ internal class OperationTypeEntityTypeConfiguration : IEntityTypeConfiguration<O
         builder.ToTable("OperationType", SchemaNames.DDDSample1);
 
         builder.HasKey(x => x.Id);
-        builder.Property(x=> x.Id)
+        builder.Property(x => x.Id)
             .HasConversion(x => x.AsGuid(), x => new OperationTypeId(x));
 
         builder.Property(x => x.name)
@@ -18,10 +18,10 @@ internal class OperationTypeEntityTypeConfiguration : IEntityTypeConfiguration<O
             .HasConversion(x => x.duration, x => new AnaesthesiaTime(x));
 
         builder.Property(x => x.surgeryTime)
-                        .HasConversion(x => x.duration, x => new SurgeryTime(x));
+            .HasConversion(x => x.duration, x => new SurgeryTime(x));
 
         builder.Property(x => x.cleaningTime)
-                        .HasConversion(x => x.duration, x => new CleaningTime(x));
+            .HasConversion(x => x.duration, x => new CleaningTime(x));
 
     }
 }

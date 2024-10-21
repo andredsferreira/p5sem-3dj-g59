@@ -7,6 +7,7 @@ using DDDSample1.Infrastructure.Patients;
 using DDDSample1.Domain.OperationTypes;
 using Microsoft.Extensions.Configuration;
 using DDDSample1.Infrastructure.OperationTypes;
+using DDDSample1.Infrastructure.Staffs;
 
 namespace DDDSample1.Infrastructure;
 
@@ -33,6 +34,7 @@ public class DDDSample1DbContext : DbContext {
         modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new PatientEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
         base.OnModelCreating(modelBuilder);
     }
 }

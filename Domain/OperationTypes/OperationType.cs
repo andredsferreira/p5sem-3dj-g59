@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DDDSample1.Domain.OperationRequests;
 using DDDSample1.Domain.Shared;
 
 
@@ -16,6 +17,8 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
     public SurgeryTime surgeryTime { get; private set; }
 
     public CleaningTime cleaningTime { get; private set; }
+
+    public ICollection<OperationRequest> OperationRequests { get; set; }
 
     public OperationType(OperationName name, AnaesthesiaTime anaesthesiaTime, SurgeryTime surgeryTime, CleaningTime cleaningTime) {
         this.Id = new OperationTypeId(Guid.NewGuid());

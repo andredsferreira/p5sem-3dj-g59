@@ -1,11 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DDDSample1.Domain.Patients {
+namespace DDDSample1.Domain.Patients;
 
-    public class MedicalRecordNumberDTO {
+public class MedicalRecordNumberDTO {
 
-        [Required]
-        public string MedicalRecordNumber { get; set; }
-    }
-
+    [Required]
+    public string MedicalRecordNumber { get; set; }
+    
 }

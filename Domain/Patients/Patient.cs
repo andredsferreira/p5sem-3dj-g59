@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DDDSample1.Domain.OperationRequests;
 using DDDSample1.Domain.Shared;
 
 namespace DDDSample1.Domain.Patients;
@@ -13,8 +14,10 @@ public class Patient : Entity<MedicalRecordNumber>, IAggregateRoot {
     public string PhoneNumber { get; set; }
 
     public FullName FullName { get; set; }
-    
+
     public List<string> Allergies { get; set; }
+
+    public ICollection<OperationRequest> OperationRequests { get; set; }
 
     private Patient() {
 
@@ -32,7 +35,7 @@ public class Patient : Entity<MedicalRecordNumber>, IAggregateRoot {
     public static Patient createFromDTO(PatientDTO dto) {
         return new Patient(dto.DateOfBirth, dto.Email, dto.PhoneNumber, new FullName(dto.FullName), [.. dto.Allergies.Split(", ")]);
     }
-    public PatientDTO returnDTO(){
+    public PatientDTO returnDTO() {
         return new PatientDTO(DateOfBirth, Email, PhoneNumber, FullName.ToString(), Allergies.ToString());
     }
 }

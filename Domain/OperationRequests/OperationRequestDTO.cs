@@ -13,13 +13,13 @@ public class OperationRequestDTO {
     public Guid id { get; set; }
 
     [Required]
-    public Guid patientId { get; set; }
+    public PatientDTO patient { get; set; }
 
     [Required]
-    public Guid staffId { get; set; }
+    public StaffDTO staff { get; set; }
 
     [Required]
-    public Guid operationTypeId { get; set; }
+    public OperationTypeDTO operationType { get; set; }
 
     [Required]
     public string priority { get; private set; }

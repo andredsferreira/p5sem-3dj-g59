@@ -12,6 +12,7 @@ public class StaffId : EntityId {
     }
 
     public StaffId(object value) : base(value) {
+
     }
 
     public override string AsString() {
