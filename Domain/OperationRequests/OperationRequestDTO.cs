@@ -33,4 +33,17 @@ public class OperationRequestDTO {
     [Required]
     public string teste { get; private set; }
 
+    public OperationRequestDTO(Guid id, PatientDTO patient, StaffDTO staff, OperationTypeDTO operationType, string priority, DateTime dateTime, RequestStatus requestStatus) {
+        this.id = id;
+        this.patient = patient;
+        this.staff = staff;
+        this.operationType = operationType;
+        this.priority = priority;
+        this.dateTime = dateTime;
+        this.requestStatus = requestStatus;
+    }
+
+
+
+
 }

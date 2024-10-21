@@ -18,5 +18,9 @@ public class Staff : Entity<StaffId>, IAggregateRoot {
         throw new NotImplementedException();
     }
 
+    public static StaffDTO returnDTO(Staff staff) {
+        throw new NotImplementedException();
+    }
+
 }
 

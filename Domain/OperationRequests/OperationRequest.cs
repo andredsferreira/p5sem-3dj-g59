@@ -47,5 +47,9 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
         return new OperationRequest(Patient.createFromDTO(patient), Staff.createFromDTO(staff), OperationType.createFromDTO(operationType), priority, dateTime, requestStatus);
     }
 
+    public static OperationRequestDTO returnDTO(OperationRequest or) {
+        throw new NotImplementedException();
+    }
+
 }
 

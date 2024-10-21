@@ -37,5 +37,9 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
         return new OperationType(name, anaesthesiaTime, surgeryTime, cleaningTime);
     }
 
+    public static OperationTypeDTO returnDTO(OperationType ot) {
+        throw new NotImplementedException();
+    }
+
 }
 
