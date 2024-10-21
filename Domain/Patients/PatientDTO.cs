@@ -5,7 +5,7 @@ using DDDSample1.Domain.Shared;
 
 namespace DDDSample1.Domain.Patients;
 
-public class PatientDTO(DateOnly DateOfBirth, string Email, string PhoneNumber, string FullName, string Allergies)
+public class PatientDTO(DateOnly DateOfBirth, string Email, string PhoneNumber, Gender Gender, string FullName, string Allergies)
 {
 
     public Guid id { get; set; } = Guid.NewGuid();
@@ -18,10 +18,11 @@ public class PatientDTO(DateOnly DateOfBirth, string Email, string PhoneNumber, 
 
     [Required]
     public string PhoneNumber { get; set; } = PhoneNumber;
+    [Required]
+    public Gender Gender {get;set;} = Gender;
 
     [Required]
     public string FullName { get; set; } = FullName;
 
-    [Required]
     public string Allergies { get; set; } = Allergies;
 }

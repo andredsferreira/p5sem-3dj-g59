@@ -8,6 +8,7 @@ using Domain.Appointments;
 using System.Collections.Generic;
 using System.Linq;
 using DDDSample1.Domain.Shared;
+using System;
 
 namespace DDDSample1.Controllers;
 
@@ -31,6 +32,11 @@ public class PatientController : ControllerBase {
     public async Task<ActionResult<PatientDTO>> CreatePatient(PatientDTO dto) {
         var cat = await _service.CreatePatient(dto);
         return CreatedAtAction("Patient creation", cat);
+    }
+    [HttpPut("Edit/{id}")]
+    [Authorize(Roles = HospitalRoles.Admin)]
+    public async Task<ActionResult<PatientDTO>> EditPatient(string id, [FromBody] PatientDTO dto){
+        throw new NotImplementedException();
     }
 
     [HttpDelete("Delete/{id}")]

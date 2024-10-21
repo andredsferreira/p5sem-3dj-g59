@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace DDDNetCore.Migrations
+namespace DDDNetCore.Migrations.DDDSample1Db
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -48,6 +48,8 @@ namespace DDDNetCore.Migrations
                     Email = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PhoneNumber = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Gender = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FullName = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -117,12 +119,12 @@ namespace DDDNetCore.Migrations
             migrationBuilder.InsertData(
                 schema: "projeto5sem",
                 table: "Patient",
-                columns: new[] { "Id", "Allergies", "DateOfBirth", "Email", "FullName", "PhoneNumber" },
+                columns: new[] { "Id", "Allergies", "DateOfBirth", "Email", "FullName", "Gender", "PhoneNumber" },
                 values: new object[,]
                 {
-                    { "22fc3e0b-6982-437d-be77-0b0ebf60167c", "", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "910555111" },
-                    { "653fdfe1-8300-40b5-a290-2f0f9d4e2d57", "", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "910555333" },
-                    { "7bab262a-dbff-4d00-895b-e5b07e6e02cc", "", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "910555222" }
+                    { "7514821b-aba8-48f1-98ab-11ce7f5b7298", "", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "Female", "910555333" },
+                    { "a70c196e-c278-427a-a61c-dc5bdfbb32fd", "", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "Male", "910555111" },
+                    { "fa15c4e3-3162-4d3e-92c8-4de90b98806b", "", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "Male", "910555222" }
                 });
 
             migrationBuilder.CreateIndex(

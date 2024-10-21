@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using DDDSample1.Domain.OperationRequests;
 using DDDSample1.Infrastructure.OperationRequests;
-using DDDSample1.Domain.Auth;
 using DDDSample1.Domain.Patients;
 using DDDSample1.Infrastructure.Patients;
 using DDDSample1.Domain.OperationTypes;
@@ -43,9 +42,9 @@ public class DDDSample1DbContext : DbContext {
         modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
 
         // Seeding patients
-        SeedPatient(modelBuilder, new DateOnly(2001, 10, 21), "patientA@hospital.com", "910555111", new FullName("João Camião"), new List<string>());
-        SeedPatient(modelBuilder, new DateOnly(1998, 5, 14), "patientB@hospital.com", "910555222", new FullName("Bruno Silva"), new List<string>());
-        SeedPatient(modelBuilder, new DateOnly(1995, 12, 30), "patientC@hospital.com", "910555333", new FullName("Carla Ferreira"), new List<string>());
+        SeedPatient(modelBuilder, new DateOnly(2001, 10, 21), "patientA@hospital.com", "910555111", Gender.Male, new FullName("João Camião"), new List<string>());
+        SeedPatient(modelBuilder, new DateOnly(1998, 5, 14), "patientB@hospital.com", "910555222", Gender.Male, new FullName("Bruno Silva"), new List<string>());
+        SeedPatient(modelBuilder, new DateOnly(1995, 12, 30), "patientC@hospital.com", "910555333", Gender.Female, new FullName("Carla Ferreira"), new List<string>());
 
         // Seeding staff
 
@@ -53,8 +52,8 @@ public class DDDSample1DbContext : DbContext {
         base.OnModelCreating(modelBuilder);
     }
 
-    private void SeedPatient(ModelBuilder builder, DateOnly dateOfBirth, string email, string phoneNumber, FullName fullName, List<string> allergies) {
-        var patient = new Patient(dateOfBirth, email, phoneNumber, fullName, allergies);
+    private void SeedPatient(ModelBuilder builder, DateOnly dateOfBirth, string email, string phoneNumber, Gender gender, FullName fullName, List<string> allergies) {
+        var patient = new Patient(dateOfBirth, email, phoneNumber, gender, fullName, allergies);
         builder.Entity<Patient>().HasData(patient);
     }
 

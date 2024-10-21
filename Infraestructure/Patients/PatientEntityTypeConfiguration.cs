@@ -26,6 +26,9 @@ internal class PatientEntityTypeConfiguration : IEntityTypeConfiguration<Patient
         builder.Property(p => p.FullName)
             .HasConversion(fullname => fullname.Full, full => new FullName(full));
 
+        builder.Property(p => p.Gender)
+            .HasConversion(gender => gender.ToString(), genero => (Gender)Enum.Parse(typeof(Gender),genero));
+
         builder.Property(p => p.PhoneNumber).HasMaxLength(15);
 
         builder.HasIndex(p => p.Email).IsUnique();

@@ -4,16 +4,19 @@ using DDDSample1.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DDDNetCore.Migrations
+namespace DDDNetCore.Migrations.DDDSample1Db
 {
     [DbContext(typeof(DDDSample1DbContext))]
-    partial class DDDSample1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20241021223631_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,6 +102,10 @@ namespace DDDNetCore.Migrations
                     b.Property<string>("FullName")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(15)
                         .HasColumnType("varchar(15)");
@@ -116,29 +123,32 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "22fc3e0b-6982-437d-be77-0b0ebf60167c",
+                            Id = "a70c196e-c278-427a-a61c-dc5bdfbb32fd",
                             Allergies = "",
                             DateOfBirth = new DateOnly(2001, 10, 21),
                             Email = "patientA@hospital.com",
                             FullName = "João Camião",
+                            Gender = "Male",
                             PhoneNumber = "910555111"
                         },
                         new
                         {
-                            Id = "7bab262a-dbff-4d00-895b-e5b07e6e02cc",
+                            Id = "fa15c4e3-3162-4d3e-92c8-4de90b98806b",
                             Allergies = "",
                             DateOfBirth = new DateOnly(1998, 5, 14),
                             Email = "patientB@hospital.com",
                             FullName = "Bruno Silva",
+                            Gender = "Male",
                             PhoneNumber = "910555222"
                         },
                         new
                         {
-                            Id = "653fdfe1-8300-40b5-a290-2f0f9d4e2d57",
+                            Id = "7514821b-aba8-48f1-98ab-11ce7f5b7298",
                             Allergies = "",
                             DateOfBirth = new DateOnly(1995, 12, 30),
                             Email = "patientC@hospital.com",
                             FullName = "Carla Ferreira",
+                            Gender = "Female",
                             PhoneNumber = "910555333"
                         });
                 });
