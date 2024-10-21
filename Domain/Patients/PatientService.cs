@@ -43,5 +43,10 @@ public class PatientService {
     public async Task<IEnumerable<AppointmentDTO>> GetPatientAppointments(string patientEmail) {
         throw new NotImplementedException();
     }
+
+    public async Task<List<Patient>> GetAll() {
+        var list = _repository.GetAllAsync();
+        return await list;
+    }
 }
 

@@ -17,7 +17,7 @@ public class Patient : Entity<MedicalRecordNumber>, IAggregateRoot {
 
     public List<string> Allergies { get; set; }
 
-    public ICollection<OperationRequest> OperationRequests { get; set; }
+    public ICollection<OperationRequest> OperationRequests { get; set; } = new List<OperationRequest>();
 
     private Patient() {
 

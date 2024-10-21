@@ -19,6 +19,7 @@ public class PatientController : ControllerBase {
 
     private readonly PatientService _service;
 
+
     private readonly UserManager<IdentityUser> userManager;
 
     public PatientController(PatientService service, UserManager<IdentityUser> userManager) {
@@ -50,6 +51,8 @@ public class PatientController : ControllerBase {
         return appointments.ToList();
     }
 
-    
-
+    [HttpGet("All")]
+    public async Task<ActionResult<IEnumerable<Patient>>> GetAllPatients() {
+        return await _service.GetAll();
+    }
 }
