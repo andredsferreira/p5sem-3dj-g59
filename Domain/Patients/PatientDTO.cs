@@ -11,17 +11,17 @@ public class PatientDTO(DateOnly DateOfBirth, string Email, string PhoneNumber, 
     public Guid id { get; set; } = Guid.NewGuid();
 
     [Required]
-    public DateOnly DateOfBirth { get; private set; }
+    public DateOnly DateOfBirth { get; private set; } = DateOfBirth;
 
     [Required]
-    public string Email { get; set; }
+    public string Email { get; set; } = Email;
 
     [Required]
-    public string PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; } = PhoneNumber;
 
     [Required]
-    public string FullName { get; set; }
+    public string FullName { get; set; } = FullName;
 
     [Required]
-    public string Allergies { get; set; }
+    public string Allergies { get; set; } = Allergies;
 }

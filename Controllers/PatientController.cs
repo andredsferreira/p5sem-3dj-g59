@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using DDDSample1.Domain.Auth;
 using Microsoft.AspNetCore.Identity;
 using Domain.Appointments;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DDDSample1.Domain.Shared;
@@ -34,6 +33,8 @@ public class PatientController : ControllerBase {
         return CreatedAtAction("Patient creation", cat);
     }
 
+    [HttpDelete("Delete/{id}")]
+    [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<PatientDTO>> DeletePatient(string id){
         try{
             var pat = await _service.DeletePatient(new MedicalRecordNumber(id));

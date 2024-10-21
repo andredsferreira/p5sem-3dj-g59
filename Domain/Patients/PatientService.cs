@@ -1,11 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using DDDSample1.Domain.Shared;
 using Domain.Appointments;
-using Microsoft.AspNetCore.Identity;
 
 namespace DDDSample1.Domain.Patients;
 
