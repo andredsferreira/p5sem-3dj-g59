@@ -22,4 +22,9 @@ public class StaffId : EntityId {
     protected override object createFromString(string text) {
         return (Guid)base.ObjValue;
     }
+
+    public Guid AsGuid() {
+        return (Guid)base.ObjValue;
+    }
+
 }

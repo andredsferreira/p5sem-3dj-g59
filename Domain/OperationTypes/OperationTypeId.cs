@@ -4,13 +4,13 @@ using DDDSample1.Domain.Shared;
 
 namespace DDDSample1.Domain.OperationTypes;
 
-public class OperationTypeID : EntityId {
+public class OperationTypeId : EntityId {
 
 
     [JsonConstructor]
-    public OperationTypeID(Guid value) : base(value) { }
+    public OperationTypeId(Guid value) : base(value) { }
 
-    public OperationTypeID(object value) : base(value) { }
+    public OperationTypeId(object value) : base(value) { }
     
     override
         protected Object createFromString(String text) {

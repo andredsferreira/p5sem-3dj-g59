@@ -10,16 +10,16 @@ namespace DDDSample1.Domain.OperationRequests;
 
 public class OperationRequestDTO {
 
-    public Guid id { get; set; } = Guid.NewGuid();
+    public Guid id { get; set; }
 
     [Required]
-    public PatientDTO patientDTO { get; set; }
+    public Guid patientId { get; set; }
 
     [Required]
-    public StaffDTO staffDTO { get; set; }
+    public Guid staffId { get; set; }
 
     [Required]
-    public OperationTypeDTO operationTypeDTO { get; set; }
+    public Guid operationTypeId { get; set; }
 
     [Required]
     public string priority { get; private set; }

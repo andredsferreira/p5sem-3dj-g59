@@ -7,7 +7,7 @@ using DDDSample1.Domain.Shared;
 
 namespace DDDSample1.Domain.OperationTypes;
 
-public class OperationType : Entity<OperationTypeID>, IAggregateRoot {
+public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
 
     public OperationName name { get; private set; }
 
@@ -18,7 +18,7 @@ public class OperationType : Entity<OperationTypeID>, IAggregateRoot {
     public CleaningTime cleaningTime { get; private set; }
 
     public OperationType(OperationName name, AnaesthesiaTime anaesthesiaTime, SurgeryTime surgeryTime, CleaningTime cleaningTime) {
-        this.Id = new OperationTypeID(Guid.NewGuid());
+        this.Id = new OperationTypeId(Guid.NewGuid());
         this.name = name;
         this.anaesthesiaTime = anaesthesiaTime;
         this.surgeryTime = surgeryTime;

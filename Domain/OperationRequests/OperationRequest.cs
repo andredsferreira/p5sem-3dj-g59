@@ -8,11 +8,11 @@ namespace DDDSample1.Domain.OperationRequests;
 
 public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
 
-    public Patient patient { get; private set; }
+    public MedicalRecordNumber patientRecordNumber { get; private set; }
 
-    public Staff staff { get; private set; }
+    public StaffId staffId { get; private set; }
 
-    public OperationType operationType { get; private set; }
+    public OperationTypeId operationTypeId { get; private set; }
 
     public string priority { get; private set; }
 
@@ -22,11 +22,11 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
 
     public string teste { get; private set; }
 
-    public OperationRequest(Patient patient, Staff staff, OperationType operationType, string priority, DateTime dateTime, RequestStatus requestStatus) {
+    public OperationRequest(MedicalRecordNumber patientRecordNumber, StaffId staffId, OperationTypeId operationTypeId, string priority, DateTime dateTime, RequestStatus requestStatus) {
         this.Id = new OperationRequestId(Guid.NewGuid());
-        this.staff = staff;
-        this.patient = patient;
-        this.operationType = operationType;
+        this.staffId = staffId;
+        this.patientRecordNumber = patientRecordNumber;
+        this.operationTypeId = operationTypeId;
         this.priority = priority;
         this.dateTime = dateTime;
         this.requestStatus = requestStatus;
@@ -38,13 +38,13 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
     }
 
     public static OperationRequest CreateFromDTO(OperationRequestDTO dto) {
-        var patient = Patient.createFromDTO(dto.patientDTO);
-        var staff = Staff.createFromDTO(dto.staffDTO);
-        var operationType = OperationType.createFromDTO(dto.operationTypeDTO);
+        var patientId = dto.patientId;
+        var staffId = dto.staffId;
+        var operationTypeId = dto.operationTypeId;
         var priority = dto.priority;
         var dateTime = dto.dateTime;
         var requestStatus = dto.requestStatus;
-        return new OperationRequest(patient, staff, operationType, priority, dateTime, requestStatus);
+        return new OperationRequest(new MedicalRecordNumber(patientId), new StaffId(staffId), new OperationTypeId(operationTypeId), priority, dateTime, requestStatus);
     }
 
 }
