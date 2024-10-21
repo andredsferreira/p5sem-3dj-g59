@@ -9,28 +9,29 @@ namespace DDDSample1.Domain.OperationTypes;
 
 public class OperationType : Entity<OperationTypeID>, IAggregateRoot {
 
-    public OperationTypeID id { get; private set; }
-
     public OperationName name { get; private set; }
 
-    public EstimatedDuration estimatedDuration { get; private set; }
+    public AnaesthesiaTime anaesthesiaTime { get; private set; }
 
-    public OperationType(OperationTypeID id, OperationName name, EstimatedDuration estimatedDuration) {
-        this.id = id;
+    public SurgeryTime surgeryTime { get; private set; }
+
+    public CleaningTime cleaningTime { get; private set; }
+
+    public OperationType(OperationName name, AnaesthesiaTime anaesthesiaTime, SurgeryTime surgeryTime, CleaningTime cleaningTime) {
+        this.Id = new OperationTypeID(Guid.NewGuid());
         this.name = name;
-        this.estimatedDuration = estimatedDuration;
+        this.anaesthesiaTime = anaesthesiaTime;
+        this.surgeryTime = surgeryTime;
+        this.cleaningTime = cleaningTime;
     }
 
-    public OperationType(OperationName name, EstimatedDuration estimatedDuration) {
-
-        this.id = new OperationTypeID(Guid.NewGuid().ToString());
-        this.name = name;
-        this.estimatedDuration = estimatedDuration;
-    }
 
     public static OperationType createFromDTO(OperationTypeDTO dto) {
-        return new OperationType(new OperationTypeID(dto.id), new OperationName(dto.name),
-        new EstimatedDuration(new AnaesthesiaTime(dto.anaesthesiaTime), new SurgeryTime(dto.surgeryTime), new CleaningTime(dto.cleaningTime)));
+        OperationName name = new OperationName(dto.name);
+        AnaesthesiaTime anaesthesiaTime = new AnaesthesiaTime(dto.anaesthesiaTime);
+        SurgeryTime surgeryTime = new SurgeryTime(dto.surgeryTime);
+        CleaningTime cleaningTime = new CleaningTime(dto.cleaningTime);
+        return new OperationType(name, anaesthesiaTime, surgeryTime, cleaningTime);
     }
 
 }

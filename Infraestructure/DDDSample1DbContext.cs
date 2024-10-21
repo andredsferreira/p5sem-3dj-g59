@@ -6,32 +6,33 @@ using DDDSample1.Domain.Patients;
 using DDDSample1.Infrastructure.Patients;
 using DDDSample1.Domain.OperationTypes;
 using Microsoft.Extensions.Configuration;
+using DDDSample1.Infrastructure.OperationTypes;
 
-namespace DDDSample1.Infrastructure {
+namespace DDDSample1.Infrastructure;
 
-    public class DDDSample1DbContext : DbContext {
+public class DDDSample1DbContext : DbContext {
 
-        private readonly IConfiguration configuration;
+    private readonly IConfiguration configuration;
 
-        public virtual DbSet<OperationRequest> OperationRequests { get; set; }
+    public virtual DbSet<OperationRequest> OperationRequests { get; set; }
 
-        public virtual DbSet<Patient> Patients { get; set; }
+    public virtual DbSet<Patient> Patients { get; set; }
 
-        public virtual DbSet<OperationType> OperationTypes { get; set; }
+     public virtual DbSet<OperationType> OperationTypes { get; set; }
 
-        public DDDSample1DbContext(IConfiguration configuration) {
-            this.configuration = configuration;
-        }
+    public DDDSample1DbContext(IConfiguration configuration) {
+        this.configuration = configuration;
+    }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-            var connectionString = configuration.GetConnectionString("MySqlConnection");
-            optionsBuilder.UseMySql(connectionString, MySqlServerVersion.AutoDetect(connectionString));
-        }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        optionsBuilder.UseMySql(connectionString, MySqlServerVersion.AutoDetect(connectionString));
+    }
 
-        // protected override void OnModelCreating(ModelBuilder modelBuilder) {
-        //     modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());
-        //     modelBuilder.ApplyConfiguration(new PatientEntityTypeConfiguration());
-        //     base.OnModelCreating(modelBuilder);
-        // }
+    protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new PatientEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
+        base.OnModelCreating(modelBuilder);
     }
 }

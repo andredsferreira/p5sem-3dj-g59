@@ -4,20 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using DDDSample1.Domain.Shared;
 
-namespace DDDSample1.Domain.OperationTypes{
+namespace DDDSample1.Domain.OperationTypes;
 
-    public class AnaesthesiaTime : IValueObject {
+public class AnaesthesiaTime : IValueObject {
 
-        public Duration duration { get; private set; }
+    public int duration { get; private set; }
 
-        public AnaesthesiaTime(int duration) {
-            this.duration = new Duration(duration);
+    public AnaesthesiaTime(int duration) {
+        if (duration < 0) {
+            throw new ArgumentException("Duration can't be negative");
         }
-    
+        this.duration = duration;
     }
-
-
-
-
 
 }

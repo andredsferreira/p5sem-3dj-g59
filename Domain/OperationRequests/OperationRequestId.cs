@@ -2,35 +2,33 @@ using System;
 using System.Text.Json.Serialization;
 using DDDSample1.Domain.Shared;
 
-namespace DDDSample1.Domain.OperationRequests {
+namespace DDDSample1.Domain.OperationRequests;
 
-    public class OperationRequestId : EntityId {
+public class OperationRequestId : EntityId {
 
-        [JsonConstructor]
-        public OperationRequestId(Guid value) : base(value) {
+    [JsonConstructor]
+    public OperationRequestId(Guid value) : base(value) {
 
-        }
+    }
 
-        public OperationRequestId(String value) : base(value) {
+    public OperationRequestId(string value) : base(value) {
 
-        }
+    }
 
-        override
-        protected Object createFromString(String text) {
-            return new Guid(text);
-        }
+    override
+    protected object createFromString(string text) {
+        return new Guid(text);
+    }
 
-        override
-        public String AsString() {
-            Guid obj = (Guid)base.ObjValue;
-            return obj.ToString();
-        }
+    override
+    public string AsString() {
+        Guid obj = (Guid)base.ObjValue;
+        return obj.ToString();
+    }
 
 
-        public Guid AsGuid() {
-            return (Guid)base.ObjValue;
-        }
-
+    public Guid AsGuid() {
+        return (Guid)base.ObjValue;
     }
 
 }

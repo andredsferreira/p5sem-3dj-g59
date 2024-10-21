@@ -15,16 +15,16 @@ public class AddOperationTypeService {
 
     public async Task<OperationTypeDTO> CreateOperationType(string name, int anaesthesiaTime, int surgeryTime, int cleaningTime) {
         OperationType operationType = new OperationType(new OperationName(name),
-        new EstimatedDuration(new AnaesthesiaTime(anaesthesiaTime), new SurgeryTime(surgeryTime), new CleaningTime(cleaningTime)));
+       new AnaesthesiaTime(anaesthesiaTime), new SurgeryTime(surgeryTime), new CleaningTime(cleaningTime));
 
         await _repository.AddAsync(operationType);
 
         return new OperationTypeDTO() {
+            id = operationType.Id.AsGuid(),
             name = operationType.name.ToString(),
-            estimatedDuration = operationType.estimatedDuration.totalDuration.value,
-            anaesthesiaTime = operationType.estimatedDuration.anaesthesiaTime.duration.value,
-            surgeryTime = operationType.estimatedDuration.surgeryTime.duration.value,
-            cleaningTime = operationType.estimatedDuration.cleaningTime.duration.value
+            anaesthesiaTime = operationType.anaesthesiaTime.duration,
+            surgeryTime = operationType.surgeryTime.duration,
+            cleaningTime = operationType.cleaningTime.duration
         };
     }
 }

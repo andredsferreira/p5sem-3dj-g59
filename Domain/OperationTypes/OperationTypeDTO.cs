@@ -5,13 +5,10 @@ namespace DDDSample1.Domain.OperationTypes;
 
 public class OperationTypeDTO {
 
-    public Guid id { get; set; } = Guid.NewGuid();
+    public Guid id { get; set; }
 
     [Required]
     public string name { get; set; }
-
-    [Required]
-    public int estimatedDuration { get; set; }
 
     [Required]
     public int anaesthesiaTime { get; set; }

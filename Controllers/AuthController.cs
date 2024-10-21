@@ -60,7 +60,6 @@ public class AuthController : ControllerBase {
         throw new NotImplementedException();
     }
 
-
     [HttpPost("registerpatient")]
     public async Task<IActionResult> RegisterPatient([FromBody] PatientRegisterDTO dto) {
         if (!ModelState.IsValid) {
@@ -88,7 +87,6 @@ public class AuthController : ControllerBase {
 
         return Ok(new { token });
     }
-
 
     private async Task<string> BuildToken(IdentityUser user) {
         // Obter role do user
@@ -126,7 +124,6 @@ public class AuthController : ControllerBase {
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
-
 
     [HttpGet("users")]
     [Authorize(Roles = HospitalRoles.Admin)]
