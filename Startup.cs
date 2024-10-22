@@ -51,6 +51,8 @@ namespace DDDSample1 {
 
             services.AddEndpointsApiExplorer();
 
+            services.AddSwaggerGen();
+
             services.AddIdentity<IdentityUser, IdentityRole>(options => {
                 // TODO: Mudar a politica da password
                 options.Password.RequireDigit = false;
@@ -107,6 +109,8 @@ namespace DDDSample1 {
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
             else {
                 app.UseHsts();
