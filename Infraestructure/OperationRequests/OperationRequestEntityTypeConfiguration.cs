@@ -16,14 +16,18 @@ internal class OperationRequestEntityTypeConfiguration : IEntityTypeConfiguratio
         builder.Property(x => x.Id)
             .HasConversion(x => x.AsGuid(), x => new OperationRequestId(x));
 
+
         builder.HasOne<Patient>(x => x.patient)
              .WithMany(s => s.OperationRequests);
 
+
         builder.HasOne<Staff>(x => x.staff)
-            .WithMany(s => s.OperationRequests);
+            .WithMany(s => s.OperationRequests)
+            .HasForeignKey(s => s.staffId);
 
         builder.HasOne<OperationType>(x => x.operationType)
-            .WithMany(s => s.OperationRequests);
+            .WithMany(s => s.OperationRequests)
+            .HasForeignKey(s => s.operationTypeId);
 
         // builder.Property(x => x.patientRecordNumber)
         //     .HasConversion(x => x.AsGuid(), x => new MedicalRecordNumber(x));

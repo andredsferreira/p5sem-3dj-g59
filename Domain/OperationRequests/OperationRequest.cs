@@ -10,7 +10,11 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
 
     public Patient patient { get; private set; }
 
+    public Guid staffId { get; set; }
+
     public Staff staff { get; private set; }
+
+    public Guid operationTypeId { get; set; }
 
     public OperationType operationType { get; private set; }
 
