@@ -14,79 +14,54 @@
 title US8 - Level 3 View
 
 actor Admin as U
-participant "<<component>>\nWeb Application" as web
-participant "<<component>>\nPatientController" as ctrl
-participant "<<component>>\nPatientService" as service
-participant "<<component>>\nPatient" as pat
-participant "<<component>>\nMedicalRecordNumber" as number
-participant "<<component>>\nMedicalRecordNumberGenerator" as generator
+participant "«component»\nPatientController" as ctrl
+participant "«component»\nPatientService" as service
+participant "«component»\nPatient" as pat
 
-participant "IPatientRepository" as patrepo
-participant "ILogRepository" as logrepo
-participant "IUnitOfWork" as work
-database "Database" as db
+participant "«component»\nIPatientRepository" as patrepo
+participant "«component»\nILogRepository" as logrepo
 
-U -> web : Creates new patient profile with its attributes
+U -> ctrl : Creates new patient profile with its attributes
 activate U
-activate web
-web -> ctrl : HttpPost new Patient
 activate ctrl
 
 ctrl -> service : await CreatePatient(dto)
 activate service
 
+service -> service : GenerateMedicalRecordNumber()
+activate service
+
+service -> patrepo : GetPatientsFromCurrentMonth(year, month)
+activate patrepo
+patrepo ->
+patrepo --> service : list
+deactivate patrepo
+
+service --> service
+deactivate service
+
 service -> pat : CreateFromDTO(dto)
 activate pat
-pat -> number : new
-activate number
 
-number -> generator : CreateMedicalRecordNumber()
-activate generator
-generator -> patrepo : await GetAll()
-activate patrepo
-patrepo -> db : GetAll()
-activate db
-deactivate db
-
-patrepo --> generator : patients
-deactivate patrepo
-generator --> number : generated number
-deactivate generator
-number --> pat : Medical Record Number
-deactivate number
 pat --> service : new Patient
 deactivate pat
 
 service -> patrepo : await AddAsync(patient)
 activate patrepo
-patrepo -> db : Add patient
-activate db
-deactivate db
+patrepo -> 
 patrepo --> service
 deactivate patrepo
 
 service -> logrepo : await AddAsync(new log)
 activate logrepo
-logrepo -> db : Add log
-activate db
-deactivate db
+logrepo ->
 logrepo --> service
 deactivate logrepo
 
-service -> work : await CommitAsync()
-activate work
-work -> db : Commit
-activate db
-deactivate db
-work --> service
-deactivate work
-
 service --> ctrl : patient DTO
 deactivate service
-ctrl --> web : confirmation
+ctrl --> U : confirmation
 deactivate ctrl
-web --> U : confirmation
-deactivate web
 deactivate U
 
 
