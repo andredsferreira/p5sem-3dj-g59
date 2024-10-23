@@ -16,12 +16,12 @@ public class OperationRequestController : ControllerBase {
 
     [HttpPost("create")]
     [Authorize(Roles = HospitalRoles.Doctor)]
-    public async Task<ActionResult<OperationRequestDTO>> CreateOperationRequest(OperationRequestDTO dto) {
+    public async Task<ActionResult<OperationRequestDTO>> CreateOperationRequest([FromForm] OperationRequestDTO dto) {
         var createdOperationRequest = await _service.CreateOperationRequest(dto);
         return CreatedAtAction("Operation request created with ID: ", createdOperationRequest.id);
     }
 
-    
+
 
 }
 

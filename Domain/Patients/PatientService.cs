@@ -27,7 +27,7 @@ public class PatientService {
         return dto;
     }
     
-    public async Task<PatientDTO> DeletePatient(MedicalRecordNumber id){
+    public async Task<PatientDTO> DeletePatient(PatientId id){
             var patient = await this._repository.GetByIdAsync(id);
             if (patient == null) return null;
             

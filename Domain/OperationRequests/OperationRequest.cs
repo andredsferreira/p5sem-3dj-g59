@@ -14,19 +14,17 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
 
     public StaffId staffId { get; set; }
 
-    public Staff staff { get; private set; }
+    public Staff staff { get; set; }
 
     public OperationTypeId operationTypeId { get; set; }
 
-    public OperationType operationType { get; private set; }
+    public OperationType operationType { get; set; }
 
-    public string priority { get; private set; }
+    public string priority { get; set; }
 
-    public DateTime dateTime { get; private set; }
+    public DateTime dateTime { get; set; }
 
-    public RequestStatus requestStatus { get; private set; }
-
-    public string teste { get; private set; }
+    public RequestStatus requestStatus { get; set; }
 
     public OperationRequest(PatientId patientId, StaffId staffId, OperationTypeId operationTypeId, string priority, DateTime dateTime, RequestStatus requestStatus) {
         this.Id = new OperationRequestId(Guid.NewGuid());
@@ -38,11 +36,6 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
         this.requestStatus = requestStatus;
     }
 
-    public OperationRequest(string teste) {
-        this.Id = new OperationRequestId(Guid.NewGuid());
-        this.teste = teste;
-    }
-
     public static OperationRequest CreateFromDTO(OperationRequestDTO dto) {
         var patientId = dto.patientId;
         var staffId = dto.staffId;
@@ -50,7 +43,8 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
         var priority = dto.priority;
         var dateTime = dto.dateTime;
         var requestStatus = dto.requestStatus;
-        return new OperationRequest(new PatientId(patientId), new StaffId(staffId), new OperationTypeId(operationTypeId), priority, dateTime, requestStatus);
+        var operationRequest = new OperationRequest(new PatientId(patientId), new StaffId(staffId), new OperationTypeId(operationTypeId), priority, dateTime, requestStatus);
+        return operationRequest;
     }
 
     public static OperationRequestDTO returnDTO(OperationRequest or) {

@@ -8,6 +8,7 @@ namespace DDDSample1.Domain.Patients;
 public class Patient : Entity<PatientId>, IAggregateRoot {
 
     public MedicalRecordNumber MedicalRecordNumber { get; protected set; }
+    
     public DateOnly DateOfBirth { get; protected set; }
 
     public string Email { get; protected set; }
@@ -42,4 +43,5 @@ public class Patient : Entity<PatientId>, IAggregateRoot {
     public PatientDTO returnDTO() {
         return new PatientDTO(DateOfBirth, Email, PhoneNumber, Gender, FullName.ToString(), Allergies.ToString());
     }
+
 }
