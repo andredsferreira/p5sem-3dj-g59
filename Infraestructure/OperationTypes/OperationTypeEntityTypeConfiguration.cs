@@ -1,3 +1,4 @@
+using System;
 using DDDSample1.Domain.OperationTypes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -22,6 +23,9 @@ internal class OperationTypeEntityTypeConfiguration : IEntityTypeConfiguration<O
 
         builder.Property(x => x.cleaningTime)
             .HasConversion(x => x.duration, x => new CleaningTime(x));
+
+        builder.Property(x=>x.Status)
+            .HasConversion(x => x.ToString(), x => (Status)Enum.Parse(typeof(Status),x));
 
     }
 }

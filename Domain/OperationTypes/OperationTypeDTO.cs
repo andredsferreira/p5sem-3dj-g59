@@ -18,6 +18,9 @@ public class OperationTypeDTO {
 
     [Required]
     public int cleaningTime { get; set; }
+    [Required]
+    public string Status { get; set; }
+
 
 
 }
