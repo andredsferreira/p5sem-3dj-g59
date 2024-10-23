@@ -5,8 +5,9 @@ using DDDSample1.Domain.Shared;
 
 namespace DDDSample1.Domain.Patients;
 
-public class Patient : Entity<MedicalRecordNumber>, IAggregateRoot {
+public class Patient : Entity<PatientId>, IAggregateRoot {
 
+    public MedicalRecordNumber MedicalRecordNumber {get; protected set;}
     public DateOnly DateOfBirth { get; protected set; }
 
     public string Email { get; protected set; }
@@ -25,7 +26,8 @@ public class Patient : Entity<MedicalRecordNumber>, IAggregateRoot {
     }
 
     public Patient(DateOnly DateOfBirth, string Email, string PhoneNumber, Gender Gender, FullName FullName, List<string> Allergies) {
-        Id = new MedicalRecordNumber(Guid.NewGuid());
+        Id = new PatientId(Guid.NewGuid());
+        MedicalRecordNumber = null;
         this.DateOfBirth = DateOfBirth;
         this.Email = Email;
         this.PhoneNumber = PhoneNumber;

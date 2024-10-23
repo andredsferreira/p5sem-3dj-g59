@@ -17,7 +17,7 @@ internal class PatientEntityTypeConfiguration : IEntityTypeConfiguration<Patient
         builder.HasKey(b => b.Id);
         builder.Property(p => p.Id).HasConversion(
             id => id.Value,
-            value => new MedicalRecordNumber(value));
+            value => new PatientId(value));
 
         builder.Property(p => p.DateOfBirth);
 
