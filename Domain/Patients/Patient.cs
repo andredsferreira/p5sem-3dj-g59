@@ -47,7 +47,7 @@ public class Patient : Entity<PatientId>, IAggregateRoot {
         return new Patient(dto.DateOfBirth, dto.Email, dto.PhoneNumber, dto.Gender, new FullName(dto.FullName), allergies);
     }
     public PatientDTO returnDTO() {
-        return new PatientDTO(DateOfBirth, Email, PhoneNumber, Gender, FullName.ToString(), Allergies.ToString());
+        return new PatientDTO(MedicalRecordNumber, DateOfBirth, Email, PhoneNumber, Gender, FullName.ToString(), Allergies.ToString());
     }
 
 }

@@ -22,7 +22,7 @@ internal class PatientEntityTypeConfiguration : IEntityTypeConfiguration<Patient
             value => new PatientId(value));
 
         builder.Property(b => b.MedicalRecordNumber)
-            .HasConversion(id => id.Value, value => new MedicalRecordNumber(value));
+            .HasConversion(id => id.Record, value => new MedicalRecordNumber(value));
 
         builder.Property(p => p.DateOfBirth)
             .HasColumnType("date");
