@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DDDNetCore.Migrations
+namespace DDDNetCore.Migrations.DDDSample1Db
 {
     [DbContext(typeof(DDDSample1DbContext))]
-    [Migration("20241023145301_Initial")]
+    [Migration("20241023224054_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -65,6 +65,10 @@ namespace DDDNetCore.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int?>("anaesthesiaTime")
                         .HasColumnType("int");
 
@@ -84,27 +88,32 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a4c54074-7abf-43c0-a87c-07463d37f295"),
+                            Id = new Guid("2b4d426f-e775-42b1-b053-691a91b74ba2"),
+                            Status = "ACTIVE",
                             name = "ACL Reconstruction"
                         },
                         new
                         {
-                            Id = new Guid("9df447f9-f05c-4e1f-8548-bd03d261e5c3"),
+                            Id = new Guid("612897d6-e155-4837-a8bc-a76a795a2e8c"),
+                            Status = "ACTIVE",
                             name = "Knee Replacement"
                         },
                         new
                         {
-                            Id = new Guid("d33272a6-c62a-4ad3-80b5-668aca1c95d1"),
+                            Id = new Guid("9705d96e-b341-42ee-987d-180f33f8a5e1"),
+                            Status = "ACTIVE",
                             name = "Shoulder Replacement"
                         },
                         new
                         {
-                            Id = new Guid("a69c1bdf-9fe1-4af2-9f30-a3e6f71c8a20"),
+                            Id = new Guid("c94be47f-1d3d-4b61-91da-eef9a634419a"),
+                            Status = "ACTIVE",
                             name = "Hip Replacement"
                         },
                         new
                         {
-                            Id = new Guid("9ce48713-9d62-477f-a8a4-630c9d17b2dd"),
+                            Id = new Guid("68626bb6-8507-4a70-9ecf-45cdbff3f1d6"),
+                            Status = "ACTIVE",
                             name = "Meniscal Injury Treatment"
                         });
                 });
@@ -148,7 +157,7 @@ namespace DDDNetCore.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("MedicalRecordNumber")
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(15)
@@ -159,6 +168,9 @@ namespace DDDNetCore.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
+                    b.HasIndex("MedicalRecordNumber")
+                        .IsUnique();
+
                     b.HasIndex("PhoneNumber")
                         .IsUnique();
 
@@ -167,29 +179,32 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f32b0a44-4904-4cbe-9a88-0be352c7cd7f",
+                            Id = "8b813cf5-a7ef-4b58-b437-00ebea78a0f6",
                             DateOfBirth = new DateOnly(2001, 10, 21),
                             Email = "patientA@hospital.com",
                             FullName = "João Camião",
                             Gender = "Male",
+                            MedicalRecordNumber = "202410000001",
                             PhoneNumber = "910555111"
                         },
                         new
                         {
-                            Id = "cb502165-0a55-45bf-86a1-c95fcbb16561",
+                            Id = "67f5ac88-8db2-4900-9665-ccd01b14108d",
                             DateOfBirth = new DateOnly(1998, 5, 14),
                             Email = "patientB@hospital.com",
                             FullName = "Bruno Silva",
                             Gender = "Male",
+                            MedicalRecordNumber = "202410000002",
                             PhoneNumber = "910555222"
                         },
                         new
                         {
-                            Id = "4a3be726-3598-440a-ac12-d0a706ea7ca2",
+                            Id = "27ec56a4-ebaf-43a3-96c1-4a0fab32175e",
                             DateOfBirth = new DateOnly(1995, 12, 30),
                             Email = "patientC@hospital.com",
                             FullName = "Carla Ferreira",
                             Gender = "Female",
+                            MedicalRecordNumber = "202410000003",
                             PhoneNumber = "910555333"
                         });
                 });
@@ -209,27 +224,27 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("769b5a9a-5e88-4b0a-812f-bd5a6f94c931"),
+                            Id = new Guid("94c80dfa-4c8c-4d21-bc29-47053fa17ac1"),
                             staffRole = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("0b126ba2-67f0-4895-b2ef-90f2ec78855d"),
+                            Id = new Guid("14d255ba-7535-490e-abbf-c3eadee1b692"),
                             staffRole = "Doctor"
                         },
                         new
                         {
-                            Id = new Guid("1864a71f-b198-4968-836b-7a22c78f8902"),
+                            Id = new Guid("14626743-499d-4f69-bed5-0a234e0840ed"),
                             staffRole = "Doctor"
                         },
                         new
                         {
-                            Id = new Guid("4696238f-0286-44ad-90e6-2d6678ead3fb"),
+                            Id = new Guid("6d7e46e0-878b-450b-8fac-a3039a352374"),
                             staffRole = "Nurse"
                         },
                         new
                         {
-                            Id = new Guid("ac5f32df-9350-45ba-a314-421971ab38df"),
+                            Id = new Guid("6185d31b-39a4-4b01-8dd5-41e866fc048a"),
                             staffRole = "Nurse"
                         });
                 });

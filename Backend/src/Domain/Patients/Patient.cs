@@ -28,9 +28,9 @@ public class Patient : Entity<PatientId>, IAggregateRoot {
 
     }
 
-    public Patient(DateOnly DateOfBirth, string Email, string PhoneNumber, Gender Gender, FullName FullName, List<Allergy> Allergies) {
+    public Patient(MedicalRecordNumber MedicalRecordNumber, DateOnly DateOfBirth, string Email, string PhoneNumber, Gender Gender, FullName FullName, List<Allergy> Allergies) {
         Id = new PatientId(Guid.NewGuid());
-        MedicalRecordNumber = null;
+        this.MedicalRecordNumber = MedicalRecordNumber;
         this.DateOfBirth = DateOfBirth;
         this.Email = Email;
         this.PhoneNumber = PhoneNumber;
@@ -44,7 +44,7 @@ public class Patient : Entity<PatientId>, IAggregateRoot {
             .Split(", ", StringSplitOptions.RemoveEmptyEntries) // Split the string by commas
             .Select(allergyName => new Allergy(allergyName))    // Convert each allergy name into an Allergy object
             .ToList();
-        return new Patient(dto.DateOfBirth, dto.Email, dto.PhoneNumber, dto.Gender, new FullName(dto.FullName), allergies);
+        return new Patient(dto.MedicalRecordNumber, dto.DateOfBirth, dto.Email, dto.PhoneNumber, dto.Gender, new FullName(dto.FullName), allergies);
     }
     public PatientDTO returnDTO() {
         return new PatientDTO(MedicalRecordNumber, DateOfBirth, Email, PhoneNumber, Gender, FullName.ToString(), Allergies.ToString());

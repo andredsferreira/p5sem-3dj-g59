@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace DDDNetCore.Migrations
+namespace DDDNetCore.Migrations.DDDSample1Db
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -29,7 +29,9 @@ namespace DDDNetCore.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     anaesthesiaTime = table.Column<int>(type: "int", nullable: true),
                     surgeryTime = table.Column<int>(type: "int", nullable: true),
-                    cleaningTime = table.Column<int>(type: "int", nullable: true)
+                    cleaningTime = table.Column<int>(type: "int", nullable: true),
+                    Status = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -44,7 +46,7 @@ namespace DDDNetCore.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    MedicalRecordNumber = table.Column<string>(type: "longtext", nullable: true)
+                    MedicalRecordNumber = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
                     Email = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
@@ -145,14 +147,14 @@ namespace DDDNetCore.Migrations
             migrationBuilder.InsertData(
                 schema: "projeto5sem",
                 table: "OperationType",
-                columns: new[] { "Id", "anaesthesiaTime", "cleaningTime", "name", "surgeryTime" },
+                columns: new[] { "Id", "Status", "anaesthesiaTime", "cleaningTime", "name", "surgeryTime" },
                 values: new object[,]
                 {
-                    { new Guid("9ce48713-9d62-477f-a8a4-630c9d17b2dd"), null, null, "Meniscal Injury Treatment", null },
-                    { new Guid("9df447f9-f05c-4e1f-8548-bd03d261e5c3"), null, null, "Knee Replacement", null },
-                    { new Guid("a4c54074-7abf-43c0-a87c-07463d37f295"), null, null, "ACL Reconstruction", null },
-                    { new Guid("a69c1bdf-9fe1-4af2-9f30-a3e6f71c8a20"), null, null, "Hip Replacement", null },
-                    { new Guid("d33272a6-c62a-4ad3-80b5-668aca1c95d1"), null, null, "Shoulder Replacement", null }
+                    { new Guid("2b4d426f-e775-42b1-b053-691a91b74ba2"), "ACTIVE", null, null, "ACL Reconstruction", null },
+                    { new Guid("612897d6-e155-4837-a8bc-a76a795a2e8c"), "ACTIVE", null, null, "Knee Replacement", null },
+                    { new Guid("68626bb6-8507-4a70-9ecf-45cdbff3f1d6"), "ACTIVE", null, null, "Meniscal Injury Treatment", null },
+                    { new Guid("9705d96e-b341-42ee-987d-180f33f8a5e1"), "ACTIVE", null, null, "Shoulder Replacement", null },
+                    { new Guid("c94be47f-1d3d-4b61-91da-eef9a634419a"), "ACTIVE", null, null, "Hip Replacement", null }
                 });
 
             migrationBuilder.InsertData(
@@ -161,9 +163,9 @@ namespace DDDNetCore.Migrations
                 columns: new[] { "Id", "DateOfBirth", "Email", "FullName", "Gender", "MedicalRecordNumber", "PhoneNumber" },
                 values: new object[,]
                 {
-                    { "4a3be726-3598-440a-ac12-d0a706ea7ca2", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "Female", null, "910555333" },
-                    { "cb502165-0a55-45bf-86a1-c95fcbb16561", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "Male", null, "910555222" },
-                    { "f32b0a44-4904-4cbe-9a88-0be352c7cd7f", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "Male", null, "910555111" }
+                    { "27ec56a4-ebaf-43a3-96c1-4a0fab32175e", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "Female", "202410000003", "910555333" },
+                    { "67f5ac88-8db2-4900-9665-ccd01b14108d", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "Male", "202410000002", "910555222" },
+                    { "8b813cf5-a7ef-4b58-b437-00ebea78a0f6", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "Male", "202410000001", "910555111" }
                 });
 
             migrationBuilder.InsertData(
@@ -172,11 +174,11 @@ namespace DDDNetCore.Migrations
                 columns: new[] { "Id", "staffRole" },
                 values: new object[,]
                 {
-                    { new Guid("0b126ba2-67f0-4895-b2ef-90f2ec78855d"), "Doctor" },
-                    { new Guid("1864a71f-b198-4968-836b-7a22c78f8902"), "Doctor" },
-                    { new Guid("4696238f-0286-44ad-90e6-2d6678ead3fb"), "Nurse" },
-                    { new Guid("769b5a9a-5e88-4b0a-812f-bd5a6f94c931"), "Admin" },
-                    { new Guid("ac5f32df-9350-45ba-a314-421971ab38df"), "Nurse" }
+                    { new Guid("14626743-499d-4f69-bed5-0a234e0840ed"), "Doctor" },
+                    { new Guid("14d255ba-7535-490e-abbf-c3eadee1b692"), "Doctor" },
+                    { new Guid("6185d31b-39a4-4b01-8dd5-41e866fc048a"), "Nurse" },
+                    { new Guid("6d7e46e0-878b-450b-8fac-a3039a352374"), "Nurse" },
+                    { new Guid("94c80dfa-4c8c-4d21-bc29-47053fa17ac1"), "Admin" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -207,6 +209,13 @@ namespace DDDNetCore.Migrations
                 schema: "projeto5sem",
                 table: "Patient",
                 column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patient_MedicalRecordNumber",
+                schema: "projeto5sem",
+                table: "Patient",
+                column: "MedicalRecordNumber",
                 unique: true);
 
             migrationBuilder.CreateIndex(

@@ -1,9 +1,11 @@
+using System;
 using System.Data;
 using System.Text.RegularExpressions;
+using DDDSample1.Domain.Shared;
 
 namespace DDDSample1.Domain.Patients;
 
-public partial class MedicalRecordNumber
+public partial class MedicalRecordNumber : IValueObject
 {
     public string Record;
     public MedicalRecordNumber(string Record){
@@ -14,4 +16,9 @@ public partial class MedicalRecordNumber
 
     [GeneratedRegex("[0-9]{12}")]
     private static partial Regex MyRegex();
+
+    internal bool StartsWith(string prefix)
+    {
+        throw new NotImplementedException();
+    }
 }

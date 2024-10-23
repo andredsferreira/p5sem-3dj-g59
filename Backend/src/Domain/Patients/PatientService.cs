@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using DDDSample1.Domain.Shared;
 using Domain.Appointments;
@@ -20,17 +23,25 @@ public class PatientService {
     }
 
     public async virtual Task<PatientDTO> CreatePatient(PatientDTO dto) {
-        dto.MedicalRecordNumber = GenerateMedicalRecord();
+        dto.MedicalRecordNumber = await GenerateMedicalRecord();
         var patient = Patient.createFromDTO(dto);
         await this._repository.AddAsync(patient);
         await this._unitOfWork.CommitAsync();
 
         return dto;
     }
-    private MedicalRecordNumber GenerateMedicalRecord(){
-        return null;
+    private async Task<MedicalRecordNumber> GenerateMedicalRecord(){
+        StringBuilder stringBuilder = new(DateTime.Today.Year.ToString());
+        stringBuilder.Append(DateTime.Today.Month);
+        var sequentialNumber = (await _repository.GetAllAsync())
+            .Where(p => p.MedicalRecordNumber.Record.StartsWith(stringBuilder.ToString()))
+            .Select(p => int.Parse(p.MedicalRecordNumber.Record.Substring(6, 6)))
+            .DefaultIfEmpty(0)
+            .Max() + 1;
+        stringBuilder.Append(string.Format("{0:D6}", sequentialNumber));
+        return new MedicalRecordNumber(stringBuilder.ToString());
     }
-    
+
     public async Task<PatientDTO> DeletePatient(PatientId id){
             var patient = await this._repository.GetByIdAsync(id);
             if (patient == null) return null;
