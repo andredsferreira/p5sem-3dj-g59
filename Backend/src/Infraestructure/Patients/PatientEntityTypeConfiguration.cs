@@ -37,6 +37,8 @@ internal class PatientEntityTypeConfiguration : IEntityTypeConfiguration<Patient
             .HasConversion(gender => gender.ToString(), genero => (Gender)Enum.Parse(typeof(Gender), genero));
 
         builder.Property(p => p.PhoneNumber).HasMaxLength(15);
+        
+        builder.HasIndex(p => p.MedicalRecordNumber).IsUnique();
 
         builder.HasIndex(p => p.Email).IsUnique();
 

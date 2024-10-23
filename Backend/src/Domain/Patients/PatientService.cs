@@ -19,7 +19,7 @@ public class PatientService {
         _repository = repository;
     }
 
-    public async Task<PatientDTO> CreatePatient(PatientDTO dto) {
+    public async virtual Task<PatientDTO> CreatePatient(PatientDTO dto) {
         dto.MedicalRecordNumber = GenerateMedicalRecord();
         var patient = Patient.createFromDTO(dto);
         await this._repository.AddAsync(patient);
