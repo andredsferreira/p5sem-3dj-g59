@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{1037053F-CB2C-4F92-B4B6-DE4270F3A979}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDDNetCore", "Backend\src\DDDNetCore.csproj", "{3E5CD31F-D473-4246-BF09-AECB85AFE7E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDDNetCoreTest", "Backend\test\DDDNetCoreTest.csproj", "{7C0B4891-3272-45B7-BF68-3F2AE4D49A8E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3E5CD31F-D473-4246-BF09-AECB85AFE7E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E5CD31F-D473-4246-BF09-AECB85AFE7E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E5CD31F-D473-4246-BF09-AECB85AFE7E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E5CD31F-D473-4246-BF09-AECB85AFE7E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C0B4891-3272-45B7-BF68-3F2AE4D49A8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C0B4891-3272-45B7-BF68-3F2AE4D49A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C0B4891-3272-45B7-BF68-3F2AE4D49A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C0B4891-3272-45B7-BF68-3F2AE4D49A8E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3E5CD31F-D473-4246-BF09-AECB85AFE7E5} = {1037053F-CB2C-4F92-B4B6-DE4270F3A979}
+		{7C0B4891-3272-45B7-BF68-3F2AE4D49A8E} = {1037053F-CB2C-4F92-B4B6-DE4270F3A979}
+	EndGlobalSection
+EndGlobal
