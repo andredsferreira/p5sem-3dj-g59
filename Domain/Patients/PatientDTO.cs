@@ -5,10 +5,11 @@ using DDDSample1.Domain.Shared;
 
 namespace DDDSample1.Domain.Patients;
 
-public class PatientDTO(DateOnly DateOfBirth, string Email, string PhoneNumber, Gender Gender, string FullName, string Allergies)
+public class PatientDTO(MedicalRecordNumber MedicalRecordNumber, DateOnly DateOfBirth, string Email, string PhoneNumber, Gender Gender, string FullName, string Allergies)
 {
 
     public Guid id { get; set; } = Guid.NewGuid();
+    public MedicalRecordNumber MedicalRecordNumber {get;set;} = MedicalRecordNumber;
 
     [Required]
     public DateOnly DateOfBirth { get; private set; } = DateOfBirth;

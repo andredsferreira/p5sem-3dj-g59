@@ -1,33 +1,17 @@
-using System;
-using System.Text.Json.Serialization;
-using DDDSample1.Domain.Shared;
+using System.Data;
+using System.Text.RegularExpressions;
 
 namespace DDDSample1.Domain.Patients;
 
-public class MedicalRecordNumber : EntityId {
-
-
-    [JsonConstructor]
-    public MedicalRecordNumber(Guid value) : base(value) {
-
+public partial class MedicalRecordNumber
+{
+    public string Record;
+    public MedicalRecordNumber(string Record){
+        var r = MyRegex();
+        if (r.IsMatch(Record)) this.Record = Record;
+        else throw new InvalidExpressionException();
     }
 
-    public MedicalRecordNumber(object value) : base(value) {
-    }
-
-    override
-    protected Object createFromString(String text) {
-        return new Guid(text);
-    }
-
-    override
-    public String AsString() {
-        Guid obj = (Guid)base.ObjValue;
-        return obj.ToString();
-    }
-
-
-    public Guid AsGuid() {
-        return (Guid)base.ObjValue;
-    }
+    [GeneratedRegex("[0-9]{12}")]
+    private static partial Regex MyRegex();
 }

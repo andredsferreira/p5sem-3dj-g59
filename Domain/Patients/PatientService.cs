@@ -20,11 +20,15 @@ public class PatientService {
     }
 
     public async Task<PatientDTO> CreatePatient(PatientDTO dto) {
+        dto.MedicalRecordNumber = GenerateMedicalRecord();
         var patient = Patient.createFromDTO(dto);
         await this._repository.AddAsync(patient);
         await this._unitOfWork.CommitAsync();
 
         return dto;
+    }
+    private MedicalRecordNumber GenerateMedicalRecord(){
+        return null;
     }
     
     public async Task<PatientDTO> DeletePatient(PatientId id){
