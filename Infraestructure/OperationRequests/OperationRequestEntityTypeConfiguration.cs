@@ -16,27 +16,29 @@ internal class OperationRequestEntityTypeConfiguration : IEntityTypeConfiguratio
         builder.Property(x => x.Id)
             .HasConversion(x => x.AsGuid(), x => new OperationRequestId(x));
 
-
         builder.HasOne<Patient>(x => x.patient)
-             .WithMany(s => s.OperationRequests);
-
+             .WithMany(s => s.OperationRequests)
+             .HasForeignKey(s => s.patientId)
+             .IsRequired();
 
         builder.HasOne<Staff>(x => x.staff)
             .WithMany(s => s.OperationRequests)
-            .HasForeignKey(s => s.staffId);
+            .HasForeignKey(s => s.staffId)
+            .IsRequired();
 
         builder.HasOne<OperationType>(x => x.operationType)
             .WithMany(s => s.OperationRequests)
-            .HasForeignKey(s => s.operationTypeId);
+            .HasForeignKey(s => s.operationTypeId)
+            .IsRequired();
 
-        // builder.Property(x => x.patientRecordNumber)
-        //     .HasConversion(x => x.AsGuid(), x => new MedicalRecordNumber(x));
+        builder.Property(x => x.patientId)
+            .HasConversion(x => x.AsGuid(), x => new PatientId(x));
 
-        // builder.Property(x => x.staffId)
-        //     .HasConversion(x => x.AsGuid(), x => new StaffId(x));
+        builder.Property(x => x.staffId)
+            .HasConversion(x => x.AsGuid(), x => new StaffId(x));
 
-        // builder.Property(x => x.operationTypeId)
-        //     .HasConversion(x => x.AsGuid(), x => new OperationTypeId(x));
+        builder.Property(x => x.operationTypeId)
+            .HasConversion(x => x.AsGuid(), x => new OperationTypeId(x));
 
     }
 }

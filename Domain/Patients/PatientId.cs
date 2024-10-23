@@ -26,7 +26,6 @@ public class PatientId : EntityId {
         return obj.ToString();
     }
 
-
     public Guid AsGuid() {
         return (Guid)base.ObjValue;
     }

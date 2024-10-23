@@ -7,13 +7,13 @@ namespace DDDSample1.Domain.Patients;
 
 public class Patient : Entity<PatientId>, IAggregateRoot {
 
-    public MedicalRecordNumber MedicalRecordNumber {get; protected set;}
+    public MedicalRecordNumber MedicalRecordNumber { get; protected set; }
     public DateOnly DateOfBirth { get; protected set; }
 
     public string Email { get; protected set; }
 
     public string PhoneNumber { get; protected set; }
-    public Gender Gender {get; protected set;}
+    public Gender Gender { get; protected set; }
 
     public FullName FullName { get; protected set; }
 
