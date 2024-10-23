@@ -20,6 +20,11 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
 
     public ICollection<OperationRequest> OperationRequests { get; set; }
 
+    public OperationType(OperationName name) {
+        this.Id = new OperationTypeId(Guid.NewGuid());
+        this.name = name;
+    }
+
     public OperationType(OperationName name, AnaesthesiaTime anaesthesiaTime, SurgeryTime surgeryTime, CleaningTime cleaningTime) {
         this.Id = new OperationTypeId(Guid.NewGuid());
         this.name = name;

@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using DDDSample1.Domain.Shared;
 using DDDSample1.Domain.Staffs;
+using DDDSample1.Domain.Auth;
 
 namespace DDDSample1.Infrastructure;
 
@@ -41,13 +42,21 @@ public class DDDSample1DbContext : DbContext {
         modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
 
-        // Seeding patients
         SeedPatient(modelBuilder, new DateOnly(2001, 10, 21), "patientA@hospital.com", "910555111", Gender.Male, new FullName("João Camião"), new List<string>());
         SeedPatient(modelBuilder, new DateOnly(1998, 5, 14), "patientB@hospital.com", "910555222", Gender.Male, new FullName("Bruno Silva"), new List<string>());
         SeedPatient(modelBuilder, new DateOnly(1995, 12, 30), "patientC@hospital.com", "910555333", Gender.Female, new FullName("Carla Ferreira"), new List<string>());
 
-        // Seeding staff
+        SeedStaff(modelBuilder, HospitalRoles.Admin);
+        SeedStaff(modelBuilder, HospitalRoles.Doctor);
+        SeedStaff(modelBuilder, HospitalRoles.Doctor);
+        SeedStaff(modelBuilder, HospitalRoles.Nurse);
+        SeedStaff(modelBuilder, HospitalRoles.Nurse);
 
+        SeedOperationType(modelBuilder, "ACL Reconstruction");
+        SeedOperationType(modelBuilder, "Knee Replacement");
+        SeedOperationType(modelBuilder, "Shoulder Replacement");
+        SeedOperationType(modelBuilder, "Hip Replacement");
+        SeedOperationType(modelBuilder, "Meniscal Injury Treatment");
 
         base.OnModelCreating(modelBuilder);
     }
@@ -57,8 +66,19 @@ public class DDDSample1DbContext : DbContext {
         builder.Entity<Patient>().HasData(patient);
     }
 
+    // TODO: Completar metodo
+    private void SeedStaff(ModelBuilder builder, string role) {
+        var staff = new Staff(role);
+        builder.Entity<Staff>().HasData(staff);
+    }
+
+    private void SeedOperationType(ModelBuilder builder, string name) {
+        var operationType = new OperationType(new OperationName(name));
+        builder.Entity<OperationType>().HasData(operationType);
+    }
+
 
     private void SeedOperationRequests() {
-
+        
     }
 }
