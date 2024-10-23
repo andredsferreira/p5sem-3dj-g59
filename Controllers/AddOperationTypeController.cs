@@ -22,14 +22,17 @@ namespace DDDSample1.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AddOperationTypeController : ControllerBase {
+[Authorize]
+public class AddOperationTypeController : ControllerBase
+{
 
     private readonly IConfiguration Configuration;
     private readonly IdentityContext Context;
     private readonly UserManager<IdentityUser> UserManager;
     private readonly AddOperationTypeService AddOperationTypeService;
 
-    public AddOperationTypeController(IConfiguration Configuration, IdentityContext Context, UserManager<IdentityUser> UserManager, AddOperationTypeService AddOperationTypeService) {
+    public AddOperationTypeController(IConfiguration Configuration, IdentityContext Context, UserManager<IdentityUser> UserManager, AddOperationTypeService AddOperationTypeService)
+    {
         this.Configuration = Configuration;
         this.Context = Context;
         this.UserManager = UserManager;
@@ -37,15 +40,18 @@ public class AddOperationTypeController : ControllerBase {
     }
 
     [HttpPost("addoperationtype")]
-    public async Task<IActionResult> AddOperationType([FromBody] OperationTypeDTO dto) {
-        if (!ModelState.IsValid) {
+    [Authorize(Roles = HospitalRoles.Admin)]
+
+    public async Task<ActionResult<OperationTypeDTO>> AddOperationType(OperationTypeDTO dto)
+    {
+        if (!ModelState.IsValid)
+        {
             return BadRequest(ModelState);
         }
 
         var result = await AddOperationTypeService.CreateOperationType(dto.name, dto.anaesthesiaTime, dto.surgeryTime, dto.cleaningTime);
+        return CreatedAtAction("Operation Type created with ID: ", result.id);
 
-        return Ok(result);
-        
     }
-    
+
 }

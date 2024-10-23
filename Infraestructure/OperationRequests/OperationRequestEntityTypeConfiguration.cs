@@ -31,14 +31,14 @@ internal class OperationRequestEntityTypeConfiguration : IEntityTypeConfiguratio
             .HasForeignKey(s => s.operationTypeId)
             .IsRequired();
 
-        builder.Property(x => x.patientId)
-            .HasConversion(x => x.AsGuid(), x => new PatientId(x));
+        // builder.Property(x => x.patientId)
+        //     .HasConversion(x => x.AsGuid(), x => new PatientId(x));
 
-        builder.Property(x => x.staffId)
-            .HasConversion(x => x.AsGuid(), x => new StaffId(x));
+        // builder.Property(x => x.staffId)
+        //     .HasConversion(x => x.AsGuid(), x => new StaffId(x));
 
-        builder.Property(x => x.operationTypeId)
-            .HasConversion(x => x.AsGuid(), x => new OperationTypeId(x));
+        // builder.Property(x => x.operationTypeId)
+        //     .HasConversion(x => x.AsGuid(), x => new OperationTypeId(x));
 
     }
 }

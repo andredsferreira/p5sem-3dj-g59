@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace DDDNetCore.Migrations.DDDSample1Db
+namespace DDDNetCore.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -44,6 +44,8 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    MedicalRecordNumber = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     DateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
                     Email = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -52,8 +54,6 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     Gender = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FullName = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Allergies = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -67,11 +67,36 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                 schema: "projeto5sem",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    staffRole = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Staff", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Allergy",
+                columns: table => new
+                {
+                    allergyId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    allergyName = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PatientId = table.Column<string>(type: "varchar(255)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Allergy", x => x.allergyId);
+                    table.ForeignKey(
+                        name: "FK_Allergy_Patient_PatientId",
+                        column: x => x.PatientId,
+                        principalSchema: "projeto5sem",
+                        principalTable: "Patient",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -81,16 +106,14 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    patientId = table.Column<string>(type: "varchar(255)", nullable: true)
+                    patientId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    staffId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
-                    operationTypeId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    staffId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    operationTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     priority = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     dateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    requestStatus = table.Column<int>(type: "int", nullable: false),
-                    teste = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    requestStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,32 +123,66 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                         column: x => x.operationTypeId,
                         principalSchema: "projeto5sem",
                         principalTable: "OperationType",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_OperationRequest_Patient_patientId",
                         column: x => x.patientId,
                         principalSchema: "projeto5sem",
                         principalTable: "Patient",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_OperationRequest_Staff_staffId",
                         column: x => x.staffId,
                         principalSchema: "projeto5sem",
                         principalTable: "Staff",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.InsertData(
                 schema: "projeto5sem",
-                table: "Patient",
-                columns: new[] { "Id", "Allergies", "DateOfBirth", "Email", "FullName", "Gender", "PhoneNumber" },
+                table: "OperationType",
+                columns: new[] { "Id", "anaesthesiaTime", "cleaningTime", "name", "surgeryTime" },
                 values: new object[,]
                 {
-                    { "7514821b-aba8-48f1-98ab-11ce7f5b7298", "", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "Female", "910555333" },
-                    { "a70c196e-c278-427a-a61c-dc5bdfbb32fd", "", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "Male", "910555111" },
-                    { "fa15c4e3-3162-4d3e-92c8-4de90b98806b", "", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "Male", "910555222" }
+                    { new Guid("9ce48713-9d62-477f-a8a4-630c9d17b2dd"), null, null, "Meniscal Injury Treatment", null },
+                    { new Guid("9df447f9-f05c-4e1f-8548-bd03d261e5c3"), null, null, "Knee Replacement", null },
+                    { new Guid("a4c54074-7abf-43c0-a87c-07463d37f295"), null, null, "ACL Reconstruction", null },
+                    { new Guid("a69c1bdf-9fe1-4af2-9f30-a3e6f71c8a20"), null, null, "Hip Replacement", null },
+                    { new Guid("d33272a6-c62a-4ad3-80b5-668aca1c95d1"), null, null, "Shoulder Replacement", null }
                 });
+
+            migrationBuilder.InsertData(
+                schema: "projeto5sem",
+                table: "Patient",
+                columns: new[] { "Id", "DateOfBirth", "Email", "FullName", "Gender", "MedicalRecordNumber", "PhoneNumber" },
+                values: new object[,]
+                {
+                    { "4a3be726-3598-440a-ac12-d0a706ea7ca2", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "Female", null, "910555333" },
+                    { "cb502165-0a55-45bf-86a1-c95fcbb16561", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "Male", null, "910555222" },
+                    { "f32b0a44-4904-4cbe-9a88-0be352c7cd7f", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "Male", null, "910555111" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "projeto5sem",
+                table: "Staff",
+                columns: new[] { "Id", "staffRole" },
+                values: new object[,]
+                {
+                    { new Guid("0b126ba2-67f0-4895-b2ef-90f2ec78855d"), "Doctor" },
+                    { new Guid("1864a71f-b198-4968-836b-7a22c78f8902"), "Doctor" },
+                    { new Guid("4696238f-0286-44ad-90e6-2d6678ead3fb"), "Nurse" },
+                    { new Guid("769b5a9a-5e88-4b0a-812f-bd5a6f94c931"), "Admin" },
+                    { new Guid("ac5f32df-9350-45ba-a314-421971ab38df"), "Nurse" }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Allergy_PatientId",
+                table: "Allergy",
+                column: "PatientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OperationRequest_operationTypeId",
@@ -163,6 +220,9 @@ namespace DDDNetCore.Migrations.DDDSample1Db
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Allergy");
+
             migrationBuilder.DropTable(
                 name: "OperationRequest",
                 schema: "projeto5sem");

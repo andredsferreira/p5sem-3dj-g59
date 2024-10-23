@@ -19,6 +19,7 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
     public CleaningTime cleaningTime { get; private set; }
 
     public ICollection<OperationRequest> OperationRequests { get; set; }
+    public Status Status{get; private set;}
 
     public OperationType(OperationName name) {
         this.Id = new OperationTypeId(Guid.NewGuid());
@@ -39,6 +40,7 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
         AnaesthesiaTime anaesthesiaTime = new AnaesthesiaTime(dto.anaesthesiaTime);
         SurgeryTime surgeryTime = new SurgeryTime(dto.surgeryTime);
         CleaningTime cleaningTime = new CleaningTime(dto.cleaningTime);
+        Status status = (Status)Enum.Parse(typeof(Status),dto.Status);
         return new OperationType(name, anaesthesiaTime, surgeryTime, cleaningTime);
     }
 

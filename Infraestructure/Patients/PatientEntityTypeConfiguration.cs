@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using DDDSample1.Domain.Patients;
 using DDDSample1.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -19,15 +21,20 @@ internal class PatientEntityTypeConfiguration : IEntityTypeConfiguration<Patient
             id => id.Value,
             value => new PatientId(value));
 
-        builder.Property(p => p.DateOfBirth);
+        builder.Property(b => b.MedicalRecordNumber)
+            .HasConversion(id => id.Value, value => new MedicalRecordNumber(value));
 
-        builder.Property(p => p.Email).HasMaxLength(255);
+        builder.Property(p => p.DateOfBirth)
+            .HasColumnType("date");
+
+        builder.Property(p => p.Email)
+            .HasMaxLength(255);
 
         builder.Property(p => p.FullName)
             .HasConversion(fullname => fullname.Full, full => new FullName(full));
 
         builder.Property(p => p.Gender)
-            .HasConversion(gender => gender.ToString(), genero => (Gender)Enum.Parse(typeof(Gender),genero));
+            .HasConversion(gender => gender.ToString(), genero => (Gender)Enum.Parse(typeof(Gender), genero));
 
         builder.Property(p => p.PhoneNumber).HasMaxLength(15);
 
@@ -35,15 +42,9 @@ internal class PatientEntityTypeConfiguration : IEntityTypeConfiguration<Patient
 
         builder.HasIndex(p => p.PhoneNumber).IsUnique();
 
+        builder.HasMany(p => p.Allergies)
+            .WithOne()
+            .OnDelete(DeleteBehavior.Cascade);
 
-        var stringListValueConverter = new ValueConverter<List<string>, string>(
-            list => string.Join(", ", list),
-            str => string.IsNullOrWhiteSpace(str)
-                ? new List<string>()
-                : str.Split(new[] { ',' }, StringSplitOptions.None)
-                    .Select(s => s.Trim())
-                    .ToList());
-
-        builder.Property(p => p.Allergies).HasConversion(stringListValueConverter);
     }
 }

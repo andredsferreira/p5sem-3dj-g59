@@ -203,11 +203,11 @@ namespace DDDNetCore.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1377b560-a9a3-446f-b834-1ed1caebf8b6", null, "Technician", "TECHNICIAN" },
-                    { "1ad4a54b-1d29-458a-8ce8-f6b389a8e9eb", null, "Admin", "ADMIN" },
-                    { "1dc33d26-23ce-43a2-8d43-c609c04e0a74", null, "Nurse", "NURSE" },
-                    { "54601e6d-d9e4-4310-afd6-ba5ea115ae15", null, "Doctor", "DOCTOR" },
-                    { "ef7d2f38-b064-4636-8524-9261d59c7d4d", null, "Patient", "PATIENT" }
+                    { "44fd0708-b351-4049-b7d8-c7e9c96f67b9", null, "Nurse", "NURSE" },
+                    { "5dfce43c-18c5-4f87-95a2-c6544c840bd9", null, "Patient", "PATIENT" },
+                    { "9500c55b-9c3f-457e-a6a8-3898134e8845", null, "Doctor", "DOCTOR" },
+                    { "ed8b737d-7422-46df-ae89-679ab0f965e2", null, "Technician", "TECHNICIAN" },
+                    { "fba43bf0-ec36-41cc-a001-c1c00b251d70", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -215,11 +215,11 @@ namespace DDDNetCore.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "014fd0b1-66fa-406a-981f-246a859a850e", 0, "4166b1db-0bf5-4e5e-8e48-828c18cca972", "patient@hospital.com", true, false, null, "PATIENT@HOSPITAL.COM", "PATIENT", "AQAAAAIAAYagAAAAEBdu9pu98qeJ4nElWoYKMlIdI/lv/GAZI45by0daBT5fTdYVA9p2i5K+6IYFQV/fuw==", null, false, "7c0e1297-b1f8-45ca-90cd-6747d3522ad3", false, "patient" },
-                    { "9bf823d2-d56d-4f1c-a13d-6a2deb442062", 0, "ce8737fc-6df6-4c23-bbf8-672b9ff21707", "nurse@hospital.com", true, false, null, "NURSE@HOSPITAL.COM", "NURSE", "AQAAAAIAAYagAAAAEOHvEaRJoXB/sv2jEzASSadfyJ5aQj3sgr8Dl2ZEKDN8+xYbJa4BMt9dlsKxOVro8Q==", null, false, "2762795c-29db-45bf-a299-4198b3cec5e1", false, "nurse" },
-                    { "ac8130c8-51a1-474a-8a70-3e91d79a3109", 0, "66284506-4253-46ba-bd48-0ba9da631785", "technician@hospital.com", true, false, null, "TECHNICIAN@HOSPITAL.COM", "TECHNICIAN", "AQAAAAIAAYagAAAAEMuCYtC1KO27YcFSryljK1rvQc7KLstcqeIFT8zlr9gKnC14L3MqDFIdvcVUst5cjQ==", null, false, "448a6742-3b1d-49e4-8d2c-681c73655d33", false, "technician" },
-                    { "bebb24ba-69f1-4d2d-ab7c-17b9de76ece4", 0, "c12932b3-8b47-4014-a148-bb63267e2211", "doctor@hospital.com", true, false, null, "DOCTOR@HOSPITAL.COM", "DOCTOR", "AQAAAAIAAYagAAAAELLIe01NRRliNGyuyXafuL39Xa0AP2D7tX/XCLUJ+g61mhKzGc0gEUGvd0zjXSuoOw==", null, false, "97cde23d-0f67-47fa-b7b2-3390de1be1d6", false, "doctor" },
-                    { "d3022515-8b84-4652-89f9-3aadd3905339", 0, "f2285d0c-f94b-42bc-9f53-d37f1f80c8d0", "admin@hospital.com", true, false, null, "ADMIN@HOSPITAL.COM", "ADMIN", "AQAAAAIAAYagAAAAEOeaTweFgJY2cZH7Wr3CUd0ir3mu9vcII7qrcgetlYIoPGlDxRb375XkKn5bZenXzA==", null, false, "c8b11b5c-b2c5-4330-b043-006d49bd0093", false, "admin" }
+                    { "2e953dc4-f595-44c0-8950-098d1d7babdc", 0, "3e5c2fa7-efde-42f1-8675-20cc10a8ebaf", "doctor@hospital.com", true, false, null, "DOCTOR@HOSPITAL.COM", "DOCTOR", "AQAAAAIAAYagAAAAEGX4ZbR0591PD/D3/CRnW50dPmpnL9Gx5ApmvmpsqsP66VwPuuYb8QbL8Cca1nj8OA==", null, false, "fb7be883-57b1-462f-85b9-bca57d16a694", false, "doctor" },
+                    { "38269169-7e5e-4f52-bfcd-c87705dcb262", 0, "b472b612-00c1-4052-87b9-2118a768415e", "technician@hospital.com", true, false, null, "TECHNICIAN@HOSPITAL.COM", "TECHNICIAN", "AQAAAAIAAYagAAAAEIAaZMyDTTWIpYbFJAO1u/9SROyc1UaDW3cl9ozY6uyiK6/uH5G239cE7kAYk1IGww==", null, false, "2393a926-d502-4147-9c3d-b12adeefc27c", false, "technician" },
+                    { "60afccf2-fa71-44cf-9fec-9f5f595dba2f", 0, "cb37e9d7-c6eb-481e-8bf0-0875348cf6f0", "admin@hospital.com", true, false, null, "ADMIN@HOSPITAL.COM", "ADMIN", "AQAAAAIAAYagAAAAEJx90dr8gJ7DFezqcSIc6KCZZEMOGxoyOEL9+Ylg/hK3cQjKR5g0GQ7Ci6YfLDhFeA==", null, false, "53efd14e-0813-49c7-b411-7effe87dc30c", false, "admin" },
+                    { "a1bdc387-0e29-4456-817d-9785fa7bdf8b", 0, "5b5d15a5-4c8e-4f61-ac38-f6fa056629ab", "nurse@hospital.com", true, false, null, "NURSE@HOSPITAL.COM", "NURSE", "AQAAAAIAAYagAAAAEK2CMo91lu7LTrPTmilM5hLmq+yBbY7dAWocA9PoX7MnisrGS91Jf3zRaCRTQLUYvQ==", null, false, "e306268b-6460-498f-9892-dca91bd9dd50", false, "nurse" },
+                    { "e1d356f2-3ca1-4acd-a012-916e2a95ff93", 0, "2c573f6c-fb78-4ff1-b7c9-0a762cfcc299", "patient@hospital.com", true, false, null, "PATIENT@HOSPITAL.COM", "PATIENT", "AQAAAAIAAYagAAAAEBd7IinQpg344iyUZCYNcS7LLGDErib/ccIZ2nHpZ+3IRsYt4MGioG3LQAvo7ghzpg==", null, false, "c466cdd0-0868-4454-a0a8-b6e2980d3b95", false, "patient" }
                 });
 
             migrationBuilder.InsertData(
@@ -227,11 +227,11 @@ namespace DDDNetCore.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "ef7d2f38-b064-4636-8524-9261d59c7d4d", "014fd0b1-66fa-406a-981f-246a859a850e" },
-                    { "1dc33d26-23ce-43a2-8d43-c609c04e0a74", "9bf823d2-d56d-4f1c-a13d-6a2deb442062" },
-                    { "1377b560-a9a3-446f-b834-1ed1caebf8b6", "ac8130c8-51a1-474a-8a70-3e91d79a3109" },
-                    { "54601e6d-d9e4-4310-afd6-ba5ea115ae15", "bebb24ba-69f1-4d2d-ab7c-17b9de76ece4" },
-                    { "1ad4a54b-1d29-458a-8ce8-f6b389a8e9eb", "d3022515-8b84-4652-89f9-3aadd3905339" }
+                    { "9500c55b-9c3f-457e-a6a8-3898134e8845", "2e953dc4-f595-44c0-8950-098d1d7babdc" },
+                    { "ed8b737d-7422-46df-ae89-679ab0f965e2", "38269169-7e5e-4f52-bfcd-c87705dcb262" },
+                    { "fba43bf0-ec36-41cc-a001-c1c00b251d70", "60afccf2-fa71-44cf-9fec-9f5f595dba2f" },
+                    { "44fd0708-b351-4049-b7d8-c7e9c96f67b9", "a1bdc387-0e29-4456-817d-9785fa7bdf8b" },
+                    { "5dfce43c-18c5-4f87-95a2-c6544c840bd9", "e1d356f2-3ca1-4acd-a012-916e2a95ff93" }
                 });
 
             migrationBuilder.CreateIndex(

@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DDDNetCore.Migrations.DDDSample1Db
+namespace DDDNetCore.Migrations
 {
     [DbContext(typeof(DDDSample1DbContext))]
-    [Migration("20241021223631_Initial")]
+    [Migration("20241023145301_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -33,10 +33,11 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.Property<DateTime>("dateTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid?>("operationTypeId")
+                    b.Property<Guid>("operationTypeId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("patientId")
+                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("priority")
@@ -45,11 +46,8 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.Property<int>("requestStatus")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("staffId")
+                    b.Property<Guid>("staffId")
                         .HasColumnType("char(36)");
-
-                    b.Property<string>("teste")
-                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -82,15 +80,58 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasKey("Id");
 
                     b.ToTable("OperationType", "projeto5sem");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a4c54074-7abf-43c0-a87c-07463d37f295"),
+                            name = "ACL Reconstruction"
+                        },
+                        new
+                        {
+                            Id = new Guid("9df447f9-f05c-4e1f-8548-bd03d261e5c3"),
+                            name = "Knee Replacement"
+                        },
+                        new
+                        {
+                            Id = new Guid("d33272a6-c62a-4ad3-80b5-668aca1c95d1"),
+                            name = "Shoulder Replacement"
+                        },
+                        new
+                        {
+                            Id = new Guid("a69c1bdf-9fe1-4af2-9f30-a3e6f71c8a20"),
+                            name = "Hip Replacement"
+                        },
+                        new
+                        {
+                            Id = new Guid("9ce48713-9d62-477f-a8a4-630c9d17b2dd"),
+                            name = "Meniscal Injury Treatment"
+                        });
+                });
+
+            modelBuilder.Entity("DDDSample1.Domain.Patients.Allergy", b =>
+                {
+                    b.Property<Guid>("allergyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("PatientId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("allergyName")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("allergyId");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("Allergy");
                 });
 
             modelBuilder.Entity("DDDSample1.Domain.Patients.Patient", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Allergies")
-                        .HasColumnType("longtext");
 
                     b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("date");
@@ -104,6 +145,9 @@ namespace DDDNetCore.Migrations.DDDSample1Db
 
                     b.Property<string>("Gender")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("MedicalRecordNumber")
                         .HasColumnType("longtext");
 
                     b.Property<string>("PhoneNumber")
@@ -123,8 +167,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasData(
                         new
                         {
-                            Id = "a70c196e-c278-427a-a61c-dc5bdfbb32fd",
-                            Allergies = "",
+                            Id = "f32b0a44-4904-4cbe-9a88-0be352c7cd7f",
                             DateOfBirth = new DateOnly(2001, 10, 21),
                             Email = "patientA@hospital.com",
                             FullName = "João Camião",
@@ -133,8 +176,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                         },
                         new
                         {
-                            Id = "fa15c4e3-3162-4d3e-92c8-4de90b98806b",
-                            Allergies = "",
+                            Id = "cb502165-0a55-45bf-86a1-c95fcbb16561",
                             DateOfBirth = new DateOnly(1998, 5, 14),
                             Email = "patientB@hospital.com",
                             FullName = "Bruno Silva",
@@ -143,8 +185,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                         },
                         new
                         {
-                            Id = "7514821b-aba8-48f1-98ab-11ce7f5b7298",
-                            Allergies = "",
+                            Id = "4a3be726-3598-440a-ac12-d0a706ea7ca2",
                             DateOfBirth = new DateOnly(1995, 12, 30),
                             Email = "patientC@hospital.com",
                             FullName = "Carla Ferreira",
@@ -158,30 +199,74 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("staffRole")
+                        .HasColumnType("longtext");
+
                     b.HasKey("Id");
 
                     b.ToTable("Staff", "projeto5sem");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("769b5a9a-5e88-4b0a-812f-bd5a6f94c931"),
+                            staffRole = "Admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("0b126ba2-67f0-4895-b2ef-90f2ec78855d"),
+                            staffRole = "Doctor"
+                        },
+                        new
+                        {
+                            Id = new Guid("1864a71f-b198-4968-836b-7a22c78f8902"),
+                            staffRole = "Doctor"
+                        },
+                        new
+                        {
+                            Id = new Guid("4696238f-0286-44ad-90e6-2d6678ead3fb"),
+                            staffRole = "Nurse"
+                        },
+                        new
+                        {
+                            Id = new Guid("ac5f32df-9350-45ba-a314-421971ab38df"),
+                            staffRole = "Nurse"
+                        });
                 });
 
             modelBuilder.Entity("DDDSample1.Domain.OperationRequests.OperationRequest", b =>
                 {
                     b.HasOne("DDDSample1.Domain.OperationTypes.OperationType", "operationType")
                         .WithMany("OperationRequests")
-                        .HasForeignKey("operationTypeId");
+                        .HasForeignKey("operationTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DDDSample1.Domain.Patients.Patient", "patient")
                         .WithMany("OperationRequests")
-                        .HasForeignKey("patientId");
+                        .HasForeignKey("patientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DDDSample1.Domain.Staffs.Staff", "staff")
                         .WithMany("OperationRequests")
-                        .HasForeignKey("staffId");
+                        .HasForeignKey("staffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("operationType");
 
                     b.Navigation("patient");
 
                     b.Navigation("staff");
+                });
+
+            modelBuilder.Entity("DDDSample1.Domain.Patients.Allergy", b =>
+                {
+                    b.HasOne("DDDSample1.Domain.Patients.Patient", null)
+                        .WithMany("Allergies")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DDDSample1.Domain.OperationTypes.OperationType", b =>
@@ -191,6 +276,8 @@ namespace DDDNetCore.Migrations.DDDSample1Db
 
             modelBuilder.Entity("DDDSample1.Domain.Patients.Patient", b =>
                 {
+                    b.Navigation("Allergies");
+
                     b.Navigation("OperationRequests");
                 });
 
