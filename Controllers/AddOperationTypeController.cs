@@ -22,6 +22,7 @@ namespace DDDSample1.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class AddOperationTypeController : ControllerBase {
 
     private readonly IConfiguration Configuration;
@@ -37,6 +38,8 @@ public class AddOperationTypeController : ControllerBase {
     }
 
     [HttpPost("addoperationtype")]
+    [Authorize(Roles = HospitalRoles.Admin)]
+
     public async Task<IActionResult> AddOperationType([FromBody] OperationTypeDTO dto) {
         if (!ModelState.IsValid) {
             return BadRequest(ModelState);
