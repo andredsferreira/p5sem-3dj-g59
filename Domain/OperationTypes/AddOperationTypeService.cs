@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DDDSample1.Domain.Shared;
 
@@ -26,5 +27,10 @@ public class AddOperationTypeService {
             surgeryTime = operationType.surgeryTime.duration,
             cleaningTime = operationType.cleaningTime.duration
         };
+    }
+
+    public async Task<List<OperationType>> GetAll() {
+        var list = _repository.GetAllAsync();
+        return await list;
     }
 }
