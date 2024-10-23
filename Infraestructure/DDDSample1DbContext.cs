@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using DDDSample1.Domain.Shared;
 using DDDSample1.Domain.Staffs;
 using DDDSample1.Domain.Auth;
+using System.Linq;
 
 namespace DDDSample1.Infrastructure;
 
@@ -62,7 +63,10 @@ public class DDDSample1DbContext : DbContext {
     }
 
     private void SeedPatient(ModelBuilder builder, DateOnly dateOfBirth, string email, string phoneNumber, Gender gender, FullName fullName, List<string> allergies) {
-        var patient = new Patient(dateOfBirth, email, phoneNumber, gender, fullName, allergies);
+        List<Allergy> allergiesAllergy = allergies
+            .Select(allergyName => new Allergy(allergyName))
+            .ToList();
+        var patient = new Patient(dateOfBirth, email, phoneNumber, gender, fullName, allergiesAllergy);
         builder.Entity<Patient>().HasData(patient);
     }
 
@@ -79,6 +83,6 @@ public class DDDSample1DbContext : DbContext {
 
 
     private void SeedOperationRequests() {
-        
+
     }
 }
