@@ -81,8 +81,4 @@ public class DDDSample1DbContext : DbContext {
         builder.Entity<OperationType>().HasData(operationType);
     }
 
-
-    private void SeedOperationRequests() {
-
-    }
 }
