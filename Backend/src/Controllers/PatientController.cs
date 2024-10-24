@@ -39,11 +39,12 @@ public class PatientController : ControllerBase {
         throw new NotImplementedException();
     }
 
-    [HttpDelete("Delete/{id}")]
+    [HttpDelete("Delete/{record}")]
     [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<PatientDTO>> DeletePatient(string id) {
+    public async Task<ActionResult<PatientDTO>> DeletePatient(string record) {
         try {
-            var pat = await _service.DeletePatient(new PatientId(id));
+            Console.WriteLine("Received Record: "+record);
+            var pat = await _service.DeletePatient(new MedicalRecordNumber(record));
             if (pat == null) return NotFound();
             return Ok(pat);
         }

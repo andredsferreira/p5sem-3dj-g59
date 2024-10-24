@@ -42,8 +42,14 @@ public class PatientService {
         return new MedicalRecordNumber(stringBuilder.ToString());
     }
 
-    public async Task<PatientDTO> DeletePatient(PatientId id){
-            var patient = await this._repository.GetByIdAsync(id);
+    //public async Task<PatientDTO> EditPatient(string MedicalRecordNumber, PatientDTO dto){
+    //    Patient pat = _repository.Get
+    //    throw new NotImplementedException();
+    //}
+
+    public async Task<PatientDTO> DeletePatient(MedicalRecordNumber id){
+            var patient = this._repository.GetPatientByRecordNumber(id);
+            Console.WriteLine(patient);
             if (patient == null) return null;
             
             this._repository.Remove(patient);
