@@ -35,15 +35,21 @@ public class PatientController : ControllerBase {
     }
     [HttpPut("Edit/{id}")]
     [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<PatientDTO>> EditPatient(string id, [FromBody] PatientDTO dto) {
-        throw new NotImplementedException();
+    public async Task<ActionResult<PatientDTO>> EditPatient(string id, [FromBody] FilterPatientDTO dto) {
+        try {
+            var pat = await _service.EditPatient(new MedicalRecordNumber(id), dto);
+            if (pat == null) return NotFound();
+            return Ok(pat);
+        }
+        catch (BusinessRuleValidationException ex) {
+            return BadRequest(new { ex.Message });
+        }
     }
 
     [HttpDelete("Delete/{record}")]
     [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<PatientDTO>> DeletePatient(string record) {
         try {
-            Console.WriteLine("Received Record: "+record);
             var pat = await _service.DeletePatient(new MedicalRecordNumber(record));
             if (pat == null) return NotFound();
             return Ok(pat);
@@ -51,6 +57,13 @@ public class PatientController : ControllerBase {
         catch (BusinessRuleValidationException ex) {
             return BadRequest(new { ex.Message });
         }
+    }
+
+    [HttpGet("Search")]
+    [Authorize(Roles = HospitalRoles.Admin)]
+    public async Task<ActionResult<IEnumerable<Patient>>> SearchAndFilterPatients(FilterPatientDTO filterPatientDTO){
+        var patients = await _service.SearchPatients(filterPatientDTO);
+        return patients.ToList();
     }
 
     [HttpGet("Appointments")]
@@ -62,6 +75,7 @@ public class PatientController : ControllerBase {
 
     [HttpGet("All")]
     public async Task<ActionResult<IEnumerable<Patient>>> GetAllPatients() {
-        return await _service.GetAll();
+        var pats = await _service.GetAll();
+        return pats.ToList();
     }
 }

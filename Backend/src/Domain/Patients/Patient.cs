@@ -12,9 +12,9 @@ public class Patient : Entity<PatientId>, IAggregateRoot {
 
     public DateOnly DateOfBirth { get; protected set; }
 
-    public string Email { get; protected set; }
+    public string Email { get; set; }
 
-    public string PhoneNumber { get; protected set; }
+    public string PhoneNumber { get; set; }
 
     public Gender Gender { get; protected set; }
 

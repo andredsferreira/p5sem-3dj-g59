@@ -5,20 +5,12 @@ using DDDSample1.Domain.Shared;
 
 namespace DDDSample1.Domain.Patients;
 
-public partial class MedicalRecordNumber : IValueObject
+public class MedicalRecordNumber : IValueObject
 {
     public string Record;
     public MedicalRecordNumber(string Record){
-        var r = MyRegex();
+        var r = new Regex("[0-9]{12}");
         if (r.IsMatch(Record)) this.Record = Record;
         else throw new InvalidExpressionException();
-    }
-
-    [GeneratedRegex("[0-9]{12}")]
-    private static partial Regex MyRegex();
-
-    internal bool StartsWith(string prefix)
-    {
-        throw new NotImplementedException();
     }
 }

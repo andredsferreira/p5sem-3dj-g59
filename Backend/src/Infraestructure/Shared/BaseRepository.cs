@@ -38,4 +38,9 @@ where TEntityId : EntityId {
     public void Remove(TEntity obj) {
         this._objs.Remove(obj);
     }
+    
+    public TEntity Update(TEntity obj){
+        var ret = _objs.Update(obj);
+        return ret.Entity;
+    }
 }

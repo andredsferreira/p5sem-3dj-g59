@@ -14,4 +14,6 @@ public interface IRepository<TEntity, TEntityId> {
 
     void Remove(TEntity obj);
 
+    TEntity Update(TEntity obj);
+
 }

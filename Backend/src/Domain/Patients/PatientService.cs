@@ -42,27 +42,53 @@ public class PatientService {
         return new MedicalRecordNumber(stringBuilder.ToString());
     }
 
-    //public async Task<PatientDTO> EditPatient(string MedicalRecordNumber, PatientDTO dto){
-    //    Patient pat = _repository.Get
-    //    throw new NotImplementedException();
-    //}
+    public async Task<PatientDTO> EditPatient(MedicalRecordNumber id, FilterPatientDTO dto){
+        var patient = this._repository.GetPatientByRecordNumber(id);
+        Boolean warn = false;
+        string email = patient.Email;
+
+        patient.Email = dto.Email;
+
+        this._repository.Update(patient);
+        await this._unitOfWork.CommitAsync();
+
+        return patient.returnDTO();
+    }
 
     public async Task<PatientDTO> DeletePatient(MedicalRecordNumber id){
-            var patient = this._repository.GetPatientByRecordNumber(id);
-            Console.WriteLine(patient);
-            if (patient == null) return null;
-            
-            this._repository.Remove(patient);
-            await this._unitOfWork.CommitAsync();
+        var patient = this._repository.GetPatientByRecordNumber(id);
+        if (patient == null) return null;
+        
+        this._repository.Remove(patient);
+        await this._unitOfWork.CommitAsync();
 
-            return patient.returnDTO();
-        }
+        return patient.returnDTO();
+    }
+
+    public async Task<IEnumerable<Patient>> SearchPatients(FilterPatientDTO filterPatientDTO)
+    {
+        var patients = await GetAll();
+
+        if (filterPatientDTO.MedicalRecordNumber != null)
+            patients = patients.Where(p => p.MedicalRecordNumber.Record.Equals(filterPatientDTO.MedicalRecordNumber));
+        if (!string.IsNullOrEmpty(filterPatientDTO.Email))
+            patients = patients.Where(p => p.Email.Contains(filterPatientDTO.Email, StringComparison.OrdinalIgnoreCase));
+        if (!string.IsNullOrEmpty(filterPatientDTO.PhoneNumber))
+            patients = patients.Where(p => p.PhoneNumber.Contains(filterPatientDTO.PhoneNumber));
+        if (!string.IsNullOrEmpty(filterPatientDTO.FullName))
+            patients = patients.Where(p => p.FullName.Full.Contains(filterPatientDTO.FullName, StringComparison.OrdinalIgnoreCase));
+        if (filterPatientDTO.Gender.HasValue)
+            patients = patients.Where(p => p.Gender.Equals(filterPatientDTO.Gender));
+
+        return patients;
+    }
+
 
     public async Task<IEnumerable<AppointmentDTO>> GetPatientAppointments(string patientEmail) {
         throw new NotImplementedException();
     }
 
-    public async Task<List<Patient>> GetAll() {
+    public async Task<IEnumerable<Patient>> GetAll() {
         var list = _repository.GetAllAsync();
         return await list;
     }
