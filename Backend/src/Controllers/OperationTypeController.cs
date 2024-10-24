@@ -62,7 +62,13 @@ public class OperationTypeController : ControllerBase
 
         throw new NotImplementedException();
     }
-    
+
+    [HttpPut("deactivate/{id}")]
+    [Authorize(Roles = HospitalRoles.Admin)]
+    public async Task<ActionResult<OperationTypeDTO>> DeactivateOperationType(OperationTypeDTO operationTypeDTO){
+
+        throw new NotImplementedException();
+    }
 
 
 }
