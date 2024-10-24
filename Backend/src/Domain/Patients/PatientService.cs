@@ -58,12 +58,12 @@ public class PatientService {
 
         if (!string.IsNullOrEmpty(dto.PhoneNumber)){
             warn = true;
-            builder.Append(string.Format("The Phone Number associated with you was changed from {0} to {1}.\n",patient.PhoneNumber,dto.PhoneNumber));
+            builder.Append(string.Format("The Phone Number associated with your account was changed from {0} to {1}.\n",patient.PhoneNumber,dto.PhoneNumber));
             patient.PhoneNumber = dto.PhoneNumber;
         }
         if (!string.IsNullOrEmpty(dto.Email)){
             warn = true;
-            builder.Append(string.Format("The Email associated with you was changed from {0} to {1}.\n",patient.Email,dto.Email));
+            builder.Append(string.Format("The Email associated with your account was changed from {0} to {1}.\n",patient.Email,dto.Email));
             patient.Email = dto.Email;
         }
 
