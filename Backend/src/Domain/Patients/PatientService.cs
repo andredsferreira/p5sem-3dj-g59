@@ -57,7 +57,7 @@ public class PatientService {
 
         bool warn = false;
         string email = patient.Email;
-        StringBuilder messageBuilder = new(string.Format("Hello {0},\nThis message was sent to warn you that:\n", patient.FullName.Full)),
+        StringBuilder messageBuilder = new(string.Format("Hello {0},<br>This message was sent to warn you that:<br>", patient.FullName.Full)),
             logBuilder = new(string.Format("Edit in Patient {0}: ", id.Record));
 
         if (!string.IsNullOrEmpty(dto.FullName)){
@@ -68,13 +68,13 @@ public class PatientService {
         if (!string.IsNullOrEmpty(dto.PhoneNumber)){
             warn = true;
             logBuilder.Append(string.Format("Phone Number changed from {0} to {1}, ", patient.PhoneNumber, dto.PhoneNumber));
-            messageBuilder.Append(string.Format("The Phone Number associated with your account was changed from {0} to {1}.\n",patient.PhoneNumber,dto.PhoneNumber));
+            messageBuilder.Append(string.Format("-The Phone Number associated with your account was changed from {0} to {1}.<br>",patient.PhoneNumber,dto.PhoneNumber));
             patient.PhoneNumber = dto.PhoneNumber;
         }
         if (!string.IsNullOrEmpty(dto.Email)){
             warn = true;
             logBuilder.Append(string.Format("Email changed from {0} to {1}, ", patient.Email, dto.Email));
-            messageBuilder.Append(string.Format("The Email associated with your account was changed from {0} to {1}.\n",patient.Email,dto.Email));
+            messageBuilder.Append(string.Format("-The Email associated with your account was changed from {0} to {1}.<br>",patient.Email,dto.Email));
             patient.Email = dto.Email;
         }
 
@@ -83,7 +83,7 @@ public class PatientService {
         await this._unitOfWork.CommitAsync();
 
         if (warn){
-            messageBuilder.Append("\nThis message was sent automatically. Don't answer it.\n");
+            messageBuilder.Append("<br>This message was sent automatically. Don't answer it.<br>");
             _messageSender.SendMessage(email, "Some of your data was altered", messageBuilder.ToString());
         }
 

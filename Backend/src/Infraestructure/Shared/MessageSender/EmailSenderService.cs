@@ -13,6 +13,7 @@ public class EmailSenderService : IMessageSenderService {
     };
     public void SendMessage(string recipient, string subject, string body){
         MailMessage mailMessage = new("no.reply.hospitalg059@gmail.com", recipient, subject, body);
+        mailMessage.IsBodyHtml = true;
         smtpClient.Send(mailMessage);
     }
 }

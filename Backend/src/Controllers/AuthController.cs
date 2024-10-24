@@ -1,6 +1,7 @@
 using DDDSample1.Domain;
 using DDDSample1.Domain.Auth;
 using DDDSample1.Infrastructure;
+using DDDSample1.Infrastructure.Shared.MessageSender;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -28,12 +29,14 @@ public class AuthController : ControllerBase {
     private readonly UserManager<IdentityUser> UserManager;
 
     private readonly SignInManager<IdentityUser> SignInManager;
+    private readonly IMessageSenderService MessageSender;
 
-    public AuthController(IConfiguration Configuration, IdentityContext Context, UserManager<IdentityUser> UserManager, SignInManager<IdentityUser> SignInManager) {
+    public AuthController(IConfiguration Configuration, IdentityContext Context, UserManager<IdentityUser> UserManager, SignInManager<IdentityUser> SignInManager, IMessageSenderService MessageSender) {
         this.Configuration = Configuration;
         this.Context = Context;
         this.UserManager = UserManager;
         this.SignInManager = SignInManager;
+        this.MessageSender = MessageSender;
     }
 
     [HttpPost("login")]
@@ -56,8 +59,37 @@ public class AuthController : ControllerBase {
     }
 
     [HttpPost("registerbackoffice")]
+    [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<IActionResult> RegisterBackoffice([FromBody] RegisterBackofficeDTO dto) {
-        throw new NotImplementedException();
+        if (!ModelState.IsValid) {
+            return BadRequest(ModelState);
+        }
+        RoleType role = (RoleType)Enum.Parse(typeof(RoleType), dto.Role);
+        if (role == RoleType.Patient)
+            return BadRequest(dto.Role);
+
+        var backofficeUser = new IdentityUser {
+            UserName = dto.Username,
+            Email = dto.Email,
+            PhoneNumber = dto.Phone 
+        };
+        var result = await UserManager.CreateAsync(backofficeUser, dto.Password);
+        if (!result.Succeeded) {
+            return BadRequest(result.Errors);
+        }
+
+        var userRoles = await UserManager.GetRolesAsync(backofficeUser);
+        if (userRoles.Count > 0) {
+            return BadRequest("User already has a role assigned.");
+        }
+        
+        await UserManager.AddToRoleAsync(backofficeUser, dto.Role);
+
+        var token = await BuildToken(backofficeUser);
+
+        SendEmailConfirmationEmail(backofficeUser, token);
+
+        return Ok(new { token });
     }
 
     [HttpPost("registerpatient")]
@@ -124,6 +156,21 @@ public class AuthController : ControllerBase {
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    private void SendEmailConfirmationEmail(IdentityUser user, string token){
+        string appDomain = Configuration.GetSection("Application:AppDomain").Value,
+            confirmationLink = Configuration.GetSection("Application:EmailConfirmation").Value,
+            fullConfirmationLink = string.Format(appDomain + confirmationLink, user.Id, token);
+        
+        string emailBody = string.Format(
+            "Hello {0},<br><br>" +
+            "Please <a href=\"{1}\">verify your account</a> by clicking the link.<br><br>" +
+            "Thank you!", 
+            user.UserName, fullConfirmationLink
+        );
+
+        MessageSender.SendMessage(user.Email, "Account Activation", emailBody);
     }
 
     [HttpGet("users")]
