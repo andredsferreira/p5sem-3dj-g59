@@ -36,6 +36,7 @@ public class OperationRequestService {
     }
 
     public async Task<OperationRequestDTO> CreateOperationRequest(OperationRequestDTO dto) {
+        
         var patient = await _patientRepository.GetByIdAsync(new PatientId(dto.patientId));
         if (patient == null) {
             throw new Exception("The patient you provided does not exist!");
@@ -45,7 +46,7 @@ public class OperationRequestService {
         if (username != null) {
             throw new Exception("Your accessing with an empty username");
         }
-        
+
         var staff = _staffRepository.getByIdentityUsername(username);
         if (staff == null) {
             throw new Exception("Your are not registered in the system.");
@@ -70,10 +71,17 @@ public class OperationRequestService {
     }
 
     public async Task<UpdatedOperationRequestDTO> UpdateOperationRequest(UpdatedOperationRequestDTO dto) {
+
         var operationRequest = await _operationRequestRepository.GetByIdAsync(new OperationRequestId(dto.updatedId));
 
         if (operationRequest == null) {
             throw new Exception("The operation request you are trying to update does not exist!");
+        }
+
+        var username = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
+
+        if (operationRequest.staff.identityUsername != username) {
+            throw new Exception("The operation request you are trying to update is associated with another doctor");
         }
 
         operationRequest.dateTime = dto.dateTime;
