@@ -61,7 +61,8 @@ public class AuthController : ControllerBase {
     }
 
     [HttpPost("registerpatient")]
-    public async Task<IActionResult> RegisterPatient([FromBody] PatientRegisterDTO dto) {
+    public async Task<IActionResult> RegisterPatient([FromBody]
+    PatientRegisterDTO dto) {
         if (!ModelState.IsValid) {
             return BadRequest(ModelState);
         }
