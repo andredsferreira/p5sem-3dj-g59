@@ -24,6 +24,11 @@ activate web
 web -> api : Edits the attributes of a previously\nchosen patient profile
 activate api
 
+alt if the patient doesn't exist
+api --> web : Error message
+web --> U : Error message
+else 
+
 api -> api : Validates changes
 api -> db : Save patient profile
 activate db
@@ -37,7 +42,7 @@ deactivate api
 web -> U : Return Confirmation
 deactivate web
 deactivate U
-
+end
 ' E a parte do email?
 
 

@@ -18,9 +18,9 @@ public class Patient : Entity<PatientId>, IAggregateRoot {
 
     public Gender Gender { get; protected set; }
 
-    public FullName FullName { get; protected set; }
+    public FullName FullName { get; set; }
 
-    public List<Allergy> Allergies { get; protected set; } = [];
+    public List<Allergy> Allergies { get; set; } = [];
 
     public ICollection<OperationRequest> OperationRequests { get; set; } = [];
 

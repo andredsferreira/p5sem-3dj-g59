@@ -19,6 +19,9 @@ participant "<<system>>\nHealthcare System" as web
 U -> web : Edits the attributes of a previously\nchosen patient profile
 activate U
 activate web
+alt if the patient doesn't exist
+web --> U : Error message
+else 
 web -> web : Validades changes
 alt changed data is sensitive\n(e.g., contact information)
 web -> web : sends notification to\nthe patient's email
@@ -27,7 +30,7 @@ web -> web : Logs all profile changes
 web -> U : Return Confirmation
 deactivate web
 deactivate U
-
+end
 ' E a parte do email?
 
 

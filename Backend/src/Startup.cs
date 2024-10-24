@@ -18,6 +18,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using System;
 using DDDSample1.Domain.Auth;
+using DDDSample1.Infrastructure.Shared.MessageSender;
 
 namespace DDDSample1;
 public class Startup {
@@ -90,6 +91,10 @@ public class Startup {
     }
 
     public void ConfigureMyServices(IServiceCollection services) {
+        services.AddMvc(options =>
+            {
+            options.SuppressAsyncSuffixInActionNames = false;
+            });
         services.AddTransient<IUnitOfWork, UnitOfWork>();
 
         // Operation request services
@@ -103,6 +108,8 @@ public class Startup {
         // Staff services
         services.AddTransient<IStaffRepository, StaffRepository>();
         services.AddTransient<StaffService>();
+
+        services.AddTransient<IMessageSenderService, EmailSenderService>();
 
     }
 
