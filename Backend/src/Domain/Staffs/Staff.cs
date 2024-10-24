@@ -11,6 +11,8 @@ public class Staff : Entity<StaffId>, IAggregateRoot {
 
     public string staffRole { get; set; }
 
+    public string identityUsername { get; }
+
     public ICollection<OperationRequest> OperationRequests { get; set; } = new List<OperationRequest>();
 
     public Staff() {

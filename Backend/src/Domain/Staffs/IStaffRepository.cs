@@ -4,6 +4,8 @@ namespace DDDSample1.Domain.Staffs {
 
     public interface IStaffRepository : IRepository<Staff, StaffId> {
         
+        Staff getByIdentityUsername(string identityUsername);
+
     }
 
 }

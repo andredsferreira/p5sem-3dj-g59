@@ -10,7 +10,7 @@ namespace DDDSample1.Infrastructure.Shared;
 public class BaseRepository<TEntity, TEntityId> : IRepository<TEntity, TEntityId>
 where TEntity : Entity<TEntityId>
 where TEntityId : EntityId {
-    private readonly DbSet<TEntity> _objs;
+    protected readonly DbSet<TEntity> _objs;
 
     public BaseRepository(DbSet<TEntity> objs) {
         this._objs = objs ?? throw new ArgumentNullException(nameof(objs));

@@ -102,9 +102,9 @@ public class AuthController : ControllerBase {
             throw new ArgumentException("User does not have an assigned role.");
         }
 
-        // Construir os claims do token
         var claims = new List<Claim>() {
-            new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
+            new Claim(JwtRegisteredClaimNames.NameId, user.Id),
+            new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(ClaimTypes.Role, firstRole)
         };

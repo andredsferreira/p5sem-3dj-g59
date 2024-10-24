@@ -1,4 +1,5 @@
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DDDSample1.Domain.OperationTypes;
 using DDDSample1.Domain.Patients;
@@ -6,11 +7,14 @@ using DDDSample1.Domain.Shared;
 using DDDSample1.Domain.Staffs;
 using DDDSample1.Infrastructure.OperationRequests;
 using DDDSample1.Infrastructure.OperationTypes;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
 namespace DDDSample1.Domain.OperationRequests;
 
 public class OperationRequestService {
+
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     private readonly IUnitOfWork _unitOfWork;
 
@@ -33,8 +37,25 @@ public class OperationRequestService {
 
     public async Task<OperationRequestDTO> CreateOperationRequest(OperationRequestDTO dto) {
         var patient = await _patientRepository.GetByIdAsync(new PatientId(dto.patientId));
-        var staff = await _staffRepository.GetByIdAsync(new StaffId(dto.patientId));
+        if (patient == null) {
+            throw new Exception("The patient you provided does not exist!");
+        }
+
+        var username = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
+        if (username != null) {
+            throw new Exception("Your accessing with an empty username");
+        }
+        
+        var staff = _staffRepository.getByIdentityUsername(username);
+        if (staff == null) {
+            throw new Exception("Your are not registered in the system.");
+        }
+
         var operationType = await _operationTypeRepository.GetByIdAsync(new OperationTypeId(dto.operationTypeId));
+
+        if (operationType == null) {
+            throw new Exception("That operation type is not valid.");
+        }
 
         var operationRequest = OperationRequest.CreateFromDTO(dto);
 

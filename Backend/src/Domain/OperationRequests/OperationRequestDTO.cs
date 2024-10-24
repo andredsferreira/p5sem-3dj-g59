@@ -13,10 +13,6 @@ public class OperationRequestDTO {
     public Guid patientId { get; set; }
 
     [Required]
-    [FromForm(Name = "staffId")]
-    public Guid staffId { get; set; }
-
-    [Required]
     [FromForm(Name = "operationTypeId")]
     public Guid operationTypeId { get; set; }
 
@@ -32,10 +28,9 @@ public class OperationRequestDTO {
     [FromForm(Name = "requestStatus")]
     public RequestStatus requestStatus { get; private set; }
 
-    public OperationRequestDTO(Guid id, Guid patientId, Guid staffId, Guid operationTypeId, string priority, DateTime dateTime, RequestStatus requestStatus) {
+    public OperationRequestDTO(Guid id, Guid patientId, Guid operationTypeId, string priority, DateTime dateTime, RequestStatus requestStatus) {
         this.id = id;
         this.patientId = patientId;
-        this.staffId = staffId;
         this.operationTypeId = operationTypeId;
         this.priority = priority;
         this.dateTime = dateTime;
