@@ -19,7 +19,7 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
     public CleaningTime cleaningTime { get; private set; }
 
     public ICollection<OperationRequest> OperationRequests { get; set; }
-    public Status Status{get; private set;}
+    public Status Status{get; set;}
 
     public OperationType(OperationName name) {
         this.Id = new OperationTypeId(Guid.NewGuid());

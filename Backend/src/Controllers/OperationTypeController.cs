@@ -43,14 +43,16 @@ public class OperationTypeController : ControllerBase
         }
 
         var result = await AddOperationTypeService.CreateOperationType(dto.name, dto.anaesthesiaTime, dto.surgeryTime, dto.cleaningTime);
+        
         return CreatedAtAction("Operation Type created with ID: ", result.id);
     }
 
     [HttpGet("getoperationtypes")]
     [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<IEnumerable<OperationType>> > GetOperationTypes()
+    public async Task<ActionResult<IEnumerable<OperationTypeDTO>> > GetOperationTypes()
     {
-        return await AddOperationTypeService.GetAll();
+        //return await AddOperationTypeService.GetAll();
+        throw new NotImplementedException();
         
     }
 

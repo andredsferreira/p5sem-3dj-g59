@@ -16,7 +16,9 @@ public class AddOperationTypeService {
 
     public async Task<OperationTypeDTO> CreateOperationType(string name, int anaesthesiaTime, int surgeryTime, int cleaningTime) {
         OperationType operationType = new OperationType(new OperationName(name),
-       new AnaesthesiaTime(anaesthesiaTime), new SurgeryTime(surgeryTime), new CleaningTime(cleaningTime));
+        new AnaesthesiaTime(anaesthesiaTime), new SurgeryTime(surgeryTime), new CleaningTime(cleaningTime));
+
+        operationType.Status = Status.ACTIVE;
 
         await _repository.AddAsync(operationType);
 
