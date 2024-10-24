@@ -16,9 +16,12 @@ title US10 - Level 1 View
 actor Admin as U
 participant "<<system>>\nHealthcare System" as web
 
-U -> web : Marks a previously chosen\npatient profile for deletion
+U -> web : Marks a patient profile for deletion
 activate U
 activate web
+alt if patient doesn't exist
+web --> U : Error message
+else
 web -> U : Prompts admin to\nconfirm the action
 U -> web : Confirms action
 web -> web : Deletes patient profile within\npredefined timeframe
@@ -26,6 +29,7 @@ web -> web : Logs deletion for\naudit and GDPR\ncompliance purposes
 web -> U : Return Confirmation
 deactivate web
 deactivate U
+end
 
 ' E a parte do email?
 

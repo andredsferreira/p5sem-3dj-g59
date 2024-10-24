@@ -18,24 +18,32 @@ participant "Web Application" as web
 participant "Backoffice API" as api
 database "Database" as db
 
-U -> web : Marks a previously chosen\npatient profile for deletion
+U -> web : Marks a patient profile for deletion
 activate U
 activate web
+web -> api : Checks if patient exists
+activate api
+alt if patient doesn't exist 
+api --> web : Error message
+web --> U : Error message
+else
 web -> U : Prompts admin to\nconfirm the action
 U -> web : Confirms action
 
 web -> api : Marks a previously chosen\npatient profile for deletion
-activate api
 
 api -> db : Deletes patient profile within\npredefined timeframe
 activate db
 deactivate db
-api -> api : Logs deletion for audit\nand GDPR compliance purposes
+api -> db : Logs deletion for audit\nand GDPR compliance purposes
+activate db 
+deactivate db
 api -> web : Return Confirmation
 deactivate api
 web -> U : Return Confirmation
 deactivate web
 deactivate U
+end
 
 ' E a parte do email?
 

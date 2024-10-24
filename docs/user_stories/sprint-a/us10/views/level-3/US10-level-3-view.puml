@@ -33,7 +33,17 @@ patrepo ->
 patrepo --> service : patient
 deactivate patrepo
 
-alt if patient != null
+alt if patient = null
+
+service --> ctrl : null
+ctrl --> U : NotFound
+
+else
+
+service --> ctrl : ask for confirmation
+ctrl --> U : ask for confirmation
+U -> ctrl : confirmation
+ctrl -> service
 
 service -> patrepo : Remove(patient)
 activate patrepo
@@ -48,18 +58,10 @@ logrepo --> service
 deactivate logrepo
 
 service --> ctrl : patient DTO
-else
-service --> ctrl : null
-end
+
 deactivate service
 
-alt if patient != null
-
 ctrl --> U : Ok
-
-else
-
-ctrl --> U : NotFound
 
 end
 deactivate ctrl
