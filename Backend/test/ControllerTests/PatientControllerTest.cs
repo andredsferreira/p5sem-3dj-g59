@@ -8,12 +8,14 @@ using Xunit;
 using System;
 using DDDSample1.Domain.Shared;
 using DDDSample1.Infrastructure.Shared.MessageSender;
+using DDDSample1.Domain.DomainLogs;
 
 namespace DDDSample1.ControllerTests;
 
 public class PatientControllerTests
 {
     private readonly IPatientRepository _repo;
+    private readonly IDomainLogRepository _logrepo;
     private readonly IUnitOfWork _unit;
     private readonly UserManager<IdentityUser> _manager;
     private readonly Mock<IMessageSenderService> _mockMessageSender;
@@ -23,7 +25,7 @@ public class PatientControllerTests
     public PatientControllerTests()
     {
         _mockMessageSender = new Mock<IMessageSenderService>();
-        _mockService = new Mock<PatientService>(_repo, _unit, _mockMessageSender.Object);
+        _mockService = new Mock<PatientService>(_repo, _unit, _logrepo, _mockMessageSender.Object);
         _controller = new PatientController(_mockService.Object, _manager);
     }
 

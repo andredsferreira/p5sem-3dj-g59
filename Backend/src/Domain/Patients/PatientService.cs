@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DDDSample1.Domain.DomainLogs;
 using DDDSample1.Domain.Shared;
 using DDDSample1.Infrastructure.Shared.MessageSender;
 using Domain.Appointments;
@@ -16,12 +17,14 @@ public class PatientService {
     private readonly IUnitOfWork _unitOfWork;
 
     private readonly IPatientRepository _repository;
+    private readonly IDomainLogRepository _logRepository;
     private readonly IMessageSenderService _messageSender;
 
 
-    public PatientService(IUnitOfWork unitOfWork, IPatientRepository repository, IMessageSenderService messageSender) {
+    public PatientService(IUnitOfWork unitOfWork, IPatientRepository repository, IDomainLogRepository logRepository, IMessageSenderService messageSender) {
         _unitOfWork = unitOfWork;
         _repository = repository;
+        _logRepository = logRepository;
         _messageSender = messageSender;
     }
 
@@ -29,6 +32,9 @@ public class PatientService {
         dto.MedicalRecordNumber = await GenerateMedicalRecord();
         var patient = Patient.createFromDTO(dto);
         await this._repository.AddAsync(patient);
+        await this._logRepository.AddAsync(new DomainLog(LogObjectType.Patient, LogActionType.Creation, 
+            string.Format("Created a new Patient (Medical Record Number = {0}, Name = {1}, Email = {2}, PhoneNumber = {3})",
+                        patient.MedicalRecordNumber.Record, patient.FullName.Full, patient.Email, patient.PhoneNumber)));
         await this._unitOfWork.CommitAsync();
 
         return dto;
@@ -51,28 +57,34 @@ public class PatientService {
 
         bool warn = false;
         string email = patient.Email;
-        StringBuilder builder = new(string.Format("Hello {0},\nThis message was sent to warn you that:\n", patient.FullName.Full));
+        StringBuilder messageBuilder = new(string.Format("Hello {0},\nThis message was sent to warn you that:\n", patient.FullName.Full)),
+            logBuilder = new(string.Format("Edit in Patient {0}: ", id.Record));
 
-        if (!string.IsNullOrEmpty(dto.FullName))
+        if (!string.IsNullOrEmpty(dto.FullName)){
+            logBuilder.Append(string.Format("Full name changed from {0} to {1}, ", patient.FullName.Full, dto.FullName));
             patient.FullName = new FullName(dto.FullName);
+        }
 
         if (!string.IsNullOrEmpty(dto.PhoneNumber)){
             warn = true;
-            builder.Append(string.Format("The Phone Number associated with your account was changed from {0} to {1}.\n",patient.PhoneNumber,dto.PhoneNumber));
+            logBuilder.Append(string.Format("Phone Number changed from {0} to {1}, ", patient.PhoneNumber, dto.PhoneNumber));
+            messageBuilder.Append(string.Format("The Phone Number associated with your account was changed from {0} to {1}.\n",patient.PhoneNumber,dto.PhoneNumber));
             patient.PhoneNumber = dto.PhoneNumber;
         }
         if (!string.IsNullOrEmpty(dto.Email)){
             warn = true;
-            builder.Append(string.Format("The Email associated with your account was changed from {0} to {1}.\n",patient.Email,dto.Email));
+            logBuilder.Append(string.Format("Email changed from {0} to {1}, ", patient.Email, dto.Email));
+            messageBuilder.Append(string.Format("The Email associated with your account was changed from {0} to {1}.\n",patient.Email,dto.Email));
             patient.Email = dto.Email;
         }
 
         this._repository.Update(patient);
+        await this._logRepository.AddAsync(new DomainLog(LogObjectType.Patient, LogActionType.Edit, logBuilder.ToString()));
         await this._unitOfWork.CommitAsync();
 
         if (warn){
-            builder.Append("\nThis message was sent automatically. Don't answer it.\n");
-            _messageSender.SendMessage(email, "Some of your data was altered", builder.ToString());
+            messageBuilder.Append("\nThis message was sent automatically. Don't answer it.\n");
+            _messageSender.SendMessage(email, "Some of your data was altered", messageBuilder.ToString());
         }
 
         return patient.returnDTO();
@@ -83,6 +95,8 @@ public class PatientService {
         if (patient == null) return null;
         
         this._repository.Remove(patient);
+        await this._logRepository.AddAsync(new DomainLog(LogObjectType.Patient, LogActionType.Deletion, 
+            string.Format("Deleted Patient with Medical Record Number = {0}", patient.MedicalRecordNumber.Record)));
         await this._unitOfWork.CommitAsync();
 
         return patient.returnDTO();

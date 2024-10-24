@@ -13,6 +13,8 @@ using DDDSample1.Domain.Shared;
 using DDDSample1.Domain.Staffs;
 using DDDSample1.Domain.Auth;
 using System.Linq;
+using DDDSample1.Domain.DomainLogs;
+using DDDSample1.Infrastructure.DomainLogs;
 
 namespace DDDSample1.Infrastructure;
 
@@ -28,6 +30,8 @@ public class DDDSample1DbContext : DbContext {
 
     public virtual DbSet<Staff> Staff { get; set; }
 
+    public virtual DbSet<DomainLog> DomainLogs {get;set;}
+
     public DDDSample1DbContext(IConfiguration configuration) {
         this.configuration = configuration;
     }
@@ -42,6 +46,7 @@ public class DDDSample1DbContext : DbContext {
         modelBuilder.ApplyConfiguration(new PatientEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new DomainLogEntityTypeConfiguration());
 
         SeedPatient(modelBuilder, new MedicalRecordNumber("202410000001"), new DateOnly(2001, 10, 21), "patientA@hospital.com", "910555111", Gender.Male, new FullName("João Camião"), new List<string>());
         SeedPatient(modelBuilder, new MedicalRecordNumber("202410000002"), new DateOnly(1998, 5, 14), "patientB@hospital.com", "910555222", Gender.Male, new FullName("Bruno Silva"), new List<string>());
@@ -67,7 +72,10 @@ public class DDDSample1DbContext : DbContext {
             .Select(allergyName => new Allergy(allergyName))
             .ToList();
         var patient = new Patient(medicalRecordNumber, dateOfBirth, email, phoneNumber, gender, fullName, allergiesAllergy);
+        var log = new DomainLog(LogObjectType.Patient, LogActionType.Creation, string.Format("Created a new Patient (Medical Record Number = {0}, Name = {1}, Email = {2}, PhoneNumber = {3})",
+                        patient.MedicalRecordNumber.Record, patient.FullName.Full, patient.Email, patient.PhoneNumber));
         builder.Entity<Patient>().HasData(patient);
+        builder.Entity<DomainLog>().HasData(log);
     }
 
     // TODO: Completar metodo
