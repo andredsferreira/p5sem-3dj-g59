@@ -12,7 +12,7 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
 
     public Patient patient { get; set; }
 
-    public StaffId staffId { get; set; }
+    public StaffId staffId { get; }
 
     public Staff staff { get; set; }
 
@@ -26,9 +26,8 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
 
     public RequestStatus requestStatus { get; set; }
 
-    public OperationRequest(PatientId patientId, StaffId staffId, OperationTypeId operationTypeId, string priority, DateTime dateTime, RequestStatus requestStatus) {
-        this.Id = new OperationRequestId(Guid.NewGuid());
-        this.staffId = staffId;
+    public OperationRequest(PatientId patientId, OperationTypeId operationTypeId, string priority, DateTime dateTime, RequestStatus requestStatus) {
+        Id = new OperationRequestId(Guid.NewGuid());
         this.patientId = patientId;
         this.operationTypeId = operationTypeId;
         this.priority = priority;
@@ -38,12 +37,11 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
 
     public static OperationRequest CreateFromDTO(OperationRequestDTO dto) {
         var patientId = dto.patientId;
-        var staffId = dto.staffId;
         var operationTypeId = dto.operationTypeId;
         var priority = dto.priority;
         var dateTime = dto.dateTime;
         var requestStatus = dto.requestStatus;
-        var operationRequest = new OperationRequest(new PatientId(patientId), new StaffId(staffId), new OperationTypeId(operationTypeId), priority, dateTime, requestStatus);
+        var operationRequest = new OperationRequest(new PatientId(patientId), new OperationTypeId(operationTypeId), priority, dateTime, requestStatus);
         return operationRequest;
     }
 

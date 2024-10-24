@@ -35,8 +35,5 @@ public class OperationRequestController : ControllerBase {
         return CreatedAtAction("Deleted operation request with ID: ", deletedRequestId);
     } 
 
-
-
-
 }
 
