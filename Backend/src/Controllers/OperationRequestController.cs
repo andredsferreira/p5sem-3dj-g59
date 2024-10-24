@@ -21,6 +21,14 @@ public class OperationRequestController : ControllerBase {
         return CreatedAtAction("Operation request created with ID: ", createdOperationRequest.id);
     }
 
+    [HttpPut("update")]
+    [Authorize(Roles = HospitalRoles.Doctor)]
+    public async Task<ActionResult<UpdatedOperationRequestDTO>> UpdateOperationRequest([FromForm] UpdatedOperationRequestDTO dto) {
+        var updatedOperationRequest = await _service.UpdateOperationRequest(dto);
+        return CreatedAtAction("Updated operation request with ID: ", updatedOperationRequest.updatedId);
+    }
+
+
 
 
 }

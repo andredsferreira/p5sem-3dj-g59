@@ -48,6 +48,21 @@ public class OperationRequestService {
         return dto;
     }
 
-    
+    public async Task<UpdatedOperationRequestDTO> UpdateOperationRequest(UpdatedOperationRequestDTO dto) {
+        var operationRequest = await _operationRequestRepository.GetByIdAsync(new OperationRequestId(dto.updatedId));
+
+        if (operationRequest == null) {
+            throw new Exception("The operation request you are trying to update does not exist!");
+        }
+
+        operationRequest.dateTime = dto.dateTime;
+        operationRequest.priority = dto.priority;
+
+        await _unitOfWork.CommitAsync();
+
+        return dto;
+    }
+
+
 
 }
