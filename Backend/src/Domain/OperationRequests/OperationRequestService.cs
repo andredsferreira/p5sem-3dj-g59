@@ -36,7 +36,7 @@ public class OperationRequestService {
     }
 
     public async Task<OperationRequestDTO> CreateOperationRequest(OperationRequestDTO dto) {
-        
+
         var patient = await _patientRepository.GetByIdAsync(new PatientId(dto.patientId));
         if (patient == null) {
             throw new Exception("The patient you provided does not exist!");
@@ -92,6 +92,9 @@ public class OperationRequestService {
         return dto;
     }
 
+    public async Task<Guid> DeleteOperationRequest(Guid id) {
+        throw new NotImplementedException();
+    }
 
 
 }

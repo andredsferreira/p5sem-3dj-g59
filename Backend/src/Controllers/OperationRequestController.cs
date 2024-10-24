@@ -28,6 +28,13 @@ public class OperationRequestController : ControllerBase {
         return CreatedAtAction("Updated operation request with ID: ", updatedOperationRequest.updatedId);
     }
 
+    [HttpDelete("delete")]
+    [Authorize(Roles =HospitalRoles.Doctor)]
+    public async Task<ActionResult<Guid>> DeleteOperationRequest(Guid id) {
+        var deletedRequestId = await _service.DeleteOperationRequest(id);
+        return CreatedAtAction("Deleted operation request with ID: ", deletedRequestId);
+    } 
+
 
 
 
