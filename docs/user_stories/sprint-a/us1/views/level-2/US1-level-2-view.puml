@@ -11,30 +11,27 @@
 
 @startuml
 
-title US1-Container View - Creation
+title US1 - Level 2 View
 
-actor Admin as A
+actor Admin as U
 participant "Web Application" as web
 participant "Backoffice API" as api
-database "Database" as db
 
-A -> web : Creates Backoffice User\nwith its role and other attributes
-activate A
+U -> web : Create new Backoffice User\nwith attributes (including Role)
+activate U
 activate web
-
-web -> api : Creates Backoffice User\nwith its role and other attributes
+web -> api : Create new Backoffice User\nwith attributes (including Role)
 activate api
 
-api -> api : Validate Backoffice User attributes
-api -> db : Save Backoffice User (inactive)
-activate db
-deactivate db
-api -> api : Log Backoffice User creation
-api -> web : Return Confirmation
+api -> api : Validades patient profile
+api -> : Creates account and gets token
+
+api -> api : Logs user creation
+api -> web : Return Token
 deactivate api
-web -> A : Return Confirmation
+web -> U : Return Token
 deactivate web
-deactivate A
+deactivate U
 
 ' E a parte do email?
 

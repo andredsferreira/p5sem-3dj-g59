@@ -11,27 +11,18 @@
 
 @startuml
 
-title US1-Container View - Activation
+title US1 - Level 1 View
 
-actor User as U
-participant "Web Application" as web
-participant "Backoffice API" as api
-database "Database" as db
+actor Admin as U
+participant "<<system>>\nHealthcare System" as web
 
-U -> web : Uses one-time setup link to set\ntheir password and activate their account
+U -> web : Create new Backoffice User\nwith attributes (including Role)
 activate U
 activate web
-web -> api : Changes password and activates account
-activate api
-
-api -> api : Validades password
-api -> db : Changes password and activates account
-activate db
-deactivate db
-api -> api : Logs account activation
-api -> web : Return Confirmation
-deactivate api
-web -> U : Return Confirmation
+web -> web : Validades user data
+web -> : Creates account and gets token
+web -> web : Logs user creation
+web -> U : Return Token
 deactivate web
 deactivate U
 
