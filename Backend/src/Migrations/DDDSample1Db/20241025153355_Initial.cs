@@ -170,15 +170,9 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                 columns: new[] { "Id", "Status", "anaesthesiaTime", "cleaningTime", "name", "surgeryTime" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:Backend/src/Migrations/DDDSample1Db/20241025140750_Initial.cs
-                    { new Guid("55dd4c33-908d-43be-a0a8-c03973fa24c7"), "ACTIVE", null, null, "Knee Replacement", null },
-                    { new Guid("575254b0-f54a-43f9-943a-0297c965da23"), "ACTIVE", null, null, "Shoulder Replacement", null },
-                    { new Guid("ff54eada-7807-44b3-90a0-cca4ccf4da24"), "ACTIVE", null, null, "ACL Reconstruction", null }
-========
-                    { new Guid("b414281b-482b-4047-bf3b-2dcc2a53190c"), "ACTIVE", null, null, "Knee Replacement", null },
-                    { new Guid("c444d66b-b37b-44f1-a224-5b11d6e50238"), "ACTIVE", null, null, "Shoulder Replacement", null },
-                    { new Guid("f9989344-297f-45bd-8a08-6bf232ce07a1"), "ACTIVE", null, null, "ACL Reconstruction", null }
->>>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.):Backend/src/Migrations/DDDSample1Db/20241025152437_Initial.cs
+                    { new Guid("000df586-9114-4eb6-b049-5639eb336289"), "ACTIVE", null, null, "Knee Replacement", null },
+                    { new Guid("37593665-c0d8-4296-a992-fbb4690c4816"), "ACTIVE", null, null, "Shoulder Replacement", null },
+                    { new Guid("bf2f497d-a113-4a90-82f5-f40f1fca4600"), "ACTIVE", null, null, "ACL Reconstruction", null }
                 });
 
             migrationBuilder.InsertData(
@@ -187,15 +181,9 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                 columns: new[] { "Id", "DateOfBirth", "Email", "FullName", "Gender", "MedicalRecordNumber", "PhoneNumber" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:Backend/src/Migrations/DDDSample1Db/20241025140750_Initial.cs
-                    { "039c9091-ffba-43d6-bf2a-67315542b27a", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "Male", "202410000001", "910555111" },
-                    { "3f2d2f20-9b27-422d-9041-4b9d931cca76", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "Female", "202410000003", "910555333" },
-                    { "a20ecd1b-893b-49f3-ba1d-1545cd9dcb35", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "Male", "202410000002", "910555222" }
-========
-                    { "0434a2b8-c932-4309-bcf7-a44a67e52f2f", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "Male", "202410000001", "910555111" },
-                    { "673a29cc-6adf-41c5-acdc-c9c3fd4783d5", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "Male", "202410000002", "910555222" },
-                    { "b5d65c7b-f2c8-41c6-bafa-7ff6634a7240", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "Female", "202410000003", "910555333" }
->>>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.):Backend/src/Migrations/DDDSample1Db/20241025152437_Initial.cs
+                    { "175afca3-542e-4995-91c8-1d85d612facc", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "Male", "202410000002", "910555222" },
+                    { "2048fca2-f1ae-4457-be60-9fc44ed8742e", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "Male", "202410000001", "910555111" },
+                    { "91f67699-ec6b-4fa8-a00c-629d844fae11", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "Female", "202410000003", "910555333" }
                 });
 
             migrationBuilder.InsertData(
@@ -204,13 +192,8 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                 columns: new[] { "Id", "staffRole" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:Backend/src/Migrations/DDDSample1Db/20241025140750_Initial.cs
-                    { new Guid("70d8533f-9ef1-4ce4-b299-91c801cac84b"), "Doctor" },
-                    { new Guid("96d4fb26-d024-45fa-873e-a026877714e1"), "Nurse" }
-========
-                    { new Guid("00c6d80a-2001-414e-a8d6-875d206dfe24"), "Nurse" },
-                    { new Guid("e6a83076-f09c-417d-907b-b00f0b597f87"), "Doctor" }
->>>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.):Backend/src/Migrations/DDDSample1Db/20241025152437_Initial.cs
+                    { new Guid("2f3c5f2a-1b91-4f57-ba6a-ad5a8b06366a"), "Doctor" },
+                    { new Guid("4c5d0481-3601-45a4-94c4-52a9875d3017"), "Nurse" }
                 });
 
             migrationBuilder.InsertData(
@@ -219,13 +202,8 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                 columns: new[] { "Id", "dateTime", "operationTypeId", "patientId", "priority", "requestStatus", "staffId" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:Backend/src/Migrations/DDDSample1Db/20241025140750_Initial.cs
-                    { new Guid("833f1e35-870d-47e8-8387-28d035a2fe4d"), new DateTime(2024, 10, 25, 15, 7, 50, 227, DateTimeKind.Local).AddTicks(126), new Guid("ff54eada-7807-44b3-90a0-cca4ccf4da24"), "039c9091-ffba-43d6-bf2a-67315542b27a", "none", 0, new Guid("70d8533f-9ef1-4ce4-b299-91c801cac84b") },
-                    { new Guid("ad555b66-fa0b-4efe-a0de-1a9fee2ca6a8"), new DateTime(2024, 10, 25, 15, 7, 50, 227, DateTimeKind.Local).AddTicks(245), new Guid("55dd4c33-908d-43be-a0a8-c03973fa24c7"), "a20ecd1b-893b-49f3-ba1d-1545cd9dcb35", "top", 0, new Guid("70d8533f-9ef1-4ce4-b299-91c801cac84b") }
-========
-                    { new Guid("710551b8-43ac-4bfe-9f55-966cdebc513b"), new DateTime(2024, 10, 25, 16, 24, 37, 121, DateTimeKind.Local).AddTicks(1159), new Guid("b414281b-482b-4047-bf3b-2dcc2a53190c"), "673a29cc-6adf-41c5-acdc-c9c3fd4783d5", "top", 0, new Guid("e6a83076-f09c-417d-907b-b00f0b597f87") },
-                    { new Guid("979caeaa-a869-4ea5-bd6c-3108e69d55dc"), new DateTime(2024, 10, 25, 16, 24, 37, 121, DateTimeKind.Local).AddTicks(1056), new Guid("f9989344-297f-45bd-8a08-6bf232ce07a1"), "0434a2b8-c932-4309-bcf7-a44a67e52f2f", "none", 0, new Guid("e6a83076-f09c-417d-907b-b00f0b597f87") }
->>>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.):Backend/src/Migrations/DDDSample1Db/20241025152437_Initial.cs
+                    { new Guid("0f860866-6267-4b3f-ad91-0bd4218e2e8e"), new DateTime(2024, 10, 25, 16, 33, 54, 744, DateTimeKind.Local).AddTicks(2052), new Guid("000df586-9114-4eb6-b049-5639eb336289"), "175afca3-542e-4995-91c8-1d85d612facc", "top", 0, new Guid("2f3c5f2a-1b91-4f57-ba6a-ad5a8b06366a") },
+                    { new Guid("3fa5931e-8544-4dab-8f0c-a0d0ba6c1e5e"), new DateTime(2024, 10, 25, 16, 33, 54, 744, DateTimeKind.Local).AddTicks(1959), new Guid("bf2f497d-a113-4a90-82f5-f40f1fca4600"), "2048fca2-f1ae-4457-be60-9fc44ed8742e", "none", 0, new Guid("2f3c5f2a-1b91-4f57-ba6a-ad5a8b06366a") }
                 });
 
             migrationBuilder.CreateIndex(

@@ -203,19 +203,11 @@ namespace DDDNetCore.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:Backend/src/Migrations/20241025140740_InitialIdentity.cs
-                    { "1d555ac9-6e33-40c3-aa56-47aaba3c5a5d", null, "Doctor", "DOCTOR" },
-                    { "58b08a57-d5e1-4500-b90b-52102d569f6c", null, "Technician", "TECHNICIAN" },
-                    { "58c0520f-ebe5-4ee4-84a4-f0ad3eb64f74", null, "Nurse", "NURSE" },
-                    { "9027ccb2-7156-4803-bc3d-c5d61173a329", null, "Admin", "ADMIN" },
-                    { "bd85fe3b-1cd9-43df-8fc6-4ff27a21413b", null, "Patient", "PATIENT" }
-========
-                    { "014cf275-0880-41e2-822c-b39980346e36", null, "Technician", "TECHNICIAN" },
-                    { "1d7be275-9dff-4eb4-bba2-a750ee357a3e", null, "Nurse", "NURSE" },
-                    { "392dffbf-c3c4-4333-bfc1-42fee64386b3", null, "Admin", "ADMIN" },
-                    { "91adb9ce-ef24-46a2-b5e7-40c40d3225a8", null, "Patient", "PATIENT" },
-                    { "b7ef8084-4795-41f2-be6f-6150f8d66c76", null, "Doctor", "DOCTOR" }
->>>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.):Backend/src/Migrations/20241025152430_InitialIdentity.cs
+                    { "289071fc-c8f0-4052-a6ac-c246485c76f3", null, "Doctor", "DOCTOR" },
+                    { "afe0bfc6-acf1-4c2a-89d5-e8c6127b98e7", null, "Technician", "TECHNICIAN" },
+                    { "dac9a27f-fd34-4f1e-a042-0c69f9c2874e", null, "Nurse", "NURSE" },
+                    { "e79a4fc1-0f5d-4e68-9a8c-1e7093fe3266", null, "Admin", "ADMIN" },
+                    { "fe540acb-8c34-473a-9cca-8126577c4252", null, "Patient", "PATIENT" }
                 });
 
             migrationBuilder.InsertData(
@@ -223,19 +215,11 @@ namespace DDDNetCore.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:Backend/src/Migrations/20241025140740_InitialIdentity.cs
-                    { "571646a2-b9ca-445d-b2d4-1b1df907e32c", 0, "388b065a-8747-48c9-b387-6bf8091c5d74", "technician@hospital.com", true, false, null, "TECHNICIAN@HOSPITAL.COM", "TECHNICIAN", "AQAAAAIAAYagAAAAEPjSY4rJzNOtHXaQA+XWZnLHiBh2WEuq0IfP/13u7AiK9ZuO+wFESiL3EqAggjKflw==", null, false, "a3ac9132-cdb9-4bbe-aa5a-69fabf552fd8", false, "technician" },
-                    { "a2bb422f-4f30-4c4c-8e87-893d1ccd6b56", 0, "3172a58c-23b8-4392-9844-60f2b79f5546", "nurse@hospital.com", true, false, null, "NURSE@HOSPITAL.COM", "NURSE", "AQAAAAIAAYagAAAAEDxtSa02790qSG1gpzk4pLBDCU5NkUbqp1lOPqueaa72eP2n6x4e87du/Lz16xVHQg==", null, false, "d0443327-af01-4672-8776-dfb1d7423c20", false, "nurse" },
-                    { "f1039d04-82b8-4be0-948a-410733b0cf10", 0, "2c60a603-24dc-4a28-90f9-baaa1024d176", "doctor@hospital.com", true, false, null, "DOCTOR@HOSPITAL.COM", "DOCTOR", "AQAAAAIAAYagAAAAEJnXR3xno8tDIdvWP4Foef2Z8MfsubMM60bLIy6TpjezIusQGrkrMqHmnlI6WAfcNg==", null, false, "f84d1155-7bc8-4a7d-8e0c-31f1f2de0bb0", false, "doctor" },
-                    { "faf660c3-4727-4204-9739-931ea5d14fd7", 0, "8db9c441-94b5-4dbf-87e0-80dbd75b0915", "patient@hospital.com", true, false, null, "PATIENT@HOSPITAL.COM", "PATIENT", "AQAAAAIAAYagAAAAENEBrcOr4BR3TlwT+H7kkgPOtx3gBYkzuVCiDpkR2bLxHA7Ie7wJzpunNWOFsK6Fqg==", null, false, "f486b8ce-ddef-4999-a7bf-0a008d121139", false, "patient" },
-                    { "fe5d35cf-0f76-4a9c-aaf8-c1323d76c1b8", 0, "c739777d-bf6d-48be-b81e-305257986cf7", "admin@hospital.com", true, false, null, "ADMIN@HOSPITAL.COM", "ADMIN", "AQAAAAIAAYagAAAAEM/WcKpeu2jVmGTqhdK1tB1fMOa/9v+Lci5WaelJ5/Z68XfYnxCh69Gq3nf+/s7ulA==", null, false, "192144a8-efa1-48d0-8cd2-d32365742465", false, "admin" }
-========
-                    { "0080e433-bb95-44b5-a042-6b124e895094", 0, "3654f272-2ec1-4eda-9aab-0b98fa6eb13e", "admin@hospital.com", true, false, null, "ADMIN@HOSPITAL.COM", "ADMIN", "AQAAAAIAAYagAAAAEPuYWTik8wVGlYgoNbzhuaHM7tgvzozsKMbOBfhG9niEntq/8XchA0UAkWiNBEbspA==", null, false, "82dac689-60a5-4eed-a0ec-7a81374a41e2", false, "admin" },
-                    { "4a0f0e00-9550-44a8-bc17-c998c1731e78", 0, "38a412c8-91f3-45a0-902e-182c6a853654", "doctor@hospital.com", true, false, null, "DOCTOR@HOSPITAL.COM", "DOCTOR", "AQAAAAIAAYagAAAAEHQ6eFFGOUsTwn+WG6QiprexBONFagmRgSlvsW9itZ2veJEGCGc5Z7uwdwYly/S87A==", null, false, "bdf269a7-4103-455c-9575-0ba04c7bde56", false, "doctor" },
-                    { "5e489457-486c-47ac-8a8d-0fa61b8f404a", 0, "75fa8951-64c5-402b-9063-030e7da7a983", "nurse@hospital.com", true, false, null, "NURSE@HOSPITAL.COM", "NURSE", "AQAAAAIAAYagAAAAEJ34iIxxSS2sMej0wkUtOPt6o63Yo65QfIB4+foKeBtIMyaPX/KSfPGZkQl+4rVndg==", null, false, "82e7a04b-a03a-4cf7-a88d-16d5b8109948", false, "nurse" },
-                    { "974afc68-cd60-407c-8609-4b6d549422f0", 0, "efc1c9fc-d23c-4746-ab6c-1205988a7568", "patient@hospital.com", true, false, null, "PATIENT@HOSPITAL.COM", "PATIENT", "AQAAAAIAAYagAAAAEF31ZBP7100UT+EjenllwmshlilRfEpFTGTZORM8eMJ/3OfJKddGOewFMdkTFgHmOg==", null, false, "7d6ccb5b-afe0-45e5-9987-dc5c88360089", false, "patient" },
-                    { "e2ee989a-c854-4b36-ac89-06ebd641ffed", 0, "4c1bd053-d303-474d-90a3-3ba3a0933779", "technician@hospital.com", true, false, null, "TECHNICIAN@HOSPITAL.COM", "TECHNICIAN", "AQAAAAIAAYagAAAAEGck6PkltZLWEq6ByOnFGoRKZJ1vMP3yrCLNUk35tyUyFnOnVFHB6X6AnMSb6OAYJg==", null, false, "5da6cf7f-c6ee-4e52-a944-ef7c01de656f", false, "technician" }
->>>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.):Backend/src/Migrations/20241025152430_InitialIdentity.cs
+                    { "92e57a54-8aae-45d6-a34d-7def63175ea0", 0, "2b502102-dec8-4c4e-bb39-468d0d873724", "patient@hospital.com", true, false, null, "PATIENT@HOSPITAL.COM", "PATIENT", "AQAAAAIAAYagAAAAEJ9EegO48NVKUO8b0v8QgY3ohI0z5O9TRzxWadGrQumOBkPFsNW7gwW/BIpRPN7A3A==", null, false, "f1d8aa7c-e6ea-4b58-90da-5c59d2d1550b", false, "patient" },
+                    { "98758a1b-643a-48e8-b257-68792c805e96", 0, "ecfadb52-d5f7-4e29-9768-f33d59f67ed9", "admin@hospital.com", true, false, null, "ADMIN@HOSPITAL.COM", "ADMIN", "AQAAAAIAAYagAAAAEFyZ9wsBlBL61mP55qf7KY7qN4GSOqm03+t7yGXuzbmJhRjlhnmPfco7qK46C7+hLA==", null, false, "dda20c99-9398-43d3-9366-9d10237f43ab", false, "admin" },
+                    { "a292d596-d099-4155-a0a5-455eb8a32975", 0, "5a466f8c-aa9c-46cc-9ae7-2409fc772f65", "technician@hospital.com", true, false, null, "TECHNICIAN@HOSPITAL.COM", "TECHNICIAN", "AQAAAAIAAYagAAAAEL2lT0rNWfxWja+zTwQiAow4AQKNV+61/Linjv+shjlQ/CBJgV+J801J/xakNuldig==", null, false, "04b27215-7ad9-491c-bc64-b282701f0c7b", false, "technician" },
+                    { "ccce85cf-8ac9-47c9-82f5-e10fa7780232", 0, "2cc920df-9d00-4d11-a0c4-2174c057261b", "nurse@hospital.com", true, false, null, "NURSE@HOSPITAL.COM", "NURSE", "AQAAAAIAAYagAAAAEOvux/9l9IkCpVSQ8PyVc4gZd1eFQAjiK+Pr1mIYAMai81wPyqdORIZTJsE70fj/Eg==", null, false, "810465ed-0885-47be-b8e4-4b1a872a9e4a", false, "nurse" },
+                    { "ef3398ba-d47f-4a41-9a9e-73abd2f426df", 0, "28a414c7-862b-4483-ac35-678daf67a648", "doctor@hospital.com", true, false, null, "DOCTOR@HOSPITAL.COM", "DOCTOR", "AQAAAAIAAYagAAAAECJeZ/5ET62kDZzEabxJOmyErKI2xjOpT5ws9lLy5Gw8NhkveUQkyxUA640Mk82CWg==", null, false, "ea7537a6-8f50-43ea-b254-7db1d9ef465b", false, "doctor" }
                 });
 
             migrationBuilder.InsertData(
@@ -243,19 +227,11 @@ namespace DDDNetCore.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:Backend/src/Migrations/20241025140740_InitialIdentity.cs
-                    { "58b08a57-d5e1-4500-b90b-52102d569f6c", "571646a2-b9ca-445d-b2d4-1b1df907e32c" },
-                    { "58c0520f-ebe5-4ee4-84a4-f0ad3eb64f74", "a2bb422f-4f30-4c4c-8e87-893d1ccd6b56" },
-                    { "1d555ac9-6e33-40c3-aa56-47aaba3c5a5d", "f1039d04-82b8-4be0-948a-410733b0cf10" },
-                    { "bd85fe3b-1cd9-43df-8fc6-4ff27a21413b", "faf660c3-4727-4204-9739-931ea5d14fd7" },
-                    { "9027ccb2-7156-4803-bc3d-c5d61173a329", "fe5d35cf-0f76-4a9c-aaf8-c1323d76c1b8" }
-========
-                    { "392dffbf-c3c4-4333-bfc1-42fee64386b3", "0080e433-bb95-44b5-a042-6b124e895094" },
-                    { "b7ef8084-4795-41f2-be6f-6150f8d66c76", "4a0f0e00-9550-44a8-bc17-c998c1731e78" },
-                    { "1d7be275-9dff-4eb4-bba2-a750ee357a3e", "5e489457-486c-47ac-8a8d-0fa61b8f404a" },
-                    { "91adb9ce-ef24-46a2-b5e7-40c40d3225a8", "974afc68-cd60-407c-8609-4b6d549422f0" },
-                    { "014cf275-0880-41e2-822c-b39980346e36", "e2ee989a-c854-4b36-ac89-06ebd641ffed" }
->>>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.):Backend/src/Migrations/20241025152430_InitialIdentity.cs
+                    { "fe540acb-8c34-473a-9cca-8126577c4252", "92e57a54-8aae-45d6-a34d-7def63175ea0" },
+                    { "e79a4fc1-0f5d-4e68-9a8c-1e7093fe3266", "98758a1b-643a-48e8-b257-68792c805e96" },
+                    { "afe0bfc6-acf1-4c2a-89d5-e8c6127b98e7", "a292d596-d099-4155-a0a5-455eb8a32975" },
+                    { "dac9a27f-fd34-4f1e-a042-0c69f9c2874e", "ccce85cf-8ac9-47c9-82f5-e10fa7780232" },
+                    { "289071fc-c8f0-4052-a6ac-c246485c76f3", "ef3398ba-d47f-4a41-9a9e-73abd2f426df" }
                 });
 
             migrationBuilder.CreateIndex(

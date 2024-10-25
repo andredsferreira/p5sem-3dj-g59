@@ -50,51 +50,31 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-<<<<<<< HEAD
-                            Id = "9027ccb2-7156-4803-bc3d-c5d61173a329",
-=======
-                            Id = "392dffbf-c3c4-4333-bfc1-42fee64386b3",
->>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
+                            Id = "e79a4fc1-0f5d-4e68-9a8c-1e7093fe3266",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-<<<<<<< HEAD
-                            Id = "1d555ac9-6e33-40c3-aa56-47aaba3c5a5d",
-=======
-                            Id = "b7ef8084-4795-41f2-be6f-6150f8d66c76",
->>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
+                            Id = "289071fc-c8f0-4052-a6ac-c246485c76f3",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-<<<<<<< HEAD
-                            Id = "58c0520f-ebe5-4ee4-84a4-f0ad3eb64f74",
-=======
-                            Id = "1d7be275-9dff-4eb4-bba2-a750ee357a3e",
->>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
+                            Id = "dac9a27f-fd34-4f1e-a042-0c69f9c2874e",
                             Name = "Nurse",
                             NormalizedName = "NURSE"
                         },
                         new
                         {
-<<<<<<< HEAD
-                            Id = "58b08a57-d5e1-4500-b90b-52102d569f6c",
-=======
-                            Id = "014cf275-0880-41e2-822c-b39980346e36",
->>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
+                            Id = "afe0bfc6-acf1-4c2a-89d5-e8c6127b98e7",
                             Name = "Technician",
                             NormalizedName = "TECHNICIAN"
                         },
                         new
                         {
-<<<<<<< HEAD
-                            Id = "bd85fe3b-1cd9-43df-8fc6-4ff27a21413b",
-=======
-                            Id = "91adb9ce-ef24-46a2-b5e7-40c40d3225a8",
->>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
+                            Id = "fe540acb-8c34-473a-9cca-8126577c4252",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });
@@ -191,141 +171,81 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-<<<<<<< HEAD
-                            Id = "fe5d35cf-0f76-4a9c-aaf8-c1323d76c1b8",
+                            Id = "98758a1b-643a-48e8-b257-68792c805e96",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c739777d-bf6d-48be-b81e-305257986cf7",
-=======
-                            Id = "0080e433-bb95-44b5-a042-6b124e895094",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "3654f272-2ec1-4eda-9aab-0b98fa6eb13e",
->>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
+                            ConcurrencyStamp = "ecfadb52-d5f7-4e29-9768-f33d59f67ed9",
                             Email = "admin@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@HOSPITAL.COM",
                             NormalizedUserName = "ADMIN",
-<<<<<<< HEAD
-                            PasswordHash = "AQAAAAIAAYagAAAAEM/WcKpeu2jVmGTqhdK1tB1fMOa/9v+Lci5WaelJ5/Z68XfYnxCh69Gq3nf+/s7ulA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFyZ9wsBlBL61mP55qf7KY7qN4GSOqm03+t7yGXuzbmJhRjlhnmPfco7qK46C7+hLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "192144a8-efa1-48d0-8cd2-d32365742465",
-=======
-                            PasswordHash = "AQAAAAIAAYagAAAAEPuYWTik8wVGlYgoNbzhuaHM7tgvzozsKMbOBfhG9niEntq/8XchA0UAkWiNBEbspA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "82dac689-60a5-4eed-a0ec-7a81374a41e2",
->>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
+                            SecurityStamp = "dda20c99-9398-43d3-9366-9d10237f43ab",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
                         new
                         {
-<<<<<<< HEAD
-                            Id = "f1039d04-82b8-4be0-948a-410733b0cf10",
+                            Id = "ef3398ba-d47f-4a41-9a9e-73abd2f426df",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2c60a603-24dc-4a28-90f9-baaa1024d176",
-=======
-                            Id = "4a0f0e00-9550-44a8-bc17-c998c1731e78",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "38a412c8-91f3-45a0-902e-182c6a853654",
->>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
+                            ConcurrencyStamp = "28a414c7-862b-4483-ac35-678daf67a648",
                             Email = "doctor@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "DOCTOR@HOSPITAL.COM",
                             NormalizedUserName = "DOCTOR",
-<<<<<<< HEAD
-                            PasswordHash = "AQAAAAIAAYagAAAAEJnXR3xno8tDIdvWP4Foef2Z8MfsubMM60bLIy6TpjezIusQGrkrMqHmnlI6WAfcNg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECJeZ/5ET62kDZzEabxJOmyErKI2xjOpT5ws9lLy5Gw8NhkveUQkyxUA640Mk82CWg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f84d1155-7bc8-4a7d-8e0c-31f1f2de0bb0",
-=======
-                            PasswordHash = "AQAAAAIAAYagAAAAEHQ6eFFGOUsTwn+WG6QiprexBONFagmRgSlvsW9itZ2veJEGCGc5Z7uwdwYly/S87A==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "bdf269a7-4103-455c-9575-0ba04c7bde56",
->>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
+                            SecurityStamp = "ea7537a6-8f50-43ea-b254-7db1d9ef465b",
                             TwoFactorEnabled = false,
                             UserName = "doctor"
                         },
                         new
                         {
-<<<<<<< HEAD
-                            Id = "a2bb422f-4f30-4c4c-8e87-893d1ccd6b56",
+                            Id = "ccce85cf-8ac9-47c9-82f5-e10fa7780232",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3172a58c-23b8-4392-9844-60f2b79f5546",
-=======
-                            Id = "5e489457-486c-47ac-8a8d-0fa61b8f404a",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "75fa8951-64c5-402b-9063-030e7da7a983",
->>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
+                            ConcurrencyStamp = "2cc920df-9d00-4d11-a0c4-2174c057261b",
                             Email = "nurse@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "NURSE@HOSPITAL.COM",
                             NormalizedUserName = "NURSE",
-<<<<<<< HEAD
-                            PasswordHash = "AQAAAAIAAYagAAAAEDxtSa02790qSG1gpzk4pLBDCU5NkUbqp1lOPqueaa72eP2n6x4e87du/Lz16xVHQg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOvux/9l9IkCpVSQ8PyVc4gZd1eFQAjiK+Pr1mIYAMai81wPyqdORIZTJsE70fj/Eg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d0443327-af01-4672-8776-dfb1d7423c20",
-=======
-                            PasswordHash = "AQAAAAIAAYagAAAAEJ34iIxxSS2sMej0wkUtOPt6o63Yo65QfIB4+foKeBtIMyaPX/KSfPGZkQl+4rVndg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "82e7a04b-a03a-4cf7-a88d-16d5b8109948",
->>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
+                            SecurityStamp = "810465ed-0885-47be-b8e4-4b1a872a9e4a",
                             TwoFactorEnabled = false,
                             UserName = "nurse"
                         },
                         new
                         {
-<<<<<<< HEAD
-                            Id = "571646a2-b9ca-445d-b2d4-1b1df907e32c",
+                            Id = "a292d596-d099-4155-a0a5-455eb8a32975",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "388b065a-8747-48c9-b387-6bf8091c5d74",
-=======
-                            Id = "e2ee989a-c854-4b36-ac89-06ebd641ffed",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "4c1bd053-d303-474d-90a3-3ba3a0933779",
->>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
+                            ConcurrencyStamp = "5a466f8c-aa9c-46cc-9ae7-2409fc772f65",
                             Email = "technician@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "TECHNICIAN@HOSPITAL.COM",
                             NormalizedUserName = "TECHNICIAN",
-<<<<<<< HEAD
-                            PasswordHash = "AQAAAAIAAYagAAAAEPjSY4rJzNOtHXaQA+XWZnLHiBh2WEuq0IfP/13u7AiK9ZuO+wFESiL3EqAggjKflw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL2lT0rNWfxWja+zTwQiAow4AQKNV+61/Linjv+shjlQ/CBJgV+J801J/xakNuldig==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a3ac9132-cdb9-4bbe-aa5a-69fabf552fd8",
-=======
-                            PasswordHash = "AQAAAAIAAYagAAAAEGck6PkltZLWEq6ByOnFGoRKZJ1vMP3yrCLNUk35tyUyFnOnVFHB6X6AnMSb6OAYJg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "5da6cf7f-c6ee-4e52-a944-ef7c01de656f",
->>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
+                            SecurityStamp = "04b27215-7ad9-491c-bc64-b282701f0c7b",
                             TwoFactorEnabled = false,
                             UserName = "technician"
                         },
                         new
                         {
-<<<<<<< HEAD
-                            Id = "faf660c3-4727-4204-9739-931ea5d14fd7",
+                            Id = "92e57a54-8aae-45d6-a34d-7def63175ea0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8db9c441-94b5-4dbf-87e0-80dbd75b0915",
-=======
-                            Id = "974afc68-cd60-407c-8609-4b6d549422f0",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "efc1c9fc-d23c-4746-ab6c-1205988a7568",
->>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
+                            ConcurrencyStamp = "2b502102-dec8-4c4e-bb39-468d0d873724",
                             Email = "patient@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "PATIENT@HOSPITAL.COM",
                             NormalizedUserName = "PATIENT",
-<<<<<<< HEAD
-                            PasswordHash = "AQAAAAIAAYagAAAAENEBrcOr4BR3TlwT+H7kkgPOtx3gBYkzuVCiDpkR2bLxHA7Ie7wJzpunNWOFsK6Fqg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJ9EegO48NVKUO8b0v8QgY3ohI0z5O9TRzxWadGrQumOBkPFsNW7gwW/BIpRPN7A3A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f486b8ce-ddef-4999-a7bf-0a008d121139",
-=======
-                            PasswordHash = "AQAAAAIAAYagAAAAEF31ZBP7100UT+EjenllwmshlilRfEpFTGTZORM8eMJ/3OfJKddGOewFMdkTFgHmOg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "7d6ccb5b-afe0-45e5-9987-dc5c88360089",
->>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
+                            SecurityStamp = "f1d8aa7c-e6ea-4b58-90da-5c59d2d1550b",
                             TwoFactorEnabled = false,
                             UserName = "patient"
                         });
@@ -395,53 +315,28 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-<<<<<<< HEAD
-                            UserId = "fe5d35cf-0f76-4a9c-aaf8-c1323d76c1b8",
-                            RoleId = "9027ccb2-7156-4803-bc3d-c5d61173a329"
+                            UserId = "98758a1b-643a-48e8-b257-68792c805e96",
+                            RoleId = "e79a4fc1-0f5d-4e68-9a8c-1e7093fe3266"
                         },
                         new
                         {
-                            UserId = "f1039d04-82b8-4be0-948a-410733b0cf10",
-                            RoleId = "1d555ac9-6e33-40c3-aa56-47aaba3c5a5d"
+                            UserId = "ef3398ba-d47f-4a41-9a9e-73abd2f426df",
+                            RoleId = "289071fc-c8f0-4052-a6ac-c246485c76f3"
                         },
                         new
                         {
-                            UserId = "a2bb422f-4f30-4c4c-8e87-893d1ccd6b56",
-                            RoleId = "58c0520f-ebe5-4ee4-84a4-f0ad3eb64f74"
+                            UserId = "ccce85cf-8ac9-47c9-82f5-e10fa7780232",
+                            RoleId = "dac9a27f-fd34-4f1e-a042-0c69f9c2874e"
                         },
                         new
                         {
-                            UserId = "571646a2-b9ca-445d-b2d4-1b1df907e32c",
-                            RoleId = "58b08a57-d5e1-4500-b90b-52102d569f6c"
+                            UserId = "a292d596-d099-4155-a0a5-455eb8a32975",
+                            RoleId = "afe0bfc6-acf1-4c2a-89d5-e8c6127b98e7"
                         },
                         new
                         {
-                            UserId = "faf660c3-4727-4204-9739-931ea5d14fd7",
-                            RoleId = "bd85fe3b-1cd9-43df-8fc6-4ff27a21413b"
-=======
-                            UserId = "0080e433-bb95-44b5-a042-6b124e895094",
-                            RoleId = "392dffbf-c3c4-4333-bfc1-42fee64386b3"
-                        },
-                        new
-                        {
-                            UserId = "4a0f0e00-9550-44a8-bc17-c998c1731e78",
-                            RoleId = "b7ef8084-4795-41f2-be6f-6150f8d66c76"
-                        },
-                        new
-                        {
-                            UserId = "5e489457-486c-47ac-8a8d-0fa61b8f404a",
-                            RoleId = "1d7be275-9dff-4eb4-bba2-a750ee357a3e"
-                        },
-                        new
-                        {
-                            UserId = "e2ee989a-c854-4b36-ac89-06ebd641ffed",
-                            RoleId = "014cf275-0880-41e2-822c-b39980346e36"
-                        },
-                        new
-                        {
-                            UserId = "974afc68-cd60-407c-8609-4b6d549422f0",
-                            RoleId = "91adb9ce-ef24-46a2-b5e7-40c40d3225a8"
->>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
+                            UserId = "92e57a54-8aae-45d6-a34d-7def63175ea0",
+                            RoleId = "fe540acb-8c34-473a-9cca-8126577c4252"
                         });
                 });
 
