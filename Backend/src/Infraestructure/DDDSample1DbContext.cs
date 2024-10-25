@@ -31,7 +31,7 @@ public class DDDSample1DbContext : DbContext {
 
     public virtual DbSet<Staff> Staff { get; set; }
 
-    public virtual DbSet<DomainLog> DomainLogs {get;set;}
+    public virtual DbSet<DomainLog> DomainLogs { get; set; }
 
     public DDDSample1DbContext(IConfiguration configuration) {
         this.configuration = configuration;
@@ -49,23 +49,40 @@ public class DDDSample1DbContext : DbContext {
         modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new DomainLogEntityTypeConfiguration());
 
-        SeedPatient(modelBuilder, new MedicalRecordNumber("202410000001"), new DateOnly(2001, 10, 21), new MailAddress("patientA@hospital.com"), new PhoneNumber("910555111"), Gender.Male, new FullName("João Camião"), new List<string>());
-        SeedPatient(modelBuilder, new MedicalRecordNumber("202410000002"), new DateOnly(1998, 5, 14), new MailAddress("patientB@hospital.com"), new PhoneNumber("910555222"), Gender.Male, new FullName("Bruno Silva"), new List<string>());
-        SeedPatient(modelBuilder, new MedicalRecordNumber("202410000003"), new DateOnly(1995, 12, 30), new MailAddress("patientC@hospital.com"), new PhoneNumber("910555333"), Gender.Female, new FullName("Carla Ferreira"), new List<string>());
+        var patientA = new Patient(new MedicalRecordNumber("202410000001"), new DateOnly(2001, 10, 21), new MailAddress("patientA@hospital.com"), new PhoneNumber("910555111"), Gender.Male, new FullName("João Camião"), new List<Allergy>());
+        var patientB = new Patient(new MedicalRecordNumber("202410000002"), new DateOnly(1998, 5, 14), new MailAddress("patientB@hospital.com"), new PhoneNumber("910555222"), Gender.Male, new FullName("Bruno Silva"), new List<Allergy>());
+        var patientC = new Patient(new MedicalRecordNumber("202410000003"), new DateOnly(1995, 12, 30), new MailAddress("patientC@hospital.com"), new PhoneNumber("910555333"), Gender.Female, new FullName("Carla Ferreira"), new List<Allergy>());
 
-        SeedStaff(modelBuilder, HospitalRoles.Admin);
-        SeedStaff(modelBuilder, HospitalRoles.Doctor);
-        SeedStaff(modelBuilder, HospitalRoles.Doctor);
-        SeedStaff(modelBuilder, HospitalRoles.Nurse);
-        SeedStaff(modelBuilder, HospitalRoles.Nurse);
+        var staffDoctorA = new Staff(HospitalRoles.Doctor);
+        var staffDoctorB = new Staff(HospitalRoles.Doctor);
+        var staffDoctorC = new Staff(HospitalRoles.Doctor);
+        var staffNurse = new Staff(HospitalRoles.Nurse);
 
-        SeedOperationType(modelBuilder, "ACL Reconstruction");
-        SeedOperationType(modelBuilder, "Knee Replacement");
-        SeedOperationType(modelBuilder, "Shoulder Replacement");
-        SeedOperationType(modelBuilder, "Hip Replacement");
-        SeedOperationType(modelBuilder, "Meniscal Injury Treatment");
+        var operationTypeA = new OperationType(new OperationName("ACL Reconstruction"));
+        var operationTypeB = new OperationType(new OperationName("Knee Replacement"));
+        var operationTypeC = new OperationType(new OperationName("Shoulder Replacement"));
+
+        modelBuilder.Entity<Patient>().HasData(patientA, patientB, patientC);
+
+        modelBuilder.Entity<Staff>().HasData(staffDoctorA, staffNurse);
+
+        modelBuilder.Entity<OperationType>().HasData(operationTypeA, operationTypeB, operationTypeC);
+
+        SeedOperationRequest(modelBuilder, patientA, staffDoctorA, operationTypeA, "none", DateTime.Now, RequestStatus.Pending);
+
+        SeedOperationRequest(modelBuilder, patientB, staffDoctorA, operationTypeB, "top", DateTime.Now, RequestStatus.Pending);
 
         base.OnModelCreating(modelBuilder);
+    }
+
+    private void SeedOperationRequest(ModelBuilder builder, Patient patient, Staff doctor, OperationType operationType, string priority, DateTime dateTime, RequestStatus requestStatus) {
+        var operationRequest = new OperationRequest(patient.Id, doctor.Id, operationType.Id, priority, dateTime, requestStatus);
+        operationRequest.patient = patient;
+        operationRequest.staff = doctor;
+        operationRequest.operationType = operationType;
+
+        builder.Entity<OperationRequest>().HasData(operationRequest);
+
     }
 
     private void SeedPatient(ModelBuilder builder, MedicalRecordNumber medicalRecordNumber, DateOnly dateOfBirth, MailAddress email, PhoneNumber phoneNumber, Gender gender, FullName fullName, List<string> allergies) {
@@ -85,9 +102,5 @@ public class DDDSample1DbContext : DbContext {
         builder.Entity<Staff>().HasData(staff);
     }
 
-    private void SeedOperationType(ModelBuilder builder, string name) {
-        var operationType = new OperationType(new OperationName(name));
-        builder.Entity<OperationType>().HasData(operationType);
-    }
 
 }

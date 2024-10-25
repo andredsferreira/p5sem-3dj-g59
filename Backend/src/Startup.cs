@@ -21,6 +21,7 @@ using DDDSample1.Domain.Auth;
 using DDDSample1.Infrastructure.Shared.MessageSender;
 using DDDSample1.Domain.DomainLogs;
 using DDDSample1.Infrastructure.DomainLogs;
+using Microsoft.OpenApi.Models;
 
 namespace DDDSample1;
 public class Startup {
@@ -54,7 +55,28 @@ public class Startup {
 
         services.AddEndpointsApiExplorer();
 
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(options => {
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Description = "Enter the token"
+            });
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                {
+                    new OpenApiSecurityScheme {
+                        Reference = new OpenApiReference {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                },
+                    new string[] {} // No specific scopes required
+                }
+            });
+
+        });
 
         services.AddIdentity<IdentityUser, IdentityRole>(options => {
             // TODO: Mudar a politica da password

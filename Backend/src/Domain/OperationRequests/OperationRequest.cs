@@ -35,6 +35,17 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
         this.requestStatus = requestStatus;
     }
 
+    // For testing purposes
+    public OperationRequest(PatientId patientId, StaffId staffId, OperationTypeId operationTypeId, string priority, DateTime dateTime, RequestStatus requestStatus) {
+        Id = new OperationRequestId(Guid.NewGuid());
+        this.patientId = patientId;
+        this.staffId = staffId;
+        this.operationTypeId = operationTypeId;
+        this.priority = priority;
+        this.dateTime = dateTime;
+        this.requestStatus = requestStatus;
+    }
+
     public static OperationRequest CreateFromDTO(OperationRequestDTO dto) {
         var patientId = dto.patientId;
         var operationTypeId = dto.operationTypeId;
