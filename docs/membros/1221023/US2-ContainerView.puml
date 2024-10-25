@@ -1,0 +1,22 @@
+@startuml
+
+title SD US2-Process View
+
+autonumber
+
+actor Patient as P
+participant "<<system>>\nHealthcare System" as S
+
+activate P
+activate S
+
+P -> S: Changes data
+S -> S: Validates data and updates data
+S -> S: Logs changes
+deactivate P
+
+
+
+
+
+@enduml
