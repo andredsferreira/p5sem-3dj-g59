@@ -50,6 +50,8 @@ public class DDDSample1DbContext : DbContext {
         var staffDoctor = new Staff(HospitalRoles.Doctor, "doctor");
         var staffNurse = new Staff(HospitalRoles.Nurse, "nurese");
 
+        var staffDoctor2 = new Staff(HospitalRoles.Doctor, "doctor2", new MailAddress("doctor2@hospital.com"), new PhoneNumber("910555444"), new FullName("Doctor 2"), new LicenseNumber("12345"));
+
         var operationTypeA = new OperationType(new OperationName("ACL Reconstruction"));
         var operationTypeB = new OperationType(new OperationName("Knee Replacement"));
         var operationTypeC = new OperationType(new OperationName("Shoulder Replacement"));
@@ -63,6 +65,8 @@ public class DDDSample1DbContext : DbContext {
         SeedOperationRequest(modelBuilder, patientA, staffDoctor, operationTypeA, "none", DateTime.Now, RequestStatus.Pending);
 
         SeedOperationRequest(modelBuilder, patientB, staffDoctor, operationTypeB, "top", DateTime.Now, RequestStatus.Pending);
+
+        SeedStaff(modelBuilder,staffDoctor2);
 
         base.OnModelCreating(modelBuilder);
     }
@@ -87,6 +91,13 @@ public class DDDSample1DbContext : DbContext {
 
     private void SeedStaff(ModelBuilder builder, string role, string identityUsername, MailAddress email, PhoneNumber phoneNumber, FullName fullName, LicenseNumber licenseNumber) {
         var staff = new Staff(role, identityUsername, email, phoneNumber, fullName, licenseNumber);
+        var log = new DomainLog(LogObjectType.Staff, LogActionType.Creation, string.Format("Created a new Staff (License Number = {0}, Name = {1}, Email = {2}, PhoneNumber = {3})",
+                        staff.LicenseNumber, staff.FullName.Full, staff.Email, staff.PhoneNumber));
+        builder.Entity<Staff>().HasData(staff);
+        builder.Entity<DomainLog>().HasData(log);
+    }
+
+    private void SeedStaff(ModelBuilder builder,Staff staff){
         var log = new DomainLog(LogObjectType.Staff, LogActionType.Creation, string.Format("Created a new Staff (License Number = {0}, Name = {1}, Email = {2}, PhoneNumber = {3})",
                         staff.LicenseNumber, staff.FullName.Full, staff.Email, staff.PhoneNumber));
         builder.Entity<Staff>().HasData(staff);

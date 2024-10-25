@@ -8,19 +8,21 @@ public class LicenseNumber : EntityId {
 
     [JsonConstructor]
     public LicenseNumber(Guid value) : base(value) {
-        
     }
 
-
     public LicenseNumber(object value) : base(value) {
-
     }
 
     public override string AsString() {
-        throw new System.NotImplementedException();
+        // Retorna o valor GUID como uma string no formato padrão
+        return Value.ToString();
     }
 
     protected override object createFromString(string text) {
-        throw new System.NotImplementedException();
+        // Converte a string para GUID, se possível, senão lança uma exceção
+        if (Guid.TryParse(text, out Guid result)) {
+            return result;
+        }
+        throw new FormatException("Invalid LicenseNumber format");
     }
 }
