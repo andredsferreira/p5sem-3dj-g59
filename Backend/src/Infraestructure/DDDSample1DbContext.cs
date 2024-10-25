@@ -49,8 +49,7 @@ public class DDDSample1DbContext : DbContext {
 
         var staffDoctor = new Staff(HospitalRoles.Doctor, "doctor");
         var staffNurse = new Staff(HospitalRoles.Nurse, "nurese");
-
-        var staffDoctor2 = new Staff(HospitalRoles.Doctor, "doctor2", new MailAddress("doctor2@hospital.com"), new PhoneNumber("910555444"), new FullName("Doctor 2"), new LicenseNumber("12345"));
+        var staffDoctor2 = new Staff(HospitalRoles.Doctor, "doctor2", new MailAddress("doctor2@hospital.com"), new PhoneNumber("910555444"), new FullName("Doctor 2"), new LicenseNumber("f47ac10b-58cc-4372-a567-0e02b2c3d479"));
 
         var operationTypeA = new OperationType(new OperationName("ACL Reconstruction"));
         var operationTypeB = new OperationType(new OperationName("Knee Replacement"));
@@ -58,7 +57,8 @@ public class DDDSample1DbContext : DbContext {
 
         modelBuilder.Entity<Patient>().HasData(patientA, patientB, patientC);
 
-        modelBuilder.Entity<Staff>().HasData(staffDoctor, staffNurse);
+        modelBuilder.Entity<Staff>().HasData(staffDoctor,staffDoctor2, staffNurse);
+
 
         modelBuilder.Entity<OperationType>().HasData(operationTypeA, operationTypeB, operationTypeC);
 
@@ -66,7 +66,6 @@ public class DDDSample1DbContext : DbContext {
 
         SeedOperationRequest(modelBuilder, patientB, staffDoctor, operationTypeB, "top", DateTime.Now, RequestStatus.Pending);
 
-        SeedStaff(modelBuilder,staffDoctor2);
 
         base.OnModelCreating(modelBuilder);
     }
