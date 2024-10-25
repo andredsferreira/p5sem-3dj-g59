@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DDDSample1.Domain.DomainLogs;
 using DDDSample1.Domain.Patients;
@@ -37,5 +39,10 @@ public class StaffService {
         await this._unitOfWork.CommitAsync();
         
         return dto;
+    }
+
+    public async Task<IEnumerable<StaffDTO>> GetAll() {
+        var list = _staffRepository.GetAllAsync();
+        return (await list).Select(staff => staff.returnDTO());
     }
 }

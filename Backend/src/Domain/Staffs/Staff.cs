@@ -39,10 +39,10 @@ public class Staff : Entity<StaffId>, IAggregateRoot {
 
     }
 
-    public static StaffDTO returnDTO(Staff staff) {
-        return new StaffDTO(staff.StaffRole, staff.IdentityUsername, staff.Email.ToString(), staff.PhoneNumber.ToString(), staff.FullName.ToString(), staff.LicenseNumber.ToString());
+    public StaffDTO returnDTO() {
+        return new StaffDTO(StaffRole, IdentityUsername, Email.ToString(), PhoneNumber.ToString(), FullName.ToString(), LicenseNumber.ToString());
     }
 
-    
+
 }
 
