@@ -9,6 +9,7 @@ using DDDSample1.Domain.Staffs;
 using DDDSample1.Infrastructure.OperationRequests;
 using DDDSample1.Infrastructure.OperationTypes;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
 namespace DDDSample1.Domain.OperationRequests;
@@ -36,16 +37,16 @@ public class OperationRequestService {
         _operationTypeRepository = operationTypeRepository;
     }
 
-    public async Task<OperationRequestDTO> CreateOperationRequest(OperationRequestDTO dto) {
+    public async Task<OperationRequestDTO> CreateOperationRequest([FromForm] OperationRequestDTO dto) {
         var patient = await _patientRepository.GetByIdAsync(new PatientId(dto.patientId));
         if (patient == null) {
             throw new Exception("The patient you provided does not exist!");
         }
-        var username = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
-        if (username != null) {
+        string username = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
+        if (username == null) {
             throw new Exception("Your accessing with an empty username");
         }
-        var staff = _staffRepository.getByIdentityUsername(username);
+        Staff staff = await _staffRepository.GetByIdentityUsernameAsync(username);
         if (staff == null) {
             throw new Exception("Your are not registered in the system.");
         }
@@ -56,6 +57,7 @@ public class OperationRequestService {
         var operationRequest = OperationRequest.CreateFromDTO(dto);
         // Possivelmente dara erro...
         operationRequest.patient = patient;
+        operationRequest.staffId = staff.Id;
         operationRequest.staff = staff;
         operationRequest.operationType = operationType;
         await _operationRequestRepository.AddAsync(operationRequest);

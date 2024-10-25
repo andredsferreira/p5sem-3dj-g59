@@ -12,7 +12,7 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
 
     public Patient patient { get; set; }
 
-    public StaffId staffId { get; }
+    public StaffId staffId { get; set; }
 
     public Staff staff { get; set; }
 

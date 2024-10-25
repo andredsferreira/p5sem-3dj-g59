@@ -12,5 +12,8 @@ internal class StaffEntityTypeConfiguration : IEntityTypeConfiguration<Staff> {
         builder.Property(staff => staff.Id)
             .HasConversion(id => id.AsGuid(), value => new StaffId(value));
 
+        builder.Property(staff => staff.identityUsername)
+            .IsRequired();
+
     }
 }

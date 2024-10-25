@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using DDDSample1.Domain.Patients;
 using DDDSample1.Domain.Shared;
 
@@ -9,8 +10,8 @@ public class StaffService {
 
     private readonly IStaffRepository _staffRepository;
 
-    public Staff getStaffByIdentityUsername(string identityUsername) {
-        return _staffRepository.getByIdentityUsername(identityUsername);
+    public async Task<Staff> getStaffByIdentityUsername(string identityUsername) {
+        return await _staffRepository.GetByIdentityUsernameAsync(identityUsername);
     }
     
 

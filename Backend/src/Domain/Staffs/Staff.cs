@@ -19,9 +19,10 @@ public class Staff : Entity<StaffId>, IAggregateRoot {
         this.Id = new StaffId(Guid.NewGuid());
     }
 
-    public Staff(string staffRole) {
+    public Staff(string staffRole, string username) {
         this.Id = new StaffId(Guid.NewGuid());
         this.staffRole = staffRole;
+        this.identityUsername = username;
     }
 
     public static Staff createFromDTO(StaffDTO dto) {
