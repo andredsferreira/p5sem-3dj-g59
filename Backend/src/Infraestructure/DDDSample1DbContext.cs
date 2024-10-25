@@ -47,10 +47,10 @@ public class DDDSample1DbContext : DbContext {
         var patientB = new Patient(new MedicalRecordNumber("202410000002"), new DateOnly(1998, 5, 14), new MailAddress("patientB@hospital.com"), new PhoneNumber("910555222"), Gender.Male, new FullName("Bruno Silva"), new List<Allergy>());
         var patientC = new Patient(new MedicalRecordNumber("202410000003"), new DateOnly(1995, 12, 30), new MailAddress("patientC@hospital.com"), new PhoneNumber("910555333"), Gender.Female, new FullName("Carla Ferreira"), new List<Allergy>());
 
-        var staffDoctorA = new Staff(HospitalRoles.Doctor);
-        var staffDoctorB = new Staff(HospitalRoles.Doctor);
-        var staffDoctorC = new Staff(HospitalRoles.Doctor);
-        var staffNurse = new Staff(HospitalRoles.Nurse);
+        var staffDoctorA = new Staff(HospitalRoles.Doctor,"i1", new MailAddress("emailA@hospital.com"), new PhoneNumber("910666444"), new FullName("Doctor A"), new LicenseNumber("123456"));
+        var staffDoctorB = new Staff(HospitalRoles.Doctor,"i2", new MailAddress("emailB@hospital.com"), new PhoneNumber("910666555"), new FullName("Doctor B"), new LicenseNumber("123457"));
+        var staffDoctorC = new Staff(HospitalRoles.Doctor,"i3", new MailAddress("emailC@hospital.com"), new PhoneNumber("910666666"), new FullName("Doctor C"), new LicenseNumber("123458"));
+        var staffNurse = new Staff(HospitalRoles.Nurse,"i4", new MailAddress("nurseA@hospital.com"), new PhoneNumber("910666777"), new FullName("Nurse A"), new LicenseNumber("123459"));
 
         var operationTypeA = new OperationType(new OperationName("ACL Reconstruction"));
         var operationTypeB = new OperationType(new OperationName("Knee Replacement"));
@@ -87,10 +87,13 @@ public class DDDSample1DbContext : DbContext {
         builder.Entity<DomainLog>().HasData(log);
     }
 
-    // TODO: Completar metodo
-    private void SeedStaff(ModelBuilder builder, string role) {
-        var staff = new Staff(role);
+    private void SeedStaff(ModelBuilder builder, string role,string identityUsername, MailAddress email, PhoneNumber phoneNumber, FullName fullName, LicenseNumber licenseNumber) {
+        var staff = new Staff(role,identityUsername, email, phoneNumber, fullName, licenseNumber);
+        var log = new DomainLog(LogObjectType.Staff, LogActionType.Creation, string.Format("Created a new Staff (License Number = {0}, Name = {1}, Email = {2}, PhoneNumber = {3})",
+                        staff.LicenseNumber, staff.FullName.Full, staff.Email, staff.PhoneNumber));
         builder.Entity<Staff>().HasData(staff);
+        builder.Entity<DomainLog>().HasData(log);
+
     }
 
 

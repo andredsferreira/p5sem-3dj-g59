@@ -12,6 +12,6 @@ public class StaffRepository : BaseRepository<Staff, StaffId>, IStaffRepository 
     }
 
     public Staff getByIdentityUsername(string identityUsername) {
-        return _objs.FirstOrDefault(s => s.identityUsername == identityUsername);
+        return _objs.FirstOrDefault(s => s.IdentityUsername == identityUsername);
     }
 }
