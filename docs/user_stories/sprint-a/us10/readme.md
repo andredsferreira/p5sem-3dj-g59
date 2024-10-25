@@ -36,6 +36,15 @@ For this **US** to work, there needs to be a **Patient Profile** inside the syst
 
 ## 3. Analysis
 
-* The domain model includes everything that's needed in order to perform this *US* as intended.
-* The sections in red show what is related to this *US*:
+The domain model includes everything that's needed in order to perform this *US* as intended.
+
+The sections in red show what is related to this *US*:
+
 ![](images/AffectedDomain.png)
+
+## 4. Design
+
+The team decided that: 
+* The **Patient Profile** to be deleted should be specified by their **Medical Record Number**, since it's a unique identifier with actual domain meaning.
+* The **Medical Record Number** should be sent through the URL.
+* If the **Patient Profile** was successfully deleted, the program should return a **DTO** with the data that was just deleted and an **Ok** Return Code.
