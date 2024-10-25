@@ -15,6 +15,9 @@ internal class OperationTypeEntityTypeConfiguration : IEntityTypeConfiguration<O
         builder.Property(x => x.name)
             .HasConversion(x => x.name, x => new OperationName(x));
 
+        builder.HasIndex(x => x.name)
+            .IsUnique();
+
         builder.Property(x => x.anaesthesiaTime)
             .HasConversion(x => x.duration, x => new AnaesthesiaTime(x));
 
