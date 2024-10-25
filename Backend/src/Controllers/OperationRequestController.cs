@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DDDSample1.Domain.Auth;
 using DDDSample1.Domain.OperationRequests;
@@ -29,11 +30,18 @@ public class OperationRequestController : ControllerBase {
     }
 
     [HttpDelete("delete")]
-    [Authorize(Roles =HospitalRoles.Doctor)]
+    [Authorize(Roles = HospitalRoles.Doctor)]
     public async Task<ActionResult<Guid>> DeleteOperationRequest(Guid id) {
         var deletedRequestId = await _service.DeleteOperationRequest(id);
         return CreatedAtAction("Deleted operation request with ID: ", deletedRequestId);
-    } 
+    }
+
+    [HttpGet("list")]
+    [Authorize(Roles = HospitalRoles.Doctor)]
+    public async Task<ActionResult<List<OperationRequestDTO>>> ListOperationRequests() {
+        var operationRequests = await _service.ListOperationRequests();
+        return CreatedAtAction("Operation requests: ", operationRequests);
+    }
 
 }
 

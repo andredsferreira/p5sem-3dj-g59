@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using DDDSample1.Domain.OperationTypes;
@@ -93,8 +94,33 @@ public class OperationRequestService {
     }
 
     public async Task<Guid> DeleteOperationRequest(Guid id) {
-        throw new NotImplementedException();
+
+        var operationRequest = await _operationRequestRepository.GetByIdAsync(new OperationRequestId(id));
+
+        if (operationRequest == null) {
+            throw new Exception("That operation request does not exist");
+        }
+
+        _operationRequestRepository.Remove(operationRequest);
+
+        await _unitOfWork.CommitAsync();
+
+        return id;
+
     }
 
+    public async Task<List<OperationRequestDTO>> ListOperationRequests() {
+
+        var operationRequests = await _operationRequestRepository.GetAllAsync();
+
+        var operationRequestsDTO = new List<OperationRequestDTO>();
+
+        foreach (var operationRequest in operationRequests) {
+            operationRequestsDTO.Add(OperationRequest.returnDTO(operationRequest));
+        }
+
+        return operationRequestsDTO;
+
+    }
 
 }
