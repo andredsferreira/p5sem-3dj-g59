@@ -13,7 +13,6 @@ public class OperationRequestControllerMockTests {
 
     private readonly OperationRequestController _controller;
 
-
     [Fact]
     public async Task testCreation() {
         throw new NotImplementedException();
