@@ -32,7 +32,7 @@ public class DDDSample1DbContext : DbContext {
     public virtual DbSet<DomainLog> DomainLogs { get; set; }
 
     public DDDSample1DbContext(DbContextOptions<DDDSample1DbContext> options) : base(options) {
-        
+
     }
 
 
@@ -85,19 +85,12 @@ public class DDDSample1DbContext : DbContext {
         builder.Entity<DomainLog>().HasData(log);
     }
 
-<<<<<<< HEAD
-    // TODO: Completar metodo
-    private void SeedStaff(ModelBuilder builder, string role, string identityUsername) {
-        var staff = new Staff(role, identityUsername);
-=======
-    private void SeedStaff(ModelBuilder builder, string role,string identityUsername, MailAddress email, PhoneNumber phoneNumber, FullName fullName, LicenseNumber licenseNumber) {
-        var staff = new Staff(role,identityUsername, email, phoneNumber, fullName, licenseNumber);
+    private void SeedStaff(ModelBuilder builder, string role, string identityUsername, MailAddress email, PhoneNumber phoneNumber, FullName fullName, LicenseNumber licenseNumber) {
+        var staff = new Staff(role, identityUsername, email, phoneNumber, fullName, licenseNumber);
         var log = new DomainLog(LogObjectType.Staff, LogActionType.Creation, string.Format("Created a new Staff (License Number = {0}, Name = {1}, Email = {2}, PhoneNumber = {3})",
                         staff.LicenseNumber, staff.FullName.Full, staff.Email, staff.PhoneNumber));
->>>>>>> origin/HEAD
         builder.Entity<Staff>().HasData(staff);
         builder.Entity<DomainLog>().HasData(log);
-
     }
 
 

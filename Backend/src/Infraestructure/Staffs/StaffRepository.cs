@@ -12,13 +12,8 @@ public class StaffRepository : BaseRepository<Staff, StaffId>, IStaffRepository 
 
     }
 
-<<<<<<< HEAD
     public async Task<Staff> GetByIdentityUsernameAsync(string identityUsername) {
-        return await _objs.FirstOrDefaultAsync(s => s.identityUsername == identityUsername);
-=======
-    public Staff getByIdentityUsername(string identityUsername) {
-        return _objs.FirstOrDefault(s => s.IdentityUsername == identityUsername);
->>>>>>> origin/HEAD
+        return await _objs.FirstOrDefaultAsync(s => s.IdentityUsername == identityUsername);
     }
 
 

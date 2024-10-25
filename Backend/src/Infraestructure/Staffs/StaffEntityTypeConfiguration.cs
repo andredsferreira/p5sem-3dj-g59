@@ -41,7 +41,7 @@ internal class StaffEntityTypeConfiguration : IEntityTypeConfiguration<Staff> {
 
         
 
-        builder.Property(staff => staff.identityUsername)
+        builder.Property(staff => staff.IdentityUsername)
             .IsRequired();
 
     }

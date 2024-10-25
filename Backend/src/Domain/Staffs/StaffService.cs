@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using DDDSample1.Domain.DomainLogs;
 using DDDSample1.Domain.Patients;
 using DDDSample1.Domain.Shared;
 using DDDSample1.Infrastructure.Shared.MessageSender;
