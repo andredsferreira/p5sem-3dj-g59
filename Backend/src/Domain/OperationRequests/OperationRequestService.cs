@@ -71,7 +71,7 @@ public class OperationRequestService {
             throw new Exception("The operation request you are trying to update does not exist!");
         }
         var username = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
-        if (operationRequest.staff.identityUsername != username) {
+        if (operationRequest.staff.IdentityUsername != username) {
             throw new Exception("The operation request you are trying to update is associated with another doctor");
         }
         operationRequest.dateTime = dto.dateTime;

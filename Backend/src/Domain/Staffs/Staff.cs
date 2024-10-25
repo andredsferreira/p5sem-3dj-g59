@@ -1,7 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using DDDSample1.Domain.Auth;
+using System.Net.Mail;
 using DDDSample1.Domain.OperationRequests;
 using DDDSample1.Domain.Shared;
 
@@ -9,14 +8,19 @@ namespace DDDSample1.Domain.Staffs;
 
 public class Staff : Entity<StaffId>, IAggregateRoot {
 
-    public string staffRole { get; set; }
+    public string StaffRole { get; set; }
+    
 
-    public string identityUsername { get; }
+    public string IdentityUsername { get; }
+    public MailAddress Email { get; set; } //unique
+    public PhoneNumber PhoneNumber { get; set; } //unique
+    public FullName FullName { get; set; }
+    public LicenseNumber LicenseNumber { get; set; } //unique   
 
     public ICollection<OperationRequest> OperationRequests { get; set; } = new List<OperationRequest>();
 
     public Staff() {
-        this.Id = new StaffId(Guid.NewGuid());
+        
     }
 
     public Staff(string staffRole, string username) {
@@ -26,12 +30,14 @@ public class Staff : Entity<StaffId>, IAggregateRoot {
     }
 
     public static Staff createFromDTO(StaffDTO dto) {
-        throw new NotImplementedException();
+        return new Staff(dto.StaffRole, dto.IdentityUsername, new MailAddress(dto.Email), new PhoneNumber(dto.Phone), new FullName(dto.Name), new LicenseNumber(dto.LicenseNumber));
+
     }
 
     public static StaffDTO returnDTO(Staff staff) {
-        throw new NotImplementedException();
+        return new StaffDTO(staff.StaffRole, staff.IdentityUsername, staff.Email.ToString(), staff.PhoneNumber.ToString(), staff.FullName.ToString(), staff.LicenseNumber.ToString());
     }
 
+    
 }
 
