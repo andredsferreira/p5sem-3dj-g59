@@ -11,33 +11,37 @@
 
 @startuml
 
-title US11 - Level 3 View
+title US1 - Level 3 View
 
 actor Admin as U
-participant "«component»\nPatientController" as api
-participant "«component»\nPatientService" as service
-participant "«component»\nIPatientRepository" as repo
+participant "«component»\nAuthController" as api
+participant "«component»\nUserManager" as manager
 
-U -> api : HttpGet("Search")
+U -> api : HttpPost("registerbackoffice")
 activate U
 activate api
-api -> service : await _service.SearchPatients(filterPatientDTO)
-activate service
 
-service -> service : await GetAll()
-activate service
-service -> repo : GetAllAsync()
-activate repo
-repo ->: Get list of patients
-repo --> service
-deactivate repo
-service --> service
-deactivate service
+api -> api : new IdentityUser(...)
+api -> manager : await CreateAsync(user, password)
+activate manager
+manager -> : Create user
+deactivate manager
 
-service -> service : filters list
-service --> api : list of patient dto
-deactivate service
-api --> U : list of patient dto
+api -> manager : await AddToRoleAsync(user, dto.role)
+activate manager
+manager -> : Add user to designated role
+deactivate manager
+
+api -> api : GetToken(user, roles)
+activate api
+
+api -> : WriteToken(user, roles)
+api --> api
+deactivate api
+
+api -> : Send confirmation email\nto new user
+
+api --> U : Ok
 deactivate api
 deactivate U
 
