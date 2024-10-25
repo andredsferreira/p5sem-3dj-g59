@@ -42,29 +42,6 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasKey("Id");
 
                     b.ToTable("DomainLog", "projeto5sem");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "203c2464-9b4b-4552-9938-14a3dce77951",
-                            ActionType = "Creation",
-                            Message = "Created a new Patient (Medical Record Number = 202410000001, Name = João Camião, Email = patientA@hospital.com, PhoneNumber = 910555111)",
-                            ObjectType = "Patient"
-                        },
-                        new
-                        {
-                            Id = "0b4144bf-33aa-4d36-bcdf-bd070fcf3b9f",
-                            ActionType = "Creation",
-                            Message = "Created a new Patient (Medical Record Number = 202410000002, Name = Bruno Silva, Email = patientB@hospital.com, PhoneNumber = 910555222)",
-                            ObjectType = "Patient"
-                        },
-                        new
-                        {
-                            Id = "3a87021b-34c7-44e8-8fed-9619588e8d78",
-                            ActionType = "Creation",
-                            Message = "Created a new Patient (Medical Record Number = 202410000003, Name = Carla Ferreira, Email = patientC@hospital.com, PhoneNumber = 910555333)",
-                            ObjectType = "Patient"
-                        });
                 });
 
             modelBuilder.Entity("DDDSample1.Domain.OperationRequests.OperationRequest", b =>
@@ -100,6 +77,28 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasIndex("staffId");
 
                     b.ToTable("OperationRequest", "projeto5sem");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a8d4eef5-e38e-4a33-9230-26a8fadb5eca"),
+                            dateTime = new DateTime(2024, 10, 25, 13, 17, 28, 81, DateTimeKind.Local).AddTicks(6585),
+                            operationTypeId = new Guid("e43b180f-64b5-45f4-8164-a6dd618f7a38"),
+                            patientId = "e9a2f51e-16ad-4735-80c7-ddfd18db9d26",
+                            priority = "none",
+                            requestStatus = 0,
+                            staffId = new Guid("b2bc203d-cb47-4500-92df-973ed40b44ad")
+                        },
+                        new
+                        {
+                            Id = new Guid("40d5943a-47a6-4ed3-9c39-cf86c85fdff1"),
+                            dateTime = new DateTime(2024, 10, 25, 13, 17, 28, 81, DateTimeKind.Local).AddTicks(6936),
+                            operationTypeId = new Guid("b1904804-1f72-407e-a26a-34f6dd0202b1"),
+                            patientId = "8cd0ef6d-649f-4503-a3f6-7be0436ec261",
+                            priority = "top",
+                            requestStatus = 0,
+                            staffId = new Guid("b2bc203d-cb47-4500-92df-973ed40b44ad")
+                        });
                 });
 
             modelBuilder.Entity("DDDSample1.Domain.OperationTypes.OperationType", b =>
@@ -130,33 +129,21 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5d6ed961-1d42-46ee-98fb-0480ceab0635"),
+                            Id = new Guid("e43b180f-64b5-45f4-8164-a6dd618f7a38"),
                             Status = "ACTIVE",
                             name = "ACL Reconstruction"
                         },
                         new
                         {
-                            Id = new Guid("6040a5a9-e5ae-4c5e-800c-a30e9d0b5c18"),
+                            Id = new Guid("b1904804-1f72-407e-a26a-34f6dd0202b1"),
                             Status = "ACTIVE",
                             name = "Knee Replacement"
                         },
                         new
                         {
-                            Id = new Guid("a437a461-3592-42da-a4c5-c0d6a9280738"),
+                            Id = new Guid("b999db5b-5051-4e1c-9255-ed16cb94566d"),
                             Status = "ACTIVE",
                             name = "Shoulder Replacement"
-                        },
-                        new
-                        {
-                            Id = new Guid("89ba3b4f-a728-49d3-a3d6-4e575abb90df"),
-                            Status = "ACTIVE",
-                            name = "Hip Replacement"
-                        },
-                        new
-                        {
-                            Id = new Guid("7d973a30-03cc-4256-87d1-c4a112ebbf21"),
-                            Status = "ACTIVE",
-                            name = "Meniscal Injury Treatment"
                         });
                 });
 
@@ -221,7 +208,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasData(
                         new
                         {
-                            Id = "23bc305f-b159-4f5b-b49b-3ba8180f625f",
+                            Id = "e9a2f51e-16ad-4735-80c7-ddfd18db9d26",
                             DateOfBirth = new DateOnly(2001, 10, 21),
                             Email = "patientA@hospital.com",
                             FullName = "João Camião",
@@ -231,7 +218,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                         },
                         new
                         {
-                            Id = "56c50b9e-472a-4b63-aac2-178d3cc0608a",
+                            Id = "8cd0ef6d-649f-4503-a3f6-7be0436ec261",
                             DateOfBirth = new DateOnly(1998, 5, 14),
                             Email = "patientB@hospital.com",
                             FullName = "Bruno Silva",
@@ -241,7 +228,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                         },
                         new
                         {
-                            Id = "dd61a688-c91d-46db-8ba4-92c4525a02b8",
+                            Id = "a5a7248c-599c-43f5-95bf-b56df32e6093",
                             DateOfBirth = new DateOnly(1995, 12, 30),
                             Email = "patientC@hospital.com",
                             FullName = "Carla Ferreira",
@@ -266,27 +253,12 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c68d5e62-5eb5-433c-845a-2b3265f4ca1b"),
-                            staffRole = "Admin"
-                        },
-                        new
-                        {
-                            Id = new Guid("3d414780-8610-459c-ab7d-c41ebd0060db"),
+                            Id = new Guid("b2bc203d-cb47-4500-92df-973ed40b44ad"),
                             staffRole = "Doctor"
                         },
                         new
                         {
-                            Id = new Guid("1effabbb-a0f1-4451-9f04-aa74e29f2af6"),
-                            staffRole = "Doctor"
-                        },
-                        new
-                        {
-                            Id = new Guid("91d90a2e-0abd-497c-885b-fe7658a89cd2"),
-                            staffRole = "Nurse"
-                        },
-                        new
-                        {
-                            Id = new Guid("3bcd2dfb-d365-4f00-97f6-5a297c62ed5b"),
+                            Id = new Guid("2005f832-dff4-4157-b52c-5bb234c8ece4"),
                             staffRole = "Nurse"
                         });
                 });

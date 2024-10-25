@@ -77,9 +77,6 @@ public class DDDSample1DbContext : DbContext {
 
     private void SeedOperationRequest(ModelBuilder builder, Patient patient, Staff doctor, OperationType operationType, string priority, DateTime dateTime, RequestStatus requestStatus) {
         var operationRequest = new OperationRequest(patient.Id, doctor.Id, operationType.Id, priority, dateTime, requestStatus);
-        operationRequest.patient = patient;
-        operationRequest.staff = doctor;
-        operationRequest.operationType = operationType;
 
         builder.Entity<OperationRequest>().HasData(operationRequest);
 

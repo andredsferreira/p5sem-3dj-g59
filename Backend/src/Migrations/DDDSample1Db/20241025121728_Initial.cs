@@ -166,26 +166,13 @@ namespace DDDNetCore.Migrations.DDDSample1Db
 
             migrationBuilder.InsertData(
                 schema: "projeto5sem",
-                table: "DomainLog",
-                columns: new[] { "Id", "ActionType", "Message", "ObjectType" },
-                values: new object[,]
-                {
-                    { "0b4144bf-33aa-4d36-bcdf-bd070fcf3b9f", "Creation", "Created a new Patient (Medical Record Number = 202410000002, Name = Bruno Silva, Email = patientB@hospital.com, PhoneNumber = 910555222)", "Patient" },
-                    { "203c2464-9b4b-4552-9938-14a3dce77951", "Creation", "Created a new Patient (Medical Record Number = 202410000001, Name = João Camião, Email = patientA@hospital.com, PhoneNumber = 910555111)", "Patient" },
-                    { "3a87021b-34c7-44e8-8fed-9619588e8d78", "Creation", "Created a new Patient (Medical Record Number = 202410000003, Name = Carla Ferreira, Email = patientC@hospital.com, PhoneNumber = 910555333)", "Patient" }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "projeto5sem",
                 table: "OperationType",
                 columns: new[] { "Id", "Status", "anaesthesiaTime", "cleaningTime", "name", "surgeryTime" },
                 values: new object[,]
                 {
-                    { new Guid("5d6ed961-1d42-46ee-98fb-0480ceab0635"), "ACTIVE", null, null, "ACL Reconstruction", null },
-                    { new Guid("6040a5a9-e5ae-4c5e-800c-a30e9d0b5c18"), "ACTIVE", null, null, "Knee Replacement", null },
-                    { new Guid("7d973a30-03cc-4256-87d1-c4a112ebbf21"), "ACTIVE", null, null, "Meniscal Injury Treatment", null },
-                    { new Guid("89ba3b4f-a728-49d3-a3d6-4e575abb90df"), "ACTIVE", null, null, "Hip Replacement", null },
-                    { new Guid("a437a461-3592-42da-a4c5-c0d6a9280738"), "ACTIVE", null, null, "Shoulder Replacement", null }
+                    { new Guid("b1904804-1f72-407e-a26a-34f6dd0202b1"), "ACTIVE", null, null, "Knee Replacement", null },
+                    { new Guid("b999db5b-5051-4e1c-9255-ed16cb94566d"), "ACTIVE", null, null, "Shoulder Replacement", null },
+                    { new Guid("e43b180f-64b5-45f4-8164-a6dd618f7a38"), "ACTIVE", null, null, "ACL Reconstruction", null }
                 });
 
             migrationBuilder.InsertData(
@@ -194,9 +181,9 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                 columns: new[] { "Id", "DateOfBirth", "Email", "FullName", "Gender", "MedicalRecordNumber", "PhoneNumber" },
                 values: new object[,]
                 {
-                    { "23bc305f-b159-4f5b-b49b-3ba8180f625f", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "Male", "202410000001", "910555111" },
-                    { "56c50b9e-472a-4b63-aac2-178d3cc0608a", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "Male", "202410000002", "910555222" },
-                    { "dd61a688-c91d-46db-8ba4-92c4525a02b8", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "Female", "202410000003", "910555333" }
+                    { "8cd0ef6d-649f-4503-a3f6-7be0436ec261", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "Male", "202410000002", "910555222" },
+                    { "a5a7248c-599c-43f5-95bf-b56df32e6093", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "Female", "202410000003", "910555333" },
+                    { "e9a2f51e-16ad-4735-80c7-ddfd18db9d26", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "Male", "202410000001", "910555111" }
                 });
 
             migrationBuilder.InsertData(
@@ -205,11 +192,18 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                 columns: new[] { "Id", "staffRole" },
                 values: new object[,]
                 {
-                    { new Guid("1effabbb-a0f1-4451-9f04-aa74e29f2af6"), "Doctor" },
-                    { new Guid("3bcd2dfb-d365-4f00-97f6-5a297c62ed5b"), "Nurse" },
-                    { new Guid("3d414780-8610-459c-ab7d-c41ebd0060db"), "Doctor" },
-                    { new Guid("91d90a2e-0abd-497c-885b-fe7658a89cd2"), "Nurse" },
-                    { new Guid("c68d5e62-5eb5-433c-845a-2b3265f4ca1b"), "Admin" }
+                    { new Guid("2005f832-dff4-4157-b52c-5bb234c8ece4"), "Nurse" },
+                    { new Guid("b2bc203d-cb47-4500-92df-973ed40b44ad"), "Doctor" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "projeto5sem",
+                table: "OperationRequest",
+                columns: new[] { "Id", "dateTime", "operationTypeId", "patientId", "priority", "requestStatus", "staffId" },
+                values: new object[,]
+                {
+                    { new Guid("40d5943a-47a6-4ed3-9c39-cf86c85fdff1"), new DateTime(2024, 10, 25, 13, 17, 28, 81, DateTimeKind.Local).AddTicks(6936), new Guid("b1904804-1f72-407e-a26a-34f6dd0202b1"), "8cd0ef6d-649f-4503-a3f6-7be0436ec261", "top", 0, new Guid("b2bc203d-cb47-4500-92df-973ed40b44ad") },
+                    { new Guid("a8d4eef5-e38e-4a33-9230-26a8fadb5eca"), new DateTime(2024, 10, 25, 13, 17, 28, 81, DateTimeKind.Local).AddTicks(6585), new Guid("e43b180f-64b5-45f4-8164-a6dd618f7a38"), "e9a2f51e-16ad-4735-80c7-ddfd18db9d26", "none", 0, new Guid("b2bc203d-cb47-4500-92df-973ed40b44ad") }
                 });
 
             migrationBuilder.CreateIndex(

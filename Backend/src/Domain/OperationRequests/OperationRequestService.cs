@@ -61,6 +61,7 @@ public class OperationRequestService {
 
         var operationRequest = OperationRequest.CreateFromDTO(dto);
 
+        // Possivelmente dara erro...
         operationRequest.patient = patient;
         operationRequest.staff = staff;
         operationRequest.operationType = operationType;
