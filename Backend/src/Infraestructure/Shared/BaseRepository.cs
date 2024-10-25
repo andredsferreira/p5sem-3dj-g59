@@ -26,10 +26,12 @@ where TEntityId : EntityId {
         return await this._objs
             .Where(x => id.Equals(x.Id)).FirstOrDefaultAsync();
     }
+    
     public async Task<List<TEntity>> GetByIdsAsync(List<TEntityId> ids) {
         return await this._objs
             .Where(x => ids.Contains(x.Id)).ToListAsync();
     }
+
     public async Task<TEntity> AddAsync(TEntity obj) {
         var ret = await this._objs.AddAsync(obj);
         return ret.Entity;

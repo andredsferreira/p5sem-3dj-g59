@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,8 +23,8 @@ public class StaffService {
         _messageSender = messageSender;
     }
 
-    public Staff getStaffByIdentityUsername(string identityUsername) {
-        return _staffRepository.getByIdentityUsername(identityUsername);
+    public async Task<Staff> getStaffByIdentityUsername(string identityUsername) {
+        return await _staffRepository.GetByIdentityUsernameAsync(identityUsername);
     }
 
     public async Task<StaffDTO> CreateStaff(StaffDTO dto){

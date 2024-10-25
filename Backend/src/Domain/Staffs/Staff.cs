@@ -23,15 +23,19 @@ public class Staff : Entity<StaffId>, IAggregateRoot {
         
     }
 
-    public Staff(string staffRole,string identityUsername, MailAddress Email, PhoneNumber PhoneNumber, FullName FullName, LicenseNumber LicenseNumber) {
+    public Staff(string staffRole, string username) {
         this.Id = new StaffId(Guid.NewGuid());
-        this.IdentityUsername = identityUsername;
         this.StaffRole = staffRole;
-        this.Email = Email;
-        this.PhoneNumber = PhoneNumber;
-        this.FullName = FullName;
-        this.LicenseNumber = LicenseNumber;
-        
+        this.IdentityUsername = username;
+    }
+
+    public Staff(string staffRole, string identityUsername, MailAddress email, PhoneNumber phone, FullName fullName, LicenseNumber licenseNumber) {
+        this.StaffRole = staffRole;
+        this.IdentityUsername = identityUsername;
+        this.Email = email;
+        this.PhoneNumber = phone;
+        this.FullName = fullName;
+        this.LicenseNumber = licenseNumber;
     }
 
     public static Staff createFromDTO(StaffDTO dto) {

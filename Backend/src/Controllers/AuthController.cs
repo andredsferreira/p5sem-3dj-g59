@@ -45,17 +45,12 @@ public class AuthController : ControllerBase {
         if (!ModelState.IsValid) {
             return BadRequest(ModelState);
         }
-
         var result = await SignInManager.PasswordSignInAsync(dto.Username, dto.Password, isPersistent: false, lockoutOnFailure: false);
-
         if (!result.Succeeded) {
             return Unauthorized("Invalid login attempt.");
         }
-
         var user = await UserManager.FindByNameAsync(dto.Username);
-
         var token = await BuildToken(user);
-
         return Ok(new { token });
     }
 
@@ -72,7 +67,7 @@ public class AuthController : ControllerBase {
         var backofficeUser = new IdentityUser {
             UserName = dto.Username,
             Email = dto.Email,
-            PhoneNumber = dto.Phone 
+            PhoneNumber = dto.Phone
         };
         var result = await UserManager.CreateAsync(backofficeUser, dto.Password);
         if (!result.Succeeded) {
@@ -83,7 +78,7 @@ public class AuthController : ControllerBase {
         if (userRoles.Count > 0) {
             return BadRequest("User already has a role assigned.");
         }
-        
+
         await UserManager.AddToRoleAsync(backofficeUser, dto.Role);
 
         var token = await BuildToken(backofficeUser);
@@ -159,15 +154,15 @@ public class AuthController : ControllerBase {
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    private void SendEmailConfirmationEmail(IdentityUser user, string token){
+    private void SendEmailConfirmationEmail(IdentityUser user, string token) {
         string appDomain = Configuration.GetSection("Application:AppDomain").Value,
             confirmationLink = Configuration.GetSection("Application:EmailConfirmation").Value,
             fullConfirmationLink = string.Format(appDomain + confirmationLink, user.Id, token);
-        
+
         string emailBody = string.Format(
             "Hello {0},<br><br>" +
             "Please <a href=\"{1}\">verify your account</a> by clicking the link.<br><br>" +
-            "Thank you!", 
+            "Thank you!",
             user.UserName, fullConfirmationLink
         );
 
