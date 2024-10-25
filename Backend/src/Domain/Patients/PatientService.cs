@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using DDDSample1.Domain.DomainLogs;
@@ -29,7 +30,7 @@ public class PatientService {
     }
 
     public async virtual Task<PatientDTO> CreatePatient(PatientDTO dto) {
-        dto.MedicalRecordNumber = await GenerateMedicalRecord();
+        dto.MedicalRecordNumber = (await GenerateMedicalRecord()).ToString();
         var patient = Patient.createFromDTO(dto);
         await this._repository.AddAsync(patient);
         await this._logRepository.AddAsync(new DomainLog(LogObjectType.Patient, LogActionType.Creation, 
@@ -56,7 +57,7 @@ public class PatientService {
         if (patient == null) return null;
 
         bool warn = false;
-        string email = patient.Email;
+        string email = patient.Email.ToString();
         StringBuilder messageBuilder = new(string.Format("Hello {0},<br>This message was sent to warn you that:<br>", patient.FullName.Full)),
             logBuilder = new(string.Format("Edit in Patient {0}: ", id.Record));
 
@@ -69,13 +70,13 @@ public class PatientService {
             warn = true;
             logBuilder.Append(string.Format("Phone Number changed from {0} to {1}, ", patient.PhoneNumber, dto.PhoneNumber));
             messageBuilder.Append(string.Format("-The Phone Number associated with your account was changed from {0} to {1}.<br>",patient.PhoneNumber,dto.PhoneNumber));
-            patient.PhoneNumber = dto.PhoneNumber;
+            patient.PhoneNumber = new PhoneNumber(dto.PhoneNumber);
         }
         if (!string.IsNullOrEmpty(dto.Email)){
             warn = true;
             logBuilder.Append(string.Format("Email changed from {0} to {1}, ", patient.Email, dto.Email));
             messageBuilder.Append(string.Format("-The Email associated with your account was changed from {0} to {1}.<br>",patient.Email,dto.Email));
-            patient.Email = dto.Email;
+            patient.Email = new MailAddress(dto.Email);
         }
 
         this._repository.Update(patient);
@@ -102,19 +103,19 @@ public class PatientService {
         return patient.returnDTO();
     }
 
-    public async Task<IEnumerable<Patient>> SearchPatients(FilterPatientDTO filterPatientDTO)
+    public async Task<IEnumerable<PatientDTO>> SearchPatients(FilterPatientDTO filterPatientDTO)
     {
         var patients = await GetAll();
 
-        if (filterPatientDTO.MedicalRecordNumber != null)
-            patients = patients.Where(p => p.MedicalRecordNumber.Record.Equals(filterPatientDTO.MedicalRecordNumber));
+        if (!string.IsNullOrEmpty(filterPatientDTO.MedicalRecordNumber))
+            patients = patients.Where(p => p.MedicalRecordNumber.Equals(filterPatientDTO.MedicalRecordNumber));
         if (!string.IsNullOrEmpty(filterPatientDTO.Email))
             patients = patients.Where(p => p.Email.Contains(filterPatientDTO.Email, StringComparison.OrdinalIgnoreCase));
         if (!string.IsNullOrEmpty(filterPatientDTO.PhoneNumber))
             patients = patients.Where(p => p.PhoneNumber.Contains(filterPatientDTO.PhoneNumber));
         if (!string.IsNullOrEmpty(filterPatientDTO.FullName))
-            patients = patients.Where(p => p.FullName.Full.Contains(filterPatientDTO.FullName, StringComparison.OrdinalIgnoreCase));
-        if (filterPatientDTO.Gender.HasValue)
+            patients = patients.Where(p => p.FullName.Contains(filterPatientDTO.FullName, StringComparison.OrdinalIgnoreCase));
+        if (!string.IsNullOrEmpty(filterPatientDTO.Gender))
             patients = patients.Where(p => p.Gender.Equals(filterPatientDTO.Gender));
 
         return patients;
@@ -125,9 +126,9 @@ public class PatientService {
         throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<Patient>> GetAll() {
+    public async Task<IEnumerable<PatientDTO>> GetAll() {
         var list = _repository.GetAllAsync();
-        return await list;
+        return (await list).Select(patient => patient.returnDTO());
     }
 }
 

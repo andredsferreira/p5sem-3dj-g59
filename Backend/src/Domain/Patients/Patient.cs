@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using DDDSample1.Domain.OperationRequests;
 using DDDSample1.Domain.Shared;
 
@@ -12,9 +13,9 @@ public class Patient : Entity<PatientId>, IAggregateRoot {
 
     public DateOnly DateOfBirth { get; protected set; }
 
-    public string Email { get; set; }
+    public MailAddress Email { get; set; }
 
-    public string PhoneNumber { get; set; }
+    public PhoneNumber PhoneNumber { get; set; }
 
     public Gender Gender { get; protected set; }
 
@@ -28,7 +29,7 @@ public class Patient : Entity<PatientId>, IAggregateRoot {
 
     }
 
-    public Patient(MedicalRecordNumber MedicalRecordNumber, DateOnly DateOfBirth, string Email, string PhoneNumber, Gender Gender, FullName FullName, List<Allergy> Allergies) {
+    public Patient(MedicalRecordNumber MedicalRecordNumber, DateOnly DateOfBirth, MailAddress Email, PhoneNumber PhoneNumber, Gender Gender, FullName FullName, List<Allergy> Allergies) {
         Id = new PatientId(Guid.NewGuid());
         this.MedicalRecordNumber = MedicalRecordNumber;
         this.DateOfBirth = DateOfBirth;
@@ -44,10 +45,10 @@ public class Patient : Entity<PatientId>, IAggregateRoot {
             .Split(", ", StringSplitOptions.RemoveEmptyEntries) // Split the string by commas
             .Select(allergyName => new Allergy(allergyName))    // Convert each allergy name into an Allergy object
             .ToList();
-        return new Patient(dto.MedicalRecordNumber, dto.DateOfBirth, dto.Email, dto.PhoneNumber, dto.Gender, new FullName(dto.FullName), allergies);
+        return new Patient(new MedicalRecordNumber(dto.MedicalRecordNumber), dto.DateOfBirth, new MailAddress(dto.Email), new PhoneNumber(dto.PhoneNumber), (Gender)Enum.Parse(typeof(Gender), dto.Gender), new FullName(dto.FullName), allergies);
     }
     public PatientDTO returnDTO() {
-        return new PatientDTO(MedicalRecordNumber, DateOfBirth, Email, PhoneNumber, Gender, FullName.ToString(), Allergies.ToString());
+        return new PatientDTO(MedicalRecordNumber.ToString(), DateOfBirth, Email.ToString(), PhoneNumber.ToString(), Gender.ToString(), FullName.ToString(), Allergies.ToString());
     }
 
 }

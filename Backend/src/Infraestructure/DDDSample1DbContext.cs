@@ -15,6 +15,7 @@ using DDDSample1.Domain.Auth;
 using System.Linq;
 using DDDSample1.Domain.DomainLogs;
 using DDDSample1.Infrastructure.DomainLogs;
+using System.Net.Mail;
 
 namespace DDDSample1.Infrastructure;
 
@@ -48,9 +49,9 @@ public class DDDSample1DbContext : DbContext {
         modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new DomainLogEntityTypeConfiguration());
 
-        SeedPatient(modelBuilder, new MedicalRecordNumber("202410000001"), new DateOnly(2001, 10, 21), "patientA@hospital.com", "910555111", Gender.Male, new FullName("João Camião"), new List<string>());
-        SeedPatient(modelBuilder, new MedicalRecordNumber("202410000002"), new DateOnly(1998, 5, 14), "patientB@hospital.com", "910555222", Gender.Male, new FullName("Bruno Silva"), new List<string>());
-        SeedPatient(modelBuilder, new MedicalRecordNumber("202410000003"), new DateOnly(1995, 12, 30), "patientC@hospital.com", "910555333", Gender.Female, new FullName("Carla Ferreira"), new List<string>());
+        SeedPatient(modelBuilder, new MedicalRecordNumber("202410000001"), new DateOnly(2001, 10, 21), new MailAddress("patientA@hospital.com"), new PhoneNumber("910555111"), Gender.Male, new FullName("João Camião"), new List<string>());
+        SeedPatient(modelBuilder, new MedicalRecordNumber("202410000002"), new DateOnly(1998, 5, 14), new MailAddress("patientB@hospital.com"), new PhoneNumber("910555222"), Gender.Male, new FullName("Bruno Silva"), new List<string>());
+        SeedPatient(modelBuilder, new MedicalRecordNumber("202410000003"), new DateOnly(1995, 12, 30), new MailAddress("patientC@hospital.com"), new PhoneNumber("910555333"), Gender.Female, new FullName("Carla Ferreira"), new List<string>());
 
         SeedStaff(modelBuilder, HospitalRoles.Admin);
         SeedStaff(modelBuilder, HospitalRoles.Doctor);
@@ -67,7 +68,7 @@ public class DDDSample1DbContext : DbContext {
         base.OnModelCreating(modelBuilder);
     }
 
-    private void SeedPatient(ModelBuilder builder, MedicalRecordNumber medicalRecordNumber, DateOnly dateOfBirth, string email, string phoneNumber, Gender gender, FullName fullName, List<string> allergies) {
+    private void SeedPatient(ModelBuilder builder, MedicalRecordNumber medicalRecordNumber, DateOnly dateOfBirth, MailAddress email, PhoneNumber phoneNumber, Gender gender, FullName fullName, List<string> allergies) {
         List<Allergy> allergiesAllergy = allergies
             .Select(allergyName => new Allergy(allergyName))
             .ToList();

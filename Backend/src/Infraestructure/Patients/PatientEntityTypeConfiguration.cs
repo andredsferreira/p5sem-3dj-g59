@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Runtime.CompilerServices;
 using DDDSample1.Domain.Patients;
 using DDDSample1.Domain.Shared;
@@ -28,7 +29,8 @@ internal class PatientEntityTypeConfiguration : IEntityTypeConfiguration<Patient
             .HasColumnType("date");
 
         builder.Property(p => p.Email)
-            .HasMaxLength(255);
+            .HasMaxLength(255)
+            .HasConversion(p => p.ToString(), p => new MailAddress(p));
 
         builder.Property(p => p.FullName)
             .HasConversion(fullname => fullname.Full, full => new FullName(full));
@@ -36,7 +38,9 @@ internal class PatientEntityTypeConfiguration : IEntityTypeConfiguration<Patient
         builder.Property(p => p.Gender)
             .HasConversion(gender => gender.ToString(), genero => (Gender)Enum.Parse(typeof(Gender), genero));
 
-        builder.Property(p => p.PhoneNumber).HasMaxLength(15);
+        builder.Property(p => p.PhoneNumber)
+            .HasMaxLength(15)
+            .HasConversion(p => p.value, p => new PhoneNumber(p));
         
         builder.HasIndex(p => p.MedicalRecordNumber).IsUnique();
 

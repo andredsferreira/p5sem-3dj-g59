@@ -5,22 +5,25 @@ using DDDSample1.Domain.Shared;
 
 namespace DDDSample1.Domain.Patients;
 
-public class PatientDTO(MedicalRecordNumber MedicalRecordNumber, DateOnly DateOfBirth, string Email, string PhoneNumber, Gender Gender, string FullName, string Allergies)
+public class PatientDTO(string MedicalRecordNumber, DateOnly DateOfBirth, string Email, string PhoneNumber, string Gender, string FullName, string Allergies)
 {
 
     public Guid id { get; set; } = Guid.NewGuid();
-    public MedicalRecordNumber MedicalRecordNumber {get;set;} = MedicalRecordNumber;
+    public string MedicalRecordNumber {get;set;} = MedicalRecordNumber;
 
     [Required]
     public DateOnly DateOfBirth { get; private set; } = DateOfBirth;
 
     [Required]
+    [EmailAddress]
     public string Email { get; set; } = Email;
 
     [Required]
+    [Phone]
     public string PhoneNumber { get; set; } = PhoneNumber;
     [Required]
-    public Gender Gender {get;set;} = Gender;
+    [RegularExpression("^(Male|Female|Others)$", ErrorMessage = "Gender must be 'Male', 'Female', or 'Others'.")]
+    public string Gender {get;set;} = Gender;
 
     [Required]
     public string FullName { get; set; } = FullName;

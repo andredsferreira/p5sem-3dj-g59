@@ -61,7 +61,7 @@ public class PatientController : ControllerBase {
 
     [HttpGet("Search")]
     [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<IEnumerable<Patient>>> SearchAndFilterPatients(FilterPatientDTO filterPatientDTO){
+    public async Task<ActionResult<IEnumerable<PatientDTO>>> SearchAndFilterPatients(FilterPatientDTO filterPatientDTO){
         var patients = await _service.SearchPatients(filterPatientDTO);
         return patients.ToList();
     }
@@ -74,7 +74,7 @@ public class PatientController : ControllerBase {
     }
 
     [HttpGet("All")]
-    public async Task<ActionResult<IEnumerable<Patient>>> GetAllPatients() {
+    public async Task<ActionResult<IEnumerable<PatientDTO>>> GetAllPatients() {
         var pats = await _service.GetAll();
         return pats.ToList();
     }

@@ -13,4 +13,5 @@ public class MedicalRecordNumber : IValueObject
         if (r.IsMatch(Record)) this.Record = Record;
         else throw new InvalidExpressionException();
     }
+    public override string ToString(){return Record;}
 }

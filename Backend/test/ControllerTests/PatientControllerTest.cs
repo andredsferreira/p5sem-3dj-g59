@@ -30,7 +30,7 @@ public class PatientControllerTests
     }
 
     private PatientDTO SeedPatientDTO(){
-        return new PatientDTO(new MedicalRecordNumber("202410000001"), DateOnly.Parse("2004-07-10"),"teste@gmail.com","987876765",Gender.Male,"John One Two Doe", "Dogs, Cats");
+        return new PatientDTO("202410000001", DateOnly.Parse("2004-07-10"),"teste@gmail.com","987876765","Male","John One Two Doe", "Dogs, Cats");
     }
 
     [Fact]

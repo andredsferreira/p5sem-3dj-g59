@@ -46,21 +46,21 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasData(
                         new
                         {
-                            Id = "02b994c5-32dc-4f5a-be9e-99b24e007594",
+                            Id = "203c2464-9b4b-4552-9938-14a3dce77951",
                             ActionType = "Creation",
                             Message = "Created a new Patient (Medical Record Number = 202410000001, Name = João Camião, Email = patientA@hospital.com, PhoneNumber = 910555111)",
                             ObjectType = "Patient"
                         },
                         new
                         {
-                            Id = "fbc15536-9e65-45de-a477-58f4c5a8cec7",
+                            Id = "0b4144bf-33aa-4d36-bcdf-bd070fcf3b9f",
                             ActionType = "Creation",
                             Message = "Created a new Patient (Medical Record Number = 202410000002, Name = Bruno Silva, Email = patientB@hospital.com, PhoneNumber = 910555222)",
                             ObjectType = "Patient"
                         },
                         new
                         {
-                            Id = "4c614eca-80f3-4436-b717-fa0ea3448ab2",
+                            Id = "3a87021b-34c7-44e8-8fed-9619588e8d78",
                             ActionType = "Creation",
                             Message = "Created a new Patient (Medical Record Number = 202410000003, Name = Carla Ferreira, Email = patientC@hospital.com, PhoneNumber = 910555333)",
                             ObjectType = "Patient"
@@ -130,31 +130,31 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d2f518e6-8c3d-4b87-ae1f-9bfa79821ce2"),
+                            Id = new Guid("5d6ed961-1d42-46ee-98fb-0480ceab0635"),
                             Status = "ACTIVE",
                             name = "ACL Reconstruction"
                         },
                         new
                         {
-                            Id = new Guid("20b784ab-b27c-4a87-a89e-57f554763bb6"),
+                            Id = new Guid("6040a5a9-e5ae-4c5e-800c-a30e9d0b5c18"),
                             Status = "ACTIVE",
                             name = "Knee Replacement"
                         },
                         new
                         {
-                            Id = new Guid("689c2c73-d5ce-4081-a849-95facc292b1d"),
+                            Id = new Guid("a437a461-3592-42da-a4c5-c0d6a9280738"),
                             Status = "ACTIVE",
                             name = "Shoulder Replacement"
                         },
                         new
                         {
-                            Id = new Guid("f5e336b0-6f63-4995-984e-4d393d749b94"),
+                            Id = new Guid("89ba3b4f-a728-49d3-a3d6-4e575abb90df"),
                             Status = "ACTIVE",
                             name = "Hip Replacement"
                         },
                         new
                         {
-                            Id = new Guid("3bb5d1fb-93ac-4074-957c-0bbee1f73150"),
+                            Id = new Guid("7d973a30-03cc-4256-87d1-c4a112ebbf21"),
                             Status = "ACTIVE",
                             name = "Meniscal Injury Treatment"
                         });
@@ -221,7 +221,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasData(
                         new
                         {
-                            Id = "1d1fa1d9-e26b-47ef-9fbb-f75232c4211e",
+                            Id = "23bc305f-b159-4f5b-b49b-3ba8180f625f",
                             DateOfBirth = new DateOnly(2001, 10, 21),
                             Email = "patientA@hospital.com",
                             FullName = "João Camião",
@@ -231,7 +231,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                         },
                         new
                         {
-                            Id = "aab2c519-b272-48a0-a9d4-d35fecc52613",
+                            Id = "56c50b9e-472a-4b63-aac2-178d3cc0608a",
                             DateOfBirth = new DateOnly(1998, 5, 14),
                             Email = "patientB@hospital.com",
                             FullName = "Bruno Silva",
@@ -241,7 +241,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                         },
                         new
                         {
-                            Id = "71d869cc-0fa2-4312-bc77-595d01ea8aa9",
+                            Id = "dd61a688-c91d-46db-8ba4-92c4525a02b8",
                             DateOfBirth = new DateOnly(1995, 12, 30),
                             Email = "patientC@hospital.com",
                             FullName = "Carla Ferreira",
@@ -266,27 +266,27 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasData(
                         new
                         {
-                            Id = new Guid("aa0227cd-7448-497a-aa5a-295bf3042580"),
+                            Id = new Guid("c68d5e62-5eb5-433c-845a-2b3265f4ca1b"),
                             staffRole = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("f573d04e-3355-4d7e-9a69-444682a1677f"),
+                            Id = new Guid("3d414780-8610-459c-ab7d-c41ebd0060db"),
                             staffRole = "Doctor"
                         },
                         new
                         {
-                            Id = new Guid("02026a3f-dce3-4671-ba6f-5d8dd99543dc"),
+                            Id = new Guid("1effabbb-a0f1-4451-9f04-aa74e29f2af6"),
                             staffRole = "Doctor"
                         },
                         new
                         {
-                            Id = new Guid("c3b585bc-8690-4330-8688-b547b6d1c204"),
+                            Id = new Guid("91d90a2e-0abd-497c-885b-fe7658a89cd2"),
                             staffRole = "Nurse"
                         },
                         new
                         {
-                            Id = new Guid("6fc18ea5-4999-4dd8-b719-e5e39e336c2d"),
+                            Id = new Guid("3bcd2dfb-d365-4f00-97f6-5a297c62ed5b"),
                             staffRole = "Nurse"
                         });
                 });
