@@ -12,6 +12,8 @@ public class OperationRequestDTO {
     [FromForm(Name = "patientId")]
     public Guid patientId { get; set; }
 
+    public Guid staffId { get; }
+
     [Required]
     [FromForm(Name = "operationTypeId")]
     public Guid operationTypeId { get; set; }
@@ -28,9 +30,21 @@ public class OperationRequestDTO {
     [FromForm(Name = "requestStatus")]
     public RequestStatus requestStatus { get; private set; }
 
-    public OperationRequestDTO(Guid id, Guid patientId, Guid operationTypeId, string priority, DateTime dateTime, RequestStatus requestStatus) {
+    // Constructor for creating operation request.
+    public OperationRequestDTO(Guid patientId, Guid operationTypeId, string priority, DateTime dateTime, RequestStatus requestStatus) {
+        this.id = Guid.NewGuid();
+        this.patientId = patientId;
+        this.operationTypeId = operationTypeId;
+        this.priority = priority;
+        this.dateTime = dateTime;
+        this.requestStatus = requestStatus;
+    }
+
+    // Constructor for listing operation requests.
+    public OperationRequestDTO(Guid id, Guid patientId, Guid staffId, Guid operationTypeId, string priority, DateTime dateTime, RequestStatus requestStatus) {
         this.id = id;
         this.patientId = patientId;
+        this.staffId = staffId;
         this.operationTypeId = operationTypeId;
         this.priority = priority;
         this.dateTime = dateTime;

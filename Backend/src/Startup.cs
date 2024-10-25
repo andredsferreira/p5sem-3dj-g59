@@ -22,6 +22,8 @@ using DDDSample1.Infrastructure.Shared.MessageSender;
 using DDDSample1.Domain.DomainLogs;
 using DDDSample1.Infrastructure.DomainLogs;
 using Microsoft.OpenApi.Models;
+using DDDSample1.Domain.OperationTypes;
+using DDDSample1.Infrastructure.OperationTypes;
 
 namespace DDDSample1;
 public class Startup {
@@ -39,11 +41,17 @@ public class Startup {
         var jwtSettings = Configuration.GetSection("Jwt");
         var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
 
+        services.AddHttpContextAccessor();
+        
         ConfigureMyServices(services);
 
         services.AddLogging();
 
-        services.AddDbContext<DDDSample1DbContext>();
+        services.AddDbContext<DDDSample1DbContext>(options => {
+            options.UseMySql(connectionString, mySqlVersion, mySqlOptions => {
+                mySqlOptions.SchemaBehavior(Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Ignore);
+            });
+        });
 
         services.AddDbContext<IdentityContext>();
 
@@ -129,6 +137,10 @@ public class Startup {
         // Staff services
         services.AddTransient<IStaffRepository, StaffRepository>();
         services.AddTransient<StaffService>();
+
+        // Operation type
+        services.AddTransient<IOperationTypeRepository, OperationTypeRepository>();
+        services.AddTransient<AddOperationTypeService>();
 
         services.AddTransient<IDomainLogRepository, DomainLogRepository>();
         services.AddTransient<IMessageSenderService, EmailSenderService>();

@@ -17,7 +17,9 @@ public class IdentityContext : IdentityDbContext<IdentityUser> {
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
-        optionsBuilder.UseMySql(connectionString, MySqlServerVersion.AutoDetect(connectionString));
+        optionsBuilder.UseMySql(connectionString, MySqlServerVersion.AutoDetect(connectionString), mySqlOptions => {
+            mySqlOptions.SchemaBehavior(Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Ignore);
+        });
     }
 
     protected override void OnModelCreating(ModelBuilder builder) {

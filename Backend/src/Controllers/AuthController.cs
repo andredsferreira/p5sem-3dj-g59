@@ -29,6 +29,7 @@ public class AuthController : ControllerBase {
     private readonly UserManager<IdentityUser> UserManager;
 
     private readonly SignInManager<IdentityUser> SignInManager;
+
     private readonly IMessageSenderService MessageSender;
 
     public AuthController(IConfiguration Configuration, IdentityContext Context, UserManager<IdentityUser> UserManager, SignInManager<IdentityUser> SignInManager, IMessageSenderService MessageSender) {
@@ -40,7 +41,7 @@ public class AuthController : ControllerBase {
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> LoginUser([FromBody] LoginDTO dto) {
+    public async Task<IActionResult> LoginUser([FromForm] LoginDTO dto) {
         if (!ModelState.IsValid) {
             return BadRequest(ModelState);
         }

@@ -81,6 +81,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasData(
                         new
                         {
+<<<<<<< HEAD
                             Id = new Guid("833f1e35-870d-47e8-8387-28d035a2fe4d"),
                             dateTime = new DateTime(2024, 10, 25, 15, 7, 50, 227, DateTimeKind.Local).AddTicks(126),
                             operationTypeId = new Guid("ff54eada-7807-44b3-90a0-cca4ccf4da24"),
@@ -98,6 +99,25 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                             priority = "top",
                             requestStatus = 0,
                             staffId = new Guid("70d8533f-9ef1-4ce4-b299-91c801cac84b")
+=======
+                            Id = new Guid("979caeaa-a869-4ea5-bd6c-3108e69d55dc"),
+                            dateTime = new DateTime(2024, 10, 25, 16, 24, 37, 121, DateTimeKind.Local).AddTicks(1056),
+                            operationTypeId = new Guid("f9989344-297f-45bd-8a08-6bf232ce07a1"),
+                            patientId = "0434a2b8-c932-4309-bcf7-a44a67e52f2f",
+                            priority = "none",
+                            requestStatus = 0,
+                            staffId = new Guid("e6a83076-f09c-417d-907b-b00f0b597f87")
+                        },
+                        new
+                        {
+                            Id = new Guid("710551b8-43ac-4bfe-9f55-966cdebc513b"),
+                            dateTime = new DateTime(2024, 10, 25, 16, 24, 37, 121, DateTimeKind.Local).AddTicks(1159),
+                            operationTypeId = new Guid("b414281b-482b-4047-bf3b-2dcc2a53190c"),
+                            patientId = "673a29cc-6adf-41c5-acdc-c9c3fd4783d5",
+                            priority = "top",
+                            requestStatus = 0,
+                            staffId = new Guid("e6a83076-f09c-417d-907b-b00f0b597f87")
+>>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
                         });
                 });
 
@@ -129,19 +149,31 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasData(
                         new
                         {
+<<<<<<< HEAD
                             Id = new Guid("ff54eada-7807-44b3-90a0-cca4ccf4da24"),
+=======
+                            Id = new Guid("f9989344-297f-45bd-8a08-6bf232ce07a1"),
+>>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
                             Status = "ACTIVE",
                             name = "ACL Reconstruction"
                         },
                         new
                         {
+<<<<<<< HEAD
                             Id = new Guid("55dd4c33-908d-43be-a0a8-c03973fa24c7"),
+=======
+                            Id = new Guid("b414281b-482b-4047-bf3b-2dcc2a53190c"),
+>>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
                             Status = "ACTIVE",
                             name = "Knee Replacement"
                         },
                         new
                         {
+<<<<<<< HEAD
                             Id = new Guid("575254b0-f54a-43f9-943a-0297c965da23"),
+=======
+                            Id = new Guid("c444d66b-b37b-44f1-a224-5b11d6e50238"),
+>>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
                             Status = "ACTIVE",
                             name = "Shoulder Replacement"
                         });
@@ -208,7 +240,11 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasData(
                         new
                         {
+<<<<<<< HEAD
                             Id = "039c9091-ffba-43d6-bf2a-67315542b27a",
+=======
+                            Id = "0434a2b8-c932-4309-bcf7-a44a67e52f2f",
+>>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
                             DateOfBirth = new DateOnly(2001, 10, 21),
                             Email = "patientA@hospital.com",
                             FullName = "João Camião",
@@ -218,7 +254,11 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                         },
                         new
                         {
+<<<<<<< HEAD
                             Id = "a20ecd1b-893b-49f3-ba1d-1545cd9dcb35",
+=======
+                            Id = "673a29cc-6adf-41c5-acdc-c9c3fd4783d5",
+>>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
                             DateOfBirth = new DateOnly(1998, 5, 14),
                             Email = "patientB@hospital.com",
                             FullName = "Bruno Silva",
@@ -228,7 +268,11 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                         },
                         new
                         {
+<<<<<<< HEAD
                             Id = "3f2d2f20-9b27-422d-9041-4b9d931cca76",
+=======
+                            Id = "b5d65c7b-f2c8-41c6-bafa-7ff6634a7240",
+>>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
                             DateOfBirth = new DateOnly(1995, 12, 30),
                             Email = "patientC@hospital.com",
                             FullName = "Carla Ferreira",
@@ -253,12 +297,20 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasData(
                         new
                         {
+<<<<<<< HEAD
                             Id = new Guid("70d8533f-9ef1-4ce4-b299-91c801cac84b"),
+=======
+                            Id = new Guid("e6a83076-f09c-417d-907b-b00f0b597f87"),
+>>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
                             staffRole = "Doctor"
                         },
                         new
                         {
+<<<<<<< HEAD
                             Id = new Guid("96d4fb26-d024-45fa-873e-a026877714e1"),
+=======
+                            Id = new Guid("00c6d80a-2001-414e-a8d6-875d206dfe24"),
+>>>>>>> eb8668e (Correction of bugs in services, repositories, and dependency injection.)
                             staffRole = "Nurse"
                         });
                 });

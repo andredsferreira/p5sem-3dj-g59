@@ -15,6 +15,10 @@ public class OperationRequestController : ControllerBase {
 
     private readonly OperationRequestService _service;
 
+    public OperationRequestController(OperationRequestService service) {
+        _service = service;
+    }
+
     [HttpPost("create")]
     [Authorize(Roles = HospitalRoles.Doctor)]
     public async Task<ActionResult<OperationRequestDTO>> CreateOperationRequest([FromForm] OperationRequestDTO dto) {
@@ -40,7 +44,7 @@ public class OperationRequestController : ControllerBase {
     [Authorize(Roles = HospitalRoles.Doctor)]
     public async Task<ActionResult<List<OperationRequestDTO>>> ListOperationRequests() {
         var operationRequests = await _service.ListOperationRequests();
-        return CreatedAtAction("Operation requests: ", operationRequests);
+        return operationRequests;
     }
 
 }

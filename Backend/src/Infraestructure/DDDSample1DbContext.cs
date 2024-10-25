@@ -21,26 +21,20 @@ namespace DDDSample1.Infrastructure;
 
 public class DDDSample1DbContext : DbContext {
 
-    private readonly IConfiguration configuration;
-
     public virtual DbSet<OperationRequest> OperationRequests { get; set; }
 
     public virtual DbSet<Patient> Patients { get; set; }
 
     public virtual DbSet<OperationType> OperationTypes { get; set; }
 
-    public virtual DbSet<Staff> Staff { get; set; }
+    public virtual DbSet<Staff> Staffs { get; set; }
 
     public virtual DbSet<DomainLog> DomainLogs { get; set; }
 
-    public DDDSample1DbContext(IConfiguration configuration) {
-        this.configuration = configuration;
+    public DDDSample1DbContext(DbContextOptions<DDDSample1DbContext> options) : base(options) {
+        
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-        optionsBuilder.UseMySql(connectionString, MySqlServerVersion.AutoDetect(connectionString), options => options.SchemaBehavior(Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Ignore));
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());

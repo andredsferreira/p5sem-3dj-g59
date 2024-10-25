@@ -57,7 +57,14 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
     }
 
     public static OperationRequestDTO returnDTO(OperationRequest or) {
-        throw new NotImplementedException();
+        var patientId = or.patientId;
+        var staffId = or.staffId;
+        var operationTypeId = or.operationTypeId;
+        var priority = or.priority;
+        var dateTime = or.dateTime;
+        var requestStatus = or.requestStatus;
+        var operationRequestDTO = new OperationRequestDTO(or.Id.AsGuid(), patientId.AsGuid(), staffId.AsGuid(), operationTypeId.AsGuid(), priority, dateTime, requestStatus);
+        return operationRequestDTO;
     }
 
 }

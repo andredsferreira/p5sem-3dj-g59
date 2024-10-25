@@ -7,8 +7,8 @@ namespace DDDSample1.Infrastructure.Staffs;
 
 public class StaffRepository : BaseRepository<Staff, StaffId>, IStaffRepository {
 
-    public StaffRepository(DbSet<Staff> objs) : base(objs) {
-        
+    public StaffRepository(DDDSample1DbContext context) : base(context.Staffs) {
+
     }
 
     public Staff getByIdentityUsername(string identityUsername) {
