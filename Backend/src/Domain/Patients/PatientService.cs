@@ -52,6 +52,12 @@ public class PatientService {
         return new MedicalRecordNumber(stringBuilder.ToString());
     }
 
+    public PatientDTO GetPatientById(MedicalRecordNumber id) {
+        var patient = this._repository.GetPatientByRecordNumber(id);
+        if (patient == null) return null;
+        return patient.returnDTO();
+    }
+
     public async Task<PatientDTO> EditPatient(MedicalRecordNumber id, FilterPatientDTO dto){
         var patient = this._repository.GetPatientByRecordNumber(id);
         if (patient == null) return null;
@@ -91,7 +97,7 @@ public class PatientService {
         return patient.returnDTO();
     }
 
-    public async Task<PatientDTO> DeletePatient(MedicalRecordNumber id){
+    public async virtual Task<PatientDTO> DeletePatient(MedicalRecordNumber id){
         var patient = this._repository.GetPatientByRecordNumber(id);
         if (patient == null) return null;
         

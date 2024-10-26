@@ -9,6 +9,7 @@ using System;
 using DDDSample1.Domain.Shared;
 using DDDSample1.Infrastructure.Shared.MessageSender;
 using DDDSample1.Domain.DomainLogs;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace DDDSample1.ControllerTests;
 
@@ -50,5 +51,36 @@ public class PatientControllerTests
         var returnValue = Assert.IsType<PatientDTO>(actionResult.Value);
         Assert.Equal(patientDto, returnValue);
         Assert.Equal("Patient creation", actionResult.ActionName);
+    }
+    [Fact]
+    public async Task DeletePatient_ReturnsNotFoundWhenGettingNull() {
+        // Setup mock to return Task with null when DeletePatient is called
+        _mockService.Setup(s => s.DeletePatient(It.IsAny<MedicalRecordNumber>()))
+            .Returns(Task.FromResult<PatientDTO>(null));
+
+        // Act
+        var result = await _controller.DeletePatient("202410000004"); //Random MedicalRecordNumber
+
+        // Assert
+        var actionResult = Assert.IsType<NotFoundResult>(result.Result);
+    }
+
+    [Fact]
+    public async Task DeletePatient_ReturnsOkAndDTOWhenGettingDTO() {
+        // Arrange
+        var patientDto = SeedPatientDTO();
+        
+        // Setup mock to return the DTO when DeletePatient is called
+        _mockService.Setup(s => s.DeletePatient(It.IsAny<MedicalRecordNumber>()))
+            .ReturnsAsync(patientDto);
+
+        // Act
+        var result = await _controller.DeletePatient(patientDto.MedicalRecordNumber);
+
+        // Assert
+        var actionResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnValue = Assert.IsType<PatientDTO>(actionResult.Value);
+
+        Assert.Equal(patientDto, returnValue);
     }
 }

@@ -33,6 +33,15 @@ public class PatientController : ControllerBase {
         var cat = await _service.CreatePatient(dto);
         return CreatedAtAction("Patient creation", cat);
     }
+
+    [HttpGet("Get/{id}")]
+    [Authorize(Roles = HospitalRoles.Admin)]
+    public ActionResult<PatientDTO> GetPatientById(string id) {
+        var cat = _service.GetPatientById(new MedicalRecordNumber(id));
+        if (cat == null) return NotFound();
+        return Ok(cat);
+    }
+
     [HttpPut("Edit/{id}")]
     [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<PatientDTO>> EditPatient(string id, [FromBody] FilterPatientDTO dto) {

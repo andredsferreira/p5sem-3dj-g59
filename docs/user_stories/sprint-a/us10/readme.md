@@ -48,3 +48,147 @@ The team decided that:
 * The **Patient Profile** to be deleted should be specified by their **Medical Record Number**, since it's a unique identifier with actual domain meaning.
 * The **Medical Record Number** should be sent through the URL.
 * If the **Patient Profile** was successfully deleted, the program should return a **DTO** with the data that was just deleted and an **Ok** Return Code.
+
+## 5. C4 Views
+
+The **C4 Views** for this *US* can be viewed [here](views/readme.md).
+
+## 6. Tests
+
+### 6.1. Unit Tests
+
+#### PatientControllerTest
+
+We tested the Controller with 2 scenarios:
+
+1. Make sure that the Controller returns a **NotFound** message code when the requested **Patient Profile** doesn't exist.
+
+    ```cs
+    [Fact]
+    public async Task DeletePatient_ReturnsNotFoundWhenGettingNull() {
+        // Setup mock to return Task with null when DeletePatient is called
+        _mockService.Setup(s => s.DeletePatient(It.IsAny<MedicalRecordNumber>()))
+            .Returns(Task.FromResult<PatientDTO>(null));
+
+        // Act
+        var result = await _controller.DeletePatient("202410000004"); //Random MedicalRecordNumber
+
+        // Assert
+        var actionResult = Assert.IsType<NotFoundResult>(result.Result);
+    }
+    ```
+
+2. Make sure that the **Controller** returns an **Ok** message code and the **DTO** of the **Patient Profile** that was just deleted otherwise.
+
+    ```cs
+
+    [Fact]
+    public async Task DeletePatient_ReturnsOkAndDTOWhenGettingDTO() {
+        // Arrange
+        var patientDto = SeedPatientDTO();
+        
+        // Setup mock to return the DTO when DeletePatient is called
+        _mockService.Setup(s => s.DeletePatient(It.IsAny<MedicalRecordNumber>()))
+            .ReturnsAsync(patientDto);
+
+        // Act
+        var result = await _controller.DeletePatient(patientDto.MedicalRecordNumber);
+
+        // Assert
+        var actionResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnValue = Assert.IsType<PatientDTO>(actionResult.Value);
+
+        Assert.Equal(patientDto, returnValue);
+    }
+
+#### PatientServiceTest
+
+We tested the Service with 2 scenarios:
+
+1. Make sure that the Service returns **null** when the requested **Patient Profile** doesn't exist.
+
+    ```cs
+    [Fact]
+    public async Task DeletePatient_ReturnsNullWhenPatientDoesntExist() {
+        // Setup mock to return Task with null when DeletePatient is called
+        _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
+            .Returns((Patient)null);
+
+        // Act
+        var result = await _service.DeletePatient(new MedicalRecordNumber("202410000004")); //Random MedicalRecordNumber
+
+        // Assert
+        Assert.Null(result);
+    }
+    ```
+
+2. Make sure that the **Service** returns the **DTO** of the **Patient Profile** that was just deleted otherwise.
+
+    ```cs
+    [Fact]
+    public async Task DeletePatient_ReturnsDTOWhenPatientExists() {
+        var patientDto = SeedPatientDTO();
+        // Setup mock to return Task with null when DeletePatient is called
+        _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
+            .Returns(Patient.createFromDTO(patientDto));
+
+        // Act
+        var result = await _service.DeletePatient(new MedicalRecordNumber(patientDto.MedicalRecordNumber)); //Random MedicalRecordNumber
+
+        // Assert
+        result.Should().BeEquivalentTo(patientDto);
+    }
+    ```
+
+### 6.2. Integration Tests
+
+First, we have to make sure that we can't delete a user that doesn't exist **(Exit Code = 404)**:
+
+![](images/postman_notfound.png)
+
+Then, we can show a case of an existing user being deleted **(Exit Code = 200)**:
+
+![](images/postman_ok.png)
+
+## 7. Implementation
+
+### PatientController
+
+The **PatientController** receives a **HttpDelete** request and returns **NotFound()** if the **Patient Profile** doesn't exist. Otherwise it returns **Ok(pat)**.
+
+```cs
+[HttpDelete("Delete/{record}")]
+[Authorize(Roles = HospitalRoles.Admin)]
+public async Task<ActionResult<PatientDTO>> DeletePatient(string record) {
+    try {
+        var pat = await _service.DeletePatient(new MedicalRecordNumber(record));
+        if (pat == null) return NotFound();
+        return Ok(pat);
+    }
+    catch (BusinessRuleValidationException ex) {
+        return BadRequest(new { ex.Message });
+    }
+}
+```
+
+### PatientService
+
+Using the **MedicalRecordNumber**, the **PatientService** calls the repository to get the **patient** instance, deleting it from the same repository (or returning null if it the instance is null).
+
+```cs
+public async virtual Task<PatientDTO> DeletePatient(MedicalRecordNumber id){
+    var patient = this._repository.GetPatientByRecordNumber(id);
+    if (patient == null) return null;
+    
+    this._repository.Remove(patient);
+    await this._logRepository.AddAsync(new DomainLog(LogObjectType.Patient, LogActionType.Deletion, 
+        string.Format("Deleted Patient with Medical Record Number = {0}", patient.MedicalRecordNumber.Record)));
+    await this._unitOfWork.CommitAsync();
+
+    return patient.returnDTO();
+}
+```
+
+## 8. Demonstration
+
+As this project doesn't have a **Frontend** yet, this section doesn't apply.

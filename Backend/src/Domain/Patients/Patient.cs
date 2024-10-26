@@ -48,7 +48,7 @@ public class Patient : Entity<PatientId>, IAggregateRoot {
         return new Patient(new MedicalRecordNumber(dto.MedicalRecordNumber), dto.DateOfBirth, new MailAddress(dto.Email), new PhoneNumber(dto.PhoneNumber), (Gender)Enum.Parse(typeof(Gender), dto.Gender), new FullName(dto.FullName), allergies);
     }
     public PatientDTO returnDTO() {
-        return new PatientDTO(MedicalRecordNumber.ToString(), DateOfBirth, Email.ToString(), PhoneNumber.ToString(), Gender.ToString(), FullName.ToString(), Allergies.ToString());
+        return new PatientDTO(MedicalRecordNumber.ToString(), DateOfBirth, Email.ToString(), PhoneNumber.ToString(), Gender.ToString(), FullName.ToString(), string.Join(", ", Allergies.Select(a => a.allergyName)));
     }
 
 }
