@@ -30,4 +30,8 @@ public class UpdatedOperationTypeDTO
         this.surgeryTime = surgeryTime;
         this.cleaningTime = cleaningTime;
     }
+
+    public UpdatedOperationTypeDTO()
+    {
+    }
 }
