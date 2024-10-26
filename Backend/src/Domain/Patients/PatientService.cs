@@ -141,7 +141,7 @@ public class PatientService {
         return patient.returnDTO();
     }
 
-    public async Task<PatientDTO> DeletePatient(MedicalRecordNumber id){
+    public virtual async Task<PatientDTO> DeletePatient(MedicalRecordNumber id){
         var patient = this._repository.GetPatientByRecordNumber(id);
         if (patient == null) return null;
         
