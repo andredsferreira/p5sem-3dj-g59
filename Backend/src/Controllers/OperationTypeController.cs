@@ -88,7 +88,7 @@ public class OperationTypeController : ControllerBase
 
     [HttpGet("GetByName/{name}")]
     //[Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<OperationTypeDTO>> GetOperationTypeByName(String name){
+    public async Task<ActionResult<OperationTypeDTO>> GetOperationTypeByName(string name){
 
         var result = await AddOperationTypeService.GetOperationTypeByName(name);
         return result != null ? Ok(result) : BadRequest("Could not find operation type");
