@@ -1,6 +1,6 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.1.0 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" modified="2024-10-21T23:06:42.386Z" etag="O8SuWrz9LN3aPIbuEApZ" version="24.1.0" type="device">
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.1.0 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" modified="2024-10-26T14:40:13.382Z" etag="wBwoAB1_M-CgLLL96O71" version="24.1.0" type="device">
   <diagram name="Página-1" id="4AsMBui_O2mrqk55qG8a">
-    <mxGraphModel dx="2547" dy="839" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1353" dy="614" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -436,7 +436,7 @@
         <mxCell id="v8suukQ3Q1kWvmqkOaev-53" value="&amp;lt;&amp;lt;root&amp;gt;&amp;gt;&lt;div&gt;&amp;lt;&amp;lt;entity&amp;gt;&amp;gt;&lt;br&gt;&lt;div&gt;StaffRole&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1000" y="285" width="80" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="v8suukQ3Q1kWvmqkOaev-54" value="&amp;lt;&amp;lt;enum&amp;gt;&amp;gt;&lt;div&gt;StaffRoleName&lt;/div&gt;" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="v8suukQ3Q1kWvmqkOaev-54" value="&amp;lt;&amp;lt;value&amp;gt;&amp;gt;&lt;div&gt;StaffRoleName&lt;/div&gt;" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1120" y="285" width="90" height="60" as="geometry" />
         </mxCell>
         <mxCell id="v8suukQ3Q1kWvmqkOaev-55" value="&amp;lt;&amp;lt;enum&amp;gt;&amp;gt;&lt;div&gt;DoctorType&lt;/div&gt;" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -788,10 +788,10 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="pOXIFx_wE_tz7q8jmUSi-1" value="&amp;lt;&amp;lt;enum&amp;gt;&amp;gt;&lt;div&gt;Gender&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="pOXIFx_wE_tz7q8jmUSi-1" value="&amp;lt;&amp;lt;enum&amp;gt;&amp;gt;&lt;div&gt;Gender&lt;/div&gt;" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="365" y="770" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="pOXIFx_wE_tz7q8jmUSi-2" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="pOXIFx_wE_tz7q8jmUSi-1">
+        <mxCell id="pOXIFx_wE_tz7q8jmUSi-2" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" target="pOXIFx_wE_tz7q8jmUSi-1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="330" y="550" as="sourcePoint" />
             <mxPoint x="365" y="730" as="targetPoint" />
@@ -800,7 +800,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="pOXIFx_wE_tz7q8jmUSi-3" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="pOXIFx_wE_tz7q8jmUSi-2">
+        <mxCell id="pOXIFx_wE_tz7q8jmUSi-3" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="pOXIFx_wE_tz7q8jmUSi-2" vertex="1" connectable="0">
           <mxGeometry x="0.8643" y="1" relative="1" as="geometry">
             <mxPoint x="9" y="-9" as="offset" />
           </mxGeometry>

@@ -1,0 +1,1 @@
+dotnet build ../p5sem-3dj-g59.sln
