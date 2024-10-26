@@ -13,13 +13,10 @@ internal class StaffEntityTypeConfiguration : IEntityTypeConfiguration<Staff> {
         builder.HasKey(staff => staff.Id);
         builder.Property(p => p.Id).HasConversion(
             id => id.Value,
-            value => new StaffId(value));
-
-        
-        
+            value => new StaffId(value));      
 
         builder.Property(staff => staff.LicenseNumber)
-            .HasConversion(id => id.Value, value => new LicenseNumber(value));
+            .HasConversion(id => id.License, value => new LicenseNumber(value));
 
         builder.Property(p => p.Email)
             .HasMaxLength(255)

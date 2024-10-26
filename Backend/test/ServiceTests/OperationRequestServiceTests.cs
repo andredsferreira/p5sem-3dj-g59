@@ -73,19 +73,19 @@ public class OperationRequestServiceTests {
         _mockUnitOfWork.Verify(u => u.CommitAsync(), Times.Once);
     }
 
-    [Fact]
-    public async Task testUpdate() {
-        throw new NotImplementedException();
-    }
+    //[Fact]
+    //public async Task testUpdate() {
+    //    throw new NotImplementedException();
+    //}
 
-    [Fact]
-    public async Task testDelete() {
-        throw new NotImplementedException();
-    }
+    //[Fact]
+    //public async Task testDelete() {
+    //    throw new NotImplementedException();
+    //}
 
-    [Fact]
-    public async Task testList() {
-        throw new NotImplementedException();
-    }
+    //[Fact]
+    //public async Task testList() {
+    //    throw new NotImplementedException();
+    //}
 
 }

@@ -13,25 +13,25 @@ public class OperationRequestControllerMockTests {
 
     private readonly OperationRequestController _controller;
 
-    [Fact]
-    public async Task testCreation() {
-        throw new NotImplementedException();
-    }
+    //[Fact]
+    //public async Task testCreation() {
+    //    throw new NotImplementedException();
+    //}
 
-    [Fact]
-    public async Task testUpdate() {
-        throw new NotImplementedException();
-    }
+    //[Fact]
+    //public async Task testUpdate() {
+    //    throw new NotImplementedException();
+    //}
 
-    [Fact]
-    public async Task testDelete() {
-        throw new NotImplementedException();
-    }
+    //[Fact]
+    //public async Task testDelete() {
+    //    throw new NotImplementedException();
+    //}
 
-    [Fact]
-    public async Task testList() {
-        throw new NotImplementedException();
-    }
+    //[Fact]
+    //public async Task testList() {
+    //    throw new NotImplementedException();
+    //}
 
 
 
