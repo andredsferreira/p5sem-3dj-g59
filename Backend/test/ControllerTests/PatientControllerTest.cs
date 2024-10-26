@@ -50,7 +50,6 @@ public class PatientControllerTests
         var actionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
         var returnValue = Assert.IsType<PatientDTO>(actionResult.Value);
         Assert.Equal(patientDto, returnValue);
-        Assert.Equal("Patient creation", actionResult.ActionName);
     }
     [Fact]
     public async Task DeletePatient_ReturnsNotFoundWhenGettingNull() {

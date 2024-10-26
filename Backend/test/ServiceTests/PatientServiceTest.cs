@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DDDSample1.Domain.DomainLogs;
 using DDDSample1.Domain.Patients;
@@ -23,9 +24,52 @@ public class PatientServiceTest {
         _mockMessageSender = new Mock<IMessageSenderService>();
         _service = new PatientService(_mockUnit.Object, _mockPatRepo.Object, _mockLogRepo.Object, _mockMessageSender.Object);
     }
-    private PatientDTO SeedPatientDTO(){
-        return new PatientDTO("202410000001", DateOnly.Parse("2004-07-10"),"teste@gmail.com","987876765","Male","John One Two Doe", "Dogs, Cats");
+    private PatientDTO SeedPatientDTO1(){
+        return new PatientDTO(string.Format("{0}{1}000001", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-10"),"teste@gmail.com","987876765","Male","John One Two Doe", "Dogs, Cats");
     }
+    private PatientDTO SeedPatientDTO2(){
+        return new PatientDTO(string.Format("{0}{1}000002", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-14"),"teste2@gmail.com","922114411","Female","Jane One Two Doe", "Cats");
+    }
+    private PatientDTO SeedPatientDTOWithoutMedicalRecord(){
+        return new PatientDTO("", DateOnly.Parse("2004-07-10"),"teste@gmail.com","987876765","Male","John One Two Doe", "Dogs, Cats");
+    }
+
+    [Fact]
+    public async Task CreatePatient_ReturnsDTOWithThirdMedicalRecord() {
+        PatientDTO dto = SeedPatientDTOWithoutMedicalRecord();
+        //Setup
+        _mockPatRepo.Setup(r => r.GetAllAsync())
+            .Returns(Task.FromResult(new List<Patient>{Patient.createFromDTO(SeedPatientDTO1()), Patient.createFromDTO(SeedPatientDTO2())}));
+        // Act
+        var result = await _service.CreatePatient(dto);
+        // Assert
+        Assert.Equal(result.MedicalRecordNumber, string.Format("{0}{1}000003", DateTime.Today.Year, DateTime.Today.Month));
+        Assert.Equal(dto.DateOfBirth, result.DateOfBirth);
+        Assert.Equal(dto.Email, result.Email);
+        Assert.Equal(dto.PhoneNumber, result.PhoneNumber);
+        Assert.Equal(dto.Gender, result.Gender);
+        Assert.Equal(dto.FullName, result.FullName);
+        Assert.Equal(dto.Allergies, result.Allergies);
+    }
+
+    [Fact]
+    public async Task CreatePatient_ReturnsDTOWithFirstMedicalRecord() {
+        PatientDTO dto = SeedPatientDTOWithoutMedicalRecord();
+        //Setup
+        _mockPatRepo.Setup(r => r.GetAllAsync())
+            .Returns(Task.FromResult(new List<Patient>()));
+        // Act
+        var result = await _service.CreatePatient(dto);
+        // Assert
+        Assert.Equal(result.MedicalRecordNumber, string.Format("{0}{1}000001", DateTime.Today.Year, DateTime.Today.Month));
+        Assert.Equal(dto.DateOfBirth, result.DateOfBirth);
+        Assert.Equal(dto.Email, result.Email);
+        Assert.Equal(dto.PhoneNumber, result.PhoneNumber);
+        Assert.Equal(dto.Gender, result.Gender);
+        Assert.Equal(dto.FullName, result.FullName);
+        Assert.Equal(dto.Allergies, result.Allergies);
+    }
+
     [Fact]
     public async Task DeletePatient_ReturnsNullWhenPatientDoesntExist() {
         // Setup mock to return Task with null when DeletePatient is called
@@ -40,7 +84,7 @@ public class PatientServiceTest {
     }
     [Fact]
     public async Task DeletePatient_ReturnsDTOWhenPatientExists() {
-        var patientDto = SeedPatientDTO();
+        var patientDto = SeedPatientDTO1();
         // Setup mock to return Task with null when DeletePatient is called
         _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
             .Returns(Patient.createFromDTO(patientDto));

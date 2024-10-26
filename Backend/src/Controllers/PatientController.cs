@@ -31,7 +31,7 @@ public class PatientController : ControllerBase {
     [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<PatientDTO>> CreatePatient(PatientDTO dto) {
         var cat = await _service.CreatePatient(dto);
-        return CreatedAtAction("Patient creation", cat);
+        return CreatedAtAction(nameof(GetPatientById), new{id = cat.MedicalRecordNumber}, cat);
     }
 
     [HttpGet("Get/{id}")]

@@ -37,7 +37,6 @@ public class PatientService {
             string.Format("Created a new Patient (Medical Record Number = {0}, Name = {1}, Email = {2}, PhoneNumber = {3})",
                         patient.MedicalRecordNumber.Record, patient.FullName.Full, patient.Email, patient.PhoneNumber)));
         await this._unitOfWork.CommitAsync();
-
         return dto;
     }
     private async Task<MedicalRecordNumber> GenerateMedicalRecord(){

@@ -38,3 +38,156 @@ there is no option for someone who is not a patient of the system to register as
     Do they also input the omitted information (gender, emergency contact and allergies/medical condition)?
 Additionally, does the medical history that the admin inputs refer to the patient's medical record, or is it referring to the appointment history?
     * **Answer 2:** the admin can not input medical history nor allergies. they can however input gender and emergency contact.
+
+## 3. Analysis
+
+The domain model includes everything that's needed in order to perform this *US* as intended.
+
+![](images/AffectedDomain.png)
+
+Everything in this image is part of the **Patient Profile** creation, with only the **Allergies** being an optional attribute.
+
+## 4. Design
+
+The team decided that: 
+* If the **Patient Profile** was successfully created, the program should return a **DTO** with the data that was just created and an **Created** Return Code.
+
+## 5. C4 Views
+
+The **C4 Views** for this *US* can be viewed [here](views/readme.md).
+
+## 6. Tests
+
+### 6.1. Unit Tests
+
+#### PatientControllerTest
+
+We tested the Controller with the following scenario:
+
+1. Make sure that the **Controller** returns an **Created** message code and the **DTO** of the **Patient Profile** that was just created.
+
+```cs
+
+[Fact]
+public async Task CreatePatient_ReturnsCreatedAtAction_WithPatientDTO() {
+    // Arrange
+    var patientDto = SeedPatientDTO();
+    
+    // Setup mock to return the DTO when CreatePatient is called
+    _mockService.Setup(s => s.CreatePatient(It.IsAny<PatientDTO>()))
+        .ReturnsAsync(patientDto);
+
+    // Act
+    var result = await _controller.CreatePatient(patientDto);
+
+    // Assert
+    var actionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
+    var returnValue = Assert.IsType<PatientDTO>(actionResult.Value);
+    Assert.Equal(patientDto, returnValue);
+}
+```
+
+#### PatientServiceTest
+
+We tested the Service with the following scenario:
+
+1. Make sure that the Service returns a new **PatientDTO** with the first **MedicalRecordNumber** of the month after its creation.
+    ```cs
+    [Fact]
+    public async Task CreatePatient_ReturnsDTOWithFirstMedicalRecord() {
+        PatientDTO dto = SeedPatientDTOWithoutMedicalRecord();
+        //Setup
+        _mockPatRepo.Setup(r => r.GetAllAsync())
+            .Returns(Task.FromResult(new List<Patient>()));
+        // Act
+        var result = await _service.CreatePatient(dto);
+        // Assert
+        Assert.Equal(result.MedicalRecordNumber, string.Format("{0}{1}000001", DateTime.Today.Year, DateTime.Today.Month));
+        Assert.Equal(dto.DateOfBirth, result.DateOfBirth);
+        Assert.Equal(dto.Email, result.Email);
+        Assert.Equal(dto.PhoneNumber, result.PhoneNumber);
+        Assert.Equal(dto.Gender, result.Gender);
+        Assert.Equal(dto.FullName, result.FullName);
+        Assert.Equal(dto.Allergies, result.Allergies);
+    }
+    ```
+
+2. Make sure that the Service returns a new **PatientDTO** with the third **MedicalRecordNumber** of the month after its creation.
+    ```cs
+    [Fact]
+    public async Task CreatePatient_ReturnsDTOWithThirdMedicalRecord() {
+        PatientDTO dto = SeedPatientDTOWithoutMedicalRecord();
+        //Setup
+        _mockPatRepo.Setup(r => r.GetAllAsync())
+            .Returns(Task.FromResult(new List<Patient>{Patient.createFromDTO(SeedPatientDTO1()), Patient.createFromDTO(SeedPatientDTO2())}));
+        // Act
+        var result = await _service.CreatePatient(dto);
+        // Assert
+        Assert.Equal(result.MedicalRecordNumber, string.Format("{0}{1}000003", DateTime.Today.Year, DateTime.Today.Month));
+        Assert.Equal(dto.DateOfBirth, result.DateOfBirth);
+        Assert.Equal(dto.Email, result.Email);
+        Assert.Equal(dto.PhoneNumber, result.PhoneNumber);
+        Assert.Equal(dto.Gender, result.Gender);
+        Assert.Equal(dto.FullName, result.FullName);
+        Assert.Equal(dto.Allergies, result.Allergies);
+    }
+    ```    
+
+### 6.2. Integration Tests
+
+We have to make sure that the **Patient** is correctly created **(Exit Code = 201)**:
+
+![](images/postman_created.png)
+
+## 7. Implementation
+
+### PatientController
+
+The **PatientController** receives a **HttpPost** request with a **Patient DTO** in its body. Returns **CreatedAtAction** message code and a **DTO** of the **Patient** that was just created..
+
+```cs
+[HttpPost("Create")]
+[Authorize(Roles = HospitalRoles.Admin)]
+public async Task<ActionResult<PatientDTO>> CreatePatient(PatientDTO dto) {
+    var cat = await _service.CreatePatient(dto);
+    return CreatedAtAction("Patient creation", cat);
+}
+```
+
+### PatientService
+
+The **PatientService** calls a method that **Generates a MedicalRecordNumber** to associate with the new **Patient Profile**.
+
+```cs
+public async virtual Task<PatientDTO> CreatePatient(PatientDTO dto) {
+    dto.MedicalRecordNumber = (await GenerateMedicalRecord()).ToString();
+    var patient = Patient.createFromDTO(dto);
+    await this._repository.AddAsync(patient);
+    await this._logRepository.AddAsync(new DomainLog(LogObjectType.Patient, LogActionType.Creation, 
+        string.Format("Created a new Patient (Medical Record Number = {0}, Name = {1}, Email = {2}, PhoneNumber = {3})",
+                    patient.MedicalRecordNumber.Record, patient.FullName.Full, patient.Email, patient.PhoneNumber)));
+    await this._unitOfWork.CommitAsync();
+
+    return dto;
+}
+```
+
+The **GenerateMedicalRecord()** method checks what was the last **Patient** of that year and month and generates a new **MedicalRecordNumber** accordingly.
+
+```cs
+private async Task<MedicalRecordNumber> GenerateMedicalRecord(){
+    StringBuilder stringBuilder = new(DateTime.Today.Year.ToString());
+    stringBuilder.Append(DateTime.Today.Month);
+    var sequentialNumber = (await _repository.GetAllAsync())
+        .Where(p => p.MedicalRecordNumber.Record.StartsWith(stringBuilder.ToString()))
+        .Select(p => int.Parse(p.MedicalRecordNumber.Record.Substring(6, 6)))
+        .DefaultIfEmpty(0)
+        .Max() + 1;
+    stringBuilder.Append(string.Format("{0:D6}", sequentialNumber));
+    return new MedicalRecordNumber(stringBuilder.ToString());
+}
+```
+
+## 8. Demonstration
+
+As this project doesn't have a **Frontend** yet, this section doesn't apply.
