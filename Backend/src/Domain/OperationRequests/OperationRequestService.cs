@@ -28,6 +28,10 @@ public class OperationRequestService {
 
     private readonly IOperationTypeRepository _operationTypeRepository;
 
+    public OperationRequestService() {
+
+    }
+
     public OperationRequestService(IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, IOperationRequestRepository operationRequestRepository, IPatientRepository patientRepository, IStaffRepository staffRepository, IOperationTypeRepository operationTypeRepository) {
         _httpContextAccessor = httpContextAccessor;
         _unitOfWork = unitOfWork;
@@ -37,7 +41,7 @@ public class OperationRequestService {
         _operationTypeRepository = operationTypeRepository;
     }
 
-    public async Task<OperationRequestDTO> CreateOperationRequest([FromForm] OperationRequestDTO dto) {
+    public virtual async Task<OperationRequestDTO> CreateOperationRequest([FromForm] OperationRequestDTO dto) {
         var patient = await _patientRepository.GetByIdAsync(new PatientId(dto.patientId));
         if (patient == null) {
             throw new Exception("The patient you provided does not exist!");
@@ -64,7 +68,7 @@ public class OperationRequestService {
         return dto;
     }
 
-    public async Task<UpdatedOperationRequestDTO> UpdateOperationRequest(UpdatedOperationRequestDTO dto) {
+    public virtual async Task<UpdatedOperationRequestDTO> UpdateOperationRequest(UpdatedOperationRequestDTO dto) {
         var operationRequest = await _operationRequestRepository.GetByIdAsync(new OperationRequestId(dto.updatedId));
         if (operationRequest == null) {
             throw new Exception("The operation request you are trying to update does not exist!");
@@ -79,7 +83,7 @@ public class OperationRequestService {
         return dto;
     }
 
-    public async Task<Guid> DeleteOperationRequest(Guid id) {
+    public virtual async Task<Guid> DeleteOperationRequest(Guid id) {
         var operationRequest = await _operationRequestRepository.GetByIdAsync(new OperationRequestId(id));
         if (operationRequest == null) {
             throw new Exception("That operation request does not exist");
@@ -89,7 +93,7 @@ public class OperationRequestService {
         return id;
     }
 
-    public async Task<List<OperationRequestDTO>> ListOperationRequests() {
+    public virtual async Task<List<OperationRequestDTO>> ListOperationRequests() {
         var operationRequests = await _operationRequestRepository.GetAllAsync();
         var operationRequestsDTO = new List<OperationRequestDTO>();
         foreach (var operationRequest in operationRequests) {
