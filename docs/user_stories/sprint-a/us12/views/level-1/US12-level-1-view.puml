@@ -1,0 +1,20 @@
+
+@startuml
+
+title US8 - Level 1 View
+
+actor Admin as U
+participant "<<system>>\nHealthcare System" as web
+
+U -> web : Creates new staff profile with its attributes
+activate U
+activate web
+web -> web : Validades staff profile
+web -> web : Logs staff creation
+web -> U : Return Confirmation
+deactivate web
+deactivate U
+
+
+
+@enduml

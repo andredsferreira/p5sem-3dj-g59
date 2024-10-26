@@ -1,0 +1,57 @@
+@startuml
+
+title US8 - Level 3 View
+
+actor Admin as U
+participant "«component»\nStaffController" as ctrl
+participant "«component»\nStaffService" as service
+participant "«component»\nStaff" as pat
+
+participant "«component»\nIStaffRepository" as patrepo
+participant "«component»\nILogRepository" as logrepo
+
+U -> ctrl : Creates new Staff profile with its attributes
+activate U
+activate ctrl
+
+ctrl -> service : await CreateStaff(dto)
+activate service
+
+service -> service : GenerateStaffID()
+activate service
+
+service -> patrepo : GetStaffsFromCurrentMonth(year, month)
+activate patrepo
+patrepo ->
+patrepo --> service : list
+deactivate patrepo
+
+service --> service
+deactivate service
+
+service -> pat : CreateFromDTO(dto)
+activate pat
+
+pat --> service : new Staff
+deactivate pat
+
+service -> patrepo : await AddAsync(staff)
+activate patrepo
+patrepo -> 
+patrepo --> service
+deactivate patrepo
+
+service -> logrepo : await AddAsync(new log)
+activate logrepo
+logrepo ->
+logrepo --> service
+deactivate logrepo
+
+service --> ctrl : Staff DTO
+deactivate service
+ctrl --> U : confirmation
+deactivate ctrl
+deactivate U
+
+
+@enduml

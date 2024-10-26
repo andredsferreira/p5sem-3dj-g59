@@ -1,0 +1,29 @@
+
+@startuml
+
+title US8 - Level 2 View
+
+actor Admin as U
+participant "Web Application" as web
+participant "Backoffice API" as api
+database "Database" as db
+
+U -> web : Creates new staff profile with its attributes
+activate U
+activate web
+web -> api : Creates new staff profile with its attributes
+activate api
+
+api -> api : Validades staff profile
+api -> db : Save staff profile
+activate db
+deactivate db
+api -> api : Logs profile creation
+api -> web : Return Confirmation
+deactivate api
+web -> U : Return Confirmation
+deactivate web
+deactivate U
+
+
+@enduml
