@@ -7,15 +7,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using DDDSample1.Domain.OperationTypes;
 using System.Collections.Generic;
+using System.Linq;
 
 
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DDDSample1.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
+//[Authorize]
 public class OperationTypeController : ControllerBase
 {
 
@@ -44,15 +46,16 @@ public class OperationTypeController : ControllerBase
 
         var result = await AddOperationTypeService.CreateOperationType(dto.name, dto.anaesthesiaTime, dto.surgeryTime, dto.cleaningTime);
         
-        return CreatedAtAction("Operation Type created with ID: ", result.id);
+        return CreatedAtAction("Operation Type created: ", result.name);
     }
 
-    [HttpGet("getoperationtypes")]
-    [Authorize(Roles = HospitalRoles.Admin)]
+    [HttpGet("All")]
+    //[Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<IEnumerable<OperationTypeDTO>> > GetOperationTypes()
     {
-        //return await AddOperationTypeService.GetAll();
-        throw new NotImplementedException();
+        var list = await AddOperationTypeService.GetAll();
+        return list.ToList();
+        
         
     }
 
@@ -67,7 +70,8 @@ public class OperationTypeController : ControllerBase
     [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<OperationTypeDTO>> DeactivateOperationType(OperationTypeDTO operationTypeDTO){
 
-        throw new NotImplementedException();
+        var result = await AddOperationTypeService.DeactivateOperationType(operationTypeDTO.name);
+        return CreatedAtAction("Operation Type deactivated: ", result.name);
     }
 
 

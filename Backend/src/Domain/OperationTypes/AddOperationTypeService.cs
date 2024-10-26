@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DDDSample1.Domain.Shared;
 using DDDSample1.Domain.OperationTypes;
+using System.Linq;
 
 
 namespace DDDSample1.Domain.OperationTypes;
@@ -25,33 +26,26 @@ public class AddOperationTypeService {
 
         await _repository.AddAsync(operationType);
 
-        return new OperationTypeDTO() {
-            id = operationType.Id.AsGuid(),
-            name = operationType.name.ToString(),
-            anaesthesiaTime = operationType.anaesthesiaTime.duration,
-            surgeryTime = operationType.surgeryTime.duration,
-            cleaningTime = operationType.cleaningTime.duration
-        };
+        return operationType.returnDTO();
     }
 
     
-    public async Task<OperationTypeDTO> DeactivateOperationType(Guid id) {
-        var operationType = await _repository.GetByIdAsync(new OperationTypeId(id));
+    public async Task<OperationTypeDTO> DeactivateOperationType(string name) {
+        var operationType = await GetOperationTypeIdByName(name);
         operationType.Status = Status.INACTIVE;
         _repository.Update(operationType);
         await _unitOfWork.CommitAsync();
         
-        return new OperationTypeDTO() {
-            id = operationType.Id.AsGuid(),
-            name = operationType.name.ToString(),
-            anaesthesiaTime = operationType.anaesthesiaTime.duration,
-            surgeryTime = operationType.surgeryTime.duration,
-            cleaningTime = operationType.cleaningTime.duration
-        };
+        return operationType.returnDTO();
     }
 
-    public async Task<List<OperationType>> GetAll() {
+    public async Task<IEnumerable<OperationTypeDTO>> GetAll() {
         var list = _repository.GetAllAsync();
-        return await list;
+        return (await list).Select(type => type.returnDTO());
+    }
+
+    private async Task<OperationType> GetOperationTypeIdByName(string name) {
+        var list = await _repository.GetAllAsync();
+        return list.FirstOrDefault(type => type.name.name == name);
     }
 }

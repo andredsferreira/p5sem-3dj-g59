@@ -27,11 +27,20 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
     }
 
     public OperationType(OperationName name, AnaesthesiaTime anaesthesiaTime, SurgeryTime surgeryTime, CleaningTime cleaningTime) {
-        this.Id = new OperationTypeId(Guid.NewGuid());
+        Id = new OperationTypeId(Guid.NewGuid());
         this.name = name;
         this.anaesthesiaTime = anaesthesiaTime;
         this.surgeryTime = surgeryTime;
         this.cleaningTime = cleaningTime;
+    }
+
+    public OperationType(OperationName name, AnaesthesiaTime anaesthesiaTime, SurgeryTime surgeryTime, CleaningTime cleaningTime, Status Status) {
+        Id = new OperationTypeId(Guid.NewGuid());
+        this.name = name;
+        this.anaesthesiaTime = anaesthesiaTime;
+        this.surgeryTime = surgeryTime;
+        this.cleaningTime = cleaningTime;
+        this.Status = Status;
     }
 
 
@@ -41,12 +50,14 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
         SurgeryTime surgeryTime = new SurgeryTime(dto.surgeryTime);
         CleaningTime cleaningTime = new CleaningTime(dto.cleaningTime);
         Status status = (Status)Enum.Parse(typeof(Status),dto.Status);
-        return new OperationType(name, anaesthesiaTime, surgeryTime, cleaningTime);
+        return new OperationType(name, anaesthesiaTime, surgeryTime, cleaningTime, status);
     }
 
-    public static OperationTypeDTO returnDTO(OperationType ot) {
-        throw new NotImplementedException();
+    public OperationTypeDTO returnDTO() {
+        
+        return new OperationTypeDTO(name.ToString(), anaesthesiaTime.duration, surgeryTime.duration, cleaningTime.duration, Status.ToString());
     }
+
 
 }
 
