@@ -10,6 +10,8 @@ using DDDSample1.Domain.Shared;
 using DDDSample1.Infrastructure.Shared.MessageSender;
 using DDDSample1.Domain.DomainLogs;
 using Microsoft.AspNetCore.Http.HttpResults;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DDDSample1.ControllerTests;
 
@@ -57,7 +59,7 @@ public class PatientControllerTests
 
     [Fact]
     public async Task EditPatient_ReturnsNotFoundWhenGettingNull() {
-        // Setup mock to return Task with null when DeletePatient is called
+        // Setup mock to return Task with null when EditPatient is called
         _mockService.Setup(s => s.EditPatient(It.IsAny<MedicalRecordNumber>(), 
             It.IsAny<FilterPatientDTO>())).Returns(Task.FromResult<PatientDTO>(null));
 
@@ -73,7 +75,7 @@ public class PatientControllerTests
         // Arrange
         var patientDto = SeedPatientDTO();
         
-        // Setup mock to return the DTO when DeletePatient is called
+        // Setup mock to return the DTO when EditPatient is called
         _mockService.Setup(s => s.EditPatient(It.IsAny<MedicalRecordNumber>(),
             It.IsAny<FilterPatientDTO>())).ReturnsAsync(patientDto);
 
@@ -117,5 +119,32 @@ public class PatientControllerTests
         var returnValue = Assert.IsType<PatientDTO>(actionResult.Value);
 
         Assert.Equal(patientDto, returnValue);
+    }
+
+    [Fact]
+    public async Task SearchPatient_ReturnsOkAndListDTOWhenGettingList() {        
+        // Setup mock to return the list of DTOs when SearchAndFilterPatients is called
+        _mockService.Setup(s => s.SearchPatients(It.IsAny<FilterPatientDTO>()))
+            .Returns(Task.FromResult(new List<PatientDTO>{SeedPatientDTO()}.AsEnumerable()));
+
+        // Act
+        var result = await _controller.SearchAndFilterPatients(SeedFilterPatientDTO());
+
+        // Assert
+        var actionResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnValue = Assert.IsType<List<PatientDTO>>(actionResult.Value);
+    }
+
+    [Fact]
+    public async Task SearchPatient_ReturnsNotFoundWhenGettingNull() {        
+        // Setup mock to return null when SearchAndFilterPatients is called
+        _mockService.Setup(s => s.SearchPatients(It.IsAny<FilterPatientDTO>()))
+            .Returns(Task.FromResult((IEnumerable<PatientDTO>)null));
+
+        // Act
+        var result = await _controller.SearchAndFilterPatients(SeedFilterPatientDTO());
+
+        // Assert
+        var actionResult = Assert.IsType<NotFoundResult>(result.Result);
     }
 }

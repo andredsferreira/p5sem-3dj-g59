@@ -9,6 +9,7 @@ using DDDSample1.Domain.DomainLogs;
 using DDDSample1.Domain.Shared;
 using DDDSample1.Infrastructure.Shared.MessageSender;
 using Domain.Appointments;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DDDSample1.Domain.Patients;
 
@@ -156,7 +157,7 @@ public class PatientService {
         return patient.returnDTO();
     }
 
-    public async Task<IEnumerable<PatientDTO>> SearchPatients(FilterPatientDTO filterPatientDTO)
+    public async virtual Task<IEnumerable<PatientDTO>> SearchPatients(FilterPatientDTO filterPatientDTO)
     {
         var patients = await GetAll();
 
@@ -168,10 +169,12 @@ public class PatientService {
             patients = patients.Where(p => p.PhoneNumber.Contains(filterPatientDTO.PhoneNumber));
         if (!string.IsNullOrEmpty(filterPatientDTO.FullName))
             patients = patients.Where(p => p.FullName.Contains(filterPatientDTO.FullName, StringComparison.OrdinalIgnoreCase));
+        if (filterPatientDTO.DateOfBirth.HasValue)
+            patients = patients.Where(p => p.DateOfBirth.Equals(filterPatientDTO.DateOfBirth));    
         if (!string.IsNullOrEmpty(filterPatientDTO.Gender))
             patients = patients.Where(p => p.Gender.Equals(filterPatientDTO.Gender));
 
-        return patients;
+        return patients.IsNullOrEmpty() ? null : patients;
     }
 
 

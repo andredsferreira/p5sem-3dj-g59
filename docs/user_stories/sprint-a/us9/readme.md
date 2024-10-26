@@ -74,7 +74,7 @@ We tested the Controller with 2 scenarios:
     ```cs
     [Fact]
     public async Task EditPatient_ReturnsNotFoundWhenGettingNull() {
-        // Setup mock to return Task with null when DeletePatient is called
+        // Setup mock to return Task with null when EditPatient is called
         _mockService.Setup(s => s.EditPatient(It.IsAny<MedicalRecordNumber>(), 
             It.IsAny<FilterPatientDTO>())).Returns(Task.FromResult<PatientDTO>(null));
 
@@ -95,7 +95,7 @@ We tested the Controller with 2 scenarios:
         // Arrange
         var patientDto = SeedPatientDTO();
         
-        // Setup mock to return the DTO when DeletePatient is called
+        // Setup mock to return the DTO when EditPatient is called
         _mockService.Setup(s => s.EditPatient(It.IsAny<MedicalRecordNumber>(),
             It.IsAny<FilterPatientDTO>())).ReturnsAsync(patientDto);
 
@@ -120,7 +120,7 @@ We tested the Service with 3 scenarios:
     ```cs
     [Fact]
     public async Task EditPatient_ReturnsNullWhenPatientDoesntExist() {
-        // Setup mock to return Task with null when DeletePatient is called
+        // Setup mock to return Task with null when EditPatient is called
         _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
             .Returns((Patient)null);
 
@@ -138,7 +138,7 @@ We tested the Service with 3 scenarios:
     [Fact]
     public async Task EditPatient_ReturnsDTOWhenPatientExists() {
         var patientDto = SeedPatientDTO1();
-        // Setup mock to return Task with null when DeletePatient is called
+        // Setup mock to return Task with DTO when EditPatient is called
         _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
             .Returns(Patient.createFromDTO(patientDto));
 
@@ -162,7 +162,7 @@ We tested the Service with 3 scenarios:
     [Fact]
     public async Task EditPatient_ReturnsDTOWhenPatientExistsWithSensitiveData() {
         var patientDto = SeedPatientDTO1();
-        // Setup mock to return Task with null when DeletePatient is called
+        // Setup mock to return Task with DTO when EditPatient is called
         _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
             .Returns(Patient.createFromDTO(patientDto));
 

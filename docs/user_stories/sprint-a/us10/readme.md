@@ -128,7 +128,7 @@ We tested the Service with 2 scenarios:
     [Fact]
     public async Task DeletePatient_ReturnsDTOWhenPatientExists() {
         var patientDto = SeedPatientDTO();
-        // Setup mock to return Task with null when DeletePatient is called
+        // Setup mock to return Task with DTO when DeletePatient is called
         _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
             .Returns(Patient.createFromDTO(patientDto));
 

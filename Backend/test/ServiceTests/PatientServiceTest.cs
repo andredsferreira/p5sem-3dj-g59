@@ -30,6 +30,9 @@ public class PatientServiceTest {
     private PatientDTO SeedPatientDTO2(){
         return new PatientDTO(string.Format("{0}{1}000002", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-14"),"teste2@gmail.com","922114411","Female","Jane One Two Doe", "Cats");
     }
+    private PatientDTO SeedPatientDTO3(){
+        return new PatientDTO(string.Format("{0}{1}000001", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-10"),"novo@gmail.com","912834756","Male","Joao One Two Doe", "Dogs");
+    }
     private PatientDTO SeedPatientDTOWithoutMedicalRecord(){
         return new PatientDTO("", DateOnly.Parse("2004-07-10"),"teste@gmail.com","987876765","Male","John One Two Doe", "Dogs, Cats");
     }
@@ -38,6 +41,9 @@ public class PatientServiceTest {
     }
     private FilterPatientDTO SeedFilterPatientDTO(){
         return new FilterPatientDTO{FullName = "Joan of Arc", Allergies = "Dogs"};
+    }
+    private FilterPatientDTO SeedFilterPatientDTOWithOnlyGender(){
+        return new FilterPatientDTO{Gender = "Male"};
     }
 
     [Fact]
@@ -78,7 +84,7 @@ public class PatientServiceTest {
 
     [Fact]
     public async Task EditPatient_ReturnsNullWhenPatientDoesntExist() {
-        // Setup mock to return Task with null when DeletePatient is called
+        // Setup mock to return Task with null when EditPatient is called
         _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
             .Returns((Patient)null);
 
@@ -91,7 +97,7 @@ public class PatientServiceTest {
     [Fact]
     public async Task EditPatient_ReturnsDTOWhenPatientExists() {
         var patientDto = SeedPatientDTO1();
-        // Setup mock to return Task with null when DeletePatient is called
+        // Setup mock to return Task with DTO when EditPatient is called
         _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
             .Returns(Patient.createFromDTO(patientDto));
 
@@ -111,7 +117,7 @@ public class PatientServiceTest {
     [Fact]
     public async Task EditPatient_ReturnsDTOWhenPatientExistsWithSensitiveData() {
         var patientDto = SeedPatientDTO1();
-        // Setup mock to return Task with null when DeletePatient is called
+        // Setup mock to return Task with DTO when EditPatient is called
         _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
             .Returns(Patient.createFromDTO(patientDto));
 
@@ -144,7 +150,7 @@ public class PatientServiceTest {
     [Fact]
     public async Task DeletePatient_ReturnsDTOWhenPatientExists() {
         var patientDto = SeedPatientDTO1();
-        // Setup mock to return Task with null when DeletePatient is called
+        // Setup mock to return Task with DTO when DeletePatient is called
         _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
             .Returns(Patient.createFromDTO(patientDto));
 
@@ -153,5 +159,43 @@ public class PatientServiceTest {
 
         // Assert
         result.Should().BeEquivalentTo(patientDto);
+    }
+
+    [Fact]
+    public async Task SearchPatient_ReturnsNullWhenListEmpty() {
+        PatientDTO dto = SeedPatientDTOWithoutMedicalRecord();
+        //Setup
+        _mockPatRepo.Setup(r => r.GetAllAsync())
+            .Returns(Task.FromResult(new List<Patient>{Patient.createFromDTO(SeedPatientDTO1()), Patient.createFromDTO(SeedPatientDTO2())}));
+        // Act
+        var result = await _service.SearchPatients(SeedFilterPatientDTOWithSensitiveData()); //Email and PhoneNumber won't appear
+        // Assert
+        Assert.Null(result);
+    }
+
+    [Fact]
+    public async Task SearchPatient_ReturnsFilteredListWhenListNotEmptyEmailPhoneNumber() {
+        PatientDTO dto = SeedPatientDTOWithoutMedicalRecord();
+        //Setup
+        _mockPatRepo.Setup(r => r.GetAllAsync())
+            .Returns(Task.FromResult(new List<Patient>{Patient.createFromDTO(SeedPatientDTO1()), Patient.createFromDTO(SeedPatientDTO2()), Patient.createFromDTO(SeedPatientDTO3())}));
+        // Act
+        var results = await _service.SearchPatients(SeedFilterPatientDTOWithSensitiveData()); //Email and PhoneNumber will match with third patient
+        var result = Assert.Single(results);
+        // Assert
+        Assert.Equal("novo@gmail.com", result.Email);
+        Assert.Equal("912834756", result.PhoneNumber);
+    }
+
+    [Fact]
+    public async Task SearchPatient_ReturnsFilteredListWhenListNotEmptyGender() {
+        PatientDTO dto = SeedPatientDTOWithoutMedicalRecord();
+        //Setup
+        _mockPatRepo.Setup(r => r.GetAllAsync())
+            .Returns(Task.FromResult(new List<Patient>{Patient.createFromDTO(SeedPatientDTO1()), Patient.createFromDTO(SeedPatientDTO2()), Patient.createFromDTO(SeedPatientDTO3())}));
+        // Act
+        var results = await _service.SearchPatients(SeedFilterPatientDTOWithOnlyGender()); //Two results will appear
+        // Assert
+        Assert.All(results, result => Assert.Equal("Male", result.Gender));
     }
 }
