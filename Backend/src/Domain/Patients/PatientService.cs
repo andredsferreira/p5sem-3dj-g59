@@ -57,7 +57,7 @@ public class PatientService {
         return patient.returnDTO();
     }
 
-    public async Task<PatientDTO> EditPatient(MedicalRecordNumber id, FilterPatientDTO dto){
+    public async virtual Task<PatientDTO> EditPatient(MedicalRecordNumber id, FilterPatientDTO dto){
         var patient = this._repository.GetPatientByRecordNumber(id);
         if (patient == null) return null;
 
@@ -82,6 +82,10 @@ public class PatientService {
             logBuilder.Append(string.Format("Email changed from {0} to {1}, ", patient.Email, dto.Email));
             messageBuilder.Append(string.Format("-The Email associated with your account was changed from {0} to {1}.<br>",patient.Email,dto.Email));
             patient.Email = new MailAddress(dto.Email);
+        }
+        if (!string.IsNullOrEmpty(dto.Allergies)){
+            logBuilder.Append(string.Format("Allergies changed from '{0}' to '{1}'", string.Join(", ", patient.Allergies.Select(a => a.allergyName)), dto.Allergies));
+            patient.SetAllergies(dto.Allergies);
         }
 
         this._repository.Update(patient);

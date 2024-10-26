@@ -25,13 +25,19 @@ public class PatientServiceTest {
         _service = new PatientService(_mockUnit.Object, _mockPatRepo.Object, _mockLogRepo.Object, _mockMessageSender.Object);
     }
     private PatientDTO SeedPatientDTO1(){
-        return new PatientDTO(string.Format("{0}{1}000001", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-10"),"teste@gmail.com","987876765","Male","John One Two Doe", "Dogs, Cats");
+        return new PatientDTO(string.Format("{0}{1}000001", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-10"),"diogo10072004@gmail.com","987876765","Male","John One Two Doe", "Dogs, Cats");
     }
     private PatientDTO SeedPatientDTO2(){
         return new PatientDTO(string.Format("{0}{1}000002", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-14"),"teste2@gmail.com","922114411","Female","Jane One Two Doe", "Cats");
     }
     private PatientDTO SeedPatientDTOWithoutMedicalRecord(){
         return new PatientDTO("", DateOnly.Parse("2004-07-10"),"teste@gmail.com","987876765","Male","John One Two Doe", "Dogs, Cats");
+    }
+    private FilterPatientDTO SeedFilterPatientDTOWithSensitiveData(){
+        return new FilterPatientDTO{Email = "novo@gmail.com", PhoneNumber = "912834756"};
+    }
+    private FilterPatientDTO SeedFilterPatientDTO(){
+        return new FilterPatientDTO{FullName = "Joan of Arc", Allergies = "Dogs"};
     }
 
     [Fact]
@@ -69,6 +75,59 @@ public class PatientServiceTest {
         Assert.Equal(dto.FullName, result.FullName);
         Assert.Equal(dto.Allergies, result.Allergies);
     }
+
+    [Fact]
+    public async Task EditPatient_ReturnsNullWhenPatientDoesntExist() {
+        // Setup mock to return Task with null when DeletePatient is called
+        _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
+            .Returns((Patient)null);
+
+        // Act
+        var result = await _service.EditPatient(new MedicalRecordNumber("202410000004"), SeedFilterPatientDTO()); //Random MedicalRecordNumber
+
+        // Assert
+        Assert.Null(result);
+    }
+    [Fact]
+    public async Task EditPatient_ReturnsDTOWhenPatientExists() {
+        var patientDto = SeedPatientDTO1();
+        // Setup mock to return Task with null when DeletePatient is called
+        _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
+            .Returns(Patient.createFromDTO(patientDto));
+
+        // Act
+        var result = await _service.EditPatient(
+                new MedicalRecordNumber(patientDto.MedicalRecordNumber), //Random MedicalRecordNumber
+                SeedFilterPatientDTO()); 
+
+        // Assert
+        Assert.Equal(patientDto.Email, result.Email);
+        Assert.Equal(patientDto.PhoneNumber, result.PhoneNumber);
+        Assert.Equal(patientDto.DateOfBirth, result.DateOfBirth);
+        Assert.NotEqual(patientDto.FullName, result.FullName);
+        Assert.NotEqual(patientDto.Allergies, result.Allergies);
+    }
+
+    [Fact]
+    public async Task EditPatient_ReturnsDTOWhenPatientExistsWithSensitiveData() {
+        var patientDto = SeedPatientDTO1();
+        // Setup mock to return Task with null when DeletePatient is called
+        _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
+            .Returns(Patient.createFromDTO(patientDto));
+
+        // Act
+        var result = await _service.EditPatient(
+                new MedicalRecordNumber(patientDto.MedicalRecordNumber), //Random MedicalRecordNumber
+                SeedFilterPatientDTOWithSensitiveData()); 
+
+        // Assert
+        Assert.NotEqual(patientDto.Email, result.Email);
+        Assert.NotEqual(patientDto.PhoneNumber, result.PhoneNumber);
+        Assert.Equal(patientDto.DateOfBirth, result.DateOfBirth);
+        Assert.Equal(patientDto.FullName, result.FullName);
+        Assert.Equal(patientDto.Allergies, result.Allergies);
+        //The patient would receive a notification in their old email address, but the MessageSenderService is Mockd for this test
+    }    
 
     [Fact]
     public async Task DeletePatient_ReturnsNullWhenPatientDoesntExist() {

@@ -7,9 +7,6 @@ namespace DDDSample1.Domain.Patients;
 
 public class FilterPatientDTO
 {
-
-    public Guid id { get; set; } = Guid.NewGuid();
-
     public string? MedicalRecordNumber {get;set;}
     public DateOnly? DateOfBirth { get; set;}
     [EmailAddress]

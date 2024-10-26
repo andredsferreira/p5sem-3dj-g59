@@ -50,5 +50,12 @@ public class Patient : Entity<PatientId>, IAggregateRoot {
     public PatientDTO returnDTO() {
         return new PatientDTO(MedicalRecordNumber.ToString(), DateOfBirth, Email.ToString(), PhoneNumber.ToString(), Gender.ToString(), FullName.ToString(), string.Join(", ", Allergies.Select(a => a.allergyName)));
     }
+    public void SetAllergies(string Allergies){
+        List<Allergy> allergies = Allergies
+            .Split(", ", StringSplitOptions.RemoveEmptyEntries) // Split the string by commas
+            .Select(allergyName => new Allergy(allergyName))    // Convert each allergy name into an Allergy object
+            .ToList();
+        this.Allergies = allergies;
+    }
 
 }

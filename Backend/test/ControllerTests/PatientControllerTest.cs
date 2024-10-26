@@ -33,6 +33,9 @@ public class PatientControllerTests
     private PatientDTO SeedPatientDTO(){
         return new PatientDTO("202410000001", DateOnly.Parse("2004-07-10"),"teste@gmail.com","987876765","Male","John One Two Doe", "Dogs, Cats");
     }
+    private FilterPatientDTO SeedFilterPatientDTO(){
+        return new FilterPatientDTO{Email = "novo@gmail.com"};
+    }
 
     [Fact]
     public async Task CreatePatient_ReturnsCreatedAtAction_WithPatientDTO() {
@@ -51,6 +54,39 @@ public class PatientControllerTests
         var returnValue = Assert.IsType<PatientDTO>(actionResult.Value);
         Assert.Equal(patientDto, returnValue);
     }
+
+    [Fact]
+    public async Task EditPatient_ReturnsNotFoundWhenGettingNull() {
+        // Setup mock to return Task with null when DeletePatient is called
+        _mockService.Setup(s => s.EditPatient(It.IsAny<MedicalRecordNumber>(), 
+            It.IsAny<FilterPatientDTO>())).Returns(Task.FromResult<PatientDTO>(null));
+
+        // Act
+        var result = await _controller.EditPatient("202410000004", SeedFilterPatientDTO()); //Random MedicalRecordNumber
+
+        // Assert
+        var actionResult = Assert.IsType<NotFoundResult>(result.Result);
+    }
+
+    [Fact]
+    public async Task EditPatient_ReturnsOkAndDTOWhenGettingDTO() {
+        // Arrange
+        var patientDto = SeedPatientDTO();
+        
+        // Setup mock to return the DTO when DeletePatient is called
+        _mockService.Setup(s => s.EditPatient(It.IsAny<MedicalRecordNumber>(),
+            It.IsAny<FilterPatientDTO>())).ReturnsAsync(patientDto);
+
+        // Act
+        var result = await _controller.EditPatient(patientDto.MedicalRecordNumber, SeedFilterPatientDTO());
+
+        // Assert
+        var actionResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnValue = Assert.IsType<PatientDTO>(actionResult.Value);
+
+        //DTO Content change is not tested here since that logic is in the Service
+    }
+
     [Fact]
     public async Task DeletePatient_ReturnsNotFoundWhenGettingNull() {
         // Setup mock to return Task with null when DeletePatient is called
