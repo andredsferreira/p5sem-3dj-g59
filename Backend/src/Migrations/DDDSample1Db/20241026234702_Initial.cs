@@ -182,9 +182,9 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                 columns: new[] { "Id", "Status", "anaesthesiaTime", "cleaningTime", "name", "surgeryTime" },
                 values: new object[,]
                 {
-                    { new Guid("3221eb9f-5dbc-4583-b503-0dffe0f85940"), "ACTIVE", 0, 0, "Shoulder Replacement", 0 },
-                    { new Guid("5715159e-18da-48cc-9b5c-d8ca1a0de9da"), "ACTIVE", 0, 0, "ACL Reconstruction", 0 },
-                    { new Guid("a5571cde-8878-45a8-903d-2a3abb5612d7"), "ACTIVE", 0, 0, "Knee Replacement", 0 }
+                    { new Guid("09bada98-4b7a-48d7-bb10-51d91cd4f2a1"), "ACTIVE", 0, 0, "Knee Replacement", 0 },
+                    { new Guid("656a3a1b-4de8-4b46-a3eb-f15c39d8148f"), "ACTIVE", 0, 0, "ACL Reconstruction", 0 },
+                    { new Guid("96725945-e49a-4b8c-845d-4c5848d7ac4b"), "ACTIVE", 0, 0, "Shoulder Replacement", 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -193,9 +193,9 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                 columns: new[] { "Id", "DateOfBirth", "Email", "FullName", "Gender", "MedicalRecordNumber", "PhoneNumber" },
                 values: new object[,]
                 {
-                    { "8092898a-f7ca-4234-b0ac-2279f20e7423", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "Male", "202410000001", "910555111" },
-                    { "b5b33df8-c186-4b3d-a982-30d31d9bfee9", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "Female", "202410000003", "910555333" },
-                    { "ef0c93ba-9316-4f76-89b1-b271c4c1d4ca", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "Male", "202410000002", "910555222" }
+                    { "635fa5b5-5b33-4b68-88c0-7c8bf762c3cc", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "Male", "202410000001", "910555111" },
+                    { "7d2ab1ef-ee41-4659-977d-0b2344748822", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "Male", "202410000002", "910555222" },
+                    { "b3d401e7-f5ed-4017-9de8-7de7a63740e5", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "Female", "202410000003", "910555333" }
                 });
 
             migrationBuilder.InsertData(
@@ -204,9 +204,9 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                 columns: new[] { "Id", "Email", "FullName", "IdentityUsername", "LicenseNumber", "PhoneNumber", "StaffRole" },
                 values: new object[,]
                 {
-                    { "4a8f5fe5-3cda-4a74-9a21-2b297e930a7d", null, null, "doctor", null, null, "Doctor" },
-                    { "94c76a23-c16d-4de2-bbd9-42d64e5254d8", "doctor2@hospital.com", "Doctor 2", "doctor2", "f47ac10b-58cc-4372-a567-0e02b2c3d479", "910555444", "Doctor" },
-                    { "a6d5ae6d-a15d-43ee-92da-5847d8a0879f", null, null, "nurese", null, null, "Nurse" }
+                    { "163ea7bc-13ea-43d9-b179-1dc0bca6050a", "doctor2@hospital.com", "Doctor 2", "doctor2", "f47ac10b-58cc-4372-a567-0e02b2c3d479", "910555444", "Doctor" },
+                    { "8bf0452b-bbb0-4ff1-8f70-81c9b098838a", null, null, "doctor", null, null, "Doctor" },
+                    { "ce650108-d6eb-4d9b-b584-c9b7ef543dbc", null, null, "nurese", null, null, "Nurse" }
                 });
 
             migrationBuilder.InsertData(
@@ -215,8 +215,8 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                 columns: new[] { "Id", "dateTime", "operationTypeId", "patientId", "priority", "requestStatus", "staffId" },
                 values: new object[,]
                 {
-                    { new Guid("8501c839-ad6c-42a3-91ad-c4c820ab63ea"), new DateTime(2024, 10, 27, 0, 10, 38, 931, DateTimeKind.Local).AddTicks(3894), new Guid("a5571cde-8878-45a8-903d-2a3abb5612d7"), "ef0c93ba-9316-4f76-89b1-b271c4c1d4ca", "top", 0, "4a8f5fe5-3cda-4a74-9a21-2b297e930a7d" },
-                    { new Guid("aeed546c-b1b0-4eb4-a56b-6772d1db36d1"), new DateTime(2024, 10, 27, 0, 10, 38, 931, DateTimeKind.Local).AddTicks(3739), new Guid("5715159e-18da-48cc-9b5c-d8ca1a0de9da"), "8092898a-f7ca-4234-b0ac-2279f20e7423", "none", 0, "4a8f5fe5-3cda-4a74-9a21-2b297e930a7d" }
+                    { new Guid("b84782d6-d06c-452c-bde8-415fc3e32649"), new DateTime(2024, 10, 27, 0, 47, 1, 865, DateTimeKind.Local).AddTicks(7403), new Guid("656a3a1b-4de8-4b46-a3eb-f15c39d8148f"), "635fa5b5-5b33-4b68-88c0-7c8bf762c3cc", "none", 0, "8bf0452b-bbb0-4ff1-8f70-81c9b098838a" },
+                    { new Guid("df4bd2a2-911a-4c10-8369-dcc80062dc03"), new DateTime(2024, 10, 27, 0, 47, 1, 865, DateTimeKind.Local).AddTicks(7912), new Guid("09bada98-4b7a-48d7-bb10-51d91cd4f2a1"), "7d2ab1ef-ee41-4659-977d-0b2344748822", "top", 0, "8bf0452b-bbb0-4ff1-8f70-81c9b098838a" }
                 });
 
             migrationBuilder.CreateIndex(
