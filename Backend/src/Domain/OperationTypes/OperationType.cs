@@ -22,8 +22,11 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
     public Status Status{get; set;}
 
     public OperationType(OperationName name) {
-        this.Id = new OperationTypeId(Guid.NewGuid());
+        Id = new OperationTypeId(Guid.NewGuid());
         this.name = name;
+        this.anaesthesiaTime = new AnaesthesiaTime(0);
+        this.surgeryTime = new SurgeryTime(0);
+        this.cleaningTime = new CleaningTime(0);
     }
 
     public OperationType(OperationName name, AnaesthesiaTime anaesthesiaTime, SurgeryTime surgeryTime, CleaningTime cleaningTime) {
