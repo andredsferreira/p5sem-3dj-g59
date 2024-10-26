@@ -97,7 +97,51 @@ public class PatientService {
         return patient.returnDTO();
     }
 
-    public async virtual Task<PatientDTO> DeletePatient(MedicalRecordNumber id){
+    public async Task<PatientDTO> EditPatientByAdmin(MedicalRecordNumber id, FilterPatientDTO dto){
+        var patient = this._repository.GetPatientByRecordNumber(id);
+        if (patient == null) return null;
+
+        bool warn = false;
+        string email = patient.Email.ToString();
+        StringBuilder messageBuilder = new(string.Format("Hello {0},<br>This message was sent to warn you that:<br>", patient.FullName.Full)),
+            logBuilder = new(string.Format("Edit in Patient {0}: ", id.Record));
+
+        if (!string.IsNullOrEmpty(dto.FullName)){
+            logBuilder.Append(string.Format("Full name changed from {0} to {1}, ", patient.FullName.Full, dto.FullName));
+            patient.FullName = new FullName(dto.FullName);
+        }
+
+        if (!string.IsNullOrEmpty(dto.PhoneNumber)){
+            warn = true;
+            logBuilder.Append(string.Format("Phone Number changed from {0} to {1}, ", patient.PhoneNumber, dto.PhoneNumber));
+            messageBuilder.Append(string.Format("-The Phone Number associated with your account was changed from {0} to {1}.<br>",patient.PhoneNumber,dto.PhoneNumber));
+            patient.PhoneNumber = new PhoneNumber(dto.PhoneNumber);
+        }
+        if (!string.IsNullOrEmpty(dto.Email)){
+            warn = true;
+            logBuilder.Append(string.Format("Email changed from {0} to {1}, ", patient.Email, dto.Email));
+            messageBuilder.Append(string.Format("-The Email associated with your account was changed from {0} to {1}.<br>",patient.Email,dto.Email));
+            patient.Email = new MailAddress(dto.Email);
+        }
+
+        // send an email with a link to confirm the changes made to a profile
+        
+        /*
+        messageBuilder.Append("<br>To confirm this changes, please click <a href='http://localhost:5000/api/patients/confirmEdit'>here</a> to cancel them.<br>");
+        messageBuilder.Append("<br>This message was sent automatically. Don't answer it.<br>");
+        _messageSender.SendMessage(email, "Some of your data was altered", messageBuilder.ToString());
+        */
+        
+        // wait for the confirmation
+        // if the user confirms the changes, the changes are saved
+        // if the user cancels the changes, the changes are not saved
+
+        
+
+        return patient.returnDTO();
+    }
+
+    public async Task<PatientDTO> DeletePatient(MedicalRecordNumber id){
         var patient = this._repository.GetPatientByRecordNumber(id);
         if (patient == null) return null;
         
