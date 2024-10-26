@@ -59,6 +59,9 @@ public class AddOperationTypeService {
 
     public async Task<OperationTypeDTO> GetOperationTypeByName(string name) {
         var operationType = await GetOperationTypeIdByName(name);
+        if (operationType == null) {
+            throw new Exception("Operation Type not found.");
+        }
         return operationType.returnDTO();
     }
 
