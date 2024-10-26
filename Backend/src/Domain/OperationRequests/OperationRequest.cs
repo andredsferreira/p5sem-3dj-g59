@@ -26,6 +26,11 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
 
     public RequestStatus requestStatus { get; set; }
 
+    // Testing purposes
+    public OperationRequest(OperationRequestId id) {
+        Id = id;
+    }
+
     public OperationRequest(PatientId patientId, OperationTypeId operationTypeId, string priority, DateTime dateTime, RequestStatus requestStatus) {
         Id = new OperationRequestId(Guid.NewGuid());
         this.patientId = patientId;

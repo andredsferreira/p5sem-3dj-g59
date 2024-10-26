@@ -55,7 +55,6 @@ public class OperationRequestService {
             throw new Exception("That operation type is not valid.");
         }
         var operationRequest = OperationRequest.CreateFromDTO(dto);
-        // Possivelmente dara erro...
         operationRequest.patient = patient;
         operationRequest.staffId = staff.Id;
         operationRequest.staff = staff;

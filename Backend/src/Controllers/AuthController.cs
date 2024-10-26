@@ -150,7 +150,6 @@ public class AuthController : ControllerBase {
             expires: expiration,
             signingCredentials: creds
         );
-
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 

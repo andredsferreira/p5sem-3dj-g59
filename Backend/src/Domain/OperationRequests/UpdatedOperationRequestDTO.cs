@@ -18,4 +18,10 @@ public class UpdatedOperationRequestDTO {
     [FromForm(Name = "dateTime")]
     public DateTime dateTime { get; set; }
 
+    public UpdatedOperationRequestDTO(Guid updatedId, string priority, DateTime dateTime) {
+        this.updatedId = updatedId;
+        this.priority = priority;
+        this.dateTime = dateTime;
+    }
+
 }
