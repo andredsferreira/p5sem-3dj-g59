@@ -50,31 +50,31 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "89f15015-8e47-4935-ac2f-6b522081bb5a",
+                            Id = "67922bdd-ccf6-40e1-b0b8-05e69b6f59e9",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "545395c9-0b4e-4b0f-a433-53d35276ee94",
+                            Id = "25d65bba-cc57-4a40-be11-be68484affc0",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "47f92c3e-7982-4feb-802a-a558a0527ffd",
+                            Id = "fa1bbfc7-e02d-4772-bd70-b292a1c80035",
                             Name = "Nurse",
                             NormalizedName = "NURSE"
                         },
                         new
                         {
-                            Id = "b98a2836-2829-4fb2-81a1-b0df4bfa6cb5",
+                            Id = "df2dab83-e5cd-4c92-92f4-47568c867450",
                             Name = "Technician",
                             NormalizedName = "TECHNICIAN"
                         },
                         new
                         {
-                            Id = "eb8532b4-9429-4256-a4e8-6d805f434a77",
+                            Id = "4cc69c83-390e-4e3d-97b8-79f48ff043e7",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });
@@ -171,81 +171,81 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "60c6dcf9-ca5a-4eb1-b60f-10575aaace60",
+                            Id = "9257aad1-f9ec-417a-9c8a-7816f275c56b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2491ed60-9072-4a97-a200-d19b026bf7f6",
+                            ConcurrencyStamp = "d88e006a-08d7-4260-9564-306e1d74c9f0",
                             Email = "admin@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@HOSPITAL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJtBaUEyhBsqDklvmeMWqF++VAAGn32w+gCiENZAPEP+TTaF91GgjDmcXi0uGUU6EQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMiy18Zx1o7mFFPT1SEfFzWPAHq4KgR1qICFY62jdzUOir2V2TegDr7hKVSt9nk2gA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f5fbcdf8-b0d9-462c-9510-a67398928dc2",
+                            SecurityStamp = "985ef347-a11f-4a5e-87ea-2a9daca0653f",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
                         new
                         {
-                            Id = "f07aae73-4f70-49fd-9933-c5a13c153b53",
+                            Id = "87474de0-c420-4544-bdd5-22fdbceae58c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a7100f57-2d18-4431-85a6-75d4ac304d00",
+                            ConcurrencyStamp = "0f651af2-ec1c-4b38-a572-57988775e255",
                             Email = "doctor@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "DOCTOR@HOSPITAL.COM",
                             NormalizedUserName = "DOCTOR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEL4Rb5GbuWS5KLB4DUh+t6xnxrlBhjck2L8mKeElyxvqFLfGAX7Ip7AR+LjhX45+uA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPMtX9glCuDAsmzHT8Mlwb8AR9Srz1cHPUtiGuTMVimDF/xq1fiChbE5qzSkWb6zDQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b9ccd32c-bdf1-4f08-afdb-1d1c196c4c59",
+                            SecurityStamp = "ee9c907b-7914-439d-8e32-51bc2b834c67",
                             TwoFactorEnabled = false,
                             UserName = "doctor"
                         },
                         new
                         {
-                            Id = "18aab6c5-42df-4f91-9ad5-69139dcbff3d",
+                            Id = "400390f7-e510-4c68-b8e1-a1a428392f3b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3f8df030-b899-4517-8d5c-8590ab202644",
+                            ConcurrencyStamp = "12930b57-4300-45dd-8866-377c326af5ae",
                             Email = "nurse@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "NURSE@HOSPITAL.COM",
                             NormalizedUserName = "NURSE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJ/gqOLPAQfZjiY/16o3uNKdcPVzTDl9eju2zTFkc877yJcq/lSTNzBHEzmMNQYlEQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKg9p1bgt/pJJk50OrJFijOjXc/5uwjf6d12fMpkypvvyW7BxZ9kqBET+E8Y4QozDw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0e355808-5c71-4d30-9505-6c15a0428f6a",
+                            SecurityStamp = "70c9b25d-3285-47d0-a18d-6fb522d8b2a1",
                             TwoFactorEnabled = false,
                             UserName = "nurse"
                         },
                         new
                         {
-                            Id = "1b16c14b-759f-4326-9eac-5fc71de0b1b6",
+                            Id = "7faf98fe-83fc-435c-bb55-a95774d3222a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "733551bd-ef8e-4ef4-807b-267187f01c23",
+                            ConcurrencyStamp = "5aa0060d-b055-41a3-8bda-d40ae7877d65",
                             Email = "technician@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "TECHNICIAN@HOSPITAL.COM",
                             NormalizedUserName = "TECHNICIAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIeuEckEWHVRXLrco6DVaxLv6WebkR1ZDtkNgXEO0W/rjb0MBaHgZeYupI0zWgo9uA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELg3taNEtwnsw0p0bszWjVxOJU12VHfYs2nZIuIiz+Viq2GMcsmdf6HIINf1vUuQ/w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b133205d-d211-4383-82a2-1f4b453c2709",
+                            SecurityStamp = "8db1c60a-d8e1-4475-8f6b-9b4d27a664b1",
                             TwoFactorEnabled = false,
                             UserName = "technician"
                         },
                         new
                         {
-                            Id = "83707211-6042-49f8-a509-2bd927604a31",
+                            Id = "e7b3260c-2b4f-4716-b0b6-2f4fe600a09f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "88a18a43-fa84-4e0b-b9b3-20462d8dd1e0",
+                            ConcurrencyStamp = "58ea38ea-ed6c-483f-9c95-dc3bdc26d690",
                             Email = "patient@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "PATIENT@HOSPITAL.COM",
                             NormalizedUserName = "PATIENT",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKPsMiX7k3F82mgYNdSF0VIebod/s7uOCnhPzeQde9VImbNGh84JMM8pj0PZajQysg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFcjUpWJ8ClbHmXI2YHPFzOndf97CV58P0v89v3Jbv5jDXRlxoXLNbpsDXhsiRrEpg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cceb7128-20a3-4295-ac5e-658b377392b6",
+                            SecurityStamp = "84d41f35-9152-4435-a78f-3568bb793308",
                             TwoFactorEnabled = false,
                             UserName = "patient"
                         });
@@ -315,28 +315,28 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "60c6dcf9-ca5a-4eb1-b60f-10575aaace60",
-                            RoleId = "89f15015-8e47-4935-ac2f-6b522081bb5a"
+                            UserId = "9257aad1-f9ec-417a-9c8a-7816f275c56b",
+                            RoleId = "67922bdd-ccf6-40e1-b0b8-05e69b6f59e9"
                         },
                         new
                         {
-                            UserId = "f07aae73-4f70-49fd-9933-c5a13c153b53",
-                            RoleId = "545395c9-0b4e-4b0f-a433-53d35276ee94"
+                            UserId = "87474de0-c420-4544-bdd5-22fdbceae58c",
+                            RoleId = "25d65bba-cc57-4a40-be11-be68484affc0"
                         },
                         new
                         {
-                            UserId = "18aab6c5-42df-4f91-9ad5-69139dcbff3d",
-                            RoleId = "47f92c3e-7982-4feb-802a-a558a0527ffd"
+                            UserId = "400390f7-e510-4c68-b8e1-a1a428392f3b",
+                            RoleId = "fa1bbfc7-e02d-4772-bd70-b292a1c80035"
                         },
                         new
                         {
-                            UserId = "1b16c14b-759f-4326-9eac-5fc71de0b1b6",
-                            RoleId = "b98a2836-2829-4fb2-81a1-b0df4bfa6cb5"
+                            UserId = "7faf98fe-83fc-435c-bb55-a95774d3222a",
+                            RoleId = "df2dab83-e5cd-4c92-92f4-47568c867450"
                         },
                         new
                         {
-                            UserId = "83707211-6042-49f8-a509-2bd927604a31",
-                            RoleId = "eb8532b4-9429-4256-a4e8-6d805f434a77"
+                            UserId = "e7b3260c-2b4f-4716-b0b6-2f4fe600a09f",
+                            RoleId = "4cc69c83-390e-4e3d-97b8-79f48ff043e7"
                         });
                 });
 

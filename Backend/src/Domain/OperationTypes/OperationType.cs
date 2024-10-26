@@ -10,13 +10,13 @@ namespace DDDSample1.Domain.OperationTypes;
 
 public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
 
-    public OperationName name { get; private set; }
+    public OperationName name { get; set; }
 
-    public AnaesthesiaTime anaesthesiaTime { get; private set; }
+    public AnaesthesiaTime anaesthesiaTime { get;  set; }
 
-    public SurgeryTime surgeryTime { get; private set; }
+    public SurgeryTime surgeryTime { get; set; }
 
-    public CleaningTime cleaningTime { get; private set; }
+    public CleaningTime cleaningTime { get; set; }
 
     public ICollection<OperationRequest> OperationRequests { get; set; }
     public Status Status{get; set;}
@@ -58,7 +58,7 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
 
     public OperationTypeDTO returnDTO() {
         
-        return new OperationTypeDTO(name.ToString(), anaesthesiaTime.duration, surgeryTime.duration, cleaningTime.duration, Status.ToString());
+        return new OperationTypeDTO(Id.AsGuid() ,name.ToString(), anaesthesiaTime.duration, surgeryTime.duration, cleaningTime.duration, Status.ToString());
     }
 
 

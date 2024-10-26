@@ -34,45 +34,67 @@ public class OperationTypeController : ControllerBase
         this.AddOperationTypeService = AddOperationTypeService;
     }
 
-    [HttpPost("addoperationtype")]
-    [Authorize(Roles = HospitalRoles.Admin)]
-
-    public async Task<ActionResult<OperationTypeDTO>> AddOperationType(OperationTypeDTO dto)
+    [HttpPost("Add")]
+    //[Authorize(Roles = HospitalRoles.Admin)]
+    public async Task<ActionResult<OperationTypeDTO>> AddOperationType([FromForm] OperationTypeDTO dto)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
+       
+        var result = await AddOperationTypeService.CreateOperationType(dto);
+   
+        return result != null ? Ok(result) : BadRequest("Could not create operation type");
+    }
 
-        var result = await AddOperationTypeService.CreateOperationType(dto.name, dto.anaesthesiaTime, dto.surgeryTime, dto.cleaningTime);
-        
-        return CreatedAtAction("Operation Type created: ", result.name);
+    
+    //[Authorize(Roles = HospitalRoles.Admin)]
+    private async Task<ActionResult<IEnumerable<OperationTypeDTO>> > GetOperationTypes()
+    {
+        var list = await AddOperationTypeService.GetAll();
+        return list.ToList();
+          
     }
 
     [HttpGet("All")]
     //[Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<IEnumerable<OperationTypeDTO>> > GetOperationTypes()
+    public async Task<ActionResult<IEnumerable<OperationTypeDTO>>> DeactivateOperationType()
     {
-        var list = await AddOperationTypeService.GetAll();
-        return list.ToList();
-        
-        
+       return await GetOperationTypes();
     }
 
+    
     [HttpPut("update/{id}")]
-    [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<OperationTypeDTO>> UpdateOperationType(OperationTypeDTO operationTypeDTO, string field, string value){
+    //[Authorize(Roles = HospitalRoles.Admin)]
+    public async Task<ActionResult<OperationTypeDTO>> UpdateOperationType([FromForm] UpdatedOperationTypeDTO operationTypeDTO, string id){
 
-        throw new NotImplementedException();
+        var result = await AddOperationTypeService.UpdateOperationType(operationTypeDTO, id);
+        return result != null ? Ok(result) : BadRequest("Could not update operation type");
+        
     }
 
     [HttpPut("deactivate/{id}")]
-    [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<OperationTypeDTO>> DeactivateOperationType(OperationTypeDTO operationTypeDTO){
+    //[Authorize(Roles = HospitalRoles.Admin)]
+    public async Task<ActionResult<OperationTypeDTO>> DeactivateOperationType(String id){
 
-        var result = await AddOperationTypeService.DeactivateOperationType(operationTypeDTO.name);
-        return CreatedAtAction("Operation Type deactivated: ", result.name);
+        var result = await AddOperationTypeService.DeactivateOperationType(id);
+        return result != null ? Ok(result) : BadRequest("Could not deactivate operation type");
     }
+
+    [HttpGet("Get/{id}")]
+    //[Authorize(Roles = HospitalRoles.Admin)]
+    public async Task<ActionResult<OperationTypeDTO>> GetOperationType(String id){
+
+        var result = await AddOperationTypeService.GetOperationTypeById(id);
+        return result != null ? Ok(result) : BadRequest("Could not find operation type");
+    }
+
+    [HttpGet("GetByName/{name}")]
+    //[Authorize(Roles = HospitalRoles.Admin)]
+    public async Task<ActionResult<OperationTypeDTO>> GetOperationTypeByName(String name){
+
+        var result = await AddOperationTypeService.GetOperationTypeByName(name);
+        return result != null ? Ok(result) : BadRequest("Could not find operation type");
+    }
+
+
 
 
 }

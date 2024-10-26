@@ -1,26 +1,60 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Common;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DDDSample1.Domain.OperationTypes;
 
-public class OperationTypeDTO (string name,  int anaesthesiaTime, int surgeryTime, int cleaningTime, string status){
+public class OperationTypeDTO {
 
-    //public Guid id { get; set; } = id;
-
-    [Required]
-    public string name { get; set; } = name;
+    [FromForm (Name = "id")]
+    public Guid id { get; set; }
 
     [Required]
-    public int anaesthesiaTime { get; set; } = anaesthesiaTime;
+    [FromForm (Name = "name")]
+    public string name { get; set; }
 
     [Required]
-    public int surgeryTime { get; set; } = surgeryTime;
+    [FromForm (Name = "anaesthesiaTime")]
+    public int anaesthesiaTime { get; set; } 
 
     [Required]
-    public int cleaningTime { get; set; } = cleaningTime;
+    [FromForm (Name = "surgeryTime")]
+    public int surgeryTime { get; set; } 
+
     [Required]
-    public string Status { get; set; } = status;
+    [FromForm (Name = "cleaningTime")]
+    public int cleaningTime { get; set; }
+    
+    [Required]
+    [FromForm (Name = "status")]
+    public string Status { get; set; }
+
+    public OperationTypeDTO() {
+    }
+
+    public OperationTypeDTO(string name, int anaesthesiaTime, int surgeryTime, int cleaningTime, string Status) {
+        this.name = name;
+        this.anaesthesiaTime = anaesthesiaTime;
+        this.surgeryTime = surgeryTime;
+        this.cleaningTime = cleaningTime;
+        this.Status = Status;
+    }
+
+    public OperationTypeDTO(string name, int anaesthesiaTime, int surgeryTime, int cleaningTime) {
+        this.name = name;
+        this.anaesthesiaTime = anaesthesiaTime;
+        this.surgeryTime = surgeryTime;
+        this.cleaningTime = cleaningTime;
+    }
+
+    public OperationTypeDTO(Guid id, string name, int anaesthesiaTime, int surgeryTime, int cleaningTime, string Status) {
+        this.id = id;
+        this.name = name;
+        this.anaesthesiaTime = anaesthesiaTime;
+        this.surgeryTime = surgeryTime;
+        this.cleaningTime = cleaningTime;
+        this.Status = Status;
+    }
 
 
 
