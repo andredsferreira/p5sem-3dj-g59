@@ -14,4 +14,8 @@ public class OperationName : IValueObject {
         this.name = name;
     }
 
+    public override string ToString() {
+        return name;
+    }
+
 }
