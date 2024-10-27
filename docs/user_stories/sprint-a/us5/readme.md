@@ -21,7 +21,6 @@ This US is part of **Sprint A**, as part of the **Group of User Stories regardin
 This **US** depends on:
 * [**US3**](../us8/readme.md) (Explained in **2.3. Pre-Conditions**).
 
-
 ### 2.3. Pre-Conditions
 
 For this **US** to work, there needs to be a **Patient User** inside the system, hence the dependency on [**US3**](../us3/readme.md).
@@ -38,7 +37,13 @@ As the **Acceptance Criteria** states, every piece of data that mentions the del
 
 ## 4. Design
 
--
+The **Http** requests shall be received by the existing class **PatientController**, which in turn calls the **PatientService**. It will have two methods:
+1. One for marking the initial request of deleting the profile.
+2. Other for actually deleting it.
+
+The **PatientService** must also have two methods:
+1. One for marking the profile for deletion and sending an **email notification** to the **Patient's Email Address**.
+2. Other for actually deleting the profile.
 
 ## 5. C4 Views
 
