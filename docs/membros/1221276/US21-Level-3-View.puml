@@ -1,0 +1,52 @@
+' 
+' As an Admin, I want to edit existing operation types, so that I can update or correct information about the procedure.
+'
+' Acceptance Criteria:
+'
+' Admins can search for and select an existing operation type to edit.
+' Editable fields include operation name, required staff by specialization, and estimated duration.
+' Changes are reflected in the system immediately for future operation requests.
+' Historical data is maintained, but new operation requests will use the updated operation type information.
+
+@startuml
+
+title US21
+
+actor Admin as A
+participant OperationTypeController as obc
+participant OperationTypeService as obs
+database OperationTypeRepository as obr
+participant OperationType as ob
+database ILogRepository as ilr
+
+activate A
+A -> obc : Edit Operation Type
+activate obc
+obc -> obs : Edit Operation Type
+activate obs
+obs -> obr : GetOperationType()
+activate obr
+obr -> ob : GetById()
+activate ob
+ob -> obr : ReturnDTO()
+deactivate ob
+obr --> obs : Return Operation Type
+deactivate obr
+obs -> ob : Update Data
+activate ob
+ob -> obs : Updated Operation Type
+deactivate ob
+obs -> obr : Update()
+activate obr
+obr -> obr : Commit()
+obs -> ilr : \nLog Edited Operation Type
+deactivate obr
+activate ilr
+deactivate ilr
+obs --> obc : Return Updated Operation Type
+deactivate obs
+obc --> A : Return Updated Operation Type
+deactivate obc
+deactivate A
+
+@enduml

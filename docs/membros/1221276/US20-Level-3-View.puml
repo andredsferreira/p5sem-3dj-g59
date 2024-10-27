@@ -16,9 +16,9 @@
 actor Admin as a
 participant OperationTypeController as otc
 participant OperationTypeService as ots
-participant OperationTypeRepository as otr
+database OperationTypeRepository as otr
 participant OperationType as ot
-participant ILogRepository as ilr
+database ILogRepository as ilr
 
 activate a
 a -> otc : Create Operation Type
