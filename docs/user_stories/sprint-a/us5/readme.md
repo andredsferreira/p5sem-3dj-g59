@@ -32,7 +32,9 @@ For this **US** to work, there needs to be a **Patient User** inside the system,
 
 ## 3. Analysis
 
--
+When the **Patient** clicks to delete their profile, it's only **marked for deletion**. The profile is only deleted when they press the **confirmation link** sent through email.
+
+As the **Acceptance Criteria** states, every piece of data that mentions the deleted **Patient** must be at least anonymized. Hence, this **US** affects not just the **Patient aggregate**, but also the **Operation Request aggregate** (since an Operation Request is related to a Patient) and any **Logs** that contain personal data about the Patient.
 
 ## 4. Design
 
