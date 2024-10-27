@@ -23,6 +23,35 @@ public class UpdatedOperationTypeDTO
     [FromForm(Name = "cleaningTime")]
     public int cleaningTime { get; set; }
 
+    [Required]
+    [FromForm(Name = "minDoctor")]
+    public int MinDoctor { get; set; }
+
+    [Required]
+    [FromForm(Name = "minAnesthetist")]
+    public int MinAnesthetist { get; set; }
+
+    [Required]
+    [FromForm(Name = "minInstrumentingNurse")]
+    public int MinInstrumentingNurse { get; set; }
+
+    [Required]
+    [FromForm(Name = "minCirculatingNurse")]
+    public int MinCirculatingNurse { get; set; }
+
+    [Required]
+    [FromForm(Name = "minNurseAnaesthetist")]
+    public int MinNurseAnaesthetist { get; set; }
+
+    [Required]
+    [FromForm(Name = "minXRayTechnician")]
+    public int MinXRayTechnician { get; set; }
+
+    [Required]
+    [FromForm(Name = "minMedicalActionAssistant")]
+    public int MinMedicalActionAssistant { get; set; }
+    
+
     public UpdatedOperationTypeDTO(string name, int anaesthesiaTime, int surgeryTime, int cleaningTime)
     {
         this.name = name;
