@@ -45,7 +45,15 @@ The **Http** requests shall be received by the existing class **AuthController**
 
 The **C4 Views** for this *US* can be viewed [here](views/readme.md).
 
-## 6. Implementation
+## 6. Tests
+
+### 6.1. Integration Tests
+
+We have to make sure that the program returns a **Ok** code.
+
+![](images/postman_ok.png)
+
+## 7. Implementation
 
 This is the method that checks the current user's **Patient Profile**.
 
@@ -95,6 +103,14 @@ public async Task<IActionResult> DeletePatientProfileAndRecordsAsync() {
 }
 ```
 
-## 7. Demonstration
+## 8. Demonstration
 
-As this project doesn't have a **Frontend** yet, this section doesn't apply.
+Since our system doesn't have a frontend yet, this section does not apply.
+
+However, we can show how the **confirmation email** looks:
+
+![](images/email-confirmation.png)
+
+And this is how it looks when the user clicks the **confirmation link** when we don't have a **Frontend** system:
+
+![](images/confirmation-link.png)

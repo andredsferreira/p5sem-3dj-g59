@@ -82,23 +82,23 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2bac7b77-6a59-4820-979e-ab9a03852f54"),
-                            dateTime = new DateTime(2024, 10, 27, 15, 46, 37, 716, DateTimeKind.Local).AddTicks(4343),
-                            operationTypeId = new Guid("a18af776-512f-42da-b9cc-a0f71a8046b6"),
-                            patientId = "800f192e-9392-41d7-af8b-6c5bc4c7a4f8",
+                            Id = new Guid("6cd8cfd6-c680-4fc6-9aa1-200d1b5b58e4"),
+                            dateTime = new DateTime(2024, 10, 27, 16, 8, 45, 780, DateTimeKind.Local).AddTicks(1855),
+                            operationTypeId = new Guid("20b4ad78-ff87-4084-9d15-5deccb6e3eca"),
+                            patientId = "90603747-e600-44a7-aa45-e5289d9a9e53",
                             priority = "none",
                             requestStatus = 0,
-                            staffId = "5c458e6d-6c1b-4891-a823-47f449c1ce09"
+                            staffId = "1309f93d-0ad4-4801-b8cb-1f0ac9c1bb2f"
                         },
                         new
                         {
-                            Id = new Guid("4212426e-5aab-4ccc-a147-dee0dd46a2c3"),
-                            dateTime = new DateTime(2024, 10, 27, 15, 46, 37, 716, DateTimeKind.Local).AddTicks(4444),
-                            operationTypeId = new Guid("c738b5e4-0d82-4734-a965-bf8d6875d130"),
-                            patientId = "4e050f88-b14c-4a88-a436-b26c3c6d6905",
+                            Id = new Guid("d4b17c15-838c-4620-89ae-219e141bd72b"),
+                            dateTime = new DateTime(2024, 10, 27, 16, 8, 45, 780, DateTimeKind.Local).AddTicks(1964),
+                            operationTypeId = new Guid("e6b916df-aa8d-4d39-9261-f78585e0b23a"),
+                            patientId = "ca33686c-bff7-4650-848d-2d14b54d347b",
                             priority = "top",
                             requestStatus = 0,
-                            staffId = "5c458e6d-6c1b-4891-a823-47f449c1ce09"
+                            staffId = "1309f93d-0ad4-4801-b8cb-1f0ac9c1bb2f"
                         });
                 });
 
@@ -157,7 +157,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a18af776-512f-42da-b9cc-a0f71a8046b6"),
+                            Id = new Guid("20b4ad78-ff87-4084-9d15-5deccb6e3eca"),
                             MinAnesthetist = 1,
                             MinCirculatingNurse = 1,
                             MinDoctor = 1,
@@ -174,7 +174,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                         },
                         new
                         {
-                            Id = new Guid("c738b5e4-0d82-4734-a965-bf8d6875d130"),
+                            Id = new Guid("e6b916df-aa8d-4d39-9261-f78585e0b23a"),
                             MinAnesthetist = 1,
                             MinCirculatingNurse = 1,
                             MinDoctor = 1,
@@ -191,7 +191,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                         },
                         new
                         {
-                            Id = new Guid("c2374853-c94e-4278-b4f2-e5f28875b000"),
+                            Id = new Guid("959202e8-4b66-4338-8631-e10cc2ee3e11"),
                             MinAnesthetist = 1,
                             MinCirculatingNurse = 1,
                             MinDoctor = 1,
@@ -280,7 +280,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasData(
                         new
                         {
-                            Id = "800f192e-9392-41d7-af8b-6c5bc4c7a4f8",
+                            Id = "90603747-e600-44a7-aa45-e5289d9a9e53",
                             DateOfBirth = new DateOnly(2001, 10, 21),
                             Email = "patientA@hospital.com",
                             FullName = "João Camião",
@@ -290,7 +290,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                         },
                         new
                         {
-                            Id = "4e050f88-b14c-4a88-a436-b26c3c6d6905",
+                            Id = "ca33686c-bff7-4650-848d-2d14b54d347b",
                             DateOfBirth = new DateOnly(1998, 5, 14),
                             Email = "patientB@hospital.com",
                             FullName = "Bruno Silva",
@@ -300,7 +300,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                         },
                         new
                         {
-                            Id = "d86182d0-8d3d-4b6b-955e-2f66e52601dd",
+                            Id = "5d40fa3a-ec51-49b1-922f-dd0d5c6c6d7f",
                             DateOfBirth = new DateOnly(1995, 12, 30),
                             Email = "patientC@hospital.com",
                             FullName = "Carla Ferreira",
@@ -352,13 +352,13 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                     b.HasData(
                         new
                         {
-                            Id = "5c458e6d-6c1b-4891-a823-47f449c1ce09",
+                            Id = "1309f93d-0ad4-4801-b8cb-1f0ac9c1bb2f",
                             IdentityUsername = "doctor",
                             StaffRole = "Doctor"
                         },
                         new
                         {
-                            Id = "58dbcba3-b426-4551-8cc9-c9a22e86c9cf",
+                            Id = "34f1894e-cfd3-408d-a6c4-461e5d4316b4",
                             Email = "doctor2@hospital.com",
                             FullName = "Doctor 2",
                             IdentityUsername = "doctor2",
@@ -368,7 +368,7 @@ namespace DDDNetCore.Migrations.DDDSample1Db
                         },
                         new
                         {
-                            Id = "c9a8d7c5-1a32-4557-8068-1c11ededfc45",
+                            Id = "27b0d99e-f9b1-417a-8a5b-8b636e4710d2",
                             IdentityUsername = "nurese",
                             StaffRole = "Nurse"
                         });

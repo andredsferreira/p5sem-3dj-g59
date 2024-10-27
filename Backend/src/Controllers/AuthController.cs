@@ -113,11 +113,13 @@ public class AuthController : ControllerBase {
             Email = dto.Email,
             PhoneNumber = dto.Phone
         };
-
-        if (_patientRepository.GetByEmail(new MailAddress(dto.Email)) == null) {
+        var pat = _patientRepository.GetByEmail(new MailAddress(dto.Email)); 
+        if (pat == null) {
             return NotFound("Patient is not registered by the admin");
         }
 
+        pat.LinkToAccount(dto.Email);
+        _patientRepository.Update(pat);
         var result = await UserManager.CreateAsync(patientUser, dto.Password);
         if (!result.Succeeded) {
             return BadRequest(result.Errors);
@@ -131,6 +133,8 @@ public class AuthController : ControllerBase {
         await UserManager.AddToRoleAsync(patientUser, HospitalRoles.Patient);
 
         var token = await BuildToken(patientUser);
+        
+        await _unitOfWork.CommitAsync();
 
         return Ok(new { token });
     }
@@ -146,6 +150,7 @@ public class AuthController : ControllerBase {
     }
     private Patient CheckCurrentUsersPatientProfile(MailAddress email){
         Patient pat = _patientRepository.GetByUserEmail(email);
+        Console.WriteLine("Este é o patient: "+pat);
         return pat;
     }
     private void SendAccountDeletionEmail(MailAddress recipient, Patient pat){
@@ -189,6 +194,7 @@ public class AuthController : ControllerBase {
 
         var claims = new List<Claim>() {
             new Claim(JwtRegisteredClaimNames.NameId, user.Id),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(ClaimTypes.Role, firstRole)

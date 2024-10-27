@@ -28,7 +28,7 @@ public class Patient : Entity<PatientId>, IAggregateRoot {
     public MailAddress UserEmail {get;set;}
     
     public void LinkToAccount(string Email){
-        if (string.IsNullOrEmpty(UserEmail.ToString()))
+        if (UserEmail == null)
             UserEmail = new MailAddress(Email);
         else throw new BusinessRuleValidationException("Can't associate a user to a Patient Profile that already has a user linked to it");
     }
