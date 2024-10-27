@@ -1,0 +1,55 @@
+@startuml
+
+'As a Patient, I want to update my user profile, so that I can change my personal details and preferences.
+
+'Acceptance Criteria:
+
+'Patients can log in and update their profile details (e.g., name, contact information, preferences).
+'Changes to sensitive data, such as email, trigger an additional verification step (e.g., confirmation email).
+'All profile updates are securely stored in the system.
+'The system logs all changes made to the patient's profile for audit purposes.
+
+title US4 - Level 3 View
+
+actor Patient as p
+participant "PatientController" as pc
+participant "PatientService" as ps
+participant "EmailService" as es
+participant "PatientRepository" as pr
+participant "ILogRepository" as ilr
+
+activate p
+p -> pc: updateProfile()
+activate pc
+pc -> ps: updateProfile()
+activate ps
+
+
+    ps -> es: sendEmail()
+    activate es
+    es -> es : sendConfirmationEmail()
+    activate es
+    deactivate es
+    deactivate es
+    p -> ps: confirmEmail()
+    
+    ps -> pr: updateProfile()
+    activate pr
+    pr -> pr : commit()
+    activate pr
+    deactivate pr
+    pr --> ps : patientDto
+    deactivate pr
+    ps -> ilr: log()
+    activate ilr
+    deactivate ilr
+    ps --> pc: patientDto
+    deactivate ps
+    pc --> p: patientDto
+    deactivate pc
+    deactivate p
+    
+
+
+
+@enduml
