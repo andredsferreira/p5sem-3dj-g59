@@ -31,6 +31,10 @@ public class OperationTypeController : ControllerBase
         this.UserManager = UserManager;
         this.AddOperationTypeService = AddOperationTypeService;
     }
+    public OperationTypeController(AddOperationTypeService AddOperationTypeService)
+    {
+        this.AddOperationTypeService = AddOperationTypeService;
+    }
 
     [HttpPost("Add")]
     //[Authorize(Roles = HospitalRoles.Admin)]

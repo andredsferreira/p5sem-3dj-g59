@@ -60,6 +60,21 @@ public class UpdatedOperationTypeDTO
         this.cleaningTime = cleaningTime;
     }
 
+    public UpdatedOperationTypeDTO(string name, int anaesthesiaTime, int surgeryTime, int cleaningTime, int MinDoctor, int MinAnesthetist, int MinInstrumentingNurse, int MinCirculatingNurse, int MinNurseAnaesthetist, int MinXRayTechnician, int MinMedicalActionAssistant)
+    {
+        this.name = name;
+        this.anaesthesiaTime = anaesthesiaTime;
+        this.surgeryTime = surgeryTime;
+        this.cleaningTime = cleaningTime;
+        this.MinDoctor = MinDoctor;
+        this.MinAnesthetist = MinAnesthetist;
+        this.MinInstrumentingNurse = MinInstrumentingNurse;
+        this.MinCirculatingNurse = MinCirculatingNurse;
+        this.MinNurseAnaesthetist = MinNurseAnaesthetist;
+        this.MinXRayTechnician = MinXRayTechnician;
+        this.MinMedicalActionAssistant = MinMedicalActionAssistant;
+    }
+
     public UpdatedOperationTypeDTO()
     {
     }

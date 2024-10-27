@@ -19,7 +19,10 @@ public class AddOperationTypeService {
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<OperationTypeDTO> CreateOperationType([FromForm] OperationTypeDTO dto) {
+    public AddOperationTypeService() {
+    }
+
+    public virtual async Task<OperationTypeDTO> CreateOperationType([FromForm] OperationTypeDTO dto) {
         
         OperationType operationType = OperationType.createFromDTO(dto);
         
@@ -30,7 +33,7 @@ public class AddOperationTypeService {
     }
 
     
-    public async Task<OperationTypeDTO> DeactivateOperationType(string id) {
+    public virtual async Task<OperationTypeDTO> DeactivateOperationType(string id) {
         var operationType = await _repository.GetByIdAsync(new OperationTypeId(id));
         if (operationType == null) {
             throw new Exception("Operation Type not found.");
@@ -65,7 +68,7 @@ public class AddOperationTypeService {
         return operationType.returnDTO();
     }
 
-    public async Task<OperationTypeDTO> UpdateOperationType([FromForm] UpdatedOperationTypeDTO dto, string id) {
+    public virtual async Task<OperationTypeDTO> UpdateOperationType([FromForm] UpdatedOperationTypeDTO dto, string id) {
         var operationType = this._repository.GetByIdAsync(new OperationTypeId(id)).Result;
         
         if (operationType == null) {

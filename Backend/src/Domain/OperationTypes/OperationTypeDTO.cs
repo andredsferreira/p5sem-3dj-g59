@@ -97,6 +97,22 @@ public class OperationTypeDTO {
         this.MinXRayTechnician = MinXRayTechnician;
         this.MinMedicalActionAssistant = MinMedicalActionAssistant;
     }
+    public OperationTypeDTO( string name, int anaesthesiaTime, int surgeryTime, int cleaningTime, string Status, string Specialization, int MinDoctor, int MinAnesthetist, int MinInstrumentingNurse, int MinCirculatingNurse, int MinNurseAnaesthetist, int MinXRayTechnician, int MinMedicalActionAssistant) {
+        
+        this.name = name;
+        this.anaesthesiaTime = anaesthesiaTime;
+        this.surgeryTime = surgeryTime;
+        this.cleaningTime = cleaningTime;
+        this.Status = Status;
+        this.Specialization = Specialization;
+        this.MinDoctor = MinDoctor;
+        this.MinAnesthetist = MinAnesthetist;
+        this.MinInstrumentingNurse = MinInstrumentingNurse;
+        this.MinCirculatingNurse = MinCirculatingNurse;
+        this.MinNurseAnaesthetist = MinNurseAnaesthetist;
+        this.MinXRayTechnician = MinXRayTechnician;
+        this.MinMedicalActionAssistant = MinMedicalActionAssistant;
+    }
 
 
 
