@@ -11,11 +11,12 @@ using System.Linq;
 using System;
 
 
+
 namespace DDDSample1.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-//[Authorize]
+[Authorize]
 public class OperationTypeController : ControllerBase
 {
 
@@ -23,6 +24,7 @@ public class OperationTypeController : ControllerBase
     private readonly IdentityContext Context;
     private readonly UserManager<IdentityUser> UserManager;
     private readonly AddOperationTypeService AddOperationTypeService;
+    
 
     public OperationTypeController(IConfiguration Configuration, IdentityContext Context, UserManager<IdentityUser> UserManager, AddOperationTypeService AddOperationTypeService)
     {
@@ -37,7 +39,7 @@ public class OperationTypeController : ControllerBase
     }
 
     [HttpPost("Add")]
-    //[Authorize(Roles = HospitalRoles.Admin)]
+    [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<OperationTypeDTO>> AddOperationType([FromForm] OperationTypeDTO dto)
     {
        
@@ -47,7 +49,7 @@ public class OperationTypeController : ControllerBase
     }
 
     
-    //[Authorize(Roles = HospitalRoles.Admin)]
+    
     private async Task<ActionResult<IEnumerable<OperationTypeDTO>> > GetOperationTypes()
     {
         var list = await AddOperationTypeService.GetAll();
@@ -56,7 +58,7 @@ public class OperationTypeController : ControllerBase
     }
 
     [HttpGet("All")]
-    //[Authorize(Roles = HospitalRoles.Admin)]
+    [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<IEnumerable<OperationTypeDTO>>> DeactivateOperationType()
     {
        return await GetOperationTypes();
@@ -64,7 +66,7 @@ public class OperationTypeController : ControllerBase
 
     
     [HttpPut("Edit/{id}")]
-    //[Authorize(Roles = HospitalRoles.Admin)]
+    [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<OperationTypeDTO>> UpdateOperationType([FromForm] UpdatedOperationTypeDTO operationTypeDTO, string id){
 
         var result = await AddOperationTypeService.UpdateOperationType(operationTypeDTO, id);
@@ -73,7 +75,7 @@ public class OperationTypeController : ControllerBase
     }
 
     [HttpPut("Deactivate/{id}")]
-    //[Authorize(Roles = HospitalRoles.Admin)]
+    [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<OperationTypeDTO>> DeactivateOperationType(String id){
 
         var result = await AddOperationTypeService.DeactivateOperationType(id);
@@ -81,7 +83,7 @@ public class OperationTypeController : ControllerBase
     }
 
     [HttpGet("Get/{id}")]
-    //[Authorize(Roles = HospitalRoles.Admin)]
+    [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<OperationTypeDTO>> GetOperationType(String id){
 
         var result = await AddOperationTypeService.GetOperationTypeById(id);
@@ -89,7 +91,7 @@ public class OperationTypeController : ControllerBase
     }
 
     [HttpGet("GetByName/{name}")]
-    //[Authorize(Roles = HospitalRoles.Admin)]
+    [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<OperationTypeDTO>> GetOperationTypeByName(string name){
 
         var result = await AddOperationTypeService.GetOperationTypeByName(name);
@@ -97,7 +99,7 @@ public class OperationTypeController : ControllerBase
     }
 
     [HttpGet("GetStatus/{status}")]
-    //[Authorize(Roles = HospitalRoles.Admin)]
+    [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<IEnumerable<OperationTypeDTO>> > GetOperationTypeByStatus(string status){
 
         var list = await AddOperationTypeService.GetAll();
@@ -106,7 +108,7 @@ public class OperationTypeController : ControllerBase
     }
 
     [HttpGet("GetSpecialization/{specialization}")]
-    //[Authorize(Roles = HospitalRoles.Admin)]
+    [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<IEnumerable<OperationTypeDTO>> > GetOperationTypeBySpecialization(string specialization){
 
         var result = await AddOperationTypeService.GetBySpecialization(specialization);

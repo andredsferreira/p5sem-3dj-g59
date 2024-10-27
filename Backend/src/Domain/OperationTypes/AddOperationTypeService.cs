@@ -5,6 +5,7 @@ using DDDSample1.Domain.Shared;
 using DDDSample1.Domain.OperationTypes;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using DDDSample1.Domain.DomainLogs;
 
 
 namespace DDDSample1.Domain.OperationTypes;
@@ -14,9 +15,13 @@ public class AddOperationTypeService {
 
     private readonly IUnitOfWork _unitOfWork;
 
-    public AddOperationTypeService(IOperationTypeRepository repository, IUnitOfWork unitOfWork) {
+    private readonly IDomainLogRepository _logRepository;
+
+
+    public AddOperationTypeService(IOperationTypeRepository repository, IUnitOfWork unitOfWork, IDomainLogRepository logRepository) {
         _repository = repository;
         _unitOfWork = unitOfWork;
+        _logRepository = logRepository;
     }
 
     public AddOperationTypeService() {
@@ -28,6 +33,9 @@ public class AddOperationTypeService {
         
         await _repository.AddAsync(operationType);
         await _unitOfWork.CommitAsync();
+
+        await _logRepository.AddAsync(new DomainLog(LogObjectType.OperationType, LogActionType.Creation, 
+            string.Format("Created a new Operation Type (Name = {0})", operationType.name.name)));
 
         return operationType.returnDTO();
     }
@@ -41,6 +49,9 @@ public class AddOperationTypeService {
         operationType.Status = Status.INACTIVE;
         _repository.Update(operationType);
         await _unitOfWork.CommitAsync();
+
+        await _logRepository.AddAsync(new DomainLog(LogObjectType.OperationType, LogActionType.Edit, 
+            string.Format("Deactivated Operation Type (Name = {0})", operationType.name.name)));
         
         return operationType.returnDTO();
     }
@@ -80,8 +91,12 @@ public class AddOperationTypeService {
         operationType.surgeryTime = new SurgeryTime(dto.surgeryTime);
         operationType.cleaningTime = new CleaningTime(dto.cleaningTime);
         
-
+        _repository.Update(operationType);
         await _unitOfWork.CommitAsync();
+
+        await _logRepository.AddAsync(new DomainLog(LogObjectType.OperationType, LogActionType.Edit, 
+            string.Format("Updated Operation Type (Name = {0})", operationType.name.name)));
+
         return operationType.returnDTO();
     }
 
