@@ -82,4 +82,9 @@ public class AddOperationTypeService {
         return operationType.returnDTO();
     }
 
+    public async Task<IEnumerable<OperationTypeDTO>> GetBySpecialization(string specialization) {
+        var list = await _repository.GetAllAsync();
+        return list.Where(type => type.Specialization.ToString() == specialization).Select(type => type.returnDTO());
+    }
+
 }

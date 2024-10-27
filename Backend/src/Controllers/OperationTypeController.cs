@@ -8,10 +8,8 @@ using Microsoft.Extensions.Configuration;
 using DDDSample1.Domain.OperationTypes;
 using System.Collections.Generic;
 using System.Linq;
-
-
 using System;
-using System.Security.Cryptography.X509Certificates;
+
 
 namespace DDDSample1.Controllers;
 
@@ -61,7 +59,7 @@ public class OperationTypeController : ControllerBase
     }
 
     
-    [HttpPut("update/{id}")]
+    [HttpPut("Edit/{id}")]
     //[Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<OperationTypeDTO>> UpdateOperationType([FromForm] UpdatedOperationTypeDTO operationTypeDTO, string id){
 
@@ -70,7 +68,7 @@ public class OperationTypeController : ControllerBase
         
     }
 
-    [HttpPut("deactivate/{id}")]
+    [HttpPut("Deactivate/{id}")]
     //[Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<OperationTypeDTO>> DeactivateOperationType(String id){
 
@@ -103,6 +101,13 @@ public class OperationTypeController : ControllerBase
         return result != null ? Ok(result) : BadRequest("Could not find operation type");
     }
 
+    [HttpGet("GetSpecialization/{specialization}")]
+    //[Authorize(Roles = HospitalRoles.Admin)]
+    public async Task<ActionResult<IEnumerable<OperationTypeDTO>> > GetOperationTypeBySpecialization(string specialization){
+
+        var result = await AddOperationTypeService.GetBySpecialization(specialization);
+        return result != null ? Ok(result) : BadRequest("Could not find operation type");
+    }
 
 
 

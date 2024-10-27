@@ -101,7 +101,7 @@ public class PatientService {
         return patient.returnDTO();
     }
 
-    public async Task<PatientDTO> EditPatientByAdmin(MedicalRecordNumber id, FilterPatientDTO dto){
+    public async Task<PatientDTO> EditPatientSelf(MedicalRecordNumber id, FilterPatientDTO dto){
         var patient = this._repository.GetPatientByRecordNumber(id);
         if (patient == null) return null;
 
