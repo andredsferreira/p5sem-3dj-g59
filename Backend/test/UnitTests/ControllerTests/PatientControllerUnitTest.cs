@@ -13,9 +13,9 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DDDSample1.ControllerTests;
+namespace DDDSample1.UnitTests.ControllerTests;
 
-public class PatientControllerTests
+public class PatientControllerUnitTests
 {
     private readonly IPatientRepository _repo;
     private readonly IDomainLogRepository _logrepo;
@@ -25,7 +25,7 @@ public class PatientControllerTests
     private readonly Mock<PatientService> _mockService;
     private readonly PatientController _controller;
 
-    public PatientControllerTests()
+    public PatientControllerUnitTests()
     {
         _mockMessageSender = new Mock<IMessageSenderService>();
         _mockService = new Mock<PatientService>(_repo, _unit, _logrepo, _mockMessageSender.Object);

@@ -9,15 +9,15 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DDDSample1.ServiceTests;
+namespace DDDSample1.UnitTests.ServiceTests;
 
-public class PatientServiceTest {
+public class PatientServiceUnitTest {
     private readonly Mock<IUnitOfWork> _mockUnit;
     private readonly Mock<IPatientRepository> _mockPatRepo;
     private readonly Mock<IDomainLogRepository> _mockLogRepo;
     private readonly Mock<IMessageSenderService> _mockMessageSender;
     private readonly PatientService _service;
-    public PatientServiceTest(){
+    public PatientServiceUnitTest(){
         _mockUnit = new Mock<IUnitOfWork>();
         _mockPatRepo = new Mock<IPatientRepository>();
         _mockLogRepo = new Mock<IDomainLogRepository>();
