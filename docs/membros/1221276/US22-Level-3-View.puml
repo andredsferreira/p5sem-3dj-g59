@@ -1,0 +1,58 @@
+@startuml
+
+
+' As an Admin, I want to remove obsolete or no longer performed operation types, so that the system stays current with hospital practices.
+'
+' Acceptance Criteria:
+'
+' Admins can search for and mark operation types as inactive (rather than deleting them) to preserve historical records.
+' Inactive operation types are no longer available for future scheduling but remain in historical data.
+' A confirmation prompt is shown before deactivating an operation type.
+
+
+title US22-Level 3 View
+
+actor Admin as A
+participant OperationTypeController as obc
+participant OperationTypeService as obs
+participant OperationTypeRepository as obr
+participant OperationType as ob
+participant ILogRepository as ilr
+
+activate A
+A -> obc : Selectes Operation Type to Deactivate
+activate obc
+obc -> obs : DeactivateOperationType(id)
+activate obs
+obs -> obr : FindById(id)
+activate obr
+obr -> ob : FindById(id)
+activate ob
+ob --> obr : ReturnDto()
+deactivate ob
+obr -> obs : OperationTypeDto
+deactivate obr
+obs -> ob : Deactivate()
+activate ob
+ob --> obs : void
+deactivate ob
+obs -> obr : Save()
+activate obr
+obr -> obr : Commit()
+deactivate obr
+obs -> ilr : LogOperationTypeDeactivation()
+activate ilr
+deactivate ilr
+obs --> obc : Return OperationType
+deactivate obs
+obc --> A : Return OperationType
+deactivate obc
+deactivate A
+
+
+
+
+
+
+
+@enduml
