@@ -1,0 +1,48 @@
+@startuml
+
+' 
+' User Story: As an Admin, I want to add new types of operations, so that I can reflect the available medical procedures in the system.
+'
+' Acceptance Criteria:
+' 
+' - Admins can add new operation types with attributes like:
+'   - Operation Name
+'   - Required Staff by Specialization
+'   - Estimated Duration
+' - The system validates that the operation name is unique.
+' - The system logs the creation of new operation types and makes them available for scheduling immediately.
+
+
+actor Admin as a
+participant OperationTypeController as otc
+participant OperationTypeService as ots
+participant OperationTypeRepository as otr
+participant OperationType as ot
+participant ILogRepository as ilr
+
+activate a
+a -> otc : Create Operation Type
+activate otc
+otc -> ots : Create Operation Type
+activate ots
+ots -> otr : Create Operation Type
+activate otr
+otr -> ot** : Create()
+otr -> otr : Save
+otr -> ilr : Log Operation Type Creation
+activate ilr
+ilr -> ilr : Log
+otr --> ots : Return Operation Type
+deactivate ilr
+deactivate otr
+ots --> otc : Return Operation Type
+deactivate ots
+otc --> a : Return Operation Type
+deactivate otc
+deactivate a
+
+
+
+
+
+@enduml
