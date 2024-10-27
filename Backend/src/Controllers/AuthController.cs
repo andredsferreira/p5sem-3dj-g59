@@ -153,6 +153,14 @@ public class AuthController : ControllerBase {
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
+    [HttpGet("confirmation-email")]
+    public async Task ConfirmEmail(string uid, string token){
+        if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(token)){
+            token = token.Replace(' ', '+');
+            await UserManager.ConfirmEmailAsync(await UserManager.FindByIdAsync(uid), token);
+        }
+    }
+
     private void SendEmailConfirmationEmail(IdentityUser user, string token) {
         string appDomain = Configuration.GetSection("Application:AppDomain").Value,
             confirmationLink = Configuration.GetSection("Application:EmailConfirmation").Value,

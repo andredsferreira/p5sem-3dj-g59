@@ -24,6 +24,12 @@ public class Patient : Entity<PatientId>, IAggregateRoot {
     public List<Allergy> Allergies { get; set; } = [];
 
     public ICollection<OperationRequest> OperationRequests { get; set; } = [];
+    public MailAddress UserEmail {get;set;}
+    public void LinkToAccount(string Email){
+        if (string.IsNullOrEmpty(UserEmail.ToString()))
+            UserEmail = new MailAddress(Email);
+        else throw new BusinessRuleValidationException("Can't associate a user to a Patient Profile that already has a user linked to it");
+    }
 
     private Patient() {
 

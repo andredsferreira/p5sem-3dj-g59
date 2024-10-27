@@ -23,28 +23,34 @@ internal class PatientEntityTypeConfiguration : IEntityTypeConfiguration<Patient
             value => new PatientId(value));
 
         builder.Property(b => b.MedicalRecordNumber)
-            .HasConversion(id => id.Record, value => new MedicalRecordNumber(value));
+            .HasConversion(id => id.Record, value => new MedicalRecordNumber(value)).IsRequired();
 
         builder.Property(p => p.DateOfBirth)
-            .HasColumnType("date");
+            .HasColumnType("date").IsRequired();
 
         builder.Property(p => p.Email)
             .HasMaxLength(255)
-            .HasConversion(p => p.ToString(), p => new MailAddress(p));
+            .HasConversion(p => p.ToString(), p => new MailAddress(p)).IsRequired();
 
         builder.Property(p => p.FullName)
-            .HasConversion(fullname => fullname.Full, full => new FullName(full));
+            .HasConversion(fullname => fullname.Full, full => new FullName(full)).IsRequired();
 
         builder.Property(p => p.Gender)
-            .HasConversion(gender => gender.ToString(), genero => (Gender)Enum.Parse(typeof(Gender), genero));
+            .HasConversion(gender => gender.ToString(), genero => (Gender)Enum.Parse(typeof(Gender), genero)).IsRequired();
 
         builder.Property(p => p.PhoneNumber)
             .HasMaxLength(15)
-            .HasConversion(p => p.value, p => new PhoneNumber(p));
+            .HasConversion(p => p.value, p => new PhoneNumber(p)).IsRequired();
+
+        builder.Property(p => p.UserEmail)
+            .HasMaxLength(255)
+            .HasConversion(p => p.ToString(), p => new MailAddress(p));    
         
         builder.HasIndex(p => p.MedicalRecordNumber).IsUnique();
 
         builder.HasIndex(p => p.Email).IsUnique();
+
+        builder.HasIndex(p => p.UserEmail).IsUnique();
 
         builder.HasIndex(p => p.PhoneNumber).IsUnique();
 

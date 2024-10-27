@@ -47,6 +47,8 @@ public class DDDSample1DbContext : DbContext {
         var patientB = new Patient(new MedicalRecordNumber("202410000002"), new DateOnly(1998, 5, 14), new MailAddress("patientB@hospital.com"), new PhoneNumber("910555222"), Gender.Male, new FullName("Bruno Silva"), new List<Allergy>());
         var patientC = new Patient(new MedicalRecordNumber("202410000003"), new DateOnly(1995, 12, 30), new MailAddress("patientC@hospital.com"), new PhoneNumber("910555333"), Gender.Female, new FullName("Carla Ferreira"), new List<Allergy>());
 
+        patientA.LinkToAccount("patient@hospital.com");
+
         var staffDoctor = new Staff(HospitalRoles.Doctor, "doctor");
         var staffNurse = new Staff(HospitalRoles.Nurse, "nurese");
         var staffDoctor2 = new Staff(HospitalRoles.Doctor, "doctor2", new MailAddress("doctor2@hospital.com"), new PhoneNumber("910555444"), new FullName("Doctor 2"), new LicenseNumber("f47ac10b-58cc-4372-a567-0e02b2c3d479"));
