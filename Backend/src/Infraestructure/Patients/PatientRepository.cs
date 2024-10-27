@@ -23,5 +23,10 @@ public class PatientRepository : BaseRepository<Patient, PatientId>, IPatientRep
     public Patient GetByEmail(MailAddress email) {
         return _context.Patients.Where(p => p.Email.Equals(email)).SingleOrDefault();
     }
+
+    public Patient GetByUserEmail(MailAddress email)
+    {
+        return _context.Patients.Where(p => p.UserEmail.Equals(email)).SingleOrDefault();
+    }
 }
 

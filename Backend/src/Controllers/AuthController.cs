@@ -1,9 +1,11 @@
 using DDDSample1.Domain;
 using DDDSample1.Domain.Auth;
 using DDDSample1.Domain.Patients;
+using DDDSample1.Domain.Shared;
 using DDDSample1.Infrastructure;
 using DDDSample1.Infrastructure.Shared.MessageSender;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,14 +37,20 @@ public class AuthController : ControllerBase {
     private readonly IPatientRepository _patientRepository;
 
     private readonly IMessageSenderService MessageSender;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public AuthController(IConfiguration Configuration, IdentityContext Context, UserManager<IdentityUser> UserManager, SignInManager<IdentityUser> SignInManager, IPatientRepository patientRepository, IMessageSenderService MessageSender) {
+    public AuthController(IConfiguration Configuration, IdentityContext Context, UserManager<IdentityUser> UserManager, 
+                        SignInManager<IdentityUser> SignInManager, IPatientRepository patientRepository, 
+                        IMessageSenderService MessageSender, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork) {
         this.Configuration = Configuration;
         this.Context = Context;
         this.UserManager = UserManager;
         this.SignInManager = SignInManager;
         this._patientRepository = patientRepository;
         this.MessageSender = MessageSender;
+        _httpContextAccessor = httpContextAccessor;
+        _unitOfWork = unitOfWork;
     }
 
     [HttpPost("login")]
@@ -125,6 +133,45 @@ public class AuthController : ControllerBase {
         var token = await BuildToken(patientUser);
 
         return Ok(new { token });
+    }
+
+    [HttpDelete("DeleteProfile")]
+    [Authorize(Roles = HospitalRoles.Patient)]
+    public IActionResult DeletePatientProfile() {
+        MailAddress email = new(_httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Email)?.Value);
+        Patient pat = CheckCurrentUsersPatientProfile(email);
+        //Ok
+        SendAccountDeletionEmail(email, pat);
+        return Ok(pat.returnDTO());
+    }
+    private Patient CheckCurrentUsersPatientProfile(MailAddress email){
+        Patient pat = _patientRepository.GetByUserEmail(email);
+        return pat;
+    }
+    private void SendAccountDeletionEmail(MailAddress recipient, Patient pat){
+        string appDomain = Configuration.GetSection("Application:AppDomain").Value,
+            confirmationLink = Configuration.GetSection("Application:EmailDeletionConfirmation").Value,
+            fullConfirmationLink = string.Format(appDomain + confirmationLink, pat.Id);
+
+        string emailBody = string.Format(
+            "Hello {0},<br><br>" +
+            "Please <a href=\"{1}\">confirm your account's deletion</a> by clicking the link.<br><br>" +
+            "We're sad to see you go...",
+            pat.FullName.ToString(), fullConfirmationLink
+        );
+
+        MessageSender.SendMessage(recipient.ToString(), "Account Deletion", emailBody);
+    }
+
+    [HttpDelete("confirmation-deletion-email")]
+    [Authorize(Roles = HospitalRoles.Patient)]
+    public async Task<IActionResult> DeletePatientProfileAndRecordsAsync() {
+        string email = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Email)?.Value;
+        await UserManager.DeleteAsync(await UserManager.FindByEmailAsync(email));
+        var pat = _patientRepository.GetByUserEmail(new MailAddress(email));
+        _patientRepository.Remove(pat);
+        await _unitOfWork.CommitAsync();
+        return Ok(pat.returnDTO());
     }
 
     private async Task<string> BuildToken(IdentityUser user) {

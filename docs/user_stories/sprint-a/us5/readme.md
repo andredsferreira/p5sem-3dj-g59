@@ -37,26 +37,64 @@ As the **Acceptance Criteria** states, every piece of data that mentions the del
 
 ## 4. Design
 
-The **Http** requests shall be received by the existing class **PatientController**, which in turn calls the **PatientService**. It will have two methods:
-1. One for marking the initial request of deleting the profile.
+The **Http** requests shall be received by the existing class **AuthController**. It will have two methods:
+1. One for marking the initial request of deleting the profile, sending an **email notification** to the **Patient's Email Address**.
 2. Other for actually deleting it.
-
-The **PatientService** must also have two methods:
-1. One for marking the profile for deletion and sending an **email notification** to the **Patient's Email Address**.
-2. Other for actually deleting the profile.
 
 ## 5. C4 Views
 
 The **C4 Views** for this *US* can be viewed [here](views/readme.md).
 
-## 6. Tests
+## 6. Implementation
 
--
+This is the method that checks the current user's **Patient Profile**.
 
-## 7. Implementation
+```cs
+[HttpDelete("DeleteProfile")]
+[Authorize(Roles = HospitalRoles.Patient)]
+public IActionResult DeletePatientProfile() {
+    MailAddress email = new(_httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Email)?.Value);
+    Patient pat = CheckCurrentUsersPatientProfile(email);
+    //Ok
+    SendAccountDeletionEmail(email, pat);
+    return Ok(pat.returnDTO());
+}
+```
 
--
+This is the method that initially sends an **email verification** to the Patient's email address.
 
-## 8. Demonstration
+```cs
+private void SendAccountDeletionEmail(MailAddress recipient, Patient pat){
+    string appDomain = Configuration.GetSection("Application:AppDomain").Value,
+        confirmationLink = Configuration.GetSection("Application:EmailDeletionConfirmation").Value,
+        fullConfirmationLink = string.Format(appDomain + confirmationLink, pat.Id);
 
--
+    string emailBody = string.Format(
+        "Hello {0},<br><br>" +
+        "Please <a href=\"{1}\">confirm your account's deletion</a> by clicking the link.<br><br>" +
+        "We're sad to see you go...",
+        pat.FullName.ToString(), fullConfirmationLink
+    );
+
+    MessageSender.SendMessage(recipient.ToString(), "Account Deletion", emailBody);
+}
+```
+
+After the user clicks the link that was sent to them via an **email notification**, this method is called:
+
+```cs
+[HttpDelete("confirmation-deletion-email")]
+[Authorize(Roles = HospitalRoles.Patient)]
+public async Task<IActionResult> DeletePatientProfileAndRecordsAsync() {
+    string email = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Email)?.Value;
+    await UserManager.DeleteAsync(await UserManager.FindByEmailAsync(email));
+    var pat = _patientRepository.GetByUserEmail(new MailAddress(email));
+    _patientRepository.Remove(pat);
+    await _unitOfWork.CommitAsync();
+    return Ok(pat.returnDTO());
+}
+```
+
+## 7. Demonstration
+
+As this project doesn't have a **Frontend** yet, this section doesn't apply.

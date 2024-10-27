@@ -14,8 +14,7 @@
 title US5 - Level 3 View
 
 actor Patient as U
-participant "«component»\nPatientController" as ctrl
-participant "«component»\nPatientService" as service
+participant "«component»\nAuthController" as ctrl
 participant "«component»\nIMessageSenderService" as messageService
 
 participant "«component»\nIPatientRepository" as patrepo
@@ -26,25 +25,20 @@ U -> ctrl : HttpDelete("DeleteProfile")
 activate U
 activate ctrl
 
-ctrl -> service : await DeletePatientUser()
-activate service
-
-service -> service : CheckCurrentUsersPatientProfile()
-activate service
-service -> patrepo : await GetPatientByUserEmail(MailAddress)
+ctrl -> ctrl : CheckCurrentUsersPatientProfile()
+activate ctrl
+ctrl -> patrepo : await GetPatientByUserEmail(MailAddress)
 activate patrepo
 patrepo ->
-patrepo --> service
+patrepo --> ctrl
 deactivate patrepo
-service --> service
-deactivate service
+ctrl --> ctrl
+deactivate ctrl
 
-service -> messageService : SendAccountDeletionConfirmation()
+ctrl -> messageService : SendAccountDeletionConfirmation()
 activate messageService
 messageService --> U : account deletion confirmation email
 deactivate messageService
-service --> ctrl
-deactivate service
 ctrl --> U : Ok
 deactivate ctrl
 deactivate U
@@ -53,34 +47,27 @@ U -> ctrl : HttpDelete("emaildeletionconfirmation")
 activate U
 activate ctrl
 
-ctrl -> service : await DeletePatientUserAndRecords()
-activate service
-
-
-service -> patrepo : await DeletePatientWithUserEmail(MailAddress)
+ctrl -> patrepo : await DeletePatientWithUserEmail(MailAddress)
 activate patrepo
 patrepo ->
-patrepo --> service
+patrepo --> ctrl
 deactivate patrepo
-service -> oprepo : await AnonymizeInfoAboutPatient(PatientId)
+ctrl -> oprepo : await AnonymizeInfoAboutPatient(PatientId)
 activate oprepo
 oprepo ->
-oprepo --> service
+oprepo --> ctrl
 deactivate oprepo
-service -> logrepo : await AnonymizeInfoAboutPatient(PatientId)
+ctrl -> logrepo : await AnonymizeInfoAboutPatient(PatientId)
 activate logrepo
 logrepo ->
-logrepo --> service
+logrepo --> ctrl
 deactivate logrepo
 
-service -> logrepo : await CreateAsync()
+ctrl -> logrepo : await CreateAsync()
 activate logrepo
 logrepo ->
-logrepo --> service
+logrepo --> ctrl
 deactivate logrepo
-
-service --> ctrl
-deactivate service
 ctrl --> U : Ok
 deactivate ctrl
 deactivate U
