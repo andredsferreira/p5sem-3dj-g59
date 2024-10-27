@@ -5,6 +5,8 @@ using System.Text.Json.Serialization;
 namespace DDDSample1.Domain.DomainLogs;
 
 public class DomainLogId : EntityId {
+
+
     [JsonConstructor]
     public DomainLogId(Guid value) : base(value) {
 

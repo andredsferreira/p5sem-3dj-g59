@@ -9,6 +9,7 @@ using Xunit;
 
 namespace DDDSample1.ControllerTests;
 public class OperationRequestControllerMockTests {
+    
     private readonly Mock<OperationRequestService> _mockService;
 
     private readonly OperationRequestController _controller;

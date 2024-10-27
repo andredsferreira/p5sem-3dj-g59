@@ -1,5 +1,6 @@
 using DDDSample1.Domain;
 using DDDSample1.Domain.Auth;
+using DDDSample1.Domain.Patients;
 using DDDSample1.Infrastructure;
 using DDDSample1.Infrastructure.Shared.MessageSender;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,13 +32,16 @@ public class AuthController : ControllerBase {
 
     private readonly SignInManager<IdentityUser> SignInManager;
 
+    private readonly IPatientRepository _patientRepository;
+
     private readonly IMessageSenderService MessageSender;
 
-    public AuthController(IConfiguration Configuration, IdentityContext Context, UserManager<IdentityUser> UserManager, SignInManager<IdentityUser> SignInManager, IMessageSenderService MessageSender) {
+    public AuthController(IConfiguration Configuration, IdentityContext Context, UserManager<IdentityUser> UserManager, SignInManager<IdentityUser> SignInManager, IPatientRepository patientRepository, IMessageSenderService MessageSender) {
         this.Configuration = Configuration;
         this.Context = Context;
         this.UserManager = UserManager;
         this.SignInManager = SignInManager;
+        this._patientRepository = patientRepository;
         this.MessageSender = MessageSender;
     }
 
@@ -100,6 +105,11 @@ public class AuthController : ControllerBase {
             Email = dto.Email,
             PhoneNumber = dto.Phone
         };
+
+        if (_patientRepository.GetByEmail(new MailAddress(dto.Email)) == null) {
+            return NotFound("Patient is not registered by the admin");
+        }
+
         var result = await UserManager.CreateAsync(patientUser, dto.Password);
         if (!result.Succeeded) {
             return BadRequest(result.Errors);
@@ -154,8 +164,8 @@ public class AuthController : ControllerBase {
     }
 
     [HttpGet("confirmation-email")]
-    public async Task ConfirmEmail(string uid, string token){
-        if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(token)){
+    public async Task ConfirmEmail(string uid, string token) {
+        if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(token)) {
             token = token.Replace(' ', '+');
             await UserManager.ConfirmEmailAsync(await UserManager.FindByIdAsync(uid), token);
         }

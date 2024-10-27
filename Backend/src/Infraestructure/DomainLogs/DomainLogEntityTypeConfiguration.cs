@@ -19,7 +19,7 @@ internal class DomainLogEntityTypeConfiguration : IEntityTypeConfiguration<Domai
 
         builder.HasKey(b => b.Id);
         builder.Property(p => p.Id).HasConversion(
-            id => id.Value,
+            id => id.AsGuid(),
             value => new DomainLogId(value));
 
         builder.Property(p => p.ObjectType)

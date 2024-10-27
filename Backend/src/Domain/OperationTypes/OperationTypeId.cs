@@ -6,8 +6,6 @@ namespace DDDSample1.Domain.OperationTypes;
 
 public class OperationTypeId : EntityId {
 
-
-
     [JsonConstructor]
     public OperationTypeId(Guid value) : base(value) { }
 
