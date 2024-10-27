@@ -39,6 +39,8 @@ deactivate ob
 obs -> obr : Save()
 activate obr
 obr -> obr : Commit()
+activate obr
+deactivate obr
 deactivate obr
 obs -> ilr : LogOperationTypeDeactivation()
 activate ilr
@@ -48,11 +50,5 @@ deactivate obs
 obc --> A : Return OperationType
 deactivate obc
 deactivate A
-
-
-
-
-
-
 
 @enduml

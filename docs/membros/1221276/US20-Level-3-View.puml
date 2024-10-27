@@ -29,11 +29,12 @@ ots -> otr : Create Operation Type
 activate otr
 otr -> ot** : Create()
 otr -> otr : Save
+activate otr
+deactivate otr
 otr -> ilr : Log Operation Type Creation
 activate ilr
-ilr -> ilr : Log
-otr --> ots : Return Operation Type
 deactivate ilr
+otr --> ots : Return Operation Type
 deactivate otr
 ots --> otc : Return Operation Type
 deactivate ots

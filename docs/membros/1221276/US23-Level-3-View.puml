@@ -1,0 +1,45 @@
+@startuml
+
+title US23-Level 3 View
+
+' User Story:
+' As an Admin, I want to list/search operation types, so that I can see the details, edit, and remove operation types.
+'
+' Acceptance Criteria:
+' - Admins can search and filter operation types by name, specialization, or status (active/inactive).
+' - The system displays operation types in a searchable list with attributes such as name, required staff, and estimated duration.
+' - Admins can select an operation type to view, edit, or deactivate it.
+
+actor Admin as A
+participant OperationTypeController as obc
+participant OperationTypeService as obs
+participant OperationTypeRepository as obr
+participant OperationType as ob
+
+activate A
+A -> obc : Get Operation Types with selected filters
+activate obc
+obc -> obs : Get Operation Types with selected filters
+activate obs
+obs -> obr : FindAll()
+activate obr
+obr --> obs : List<OperationType>
+deactivate obr
+obs -> obs : Filters Operation Types
+activate obs
+deactivate obs
+obs -> ob : ReturnDto()
+activate ob
+ob --> obs : OperationTypeDto
+deactivate ob
+obs --> obc : Return Operation Types
+deactivate obs
+obc --> A : Return Operation Types
+deactivate obc
+deactivate A
+
+
+
+
+
+@enduml

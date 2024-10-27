@@ -39,6 +39,8 @@ deactivate ob
 obs -> obr : Update()
 activate obr
 obr -> obr : Commit()
+activate obr
+deactivate obr
 obs -> ilr : \nLog Edited Operation Type
 deactivate obr
 activate ilr
