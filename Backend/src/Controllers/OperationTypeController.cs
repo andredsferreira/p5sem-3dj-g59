@@ -94,6 +94,15 @@ public class OperationTypeController : ControllerBase
         return result != null ? Ok(result) : BadRequest("Could not find operation type");
     }
 
+    [HttpGet("GetStatus/{status}")]
+    //[Authorize(Roles = HospitalRoles.Admin)]
+    public async Task<ActionResult<IEnumerable<OperationTypeDTO>> > GetOperationTypeByStatus(string status){
+
+        var list = await AddOperationTypeService.GetAll();
+        var result = list.Where(type => type.Status == status);
+        return result != null ? Ok(result) : BadRequest("Could not find operation type");
+    }
+
 
 
 
