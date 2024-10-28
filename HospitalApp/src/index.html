@@ -1,13 +1,63 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>HospitalApp</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-  <app-root></app-root>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>HospitalApp</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="stylesheet" href="assets/css/main.css" type="text/css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- 
+    <script>
+      function handleCredentialResponse(response) {
+        console.log("Encoded JWT ID token: " + response.credential);
+      }
+      window.onload = function () {
+        google.accounts.id.initialize({
+          client_id:
+            "1050792325707-eub73vnvrvsueu3a7otn9lokmd6nv1g1.apps.googleusercontent.com",
+          callback: handleCredentialResponse,
+        });
+        google.accounts.id.prompt(); // also display the One Tap dialog
+      };
+    </script> -->
+    <script>
+      function decodeJWTToken(token) {
+        return JSON.parse(atob(token.split(".")[1]));
+      }
+      function handleCredentialResponse(response) {
+        // to decode the credential response.
+        const responsePayload = decodeJWTToken(response.credential);
+        sessionStorage.setItem("loggedInUser", JSON.stringify(responsePayload));
+        window.location.href = "/dashboard";
+      }
+      function handleSignout() {
+        google.accounts.id.disableAutoSelect();
+      }    
+    </script>
+  </head>
+  <body style="background-color: rgb(251, 238, 242);">
+    <!-- Navbar -->
+    <nav class="relative container mx-auto p-6">
+      <!-- Flex Container -->
+      <div class="flex items-center justify-between">
+        <!-- Logo -->
+        <div class="pt-2">
+          <img src="./assets/img/icon.png" alt="">
+        </div>
+        <!-- Menu Items -->
+        <div class="hidden md:flex space-x-12">
+          <a href="#" class="hover:text-darkGrayishBlue">Privacy Policy</a>
+          <a href="#" class="hover:text-darkGrayishBlue">About Us</a>
+          <a href="#" class="hover:text-darkGrayishBlue">Contacts</a>
+        </div>
+        <!-- Button -->
+        <a href="#" class="hidden md:block p-3 px-6 pt-2 text-white bg-brightRed rounded-full baseline hover:bg-brightRedLight">
+          Get Started
+        </a>
+      </div>
+    </nav>
+    <app-root></app-root>
+  </body>
 </html>
