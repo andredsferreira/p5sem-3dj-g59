@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -6,7 +6,7 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link rel="stylesheet" href="assets/css/main.css" type="text/css">
+    <link rel="stylesheet" href="css/main.css" type="text/css" />
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <!-- 
     <script>
@@ -34,26 +34,31 @@
       }
       function handleSignout() {
         google.accounts.id.disableAutoSelect();
-      }    
+      }
     </script>
   </head>
-  <body style="background-color: rgb(251, 238, 242);">
+  <body style="background-color: rgb(251, 238, 242)">
     <!-- Navbar -->
-    <nav class="relative container mx-auto p-6">
+    <nav class="relative container mx-auto p-3">
       <!-- Flex Container -->
       <div class="flex items-center justify-between">
         <!-- Logo -->
-        <div class="pt-2">
-          <img src="./assets/img/icon.png" alt="">
+        <div class="pt-2" style="width: 8rem; height: 8rem">
+          <a href="">
+            <img src="img/icon.png" style="width: auto; height: auto" alt="" />
+          </a>
         </div>
         <!-- Menu Items -->
-        <div class="hidden md:flex space-x-12">
-          <a href="#" class="hover:text-darkGrayishBlue">Privacy Policy</a>
-          <a href="#" class="hover:text-darkGrayishBlue">About Us</a>
-          <a href="#" class="hover:text-darkGrayishBlue">Contacts</a>
+        <div class="space-x-8">
+          <a href="#" class="hover:text-darkGrayishBlue p-6">Privacy Policy</a>
+          <a href="#" class="hover:text-darkGrayishBlue p-6">About Us</a>
+          <a href="#" class="hover:text-darkGrayishBlue p-6">Contacts</a>
         </div>
         <!-- Button -->
-        <a href="#" class="hidden md:block p-3 px-6 pt-2 text-white bg-brightRed rounded-full baseline hover:bg-brightRedLight">
+        <a
+          href="login"
+          class="hidden md:block p-3 px-1 pt-1 mr-1 text-white bg-brightRed rounded-full baseline hover:bg-brightRedLight"
+        >
           Get Started
         </a>
       </div>
