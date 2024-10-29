@@ -42,7 +42,7 @@ public class Startup {
         var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
 
         services.AddHttpContextAccessor();
-        
+
         ConfigureMyServices(services);
 
         services.AddLogging();
@@ -119,6 +119,15 @@ public class Startup {
             options.AddPolicy(HospitalRoles.Nurse, policy => policy.RequireRole(HospitalRoles.Nurse));
             options.AddPolicy(HospitalRoles.Technician, policy => policy.RequireRole(HospitalRoles.Technician));
             options.AddPolicy(HospitalRoles.Patient, policy => policy.RequireRole(HospitalRoles.Patient));
+        });
+
+        services.AddCors(options => {
+            options.AddPolicy("AllowAngularApp", builder => {
+                builder.WithOrigins("http://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin();
+            });
         });
     }
 
