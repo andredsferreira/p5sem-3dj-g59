@@ -37,7 +37,9 @@ public class AuthController : ControllerBase {
     private readonly IPatientRepository _patientRepository;
 
     private readonly IMessageSenderService MessageSender;
+    
     private readonly IHttpContextAccessor _httpContextAccessor;
+    
     private readonly IUnitOfWork _unitOfWork;
 
     public AuthController(IConfiguration Configuration, IdentityContext Context, UserManager<IdentityUser> UserManager, 

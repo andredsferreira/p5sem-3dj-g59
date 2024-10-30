@@ -5,6 +5,7 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
+
 import * as THREE from 'three';
 
 @Component({
