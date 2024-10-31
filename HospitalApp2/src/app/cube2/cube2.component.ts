@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import Ground from './jsfiles/ground';
+import Wall from './jsfiles/wall';
 
 @Component({
   selector: 'app-cube2',
@@ -14,7 +16,7 @@ export class Cube2Component implements AfterViewInit {
   @Input() public rotationSpeedX: number = 0.05;
   @Input() public rotationSpeedY: number = 0.01;
   @Input() public size: number = 200;
-  @Input() public texture: string = 'icon.png';
+  @Input() public texture: string = 'incoerente.jpg';
   //* Stage Properties
   @Input() public cameraZ: number = 10;
   @Input() public fieldOfView: number = 30;
@@ -51,15 +53,46 @@ export class Cube2Component implements AfterViewInit {
 
     const axesHelpers = new THREE.AxesHelper(10);
     this.scene.add(axesHelpers);
+
+    //Ground around hospital
+    var floor = new Ground({textureUrl: "ground.jfif", size:{height:40, width:40}})
+    floor.object.translateZ(-0.502);
+    this.scene.add(floor.object);
+
+    //Hospital Floor
+    var floor = new Ground({textureUrl: "floor.png", size:{height:20, width:10}})
+    floor.object.translateZ(-0.501);
+    this.scene.add(floor.object);
+
+    var wall1 = new Wall({textureUrl: "wall.jpg", size:{height:1, width:10, depth:0.1}});
+    wall1.object.translateZ(10);
+    this.scene.add(wall1.object);
+
+    var wall2 = new Wall({textureUrl: "wall.jpg", size:{height:1, width:10, depth:0.1}});
+    wall2.object.translateZ(-10);
+    this.scene.add(wall2.object);
+
+    var wall3 = new Wall({textureUrl: "wall.jpg", size:{height:1, width:20, depth:0.1}});
+    wall3.object.rotateY(Math.PI/2);
+    wall3.object.translateZ(5);
+    this.scene.add(wall3.object);
     
+    var wall4 = new Wall({textureUrl: "wall.jpg", size:{height:1, width:20, depth:0.1}});
+    wall4.object.rotateY(Math.PI/2);
+    wall4.object.translateZ(-5);
+    this.scene.add(wall4.object);
+
+    this.cube.receiveShadow = true;
+    this.cube.castShadow = true;
     this.scene.add(this.cube);
 
-    const planeGeometry = new THREE.PlaneGeometry(10,10);
-    const planeMaterial = new THREE.MeshBasicMaterial({map: this.loader.load("ground.png"), side: THREE.DoubleSide});
-    const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-    plane.rotateX(Math.PI/2);
-    plane.translateZ(0.501);
-    this.scene.add(plane);
+    //const spotLight = new THREE.SpotLight( 0xffffff );
+    //spotLight.position.set( 10,10,10 );
+
+    //spotLight.castShadow = true;
+    //spotLight.target = this.cube;
+
+    //this.scene.add(spotLight);
 
     //*Camera
     let aspectRatio = this.getAspectRatio();
@@ -75,7 +108,7 @@ export class Cube2Component implements AfterViewInit {
     //Camera
     const controls = new OrbitControls(this.camera, this.renderer.domElement);
     controls.target.set( 0, 0, 0 );
-    controls.maxDistance = 20;
+    controls.maxDistance = 40;
     controls.minDistance = 5;
     controls.update();
   }
