@@ -81,6 +81,10 @@ StyleCopReport.xml
 *.ilk
 *.meta
 *.obj
+
+# Don't ignore 3D models
+!HospitalApp2/public/models/**/*.obj
+
 *.iobj
 *.pch
 *.pdb
