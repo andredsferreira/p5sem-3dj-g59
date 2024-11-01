@@ -1,40 +1,46 @@
 import * as THREE from "three";
+import Ground from "./ground";
+import Wall from "./wall";
 
 /*
  * parameters = {
- *  textureUrl: String
+ *  wallTextureUrl: String
+ *  floorTextureUrl: String
+ *  floorWidth: number
+ *  floorHeight: number
+ *  wallHeight: number
+ *  wallDepth: number
  * }
  */
 
-/**
- * @param {string} parameters
- */
-export default class Box extends THREE.Group{
-    
+export default class Box {
     constructor(parameters) {
-        super();
-        for (const [key, value] of Object.entries(parameters)) {
-            this[key] = value;
-        }
+        
+        this.parameters = parameters;
 
-        const texture = new THREE.TextureLoader().load(this.textureUrl);
-        texture.colorSpace = THREE.SRGBColorSpace;
+        this.group = new THREE.Group();
 
-        texture.magFilter = THREE.LinearFilter;
-        texture.minFilter = THREE.LinearMipmapLinearFilter;
+        var wall1 = new Wall({textureUrl: this.parameters.wallTextureUrl, size:{height:this.parameters.wallHeight, width:this.parameters.floorWidth, depth:this.parameters.wallDepth}});
+        wall1.object.translateZ(this.parameters.floorHeight/2);
+        this.group.add(wall1.object);
 
-        var material1 = new THREE.MeshBasicMaterial( { map: texture, side: THREE.DoubleSide } );
-        var material2 = new THREE.MeshBasicMaterial( { map: texture, side: THREE.DoubleSide } );
-        var material3 = new THREE.MeshBasicMaterial( { map: texture, side: THREE.DoubleSide } );
+        var wall2 = new Wall({textureUrl: this.parameters.wallTextureUrl, size:{height:this.parameters.wallHeight, width:this.parameters.floorWidth, depth:this.parameters.wallDepth}});
+        wall2.object.translateZ(-this.parameters.floorHeight/2);
+        this.group.add(wall2.object);
 
-        var materialTransparent =  new THREE.MeshBasicMaterial( { transparent: true, opacity: 0, wireframe: true, side: THREE.DoubleSide} );
-        var geometry = new THREE.BufferGeometry( 1, 1.5, 1 );
+        var wall3 = new Wall({textureUrl: this.parameters.wallTextureUrl, size:{height:this.parameters.wallHeight, width:this.parameters.floorHeight, depth:this.parameters.wallDepth}});
+        wall3.object.rotateY(Math.PI/2);
+        wall3.object.translateZ(this.parameters.floorWidth/2);
+        this.group.add(wall3.object);
 
-        var materials = [ material1, materialTransparent, material2, material2, material3, material3 ]
+        var wall4 = new Wall({textureUrl: this.parameters.wallTextureUrl, size:{height:this.parameters.wallHeight, width:this.parameters.floorHeight, depth:this.parameters.wallDepth}});
+        wall4.object.rotateY(Math.PI/2);
+        wall4.object.translateZ(-this.parameters.floorWidth/2);
+        this.group.add(wall4.object);
 
-        var mesh = new THREE.Mesh( geometry, materials );
-        mesh.castShadow = true;
-        mesh.receiveShadow = true;
-        this.add(this.mesh);
+        //Hospital Floor
+        var floor = new Ground({textureUrl: this.parameters.floorTextureUrl, size:{height:this.parameters.floorHeight, width:this.parameters.floorWidth}})
+        floor.object.translateZ(-this.parameters.wallHeight/2);
+        this.group.add(floor.object);
     }
 }

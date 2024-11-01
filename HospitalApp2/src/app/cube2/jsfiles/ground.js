@@ -25,7 +25,7 @@ export default class Ground {
         // Create a ground box that receives shadows but does not cast them
         const geometry = new THREE.PlaneGeometry(this.size.width, this.size.height);
         
-        const material = new THREE.MeshBasicMaterial({ map: texture });
+        const material = new THREE.MeshStandardMaterial({ map: texture, side:THREE.DoubleSide });
         this.object = new THREE.Mesh(geometry, material);
         this.object.rotation.x = -Math.PI / 2.0;
         

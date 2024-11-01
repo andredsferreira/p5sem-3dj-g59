@@ -1,6 +1,16 @@
-import * as THREE from 'three';
+import * as THREE from "three";
 
-export default class Box extends THREE.Group {
-    constructor(parameters: string);
-    mesh: THREE.Mesh;
+interface BoxParameters {
+    wallTextureUrl: string;
+    floorTextureUrl: string;
+    floorWidth: number;
+    floorHeight: number;
+    wallHeight: number;
+    wallDepth: number;
+}
+
+export default class Box {
+    constructor(parameters: BoxParameters);
+
+    group: THREE.Group;
 }
