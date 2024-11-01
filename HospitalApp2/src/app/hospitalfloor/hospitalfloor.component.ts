@@ -3,20 +3,17 @@ import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Ground from './jsfiles/ground';
 import Box from './jsfiles/box';
+import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 
 @Component({
-  selector: 'app-cube2',
-  templateUrl: './cube2.component.html',
-  styleUrl: './cube2.component.css'
+  selector: 'app-hospitalfloor',
+  templateUrl: './hospitalfloor.component.html',
+  styleUrl: './hospitalfloor.component.css'
 })
-export class Cube2Component implements AfterViewInit {
+export class HospitalFloorComponent implements AfterViewInit {
   @ViewChild('myCanvas') private canvasRef!: ElementRef;
 
-  //* Cube Properties
-  @Input() public rotationSpeedX: number = 0.05;
-  @Input() public rotationSpeedY: number = 0.01;
-  @Input() public size: number = 200;
-  @Input() public texture: string = 'DEI_logo.gif';
   //* Stage Properties
   @Input() public cameraZ: number = 10;
   @Input() public fieldOfView: number = 30;
@@ -28,9 +25,6 @@ export class Cube2Component implements AfterViewInit {
     return this.canvasRef.nativeElement;
   }
   private loader = new THREE.TextureLoader();
-  private geometry = new THREE.BoxGeometry(1, 1, 1);
-  private material = new THREE.MeshStandardMaterial({map: this.loader.load(this.texture)});
-  private cube: THREE.Mesh = new THREE.Mesh(this.geometry, this.material);
   private renderer!: THREE.WebGLRenderer;
   private scene: THREE.Scene = new THREE.Scene();
   private camera!: THREE.PerspectiveCamera;
@@ -43,7 +37,7 @@ export class Cube2Component implements AfterViewInit {
   * Create the scene
   *
   * @private
-  * @memberof Cube2Component
+  * @memberof HospitalFloorComponent
   */
   private createScene(): void {
     //* Scene
@@ -68,9 +62,20 @@ export class Cube2Component implements AfterViewInit {
     });
     this.scene.add(box.group);
 
-    this.cube.receiveShadow = true;
-    this.cube.castShadow = true;
-    this.scene.add(this.cube);
+    var mtlLoader = new MTLLoader();
+    mtlLoader.load("models/SurgeryTableWithPerson/SurgeryTableWithPerson.mtl", (materials) =>{
+      materials.preload();
+      
+      var objLoader = new OBJLoader();
+      objLoader.setMaterials(materials);
+      objLoader.load("models/SurgeryTableWithPerson/SurgeryTableWithPerson.obj", (object) =>{
+        object.scale.set(0.2,0.2,0.2);
+        object.translateY(-0.45);
+        object.castShadow = true;
+        object.receiveShadow = true;
+        this.scene.add(object);
+      })
+    })
 
     const light = new THREE.AmbientLight(0xffffff, 0.5);
     this.scene.add(light);
@@ -103,29 +108,17 @@ export class Cube2Component implements AfterViewInit {
     controls.target.set( 0, 0, 0 );
     controls.maxDistance = 40;
     controls.minDistance = 5;
-    controls.update();
-  }
-
-  /**
-  * Animate the cube
-  *
-  * @private
-  * @memberof Cube2Component
-  */
-  private animateCube() {
-    this.cube.rotation.x += this.rotationSpeedX;
-    this.cube.rotation.y += this.rotationSpeedY;
+    //controls.update();
   }
   
   /**
   * Render the scene
   *
   * @private
-  * @memberof Cube2Component
+  * @memberof HospitalFloorComponent
   */
   private render() {
     requestAnimationFrame(() => this.render());
-    //this.animateCube();
     this.renderer.render(this.scene, this.camera);
   }
   
