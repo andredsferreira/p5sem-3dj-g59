@@ -122,7 +122,7 @@ public class Startup {
         });
 
         services.AddCors(options => {
-            options.AddPolicy("AllowAngularApp", builder => {
+            options.AddPolicy("AllowSpecificOrigin", builder => {
                 builder.WithOrigins("http://localhost:4200")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
@@ -157,6 +157,9 @@ public class Startup {
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+
+        app.UseCors("AllowSpecificOrigin");
+
         if (env.IsDevelopment()) {
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
@@ -174,7 +177,6 @@ public class Startup {
 
         app.UseAuthorization();
 
-        app.UseCors();
 
         app.UseEndpoints(endpoints => {
             endpoints.MapControllers();

@@ -1,9 +1,12 @@
 import { Routes } from '@angular/router';
 import { CubeComponent } from './cube/cube.component';
 import { HospitalFloorComponent } from './hospitalfloor/hospitalfloor.component';
+import { LoginComponent } from './auth/login.component';
+import { UserListComponent } from './auth/user-list.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/cube', pathMatch: 'full'},
-    { path: 'cube', component: CubeComponent},
-    { path: 'hospitalfloor', component: HospitalFloorComponent},
+    { path: '', component: LoginComponent },
+    { path: 'userlist', component: UserListComponent },
+    { path: 'cube', component: CubeComponent },
+    { path: 'hospitalfloor', component: HospitalFloorComponent },
 ];
