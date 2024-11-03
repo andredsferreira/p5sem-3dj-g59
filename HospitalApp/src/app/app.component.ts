@@ -1,23 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-
-import { LoginComponent } from './login/login.component';
-import { ErrorComponent } from './error/error.component';
-import { MainpageComponent } from './mainpage/mainpage.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    FormsModule,
-    LoginComponent,
-    ErrorComponent,
-    MainpageComponent,
-  ],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styles: [],
+  styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'HospitalApp';

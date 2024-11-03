@@ -83,7 +83,7 @@ StyleCopReport.xml
 *.obj
 
 # Don't ignore 3D models
-!HospitalApp2/public/models/**/*.obj
+!HospitalApp/public/models/**/*.obj
 
 *.iobj
 *.pch

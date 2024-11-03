@@ -1,22 +1,20 @@
-import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { MainpageComponent } from './mainpage/mainpage.component';
-import { ErrorComponent } from './error/error.component';
-import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
 import { CubeComponent } from './cube/cube.component';
-import { Cube2Component } from './cube2/cube2.component';
+import { HospitalFloorComponent } from './hospitalfloor/hospitalfloor.component';
+import { LoginComponent } from './auth/login.component';
+import { UserListComponent } from './auth/user-list.component';
+import { DoctorComponent } from './staff/doctor/doctor.component';
+import { PrivacypolicyComponent } from './privacypolicy/privacypolicy.component';
+import { AboutusComponent } from './aboutus/aboutus.component';
+import { ContactsComponent } from './contacts/contacts.component';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'mainpage', component: MainpageComponent },
-  { path: 'error', component: ErrorComponent },
-  { path: 'cube', component: CubeComponent },
-  { path: 'cube2', component: Cube2Component },
-  { path: '', component: MainpageComponent },
+    { path: '', component: LoginComponent },
+    { path: 'privacy', component: PrivacypolicyComponent},
+    { path: 'aboutus', component: AboutusComponent},
+    { path: 'contacts', component: ContactsComponent},
+    { path: 'userlist', component: UserListComponent },
+    { path: 'doctor', component: DoctorComponent },
+    { path: 'cube', component: CubeComponent },
+    { path: 'hospitalfloor', component: HospitalFloorComponent },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}
