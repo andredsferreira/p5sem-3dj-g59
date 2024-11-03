@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
+import * as jwt_decode from "jwt-decode";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -22,6 +23,17 @@ export class AuthService {
     } catch (error) {
       console.error("Error fetching token:", error);
       throw error;
+    }
+  }
+
+  getRoleFromToken(token: string): string {
+    try {
+      const decodedToken: any = jwt_decode.jwtDecode(token);
+      console.log("Decoded role" + decodedToken.role);
+      return decodedToken?.role;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return ""
     }
   }
 

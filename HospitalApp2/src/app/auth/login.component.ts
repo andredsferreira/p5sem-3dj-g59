@@ -34,7 +34,15 @@ export class LoginComponent {
                 let token = await this.authService.login(username, password);
                 localStorage.setItem('token', token);
                 this.success = true
-                this.router.navigate(['/userlist']);
+                let role = this.authService.getRoleFromToken(token);
+                switch (role) {
+                    case 'Admin':
+                        this.router.navigate(['/userlist']);
+                        break;
+                    case 'Doctor':
+                        this.router.navigate(['/doctor']);
+                        break;
+                }
                 console.log("Logged in successfully. Token saved.");
             } catch (error) {
                 this.errorMessage = "Login failed. Please check your credentials and try again.";

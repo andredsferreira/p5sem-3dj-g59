@@ -199,7 +199,7 @@ public class AuthController : ControllerBase {
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(ClaimTypes.Role, firstRole)
+            new Claim("role", firstRole)
         };
 
         var jwtSettings = Configuration.GetSection("Jwt");
