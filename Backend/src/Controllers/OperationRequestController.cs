@@ -22,7 +22,7 @@ public class OperationRequestController : ControllerBase {
 
     [HttpPost("create")]
     [Authorize(Roles = HospitalRoles.Doctor)]
-    public async Task<ActionResult<OperationRequestDTO>> CreateOperationRequest([FromForm] OperationRequestDTO dto) {
+    public async Task<ActionResult<OperationRequestDTO>> CreateOperationRequest([FromBody] OperationRequestDTO dto) {
         var createdOperationRequest = await _service.CreateOperationRequest(dto);
         return createdOperationRequest != null ? Ok(createdOperationRequest) : BadRequest("Could not create operation request");
     }
@@ -38,7 +38,7 @@ public class OperationRequestController : ControllerBase {
     [Authorize(Roles = HospitalRoles.Doctor)]
     public async Task<ActionResult<Guid>> DeleteOperationRequest(Guid id) {
         var deletedRequestId = await _service.DeleteOperationRequest(id);
-        return deletedRequestId != null ? Ok(deletedRequestId) : BadRequest("Could not delete operation request");
+        return Ok(deletedRequestId);
     }
 
     [HttpGet("list")]

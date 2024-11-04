@@ -150,3 +150,53 @@ button:disabled {
     color: #FFA651;
     /* Soft orange */
 }
+
+/* Styles for the list of operation requests */
+.request-list {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #1A1D2E;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: #FFA651;
+    font-family: Arial, sans-serif;
+}
+
+.request-list h3 {
+    font-size: 20px;
+    color: #FFA651;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Individual request item */
+.request-item {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #2C3553;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    color: #FFA651;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.request-item strong {
+    color: #FFA651;
+    /* Soft orange */
+    font-weight: bold;
+}
+
+.request-item:hover {
+    background-color: #4E5D94;
+    /* Medium blue-gray on hover */
+}
+
+/* Message styles for no requests found */
+.no-requests p {
+    text-align: center;
+    color: #FFA651;
+    font-size: 16px;
+    margin-top: 20px;
+}

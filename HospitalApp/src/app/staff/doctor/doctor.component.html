@@ -1,3 +1,4 @@
+<!-- Main Operation Requests Container -->
 <div class="operation-requests">
     <h2>Operation Requests</h2>
     <div class="buttons">
@@ -12,7 +13,7 @@
 <div *ngIf="operationRequests.length > 0" class="request-list">
     <h3>Operation Request List</h3>
     <ul>
-        <li *ngFor="let request of operationRequests">
+        <li *ngFor="let request of operationRequests" class="request-item">
             <strong>Patient ID:</strong> {{ request.patientId }} |
             <strong>Operation Type:</strong> {{ request.operationTypeId }} |
             <strong>Priority:</strong> {{ request.priority }} |
@@ -21,11 +22,8 @@
         </li>
     </ul>
 </div>
-<div *ngIf="operationRequests.length === 0">
-    <p>No operation requests found.</p>
-</div>
 
-<!-- Modal for creating an operation request -->
+<!-- Create operation request modal -->
 <div *ngIf="showModal" class="modal">
     <div class="modal-content">
         <span (click)="closeModal()" class="close-button">&times;</span>

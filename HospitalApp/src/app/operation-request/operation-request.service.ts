@@ -13,10 +13,20 @@ export class OperationRequestService {
 
   }
 
-  async createOperationRequest() {
-    throw new Error("Not implemented yet")
+  async createOperationRequest(patientId: string, operationTypeId: string, priority: string,
+    dateTime: string, requestStatus: string) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    })
+    this.http.post('https://localhost:5001/api/operationrequest/create', {
+      patientId: patientId,
+      operationTypeId: operationTypeId,
+      priority: priority,
+      dateTime: dateTime,
+      requestStatus: requestStatus
+    }, { headers })
   }
-
+  
   async updateOperationRequest(id: number) {
     throw new Error("Not implemented yet")
   }
