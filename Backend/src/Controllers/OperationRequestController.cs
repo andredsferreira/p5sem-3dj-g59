@@ -29,7 +29,7 @@ public class OperationRequestController : ControllerBase {
 
     [HttpPut("update")]
     [Authorize(Roles = HospitalRoles.Doctor)]
-    public async Task<ActionResult<UpdatedOperationRequestDTO>> UpdateOperationRequest([FromForm] UpdatedOperationRequestDTO dto) {
+    public async Task<ActionResult<UpdatedOperationRequestDTO>> UpdateOperationRequest([FromBody] UpdatedOperationRequestDTO dto) {
         var updatedOperationRequest = await _service.UpdateOperationRequest(dto);
         return updatedOperationRequest != null ? Ok(updatedOperationRequest) : BadRequest("Could not update operation request");
     }
