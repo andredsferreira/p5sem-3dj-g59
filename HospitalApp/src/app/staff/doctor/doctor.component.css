@@ -1,0 +1,152 @@
+/* Main container for the operation requests section */
+.operation-requests {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #1A1D2E;
+    /* Dark blue-gray */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+/* Header style */
+.operation-requests h2 {
+    font-size: 26px;
+    color: #FFA651;
+    /* Soft orange */
+    margin-bottom: 20px;
+}
+
+/* Button container */
+.buttons {
+    display: flex;
+    /* Use Flexbox for horizontal layout */
+    justify-content: space-between;
+    /* Space between buttons */
+    gap: 10px;
+    /* Add some gap between buttons */
+    margin-top: 20px;
+}
+
+/* General button styling */
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #4E5D94;
+    /* Medium blue-gray */
+    color: #1A1D2E;
+    /* Dark blue-gray */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Hover and active states for buttons */
+button:hover {
+    background-color: #FFA651;
+    /* Soft orange */
+    color: #1A1D2E;
+    /* Dark blue-gray */
+}
+
+button:active {
+    background-color: #2C3553;
+    /* Darker blue-gray */
+}
+
+/* Disabled button styling */
+button:disabled {
+    background-color: #2C3553;
+    /* Darker blue-gray */
+    color: #4E5D94;
+    /* Medium blue-gray */
+    cursor: not-allowed;
+}
+
+/* Modal styles */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Semi-transparent background */
+}
+
+.modal-content {
+    background-color: #1A1D2E;
+    /* Dark blue-gray */
+    margin: 15% auto;
+    /* 15% from the top and centered */
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    /* Could be more or less, depending on your design */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.close-button {
+    color: #FFA651;
+    /* Soft orange */
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    color: #FFFFFF;
+    /* White on hover */
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Label styling */
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #FFA651;
+    /* Soft orange for labels */
+}
+
+/* Input field styling */
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #4E5D94;
+    /* Medium blue-gray */
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: #2C3553;
+    /* Darker blue-gray */
+    color: #FFA651;
+    /* Soft orange for input text */
+}
+
+/* Message styles for consistency */
+.message {
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.success-message {
+    color: #4E5D94;
+    /* Medium blue-gray */
+}
+
+.error-message {
+    color: #FFA651;
+    /* Soft orange */
+}

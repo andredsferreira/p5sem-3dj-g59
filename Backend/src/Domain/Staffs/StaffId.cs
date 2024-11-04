@@ -21,7 +21,7 @@ public class StaffId : EntityId {
     }
 
     protected override object createFromString(string text) {
-        return (Guid)base.ObjValue;
+        return new Guid(text);
     }
 
     public Guid AsGuid() {

@@ -1,1 +1,57 @@
-<p>doctor works!</p>
+<div class="operation-requests">
+    <h2>Operation Requests</h2>
+    <div class="buttons">
+        <button (click)="createOperationRequest()">Create Operation Request</button>
+        <button (click)="listOperationRequests()">List Operation Requests</button>
+        <button (click)="updateOperationRequest()">Update Operation Request</button>
+        <button (click)="deleteOperationRequest()">Delete Operation Request</button>
+    </div>
+</div>
+
+<!-- List of Operation Requests -->
+<div *ngIf="operationRequests.length > 0" class="request-list">
+    <h3>Operation Request List</h3>
+    <ul>
+        <li *ngFor="let request of operationRequests">
+            <strong>Patient ID:</strong> {{ request.patientId }} |
+            <strong>Operation Type:</strong> {{ request.operationTypeId }} |
+            <strong>Priority:</strong> {{ request.priority }} |
+            <strong>Date:</strong> {{ request.dateTime }} |
+            <strong>Status:</strong> {{ request.requestStatus }}
+        </li>
+    </ul>
+</div>
+<div *ngIf="operationRequests.length === 0">
+    <p>No operation requests found.</p>
+</div>
+
+<!-- Modal for creating an operation request -->
+<div *ngIf="showModal" class="modal">
+    <div class="modal-content">
+        <span (click)="closeModal()" class="close-button">&times;</span>
+        <h2>Create Operation Request</h2>
+        <form [formGroup]="operationRequestForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="patientId">Patient ID</label>
+                <input id="patientId" formControlName="patientId" />
+            </div>
+            <div class="form-group">
+                <label for="operationTypeId">Operation Type ID</label>
+                <input id="operationTypeId" formControlName="operationTypeId" />
+            </div>
+            <div class="form-group">
+                <label for="priority">Priority</label>
+                <input id="priority" formControlName="priority" />
+            </div>
+            <div class="form-group">
+                <label for="dateTime">Date and Time</label>
+                <input type="datetime-local" id="dateTime" formControlName="dateTime" />
+            </div>
+            <div class="form-group">
+                <label for="requestStatus">Request Status</label>
+                <input id="requestStatus" formControlName="requestStatus" />
+            </div>
+            <button type="submit" class="login-button">Submit</button>
+        </form>
+    </div>
+</div>
