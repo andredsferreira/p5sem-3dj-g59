@@ -45,11 +45,15 @@
                 <label for="dateTime">Date and Time</label>
                 <input type="datetime-local" id="dateTime" formControlName="dateTime" />
             </div>
+            <!-- Updated requestStatus field to a select dropdown -->
             <div class="form-group">
                 <label for="requestStatus">Request Status</label>
-                <input id="requestStatus" formControlName="requestStatus" />
-            </div>
-            <button type="submit" class="login-button">Submit</button>
+                <select id="requestStatus" formControlName="requestStatus">
+                    <option *ngFor="let status of requestStatusOptions" [value]="status">
+                        {{ status }}
+                    </option>
+                </select>
+            </div> <button type="submit" class="login-button">Submit</button>
         </form>
     </div>
 </div>

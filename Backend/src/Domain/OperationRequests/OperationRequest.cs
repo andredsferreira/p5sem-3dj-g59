@@ -24,14 +24,14 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
 
     public DateTime dateTime { get; set; }
 
-    public RequestStatus requestStatus { get; set; }
+    public string requestStatus { get; set; }
 
     // Testing purposes
     public OperationRequest(OperationRequestId id) {
         Id = id;
     }
 
-    public OperationRequest(PatientId patientId, OperationTypeId operationTypeId, string priority, DateTime dateTime, RequestStatus requestStatus) {
+    public OperationRequest(PatientId patientId, OperationTypeId operationTypeId, string priority, DateTime dateTime, string requestStatus) {
         Id = new OperationRequestId(Guid.NewGuid());
         this.patientId = patientId;
         this.operationTypeId = operationTypeId;
@@ -41,7 +41,7 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
     }
 
     // For testing purposes
-    public OperationRequest(PatientId patientId, StaffId staffId, OperationTypeId operationTypeId, string priority, DateTime dateTime, RequestStatus requestStatus) {
+    public OperationRequest(PatientId patientId, StaffId staffId, OperationTypeId operationTypeId, string priority, DateTime dateTime, string requestStatus) {
         Id = new OperationRequestId(Guid.NewGuid());
         this.patientId = patientId;
         this.staffId = staffId;

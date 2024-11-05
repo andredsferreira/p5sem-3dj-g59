@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
+import { RequestStatus } from './request-status.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -13,26 +14,29 @@ export class OperationRequestService {
 
   }
 
-  async createOperationRequest(patientId: string, operationTypeId: string, priority: string, dateTime: string, requestStatus: string): Promise<any> {
+  async createOperationRequest(patientId: string, operationTypeId: string,
+    priority: string, dateTime: string, requestStatus: RequestStatus): Promise<any> {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
+      'Authorization': `Bearer ${this.token}`,
+      'Content-Type': 'application/json'
     });
+    const body = {
+      patientId,
+      operationTypeId,
+      priority,
+      dateTime,
+      requestStatus
+    };
 
     try {
-      return await lastValueFrom(
-        this.http.post('https://localhost:5001/api/operationrequest/create', {
-          patientId,
-          operationTypeId,
-          priority,
-          dateTime,
-          requestStatus
-        }, { headers })
+      const response = await lastValueFrom(
+        this.http.post('https://localhost:5001/api/operationrequest/create',
+          body, { headers })
       );
+      return response;
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
-        console.error('Error creating operation request:', error.message);
-        throw error;
-      }
+      console.error('Error creating operation request:', error);
+      throw error;
     }
   }
   async updateOperationRequest(id: number) {

@@ -62,15 +62,15 @@ public class DDDSample1DbContext : DbContext {
 
         modelBuilder.Entity<OperationType>().HasData(operationTypeA, operationTypeB, operationTypeC);
 
-        SeedOperationRequest(modelBuilder, patientA, staffDoctor, operationTypeA, "none", DateTime.Now, RequestStatus.Pending);
+        SeedOperationRequest(modelBuilder, patientA, staffDoctor, operationTypeA, "none", DateTime.Now, "Pending");
 
-        SeedOperationRequest(modelBuilder, patientB, staffDoctor, operationTypeB, "top", DateTime.Now, RequestStatus.Pending);
+        SeedOperationRequest(modelBuilder, patientB, staffDoctor, operationTypeB, "top", DateTime.Now, "Pending.");
 
 
         base.OnModelCreating(modelBuilder);
     }
 
-    private void SeedOperationRequest(ModelBuilder builder, Patient patient, Staff doctor, OperationType operationType, string priority, DateTime dateTime, RequestStatus requestStatus) {
+    private void SeedOperationRequest(ModelBuilder builder, Patient patient, Staff doctor, OperationType operationType, string priority, DateTime dateTime, string requestStatus) {
         var operationRequest = new OperationRequest(patient.Id, doctor.Id, operationType.Id, priority, dateTime, requestStatus);
 
         builder.Entity<OperationRequest>().HasData(operationRequest);

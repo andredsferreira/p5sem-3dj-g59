@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { OperationRequestService } from '../../operation-request/operation-request.service';
+import { RequestStatus } from '../../operation-request/request-status.enum';
 
 @Component({
   selector: 'app-doctor',
@@ -12,6 +13,7 @@ import { OperationRequestService } from '../../operation-request/operation-reque
 })
 export class DoctorComponent {
   operationRequestForm: FormGroup;
+  requestStatusOptions = Object.values(RequestStatus);
   showModal: boolean = false;
   formError: string | null = null
   operationRequests: any[] = [];
@@ -22,7 +24,7 @@ export class DoctorComponent {
       operationTypeId: ['', Validators.required],
       priority: ['', Validators.required],
       dateTime: ['', Validators.required],
-      requestStatus: ['', Validators.required]
+      requestStatus: [RequestStatus.Pending, Validators.required]
     });
   }
 
@@ -33,8 +35,16 @@ export class DoctorComponent {
 
   async onSubmit(): Promise<void> {
     if (this.operationRequestForm.valid) {
-      const { patientId, operationTypeId, priority, dateTime, requestStatus } = this.operationRequestForm.value;
       try {
+        const { patientId, operationTypeId, priority, dateTime, requestStatus } =
+          this.operationRequestForm.value;
+        console.log({
+          patientId,
+          operationTypeId,
+          priority,
+          dateTime,
+          requestStatus
+        });
         await this.ors.createOperationRequest(patientId, operationTypeId, priority, dateTime, requestStatus);
         this.closeModal();
       } catch (error) {
@@ -55,7 +65,7 @@ export class DoctorComponent {
   deleteOperationRequest() {
 
   }
-  
+
   async listOperationRequests(): Promise<void> {
     try {
       this.operationRequests = await this.ors.getDoctorOperationRequests();

@@ -11,7 +11,6 @@ namespace DDDSample1.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
 public class OperationRequestController : ControllerBase {
 
     private readonly OperationRequestService _service;
@@ -21,7 +20,7 @@ public class OperationRequestController : ControllerBase {
     }
 
     [HttpPost("create")]
-    [Authorize(Roles = HospitalRoles.Doctor)]
+    // [Authorize(Roles = HospitalRoles.Doctor)]
     public async Task<ActionResult<OperationRequestDTO>> CreateOperationRequest([FromBody] OperationRequestDTO dto) {
         var createdOperationRequest = await _service.CreateOperationRequest(dto);
         return createdOperationRequest != null ? Ok(createdOperationRequest) : BadRequest("Could not create operation request");

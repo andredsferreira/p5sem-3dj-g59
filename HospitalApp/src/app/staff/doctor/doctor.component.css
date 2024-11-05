@@ -200,3 +200,50 @@ button:disabled {
     font-size: 16px;
     margin-top: 20px;
 }
+
+/* Styling for select dropdown */
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #4E5D94;
+    /* Medium blue-gray */
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: #2C3553;
+    /* Darker blue-gray */
+    color: #FFA651;
+    /* Soft orange for text */
+    appearance: none;
+    /* Hides default dropdown arrow for consistency */
+    cursor: pointer;
+}
+
+/* Optional: Custom arrow for dropdown */
+.form-group select:focus {
+    outline: none;
+    /* Remove default outline */
+    border-color: #FFA651;
+    /* Soft orange border on focus */
+}
+
+/* Styling for individual options in the dropdown */
+.form-group select option {
+    background-color: #2C3553;
+    /* Darker blue-gray */
+    color: #FFA651;
+    /* Soft orange */
+}
+
+/* Hover state for dropdown */
+.form-group select:hover {
+    background-color: #4E5D94;
+    /* Medium blue-gray */
+}
+
+/* Disabled option styling */
+.form-group select:disabled {
+    background-color: #2C3553;
+    color: #4E5D94;
+    cursor: not-allowed;
+}
