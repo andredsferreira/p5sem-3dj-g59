@@ -35,7 +35,14 @@ This *US* is merely a *Frontend version* of another **US**, which contains the l
 
 ## 4. Design
 
--
+The team decided the following aspects:
+* The user should be able to pick what attributes they want to filter by.
+    * If they pick an attribute, its text box will unlock, allowing the user to enter the value they desire.
+* If no patients are found with the picked conditions, a message should appear.
+* Otherwise, each entry should:
+    * Have their **Medical Record Number**, **Full Name**, **Email** and **Date of Birth** shown when listed.
+    * After picking one, it should additionally show the other attributes of that **Patient** and show an **Edit button** and a **Delete button**.
+* Each page should display **5 Patients**.
 
 ## 5. C4 Views
 
