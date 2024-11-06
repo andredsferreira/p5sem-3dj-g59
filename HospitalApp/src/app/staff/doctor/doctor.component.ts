@@ -80,6 +80,7 @@ export class DoctorComponent {
       console.error("Error fetching operation requests:", error);
     }
   }
+  
   async updateOperationRequest(request: any): Promise<void> {
     this.selectedRequest = request;
     this.updateRequestForm.patchValue({

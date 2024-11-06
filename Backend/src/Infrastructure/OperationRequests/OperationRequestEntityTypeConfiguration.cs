@@ -4,6 +4,7 @@ using Backend.Domain.OperationRequests;
 using Backend.Domain.Patients;
 using Backend.Domain.Staffs;
 using Backend.Domain.OperationTypes;
+using System;
 
 namespace Backend.Infrastructure.OperationRequests;
 
@@ -31,14 +32,19 @@ internal class OperationRequestEntityTypeConfiguration : IEntityTypeConfiguratio
             .HasForeignKey(s => s.operationTypeId)
             .IsRequired();
 
-        // builder.Property(x => x.patientId)
-        //     .HasConversion(x => x.AsGuid(), x => new PatientId(x));
+        builder.Property(x => x.priority)
+            .HasConversion(
+                v => v.ToString(),
+                v => (OperationRequestPriority)Enum
+                    .Parse(typeof(OperationRequestPriority), v)
+            );
 
-        // builder.Property(x => x.staffId)
-        //     .HasConversion(x => x.AsGuid(), x => new StaffId(x));
-
-        // builder.Property(x => x.operationTypeId)
-        //     .HasConversion(x => x.AsGuid(), x => new OperationTypeId(x));
+        builder.Property(x => x.requestStatus)
+            .HasConversion(
+                v => v.ToString(),
+                v => (OperationRequestStatus)Enum
+                    .Parse(typeof(OperationRequestStatus), v)
+            );
 
     }
 }

@@ -64,12 +64,10 @@ public class OperationRequestService {
         }
 
         var operationRequest = new OperationRequest {
+            Id = new OperationRequestId(Guid.NewGuid()),
             staffId = fetchedStaff.Id,
-            staff = fetchedStaff,
             patientId = fetchedPatient.Id,
-            patient = fetchedPatient,
             operationTypeId = fetchedOperationType.Id,
-            operationType = fetchedOperationType,
             priority = (OperationRequestPriority)Enum.Parse(typeof(OperationRequestPriority),
                 dto.priority, true),
             dateTime = dto.dateTime,
@@ -91,9 +89,11 @@ public class OperationRequestService {
             throw new OperationRequestNotFoundException("The operation request you are trying to update does not exist!");
         }
 
-        var username = _httpContextAccessor.HttpContext?.User?
+        var loggedUsername = _httpContextAccessor.HttpContext?.User?
             .FindFirst(HospitalClaims.Username)?.Value;
-        if (operationRequest.staff.IdentityUsername != username) {
+        var operationRequestDoctor = await _staffRepository.GetByIdAsync(operationRequest.staffId);
+        var doctorUsername = operationRequestDoctor.IdentityUsername;
+        if (doctorUsername != loggedUsername) {
             throw new InvalidOperationRequestException("The operation request you are trying to update is associated with another doctor");
         }
 
@@ -114,9 +114,11 @@ public class OperationRequestService {
             throw new OperationRequestNotFoundException("That operation request does not exist");
         }
 
-        var username = _httpContextAccessor.HttpContext?.User?
+        var loggedUsername = _httpContextAccessor.HttpContext?.User?
             .FindFirst(HospitalClaims.Username)?.Value;
-        if (operationRequest.staff.IdentityUsername != username) {
+        var operationRequestDoctor = await _staffRepository.GetByIdAsync(operationRequest.staffId);
+        var doctorUsername = operationRequestDoctor.IdentityUsername;
+        if (doctorUsername != loggedUsername) {
             throw new InvalidOperationRequestException("The operation request you are trying to update is associated with another doctor");
         }
 
@@ -134,11 +136,13 @@ public class OperationRequestService {
         var returnList = new List<ListOperationRequestDTO>();
 
         foreach (var or in operationRequests) {
+            var orPatient = await _patientRepository.GetByIdAsync(or.patientId);
+            var orType = await _operationTypeRepository.GetByIdAsync(or.operationTypeId);
             var listOperationRequestDTO = new ListOperationRequestDTO {
                 operationRequestId = or.Id.AsGuid(),
                 patientId = or.patientId.AsGuid(),
-                patientFullName = or.patient?.FullName?.ToString() ?? "Unknown",
-                operationTypeName = or.operationType?.name?.ToString() ?? "Unknown",
+                patientFullName = orPatient.FullName.Full,
+                operationTypeName = orType.name.name,
                 priority = or.priority.ToString(),
                 dateTime = or.dateTime,
                 requestStatus = or.requestStatus.ToString()

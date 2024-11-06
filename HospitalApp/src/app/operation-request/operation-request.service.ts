@@ -82,7 +82,7 @@ export class OperationRequestService {
     })
     try {
       const response = await lastValueFrom(
-        this.http.get('https.://localhost:5001/api/operationrequest/list', { headers })
+        this.http.get('https://localhost:5001/api/operationrequest/list', { headers })
       );
       return response
     } catch (error) {

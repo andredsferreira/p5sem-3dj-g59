@@ -7,23 +7,7 @@
     </div>
 </div>
 
-<!-- List of Operation Requests -->
-<div *ngIf="operationRequests.length > 0" class="request-list">
-    <h3>Operation Request List</h3>
-    <ul>
-        <li *ngFor="let request of operationRequests" class="request-item">
-            <strong>ID:</strong> {{ request.operationRequestId }}
-            <strong>Doctor ID:</strong> {{ request.staffId }}
-            <strong>Patient ID:</strong> {{ request.patientId }}
-            <strong>Operation Type:</strong> {{ request.operationTypeId }}
-            <strong>Priority:</strong> {{ request.priority }}
-            <strong>Date:</strong> {{ request.dateTime }}
-            <strong>Status:</strong> {{ request.requestStatus }}
-            <button (click)="updateOperationRequest(request)">Update</button>
-            <button (click)="deleteOperationRequest(request.operationRequestId)">Delete</button>
-        </li>
-    </ul>
-</div>
+
 
 <!-- Create operation request modal -->
 <div *ngIf="showModal" class="modal">
@@ -54,4 +38,22 @@
             <button type="submit">Update</button>
         </form>
     </div>
+</div>
+
+<!-- List of Operation Requests -->
+<div *ngIf="operationRequests.length > 0" class="request-list">
+    <h3>Operation Request List</h3>
+    <ul>
+        <li *ngFor="let request of operationRequests" class="request-item">
+            <strong>ID:</strong> {{ request.operationRequestId }}
+            <strong>Doctor ID:</strong> {{ request.patientId }}
+            <strong>Patient ID:</strong> {{ request.patientFullName }}
+            <strong>Operation Type:</strong> {{ request.operationTypeName }}
+            <strong>Priority:</strong> {{ request.priority }}
+            <strong>Date:</strong> {{ request.dateTime }}
+            <strong>Status:</strong> {{ request.requestStatus }}
+            <button (click)="updateOperationRequest(request)">Update</button>
+            <button (click)="deleteOperationRequest(request.operationRequestId)">Delete</button>
+        </li>
+    </ul>
 </div>
