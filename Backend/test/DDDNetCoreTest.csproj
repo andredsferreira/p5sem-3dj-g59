@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <!-- Reference to your main application project -->
-    <ProjectReference Include="..\src\DDDNetCore.csproj" />
+    <ProjectReference Include="..\src\Backend.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,19 +4,16 @@ using Backend.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DDDNetCore.Migrations
+namespace Backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241106165515_Initial")]
-    partial class Initial
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +22,7 @@ namespace DDDNetCore.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("DDDSample1.Domain.DomainLogs.DomainLog", b =>
+            modelBuilder.Entity("Backend.Domain.DomainLogs.DomainLog", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -47,7 +44,7 @@ namespace DDDNetCore.Migrations
                     b.ToTable("DomainLog", "projeto5sem");
                 });
 
-            modelBuilder.Entity("DDDSample1.Domain.OperationRequests.OperationRequest", b =>
+            modelBuilder.Entity("Backend.Domain.OperationRequests.OperationRequest", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -85,27 +82,27 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6e5e7179-22f4-4ddc-be7d-598eaa606641"),
-                            dateTime = new DateTime(2024, 11, 6, 16, 55, 14, 839, DateTimeKind.Local).AddTicks(8796),
-                            operationTypeId = new Guid("f2b93e03-d9c8-478a-a3d7-f38aaf2408d2"),
-                            patientId = "3bfb6b52-e678-4547-83bd-9918fc1fa7df",
+                            Id = new Guid("7c70f4cc-b0c8-488f-b62d-bfc08bd4381f"),
+                            dateTime = new DateTime(2024, 11, 6, 17, 29, 11, 313, DateTimeKind.Local).AddTicks(6739),
+                            operationTypeId = new Guid("c9a0aa63-4474-4c12-8cb9-4969e59b6f44"),
+                            patientId = "7fbf997d-d213-443b-b538-cd6db20866c3",
                             priority = "none",
                             requestStatus = "Pending",
-                            staffId = "701ac94a-79a4-4fb2-861b-ef130cbd3b06"
+                            staffId = "0fc87ea4-8a46-481a-b131-84b3483b1039"
                         },
                         new
                         {
-                            Id = new Guid("d819de2c-25e6-4086-815b-c70a4afb840b"),
-                            dateTime = new DateTime(2024, 11, 6, 16, 55, 14, 839, DateTimeKind.Local).AddTicks(8894),
-                            operationTypeId = new Guid("01992df5-3739-4cb9-8248-f7862fc72e34"),
-                            patientId = "0388b4d7-a356-4301-a62f-59981a6c1080",
+                            Id = new Guid("cb654c33-67d1-4ac9-bf5a-3d9f256fc70a"),
+                            dateTime = new DateTime(2024, 11, 6, 17, 29, 11, 313, DateTimeKind.Local).AddTicks(6849),
+                            operationTypeId = new Guid("230d7010-8291-4e91-8758-fd791b4dcd1b"),
+                            patientId = "9e211a62-07c0-4fcd-9b5e-d37ce98e0272",
                             priority = "top",
                             requestStatus = "Pending.",
-                            staffId = "701ac94a-79a4-4fb2-861b-ef130cbd3b06"
+                            staffId = "0fc87ea4-8a46-481a-b131-84b3483b1039"
                         });
                 });
 
-            modelBuilder.Entity("DDDSample1.Domain.OperationTypes.OperationType", b =>
+            modelBuilder.Entity("Backend.Domain.OperationTypes.OperationType", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -160,7 +157,7 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f2b93e03-d9c8-478a-a3d7-f38aaf2408d2"),
+                            Id = new Guid("c9a0aa63-4474-4c12-8cb9-4969e59b6f44"),
                             MinAnesthetist = 1,
                             MinCirculatingNurse = 1,
                             MinDoctor = 1,
@@ -177,7 +174,7 @@ namespace DDDNetCore.Migrations
                         },
                         new
                         {
-                            Id = new Guid("01992df5-3739-4cb9-8248-f7862fc72e34"),
+                            Id = new Guid("230d7010-8291-4e91-8758-fd791b4dcd1b"),
                             MinAnesthetist = 1,
                             MinCirculatingNurse = 1,
                             MinDoctor = 1,
@@ -194,7 +191,7 @@ namespace DDDNetCore.Migrations
                         },
                         new
                         {
-                            Id = new Guid("41af98d1-fa9a-4a56-b5d3-c31a97bbe391"),
+                            Id = new Guid("e57adf56-1d31-4267-b521-2db23247b1a9"),
                             MinAnesthetist = 1,
                             MinCirculatingNurse = 1,
                             MinDoctor = 1,
@@ -211,7 +208,7 @@ namespace DDDNetCore.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DDDSample1.Domain.Patients.Allergy", b =>
+            modelBuilder.Entity("Backend.Domain.Patients.Allergy", b =>
                 {
                     b.Property<Guid>("allergyId")
                         .ValueGeneratedOnAdd()
@@ -230,7 +227,7 @@ namespace DDDNetCore.Migrations
                     b.ToTable("Allergy");
                 });
 
-            modelBuilder.Entity("DDDSample1.Domain.Patients.Patient", b =>
+            modelBuilder.Entity("Backend.Domain.Patients.Patient", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
@@ -283,7 +280,7 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3bfb6b52-e678-4547-83bd-9918fc1fa7df",
+                            Id = "7fbf997d-d213-443b-b538-cd6db20866c3",
                             DateOfBirth = new DateOnly(2001, 10, 21),
                             Email = "patientA@hospital.com",
                             FullName = "João Camião",
@@ -293,7 +290,7 @@ namespace DDDNetCore.Migrations
                         },
                         new
                         {
-                            Id = "0388b4d7-a356-4301-a62f-59981a6c1080",
+                            Id = "9e211a62-07c0-4fcd-9b5e-d37ce98e0272",
                             DateOfBirth = new DateOnly(1998, 5, 14),
                             Email = "patientB@hospital.com",
                             FullName = "Bruno Silva",
@@ -303,7 +300,7 @@ namespace DDDNetCore.Migrations
                         },
                         new
                         {
-                            Id = "d89731e7-8bce-4de4-a9c0-6ee5fc8b3350",
+                            Id = "4e44793a-5a3c-4135-b82a-82f6ccd9a144",
                             DateOfBirth = new DateOnly(1995, 12, 30),
                             Email = "patientC@hospital.com",
                             FullName = "Carla Ferreira",
@@ -313,7 +310,7 @@ namespace DDDNetCore.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DDDSample1.Domain.Staffs.Staff", b =>
+            modelBuilder.Entity("Backend.Domain.Staffs.Staff", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
@@ -355,13 +352,13 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "701ac94a-79a4-4fb2-861b-ef130cbd3b06",
+                            Id = "0fc87ea4-8a46-481a-b131-84b3483b1039",
                             IdentityUsername = "doctor",
                             StaffRole = "Doctor"
                         },
                         new
                         {
-                            Id = "e5c0ad5b-49d4-4d0d-9bac-6ee9e0fb9ca7",
+                            Id = "79a8586c-e1a0-4b58-93c1-e4452871da0a",
                             Email = "doctor2@hospital.com",
                             FullName = "Doctor 2",
                             IdentityUsername = "doctor2",
@@ -371,7 +368,7 @@ namespace DDDNetCore.Migrations
                         },
                         new
                         {
-                            Id = "d9b6fdad-50b0-432f-9444-89d6124d37d4",
+                            Id = "1bf1b489-6d0a-409a-946b-7feebf1d76bd",
                             IdentityUsername = "nurese",
                             StaffRole = "Nurse"
                         });
@@ -405,31 +402,31 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d039e601-65a1-41e9-9cd5-5e8da83e9360",
+                            Id = "45cd69e8-0014-47be-aba8-99544086b028",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "465b9a95-62ad-43a9-b58c-16e25d402299",
+                            Id = "135292c2-0a32-48d0-bbf7-f2781e280273",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "24a46aa1-7943-4a0e-8558-d91b6792e449",
+                            Id = "417e7d4c-c7e3-4795-b09e-51f4684d4ac0",
                             Name = "Nurse",
                             NormalizedName = "NURSE"
                         },
                         new
                         {
-                            Id = "9c294937-34d3-4c82-bb76-89716ecce9cb",
+                            Id = "94f7448c-37d8-484b-8750-5b6fd86e7ee5",
                             Name = "Technician",
                             NormalizedName = "TECHNICIAN"
                         },
                         new
                         {
-                            Id = "ca76d5e6-8852-4538-bd88-476561195ec6",
+                            Id = "e441ed89-ae5f-4113-9a81-699d2cc1158a",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });
@@ -526,81 +523,81 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c4cbb86d-a844-49b7-a0bf-596a8a45c6c0",
+                            Id = "ed5ace53-890f-4a73-8a02-c389f3a9284d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "992709ef-7a85-4783-a52f-96e7d60a4724",
+                            ConcurrencyStamp = "f9bcdb8f-b91d-436d-8681-feb92e5388b1",
                             Email = "admin@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@HOSPITAL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDfXExFcw4VfNqsjFAxCPf64kYbejgVQGfmcW3Wkw/zpFpyfGWlTn5Zqzbtt8iHU7Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECO6jppTLETqwuIdnF0Vs2SiaakIHdd066ZvonBXAx1Xk1xiFMMrDIKYN8dMkDqr+Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a6e3de53-3652-46f1-b682-28c85fdc12ee",
+                            SecurityStamp = "50fd9ba9-d8b6-4527-a09e-4092dc2d8a93",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
                         new
                         {
-                            Id = "0b7b3749-da05-4cb3-b9c9-7038fe754515",
+                            Id = "75f8216d-5de0-41a5-9e80-875814523713",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "91f177da-958b-4dd2-8cdf-f18ecd0fc4e6",
+                            ConcurrencyStamp = "62263857-f774-4e53-8a9c-9fd0f731e837",
                             Email = "doctor@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "DOCTOR@HOSPITAL.COM",
                             NormalizedUserName = "DOCTOR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPgOwtWqLvrm6YLQWUzJJFw5bXG5M+/KbfVEQHPB2RHSlXgodhmCWWFrHkGznCc7OA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGzOs+z6hFuXQBJxFGPC2hJkcjGkUxJFOLQwBmPk8erNWxRZzAET0TbRZ2ieMcACjQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "52c730a0-86a1-4840-8044-c8564eeb7bd2",
+                            SecurityStamp = "88aea5c1-d4e5-4c0a-8c4f-cc965765193f",
                             TwoFactorEnabled = false,
                             UserName = "doctor"
                         },
                         new
                         {
-                            Id = "007def0a-baee-4db3-8956-7a43b52a5a93",
+                            Id = "2863485c-d9f3-44fb-aeb7-b6bb3ee872f6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "676ab914-251b-45da-9927-f15ae2cb903a",
+                            ConcurrencyStamp = "dadd0b9c-6f3d-4761-b66d-dae303b2d5ad",
                             Email = "nurse@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "NURSE@HOSPITAL.COM",
                             NormalizedUserName = "NURSE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF1RQL/yE6ANm9Lo4CRTOmGJG4GwFkeB+b4ulbHci7oU3PrdN0c8677tK4vBH7cYbQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEA0bnhgQxooYa0T/HoRUczF9hwkdZp4ABL7+BCKtIqSNzlB6upgz4x93DMQsDcMyAw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a0ae4cb9-233d-4ed1-9531-efab98de11a8",
+                            SecurityStamp = "6918da69-f08d-4a79-b2e7-c0fe0141b571",
                             TwoFactorEnabled = false,
                             UserName = "nurse"
                         },
                         new
                         {
-                            Id = "a0985ab5-1374-405f-a758-0e5392f8f9d3",
+                            Id = "0755eec6-1025-498b-8eda-7bf6ab0f5e78",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d872e257-9d11-410e-ad78-ccee461fb564",
+                            ConcurrencyStamp = "3318cbfd-2a9a-4016-baf1-a0f923334830",
                             Email = "technician@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "TECHNICIAN@HOSPITAL.COM",
                             NormalizedUserName = "TECHNICIAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGaV8ulMdh+18SPRVESGq4TwganOuTa4yxD9oTe4Vugf6u7MkjOV8nMEnF0vUOj7Jw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJT81lG3uzeROWT3zu3Hph2FR2pJZvGZ8/EDjF1A0RXhxcpqRCIdVI3NhGQVsITtTw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "95c695ee-314b-4fe2-a91e-1b335d879af7",
+                            SecurityStamp = "1160e7cf-72a8-4917-b379-5b603f4025c5",
                             TwoFactorEnabled = false,
                             UserName = "technician"
                         },
                         new
                         {
-                            Id = "07acbfb1-dfb4-48d3-9997-9915e4a80720",
+                            Id = "f7adb802-8d39-4368-9fd2-bab7d99f5a71",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "58bf6b3b-4163-429d-a1e5-58c8734fe7b1",
+                            ConcurrencyStamp = "ba440d7d-7784-414a-8fe9-6bcf4da19386",
                             Email = "patient@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "PATIENT@HOSPITAL.COM",
                             NormalizedUserName = "PATIENT",
-                            PasswordHash = "AQAAAAIAAYagAAAAENS+Zr74F9f0l19A0bWNJIVYcLDfDH4CYpl9W52VA4FscDnLbQwV/4NPFytqzU9cXQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIPr9VABqBD0ZRUYxuX/j2ZMUlsPf3kosCgt1FvaJ/4HvB4Na2U8w0Gcxhuwzv1lnA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e9a48f40-f456-4d80-8a06-dc094aa618b2",
+                            SecurityStamp = "2b2abf4f-f99c-43f4-8c69-da60ea68fff2",
                             TwoFactorEnabled = false,
                             UserName = "patient"
                         });
@@ -670,28 +667,28 @@ namespace DDDNetCore.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "c4cbb86d-a844-49b7-a0bf-596a8a45c6c0",
-                            RoleId = "d039e601-65a1-41e9-9cd5-5e8da83e9360"
+                            UserId = "ed5ace53-890f-4a73-8a02-c389f3a9284d",
+                            RoleId = "45cd69e8-0014-47be-aba8-99544086b028"
                         },
                         new
                         {
-                            UserId = "0b7b3749-da05-4cb3-b9c9-7038fe754515",
-                            RoleId = "465b9a95-62ad-43a9-b58c-16e25d402299"
+                            UserId = "75f8216d-5de0-41a5-9e80-875814523713",
+                            RoleId = "135292c2-0a32-48d0-bbf7-f2781e280273"
                         },
                         new
                         {
-                            UserId = "007def0a-baee-4db3-8956-7a43b52a5a93",
-                            RoleId = "24a46aa1-7943-4a0e-8558-d91b6792e449"
+                            UserId = "2863485c-d9f3-44fb-aeb7-b6bb3ee872f6",
+                            RoleId = "417e7d4c-c7e3-4795-b09e-51f4684d4ac0"
                         },
                         new
                         {
-                            UserId = "a0985ab5-1374-405f-a758-0e5392f8f9d3",
-                            RoleId = "9c294937-34d3-4c82-bb76-89716ecce9cb"
+                            UserId = "0755eec6-1025-498b-8eda-7bf6ab0f5e78",
+                            RoleId = "94f7448c-37d8-484b-8750-5b6fd86e7ee5"
                         },
                         new
                         {
-                            UserId = "07acbfb1-dfb4-48d3-9997-9915e4a80720",
-                            RoleId = "ca76d5e6-8852-4538-bd88-476561195ec6"
+                            UserId = "f7adb802-8d39-4368-9fd2-bab7d99f5a71",
+                            RoleId = "e441ed89-ae5f-4113-9a81-699d2cc1158a"
                         });
                 });
 
@@ -714,21 +711,21 @@ namespace DDDNetCore.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("DDDSample1.Domain.OperationRequests.OperationRequest", b =>
+            modelBuilder.Entity("Backend.Domain.OperationRequests.OperationRequest", b =>
                 {
-                    b.HasOne("DDDSample1.Domain.OperationTypes.OperationType", "operationType")
+                    b.HasOne("Backend.Domain.OperationTypes.OperationType", "operationType")
                         .WithMany("OperationRequests")
                         .HasForeignKey("operationTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DDDSample1.Domain.Patients.Patient", "patient")
+                    b.HasOne("Backend.Domain.Patients.Patient", "patient")
                         .WithMany("OperationRequests")
                         .HasForeignKey("patientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DDDSample1.Domain.Staffs.Staff", "staff")
+                    b.HasOne("Backend.Domain.Staffs.Staff", "staff")
                         .WithMany("OperationRequests")
                         .HasForeignKey("staffId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -741,9 +738,9 @@ namespace DDDNetCore.Migrations
                     b.Navigation("staff");
                 });
 
-            modelBuilder.Entity("DDDSample1.Domain.Patients.Allergy", b =>
+            modelBuilder.Entity("Backend.Domain.Patients.Allergy", b =>
                 {
-                    b.HasOne("DDDSample1.Domain.Patients.Patient", null)
+                    b.HasOne("Backend.Domain.Patients.Patient", null)
                         .WithMany("Allergies")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -800,19 +797,19 @@ namespace DDDNetCore.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DDDSample1.Domain.OperationTypes.OperationType", b =>
+            modelBuilder.Entity("Backend.Domain.OperationTypes.OperationType", b =>
                 {
                     b.Navigation("OperationRequests");
                 });
 
-            modelBuilder.Entity("DDDSample1.Domain.Patients.Patient", b =>
+            modelBuilder.Entity("Backend.Domain.Patients.Patient", b =>
                 {
                     b.Navigation("Allergies");
 
                     b.Navigation("OperationRequests");
                 });
 
-            modelBuilder.Entity("DDDSample1.Domain.Staffs.Staff", b =>
+            modelBuilder.Entity("Backend.Domain.Staffs.Staff", b =>
                 {
                     b.Navigation("OperationRequests");
                 });
