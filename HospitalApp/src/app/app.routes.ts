@@ -7,6 +7,7 @@ import { DoctorComponent } from './staff/doctor/doctor.component';
 import { PrivacypolicyComponent } from './privacypolicy/privacypolicy.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { ContactsComponent } from './contacts/contacts.component';
+import { PatientManagementComponent } from './patient-management/patient-management.component';
 
 export const routes: Routes = [
     { path: '', component: LoginComponent },
@@ -17,4 +18,5 @@ export const routes: Routes = [
     { path: 'doctor', component: DoctorComponent },
     { path: 'cube', component: CubeComponent },
     { path: 'hospitalfloor', component: HospitalFloorComponent },
+    { path: 'patientmanagement', component: PatientManagementComponent },
 ];
