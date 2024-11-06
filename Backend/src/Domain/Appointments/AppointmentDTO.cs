@@ -6,11 +6,11 @@ using Backend.Domain.SurgeryRooms;
 
 namespace Domain.Appointments;
 
-public class AppointmentDTO(OperationRequestDTO operationRequestDTO, SurgeryRoomDTO surgeryRoomDTO, DateTime dateTime, AppointmentStatus appointmentStatus) {
+public class AppointmentDTO(CreateOperationRequestDTO operationRequestDTO, SurgeryRoomDTO surgeryRoomDTO, DateTime dateTime, AppointmentStatus appointmentStatus) {
 
     public Guid Id {get;set;} = Guid.NewGuid();
     [Required]
-    public OperationRequestDTO OperationRequestDTO {get;set;} = operationRequestDTO;
+    public CreateOperationRequestDTO OperationRequestDTO {get;set;} = operationRequestDTO;
     [Required]
     public SurgeryRoomDTO SurgeryRoomDTO {get;set;} = surgeryRoomDTO;
     [Required]

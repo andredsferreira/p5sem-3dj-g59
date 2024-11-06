@@ -1,9 +1,7 @@
 using System;
 
 namespace Backend.Domain.Shared;
-/// <summary>
-/// Base class for entities.
-/// </summary>
+
 public abstract class EntityId : IEquatable<EntityId>, IComparable<EntityId> {
 
     protected Object ObjValue { get; }
@@ -62,6 +60,6 @@ public abstract class EntityId : IEquatable<EntityId>, IComparable<EntityId> {
     public static bool operator !=(EntityId x, EntityId y) {
         return !(x == y);
     }
-    
+
 }
 

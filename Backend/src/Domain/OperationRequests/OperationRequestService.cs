@@ -30,10 +30,7 @@ public class OperationRequestService {
         // For tests
     }
 
-    public OperationRequestService(IHttpContextAccessor httpContextAccessor,
-        IUnitOfWork unitOfWork, IOperationRequestRepository operationRequestRepository,
-        IPatientRepository patientRepository, IStaffRepository staffRepository,
-        IOperationTypeRepository operationTypeRepository) {
+    public OperationRequestService(IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, IOperationRequestRepository operationRequestRepository, IPatientRepository patientRepository, IStaffRepository staffRepository, IOperationTypeRepository operationTypeRepository) {
         _httpContextAccessor = httpContextAccessor;
         _unitOfWork = unitOfWork;
         _operationRequestRepository = operationRequestRepository;
@@ -42,70 +39,116 @@ public class OperationRequestService {
         _operationTypeRepository = operationTypeRepository;
     }
 
-    public virtual async Task<OperationRequestDTO> CreateOperationRequest([FromBody] OperationRequestDTO dto) {
-        var patient = await _patientRepository.GetByIdAsync(new PatientId(dto.patientId));
-        if (patient == null) {
-            throw new PatientNotFoundException("The patient you provided does not exist!");
-        }
-        string username = _httpContextAccessor.HttpContext?.User?.FindFirst(HospitalClaims.Username)?.Value;
-        if (username == null) {
+    public virtual async Task<CreateOperationRequestDTO> CreateOperationRequest(CreateOperationRequestDTO dto) {
+
+        var fetchedUsername = _httpContextAccessor.HttpContext?.User?
+            .FindFirst(HospitalClaims.Username)?.Value;
+        if (fetchedUsername == null) {
             throw new EmptyUserNameException("Your accessing with an empty username");
         }
-        Staff staff = await _staffRepository.GetByIdentityUsernameAsync(username);
-        if (staff == null) {
+
+        var fetchedStaff = await _staffRepository.GetByIdentityUsernameAsync(fetchedUsername);
+        if (fetchedStaff == null) {
             throw new StaffNotRegisteredException("Your are not registered in the system.");
         }
-        var operationType = await _operationTypeRepository.GetByIdAsync(new OperationTypeId(dto.operationTypeId));
-        if (operationType == null) {
+
+        var fetchedPatient = await _patientRepository.GetByIdAsync(new PatientId(dto.patientId));
+        if (fetchedPatient == null) {
+            throw new PatientNotFoundException("The patient you provided does not exist!");
+        }
+
+        var fetchedOperationType = await _operationTypeRepository.
+            GetByIdAsync(new OperationTypeId(dto.operationTypeId));
+        if (fetchedOperationType == null) {
             throw new InvalidOperationTypeException("That operation type is not valid.");
         }
-        var operationRequest = OperationRequest.CreateFromDTO(dto);
-        operationRequest.patient = patient;
-        operationRequest.staffId = staff.Id;
-        operationRequest.staff = staff;
-        operationRequest.operationType = operationType;
+
+        var operationRequest = new OperationRequest {
+            staffId = fetchedStaff.Id,
+            staff = fetchedStaff,
+            patientId = fetchedPatient.Id,
+            patient = fetchedPatient,
+            operationTypeId = fetchedOperationType.Id,
+            operationType = fetchedOperationType,
+            priority = (OperationRequestPriority)Enum.Parse(typeof(OperationRequestPriority),
+                dto.priority, true),
+            dateTime = dto.dateTime,
+            requestStatus = (OperationRequestStatus)Enum.Parse(typeof(OperationRequestStatus),
+                dto.requestStatus, true)
+        };
+
         await _operationRequestRepository.AddAsync(operationRequest);
         await _unitOfWork.CommitAsync();
-        return OperationRequest.returnDTO(operationRequest);
+
+        return dto;
+
     }
 
-    public virtual async Task<UpdatedOperationRequestDTO> UpdateOperationRequest(UpdatedOperationRequestDTO dto) {
+    public virtual async Task<UpdateOperationRequestDTO> UpdateOperationRequest(UpdateOperationRequestDTO dto) {
+
         var operationRequest = await _operationRequestRepository.GetByIdAsync(new OperationRequestId(dto.updatedId));
         if (operationRequest == null) {
             throw new OperationRequestNotFoundException("The operation request you are trying to update does not exist!");
         }
-        var username = _httpContextAccessor.HttpContext?.User?.FindFirst(HospitalClaims.Username)?.Value;
+
+        var username = _httpContextAccessor.HttpContext?.User?
+            .FindFirst(HospitalClaims.Username)?.Value;
         if (operationRequest.staff.IdentityUsername != username) {
             throw new InvalidOperationRequestException("The operation request you are trying to update is associated with another doctor");
         }
+
         operationRequest.dateTime = dto.dateTime;
-        operationRequest.priority = dto.priority;
+        operationRequest.priority = (OperationRequestPriority)Enum
+            .Parse(typeof(OperationRequestPriority), dto.priority, true);
+
         await _unitOfWork.CommitAsync();
+
         return dto;
+
     }
 
     public virtual async Task<Guid> DeleteOperationRequest(Guid id) {
+
         var operationRequest = await _operationRequestRepository.GetByIdAsync(new OperationRequestId(id));
         if (operationRequest == null) {
             throw new OperationRequestNotFoundException("That operation request does not exist");
         }
-        var username = _httpContextAccessor.HttpContext?.User?.FindFirst(HospitalClaims.Username)?.Value;
+
+        var username = _httpContextAccessor.HttpContext?.User?
+            .FindFirst(HospitalClaims.Username)?.Value;
         if (operationRequest.staff.IdentityUsername != username) {
             throw new InvalidOperationRequestException("The operation request you are trying to update is associated with another doctor");
         }
+
         _operationRequestRepository.Remove(operationRequest);
         await _unitOfWork.CommitAsync();
+
         return id;
+
     }
 
-    public virtual async Task<List<OperationRequestDTO>> ListOperationRequests() {
+    public virtual async Task<List<ListOperationRequestDTO>> ListOperationRequests() {
+
         var operationRequests = await _operationRequestRepository.GetAllAsync();
-        var operationRequestsDTO = new List<OperationRequestDTO>();
-        foreach (var operationRequest in operationRequests) {
-            operationRequestsDTO.Add(OperationRequest.returnListDTO(operationRequest));
+
+        var returnList = new List<ListOperationRequestDTO>();
+
+        foreach (var or in operationRequests) {
+            var listOperationRequestDTO = new ListOperationRequestDTO {
+                operationRequestId = or.Id.AsGuid(),
+                patientId = or.patientId.AsGuid(),
+                patientFullName = or.patient.FullName.ToString(),
+                operationTypeName = or.operationType.name.ToString(),
+                priority = or.priority.ToString(),
+                dateTime = or.dateTime,
+                requestStatus = or.requestStatus.ToString()
+            };
+            returnList.Add(listOperationRequestDTO);
         }
+
         await _unitOfWork.CommitAsync();
-        return operationRequestsDTO;
+
+        return returnList;
     }
 
 }

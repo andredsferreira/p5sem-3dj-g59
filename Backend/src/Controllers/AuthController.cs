@@ -197,7 +197,6 @@ public class AuthController : ControllerBase {
             new Claim(HospitalClaims.Username, user.UserName),
             new Claim(HospitalClaims.Email, user.Email),
             new Claim(HospitalClaims.Role, role),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
         var jwtSettings = Configuration.GetSection("Jwt");

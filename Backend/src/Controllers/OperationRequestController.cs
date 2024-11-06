@@ -23,7 +23,7 @@ public class OperationRequestController : ControllerBase {
 
     [HttpPost("create")]
     [Authorize(Roles = HospitalRoles.Doctor)]
-    public async Task<IActionResult> CreateOperationRequest([FromBody] OperationRequestDTO dto) {
+    public async Task<IActionResult> CreateOperationRequest([FromBody] CreateOperationRequestDTO dto) {
         try {
             var createdOperationRequest = await _service.CreateOperationRequest(dto);
             return Ok(createdOperationRequest);
@@ -44,7 +44,7 @@ public class OperationRequestController : ControllerBase {
 
     [HttpPut("update")]
     [Authorize(Roles = HospitalRoles.Doctor)]
-    public async Task<IActionResult> UpdateOperationRequest([FromBody] UpdatedOperationRequestDTO dto) {
+    public async Task<IActionResult> UpdateOperationRequest([FromBody] UpdateOperationRequestDTO dto) {
         try {
             var updatedOperationRequest = await _service.UpdateOperationRequest(dto);
             return Ok(updatedOperationRequest);

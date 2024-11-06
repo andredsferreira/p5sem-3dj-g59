@@ -20,12 +20,12 @@ public class Appointment : Entity<AppointmentId>, IAggregateRoot {
         this.DateTime = dateTime;
         this.AppointmentStatus = appointmentStatus;
     }
-    public static Appointment CreateFromDTO(AppointmentDTO dto) {
-        return new Appointment(OperationRequest.CreateFromDTO(dto.OperationRequestDTO),
-                                SurgeryRoom.CreateFromDTO(dto.SurgeryRoomDTO),
-                                dto.DateTime,
-                                dto.AppointmentStatus);
-    }
+    // public static Appointment CreateFromDTO(AppointmentDTO dto) {
+    //     return new Appointment(OperationRequest.CreateFromDTO(dto.OperationRequestDTO),
+    //                             SurgeryRoom.CreateFromDTO(dto.SurgeryRoomDTO),
+    //                             dto.DateTime,
+    //                             dto.AppointmentStatus);
+    // }
 
     public static AppointmentDTO returnDTO(Appointment appointment) {
         throw new NotImplementedException();
