@@ -37,13 +37,13 @@ public class AuthController : ControllerBase {
     private readonly IPatientRepository _patientRepository;
 
     private readonly IMessageSenderService MessageSender;
-    
+
     private readonly IHttpContextAccessor _httpContextAccessor;
-    
+
     private readonly IUnitOfWork _unitOfWork;
 
-    public AuthController(IConfiguration Configuration,AppDbContext context, UserManager<IdentityUser> UserManager, 
-                        SignInManager<IdentityUser> SignInManager, IPatientRepository patientRepository, 
+    public AuthController(IConfiguration Configuration, AppDbContext context, UserManager<IdentityUser> UserManager,
+                        SignInManager<IdentityUser> SignInManager, IPatientRepository patientRepository,
                         IMessageSenderService MessageSender, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork) {
         this.Configuration = Configuration;
         this.Context = context;
@@ -114,7 +114,7 @@ public class AuthController : ControllerBase {
             Email = dto.Email,
             PhoneNumber = dto.Phone
         };
-        var pat = _patientRepository.GetByEmail(new MailAddress(dto.Email)); 
+        var pat = _patientRepository.GetByEmail(new MailAddress(dto.Email));
         if (pat == null) {
             return NotFound("Patient is not registered by the admin");
         }
@@ -134,7 +134,7 @@ public class AuthController : ControllerBase {
         await UserManager.AddToRoleAsync(patientUser, HospitalRoles.Patient);
 
         var token = await BuildToken(patientUser);
-        
+
         await _unitOfWork.CommitAsync();
 
         return Ok(new { token });
@@ -149,12 +149,12 @@ public class AuthController : ControllerBase {
         SendAccountDeletionEmail(email, pat);
         return Ok(pat.returnDTO());
     }
-    private Patient CheckCurrentUsersPatientProfile(MailAddress email){
+    private Patient CheckCurrentUsersPatientProfile(MailAddress email) {
         Patient pat = _patientRepository.GetByUserEmail(email);
-        Console.WriteLine("Este é o patient: "+pat);
+        Console.WriteLine("Este é o patient: " + pat);
         return pat;
     }
-    private void SendAccountDeletionEmail(MailAddress recipient, Patient pat){
+    private void SendAccountDeletionEmail(MailAddress recipient, Patient pat) {
         string appDomain = Configuration.GetSection("Application:AppDomain").Value,
             confirmationLink = Configuration.GetSection("Application:EmailDeletionConfirmation").Value,
             fullConfirmationLink = string.Format(appDomain + confirmationLink, pat.Id);
@@ -197,6 +197,7 @@ public class AuthController : ControllerBase {
             new Claim(HospitalClaims.Username, user.UserName),
             new Claim(HospitalClaims.Email, user.Email),
             new Claim(HospitalClaims.Role, role),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
         var jwtSettings = Configuration.GetSection("Jwt");

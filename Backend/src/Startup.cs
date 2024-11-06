@@ -109,14 +109,6 @@ public class Startup {
                 };
             });
 
-        services.AddAuthorization(options => {
-            options.AddPolicy(HospitalRoles.Admin, policy => policy.RequireRole(HospitalRoles.Admin));
-            options.AddPolicy(HospitalRoles.Doctor, policy => policy.RequireRole(HospitalRoles.Doctor));
-            options.AddPolicy(HospitalRoles.Nurse, policy => policy.RequireRole(HospitalRoles.Nurse));
-            options.AddPolicy(HospitalRoles.Technician, policy => policy.RequireRole(HospitalRoles.Technician));
-            options.AddPolicy(HospitalRoles.Patient, policy => policy.RequireRole(HospitalRoles.Patient));
-        });
-
         services.AddCors(options => {
             options.AddPolicy("AllowSpecificOrigin", builder => {
                 builder.WithOrigins("http://localhost:4200")

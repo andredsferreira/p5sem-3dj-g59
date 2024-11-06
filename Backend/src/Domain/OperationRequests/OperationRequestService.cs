@@ -27,7 +27,7 @@ public class OperationRequestService {
     private readonly IOperationTypeRepository _operationTypeRepository;
 
     public OperationRequestService() {
-        
+        // For tests
     }
 
     public OperationRequestService(IHttpContextAccessor httpContextAccessor,
