@@ -17,7 +17,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using System;
-using Backend.Domain.Auth;
 using Backend.Infrastructure.Shared.MessageSender;
 using Backend.Domain.DomainLogs;
 using Backend.Infrastructure.DomainLogs;

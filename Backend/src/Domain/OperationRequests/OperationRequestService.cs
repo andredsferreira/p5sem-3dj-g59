@@ -137,8 +137,8 @@ public class OperationRequestService {
             var listOperationRequestDTO = new ListOperationRequestDTO {
                 operationRequestId = or.Id.AsGuid(),
                 patientId = or.patientId.AsGuid(),
-                patientFullName = or.patient.FullName.ToString(),
-                operationTypeName = or.operationType.name.ToString(),
+                patientFullName = or.patient?.FullName?.ToString() ?? "Unknown",
+                operationTypeName = or.operationType?.name?.ToString() ?? "Unknown",
                 priority = or.priority.ToString(),
                 dateTime = or.dateTime,
                 requestStatus = or.requestStatus.ToString()
