@@ -1,4 +1,4 @@
-namespace DDDSample1.Domain.Appointments;
+namespace Backend.Domain.Appointments;
 
 public enum AppointmentStatus {
 

@@ -1,5 +1,5 @@
 
-namespace DDDSample1.Domain.OperationTypes;
+namespace Backend.Domain.OperationTypes;
 
 
 public enum Specialization{

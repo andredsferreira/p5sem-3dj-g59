@@ -1,6 +1,6 @@
-using DDDSample1.Domain.Shared;
+using Backend.Domain.Shared;
 
-namespace DDDSample1.Domain.Appointments {
+namespace Backend.Domain.Appointments {
 
     public interface IAppointmentRepository : IRepository<Appointment, AppointmentId> {
 

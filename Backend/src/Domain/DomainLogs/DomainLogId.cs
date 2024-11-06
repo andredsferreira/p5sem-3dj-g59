@@ -1,8 +1,8 @@
-using DDDSample1.Domain.Shared;
+using Backend.Domain.Shared;
 using System;
 using System.Text.Json.Serialization;
 
-namespace DDDSample1.Domain.DomainLogs;
+namespace Backend.Domain.DomainLogs;
 
 public class DomainLogId : EntityId {
 

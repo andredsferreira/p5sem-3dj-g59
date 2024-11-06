@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DDDSample1.Domain.Shared;
+namespace Backend.Domain.Shared;
 
 public class FullName : IValueObject {
 

@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DDDSample1.Domain.OperationRequests;
+namespace Backend.Domain.OperationRequests;
 
 public class UpdatedOperationRequestDTO {
 

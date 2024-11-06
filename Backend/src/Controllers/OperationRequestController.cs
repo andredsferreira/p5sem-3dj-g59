@@ -1,14 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DDDSample1.Domain.Auth;
-using DDDSample1.Domain.OperationRequests;
-using DDDSample1.Domain.Shared.Exceptions;
+using Backend.Domain.Auth;
+using Backend.Domain.OperationRequests;
+using Backend.Domain.Shared.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DDDSample1.Controllers;
+namespace Backend.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

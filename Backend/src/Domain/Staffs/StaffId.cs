@@ -1,8 +1,8 @@
 using System;
 using System.Text.Json.Serialization;
-using DDDSample1.Domain.Shared;
+using Backend.Domain.Shared;
 
-namespace DDDSample1.Domain.Staffs;
+namespace Backend.Domain.Staffs;
 
 public class StaffId : EntityId {
 

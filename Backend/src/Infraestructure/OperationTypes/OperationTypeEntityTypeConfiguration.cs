@@ -1,9 +1,9 @@
 using System;
-using DDDSample1.Domain.OperationTypes;
+using Backend.Domain.OperationTypes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DDDSample1.Infrastructure.OperationTypes;
+namespace Backend.Infrastructure.OperationTypes;
 internal class OperationTypeEntityTypeConfiguration : IEntityTypeConfiguration<OperationType> {
     public void Configure(EntityTypeBuilder<OperationType> builder) {
         builder.ToTable("OperationType", SchemaNames.DDDSample1);
@@ -27,8 +27,8 @@ internal class OperationTypeEntityTypeConfiguration : IEntityTypeConfiguration<O
         builder.Property(x => x.cleaningTime)
             .HasConversion(x => x.duration, x => new CleaningTime(x));
 
-        builder.Property(x=>x.Status)
-            .HasConversion(x => x.ToString(), x => (Status)Enum.Parse(typeof(Status),x));
+        builder.Property(x => x.Status)
+            .HasConversion(x => x.ToString(), x => (Status)Enum.Parse(typeof(Status), x));
 
     }
 }

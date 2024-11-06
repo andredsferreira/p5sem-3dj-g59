@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DDDSample1.Domain.Auth;
+namespace Backend.Domain.Auth;
 
 public class LoginDTO {
 

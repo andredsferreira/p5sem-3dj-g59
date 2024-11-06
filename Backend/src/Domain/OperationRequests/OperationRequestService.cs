@@ -1,20 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using DDDSample1.Domain.OperationTypes;
-using DDDSample1.Domain.Patients;
-using DDDSample1.Domain.Shared;
-using DDDSample1.Domain.Shared.Exceptions;
-using DDDSample1.Domain.Staffs;
-using DDDSample1.Infrastructure.OperationRequests;
-using DDDSample1.Infrastructure.OperationTypes;
+using Backend.Domain.Auth;
+using Backend.Domain.OperationTypes;
+using Backend.Domain.Patients;
+using Backend.Domain.Shared;
+using Backend.Domain.Shared.Exceptions;
+using Backend.Domain.Staffs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 
-namespace DDDSample1.Domain.OperationRequests;
+namespace Backend.Domain.OperationRequests;
 
 public class OperationRequestService {
 
@@ -51,7 +47,7 @@ public class OperationRequestService {
         if (patient == null) {
             throw new PatientNotFoundException("The patient you provided does not exist!");
         }
-        string username = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
+        string username = _httpContextAccessor.HttpContext?.User?.FindFirst(HospitalClaims.Username)?.Value;
         if (username == null) {
             throw new EmptyUserNameException("Your accessing with an empty username");
         }
@@ -70,7 +66,7 @@ public class OperationRequestService {
         operationRequest.operationType = operationType;
         await _operationRequestRepository.AddAsync(operationRequest);
         await _unitOfWork.CommitAsync();
-        return dto;
+        return OperationRequest.returnDTO(operationRequest);
     }
 
     public virtual async Task<UpdatedOperationRequestDTO> UpdateOperationRequest(UpdatedOperationRequestDTO dto) {
@@ -78,7 +74,7 @@ public class OperationRequestService {
         if (operationRequest == null) {
             throw new OperationRequestNotFoundException("The operation request you are trying to update does not exist!");
         }
-        var username = _httpContextAccessor.HttpContext?.User?.FindFirst(JwtRegisteredClaimNames.UniqueName)?.Value;
+        var username = _httpContextAccessor.HttpContext?.User?.FindFirst(HospitalClaims.Username)?.Value;
         if (operationRequest.staff.IdentityUsername != username) {
             throw new InvalidOperationRequestException("The operation request you are trying to update is associated with another doctor");
         }
@@ -93,7 +89,7 @@ public class OperationRequestService {
         if (operationRequest == null) {
             throw new OperationRequestNotFoundException("That operation request does not exist");
         }
-        var username = _httpContextAccessor.HttpContext?.User?.FindFirst(JwtRegisteredClaimNames.UniqueName)?.Value;
+        var username = _httpContextAccessor.HttpContext?.User?.FindFirst(HospitalClaims.Username)?.Value;
         if (operationRequest.staff.IdentityUsername != username) {
             throw new InvalidOperationRequestException("The operation request you are trying to update is associated with another doctor");
         }

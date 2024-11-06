@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DDDSample1.Domain.Auth;
+namespace Backend.Domain.Auth;
 
 
 public class PatientRegisterDTO {

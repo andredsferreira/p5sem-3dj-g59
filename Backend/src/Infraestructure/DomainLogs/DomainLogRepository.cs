@@ -1,11 +1,11 @@
-using DDDSample1.Domain.DomainLogs;
-using DDDSample1.Infrastructure.Shared;
+using Backend.Domain.DomainLogs;
+using Backend.Infrastructure.Shared;
 
-namespace DDDSample1.Infrastructure.DomainLogs;
+namespace Backend.Infrastructure.DomainLogs;
 
 public class DomainLogRepository : BaseRepository<DomainLog, DomainLogId>, IDomainLogRepository {
 
-    public DomainLogRepository(DDDSample1DbContext context) : base(context.DomainLogs) {
+    public DomainLogRepository(AppDbContext context) : base(context.DomainLogs) {
     }
     
 }

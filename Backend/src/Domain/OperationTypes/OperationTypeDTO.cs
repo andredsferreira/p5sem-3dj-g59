@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DDDSample1.Domain.OperationTypes;
+namespace Backend.Domain.OperationTypes;
 
 public class OperationTypeDTO {
 

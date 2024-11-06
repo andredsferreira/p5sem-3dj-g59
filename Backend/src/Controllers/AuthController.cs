@@ -1,9 +1,9 @@
-using DDDSample1.Domain;
-using DDDSample1.Domain.Auth;
-using DDDSample1.Domain.Patients;
-using DDDSample1.Domain.Shared;
-using DDDSample1.Infrastructure;
-using DDDSample1.Infrastructure.Shared.MessageSender;
+using Backend.Domain;
+using Backend.Domain.Auth;
+using Backend.Domain.Patients;
+using Backend.Domain.Shared;
+using Backend.Infrastructure;
+using Backend.Infrastructure.Shared.MessageSender;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -20,7 +20,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DDDSample1.Controllers;
+namespace Backend.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -28,7 +28,7 @@ public class AuthController : ControllerBase {
 
     private readonly IConfiguration Configuration;
 
-    private readonly IdentityContext Context;
+    private readonly AppDbContext Context;
 
     private readonly UserManager<IdentityUser> UserManager;
 
@@ -42,11 +42,11 @@ public class AuthController : ControllerBase {
     
     private readonly IUnitOfWork _unitOfWork;
 
-    public AuthController(IConfiguration Configuration, IdentityContext Context, UserManager<IdentityUser> UserManager, 
+    public AuthController(IConfiguration Configuration,AppDbContext context, UserManager<IdentityUser> UserManager, 
                         SignInManager<IdentityUser> SignInManager, IPatientRepository patientRepository, 
                         IMessageSenderService MessageSender, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork) {
         this.Configuration = Configuration;
-        this.Context = Context;
+        this.Context = context;
         this.UserManager = UserManager;
         this.SignInManager = SignInManager;
         this._patientRepository = patientRepository;
@@ -181,31 +181,28 @@ public class AuthController : ControllerBase {
     }
 
     private async Task<string> BuildToken(IdentityUser user) {
-        // Obter role do user
         var userRoles = await UserManager.GetRolesAsync(user);
-        var firstRole = userRoles.FirstOrDefault();
+        var role = userRoles.FirstOrDefault();
 
         if (user == null) {
             throw new ArgumentException("User cannot be null.");
         }
 
-        if (firstRole == null) {
+        if (role == null) {
             throw new ArgumentException("User does not have an assigned role.");
         }
 
         var claims = new List<Claim>() {
-            new Claim(JwtRegisteredClaimNames.NameId, user.Id),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim("role", firstRole)
+            new Claim(HospitalClaims.Id, user.Id),
+            new Claim(HospitalClaims.Username, user.UserName),
+            new Claim(HospitalClaims.Email, user.Email),
+            new Claim(HospitalClaims.Role, role),
         };
 
         var jwtSettings = Configuration.GetSection("Jwt");
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var expiration = DateTime.UtcNow.AddHours(1);
-
+        var expiration = DateTime.UtcNow.AddHours(24);
 
         JwtSecurityToken token = new JwtSecurityToken(
             issuer: jwtSettings["Issuer"],

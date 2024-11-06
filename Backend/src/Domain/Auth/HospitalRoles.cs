@@ -1,4 +1,4 @@
-namespace DDDSample1.Domain.Auth;
+namespace Backend.Domain.Auth;
 
 public static class HospitalRoles {
 

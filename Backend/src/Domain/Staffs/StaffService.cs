@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DDDSample1.Domain.DomainLogs;
-using DDDSample1.Domain.Patients;
-using DDDSample1.Domain.Shared;
-using DDDSample1.Infrastructure.Shared.MessageSender;
+using Backend.Domain.DomainLogs;
+using Backend.Domain.Shared;
+using Backend.Infrastructure.Shared.MessageSender;
 
-namespace DDDSample1.Domain.Staffs;
+namespace Backend.Domain.Staffs;
 
 public class StaffService {
 

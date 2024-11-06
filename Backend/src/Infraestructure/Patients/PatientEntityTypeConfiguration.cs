@@ -1,16 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mail;
-using System.Runtime.CompilerServices;
-using DDDSample1.Domain.Patients;
-using DDDSample1.Domain.Shared;
+using Backend.Domain.Patients;
+using Backend.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DDDSample1.Infrastructure.Patients;
+namespace Backend.Infrastructure.Patients;
 
 internal class PatientEntityTypeConfiguration : IEntityTypeConfiguration<Patient> {
 

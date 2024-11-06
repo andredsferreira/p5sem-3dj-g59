@@ -1,8 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using DDDSample1.Domain.Appointments;
-using DDDSample1.Domain.OperationRequests;
-using DDDSample1.Domain.SurgeryRooms;
+using Backend.Domain.Appointments;
+using Backend.Domain.OperationRequests;
+using Backend.Domain.SurgeryRooms;
 
 namespace Domain.Appointments;
 

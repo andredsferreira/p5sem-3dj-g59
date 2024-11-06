@@ -1,8 +1,8 @@
-namespace DDDSample1.Domain.Appointments;
+namespace Backend.Domain.Appointments;
 
 using System;
 using System.Text.Json.Serialization;
-using DDDSample1.Domain.Shared;
+using Backend.Domain.Shared;
 
 public class AppointmentId : EntityId {
 

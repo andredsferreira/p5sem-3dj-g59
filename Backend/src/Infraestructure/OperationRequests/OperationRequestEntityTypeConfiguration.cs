@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using DDDSample1.Domain.OperationRequests;
-using DDDSample1.Domain.Patients;
-using DDDSample1.Domain.Staffs;
-using DDDSample1.Domain.OperationTypes;
+using Backend.Domain.OperationRequests;
+using Backend.Domain.Patients;
+using Backend.Domain.Staffs;
+using Backend.Domain.OperationTypes;
 
-namespace DDDSample1.Infrastructure.OperationRequests;
+namespace Backend.Infrastructure.OperationRequests;
 
 internal class OperationRequestEntityTypeConfiguration : IEntityTypeConfiguration<OperationRequest> {
 

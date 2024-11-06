@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace DDDSample1.Domain.Staffs;
+namespace Backend.Domain.Staffs;
 
 public class StaffDTO(string StaffRole, string IdentityUsername, string name, string email, string phone, string licenseNumber) {
 

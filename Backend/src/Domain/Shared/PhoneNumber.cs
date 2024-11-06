@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace DDDSample1.Domain.Shared;
+namespace Backend.Domain.Shared;
 
 public class PhoneNumber : IValueObject {
     public string value;

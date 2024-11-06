@@ -1,4 +1,4 @@
-namespace DDDSample1.Domain.SurgeryRooms;
+namespace Backend.Domain.SurgeryRooms;
 
 public enum RoomType {
     OperatingRoom, //0

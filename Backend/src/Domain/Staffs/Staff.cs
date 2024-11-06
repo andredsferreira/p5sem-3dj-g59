@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Mail;
-using DDDSample1.Domain.OperationRequests;
-using DDDSample1.Domain.Shared;
+using Backend.Domain.OperationRequests;
+using Backend.Domain.Shared;
 
-namespace DDDSample1.Domain.Staffs;
+namespace Backend.Domain.Staffs;
 
 public class Staff : Entity<StaffId>, IAggregateRoot {
 
     public string StaffRole { get; set; }
-    
 
     public string IdentityUsername { get; }
+    
     public MailAddress Email { get; set; } //unique
     public PhoneNumber PhoneNumber { get; set; } //unique
     public FullName FullName { get; set; }
@@ -20,7 +20,7 @@ public class Staff : Entity<StaffId>, IAggregateRoot {
     public ICollection<OperationRequest> OperationRequests { get; set; } = new List<OperationRequest>();
 
     public Staff() {
-        
+
     }
 
     public Staff(string staffRole, string username) {

@@ -1,11 +1,11 @@
-using DDDSample1.Domain.OperationRequests;
-using DDDSample1.Infrastructure.Shared;
+using Backend.Domain.OperationRequests;
+using Backend.Infrastructure.Shared;
 
-namespace DDDSample1.Infrastructure.OperationRequests;
+namespace Backend.Infrastructure.OperationRequests;
 
 public class OperationRequestRepository : BaseRepository<OperationRequest, OperationRequestId>, IOperationRequestRepository {
 
-    public OperationRequestRepository(DDDSample1DbContext context) : base(context.OperationRequests) {
+    public OperationRequestRepository(AppDbContext context) : base(context.OperationRequests) {
 
     }
 

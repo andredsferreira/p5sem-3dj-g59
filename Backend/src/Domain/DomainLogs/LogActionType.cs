@@ -1,4 +1,4 @@
-namespace DDDSample1.Domain.DomainLogs;
+namespace Backend.Domain.DomainLogs;
 
 public enum LogActionType {
     Creation, //0

@@ -1,18 +1,18 @@
 using System.Threading.Tasks;
-using DDDSample1.Domain.Auth;
-using DDDSample1.Infrastructure;
+using Backend.Domain.Auth;
+using Backend.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using DDDSample1.Domain.OperationTypes;
+using Backend.Domain.OperationTypes;
 using System.Collections.Generic;
 using System.Linq;
 using System;
 
 
 
-namespace DDDSample1.Controllers;
+namespace Backend.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -20,12 +20,15 @@ namespace DDDSample1.Controllers;
 public class OperationTypeController : ControllerBase {
 
     private readonly IConfiguration Configuration;
-    private readonly IdentityContext Context;
+
+    private readonly AppDbContext Context;
+
     private readonly UserManager<IdentityUser> UserManager;
+    
     private readonly AddOperationTypeService AddOperationTypeService;
 
 
-    public OperationTypeController(IConfiguration Configuration, IdentityContext Context, UserManager<IdentityUser> UserManager, AddOperationTypeService AddOperationTypeService) {
+    public OperationTypeController(IConfiguration Configuration, AppDbContext Context, UserManager<IdentityUser> UserManager, AddOperationTypeService AddOperationTypeService) {
         this.Configuration = Configuration;
         this.Context = Context;
         this.UserManager = UserManager;

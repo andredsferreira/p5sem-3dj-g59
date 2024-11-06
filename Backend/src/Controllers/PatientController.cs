@@ -1,16 +1,15 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DDDSample1.Domain.Patients;
+using Backend.Domain.Patients;
 using Microsoft.AspNetCore.Authorization;
-using DDDSample1.Domain.Auth;
+using Backend.Domain.Auth;
 using Microsoft.AspNetCore.Identity;
 using Domain.Appointments;
 using System.Collections.Generic;
 using System.Linq;
-using DDDSample1.Domain.Shared;
-using System;
+using Backend.Domain.Shared;
 
-namespace DDDSample1.Controllers;
+namespace Backend.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -31,7 +30,7 @@ public class PatientController : ControllerBase {
     [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<PatientDTO>> CreatePatient(PatientDTO dto) {
         var cat = await _service.CreatePatient(dto);
-        return CreatedAtAction(nameof(GetPatientById), new{id = cat.MedicalRecordNumber}, cat);
+        return CreatedAtAction(nameof(GetPatientById), new { id = cat.MedicalRecordNumber }, cat);
     }
 
     [HttpGet("Get/{id}")]
@@ -54,7 +53,8 @@ public class PatientController : ControllerBase {
             return BadRequest(new { ex.Message });
         }
     }
-
+    
+#nullable disable
     [HttpPut("Edit/Self/{id}")]
     [Authorize(Roles = HospitalRoles.Patient)]
     public async Task<ActionResult<PatientDTO>> EditSelf(string id, [FromBody] FilterPatientDTO dto) {
@@ -67,6 +67,7 @@ public class PatientController : ControllerBase {
             return BadRequest(new { ex.Message });
         }
     }
+#nullable restore
 
     [HttpPut("confirmEdit/id={id}&name={name}&email={email}&phone={phone}")]
     [Authorize(Roles = HospitalRoles.Patient)]
@@ -96,7 +97,7 @@ public class PatientController : ControllerBase {
 
     [HttpPost("Search")]
     [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<IEnumerable<PatientDTO>>> SearchAndFilterPatients(FilterPatientDTO filterPatientDTO){
+    public async Task<ActionResult<IEnumerable<PatientDTO>>> SearchAndFilterPatients(FilterPatientDTO filterPatientDTO) {
         var patients = await _service.SearchPatients(filterPatientDTO);
         if (patients == null) return NotFound();
         return Ok(patients.ToList());

@@ -1,8 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
 
-namespace DDDSample1.Domain.OperationRequests;
+namespace Backend.Domain.OperationRequests;
 
 public class OperationRequestDTO {
 
@@ -31,13 +30,13 @@ public class OperationRequestDTO {
         string priority = null,
         DateTime dateTime = default,
         string requestStatus = null) {
-            this.operationRequestId = operationRequestId != default ? operationRequestId : Guid.NewGuid();
-            this.staffId = staffId;
-            this.patientId = patientId != default ? patientId : throw new ArgumentNullException(nameof(patientId));
-            this.operationTypeId = operationTypeId != default ? operationTypeId : throw new ArgumentNullException(nameof(operationTypeId));
-            this.priority = priority ?? throw new ArgumentNullException(nameof(priority));
-            this.dateTime = dateTime != default ? dateTime : DateTime.UtcNow;
-            this.requestStatus = requestStatus ?? throw new ArgumentNullException(nameof(requestStatus));
+        this.operationRequestId = operationRequestId != default ? operationRequestId : Guid.NewGuid();
+        this.staffId = staffId;
+        this.patientId = patientId != default ? patientId : throw new ArgumentNullException(nameof(patientId));
+        this.operationTypeId = operationTypeId != default ? operationTypeId : throw new ArgumentNullException(nameof(operationTypeId));
+        this.priority = priority ?? throw new ArgumentNullException(nameof(priority));
+        this.dateTime = dateTime != default ? dateTime : DateTime.UtcNow;
+        this.requestStatus = requestStatus ?? throw new ArgumentNullException(nameof(requestStatus));
     }
 
 }

@@ -1,12 +1,12 @@
-using DDDSample1.Domain.OperationTypes;
-using DDDSample1.Infrastructure.Shared;
+using Backend.Domain.OperationTypes;
+using Backend.Infrastructure.Shared;
 using Microsoft.EntityFrameworkCore;
 
-namespace DDDSample1.Infrastructure.OperationTypes;
+namespace Backend.Infrastructure.OperationTypes;
 
 public class OperationTypeRepository : BaseRepository<OperationType, OperationTypeId>, IOperationTypeRepository {
 
-    public OperationTypeRepository(DDDSample1DbContext context) : base(context.OperationTypes) {
+    public OperationTypeRepository(AppDbContext context) : base(context.OperationTypes) {
         
     }
 

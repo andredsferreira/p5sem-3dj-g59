@@ -1,8 +1,7 @@
-using System;
 using System.Net;
 using System.Net.Mail;
 
-namespace DDDSample1.Infrastructure.Shared.MessageSender;
+namespace Backend.Infrastructure.Shared.MessageSender;
 
 public class EmailSenderService : IMessageSenderService {
     private readonly SmtpClient smtpClient = new("smtp.gmail.com")

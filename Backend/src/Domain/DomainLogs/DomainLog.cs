@@ -1,7 +1,7 @@
 using System;
-using DDDSample1.Domain.Shared;
+using Backend.Domain.Shared;
 
-namespace DDDSample1.Domain.DomainLogs;
+namespace Backend.Domain.DomainLogs;
 
 public class DomainLog : Entity<DomainLogId> {
 

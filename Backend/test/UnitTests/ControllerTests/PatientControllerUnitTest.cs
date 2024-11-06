@@ -1,19 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using DDDSample1.Domain.Patients;
-using DDDSample1.Controllers;
+using Backend.Domain.Patients;
+using Backend.Controllers;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using Xunit;
 using System;
-using DDDSample1.Domain.Shared;
-using DDDSample1.Infrastructure.Shared.MessageSender;
-using DDDSample1.Domain.DomainLogs;
+using Backend.Domain.Shared;
+using Backend.Infrastructure.Shared.MessageSender;
+using Backend.Domain.DomainLogs;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DDDSample1.UnitTests.ControllerTests;
+namespace Backend.UnitTests.ControllerTests;
 
 public class PatientControllerUnitTests
 {

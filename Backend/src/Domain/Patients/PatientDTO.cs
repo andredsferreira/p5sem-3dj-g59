@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using DDDSample1.Domain.Shared;
 
-namespace DDDSample1.Domain.Patients;
+namespace Backend.Domain.Patients;
 
 public class PatientDTO(string MedicalRecordNumber, DateOnly DateOfBirth, string Email, string PhoneNumber, string Gender, string FullName, string Allergies) {
 

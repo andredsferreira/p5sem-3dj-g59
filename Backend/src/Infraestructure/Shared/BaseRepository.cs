@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using DDDSample1.Domain.Shared;
+using Backend.Domain.Shared;
 
-namespace DDDSample1.Infrastructure.Shared;
+namespace Backend.Infrastructure.Shared;
 
-public class BaseRepository<TEntity, TEntityId> : IRepository<TEntity, TEntityId>
-where TEntity : Entity<TEntityId>
-where TEntityId : EntityId {
+public class BaseRepository<TEntity, TEntityId> : IRepository<TEntity, TEntityId> where TEntity : Entity<TEntityId> where TEntityId : EntityId {
+
+#nullable disable
+
     protected readonly DbSet<TEntity> _objs;
 
     public BaseRepository(DbSet<TEntity> objs) {
@@ -26,7 +27,7 @@ where TEntityId : EntityId {
         return await this._objs
             .Where(x => id.Equals(x.Id)).FirstOrDefaultAsync();
     }
-    
+
     public async Task<List<TEntity>> GetByIdsAsync(List<TEntityId> ids) {
         return await this._objs
             .Where(x => ids.Contains(x.Id)).ToListAsync();
@@ -40,8 +41,8 @@ where TEntityId : EntityId {
     public void Remove(TEntity obj) {
         this._objs.Remove(obj);
     }
-    
-    public TEntity Update(TEntity obj){
+
+    public TEntity Update(TEntity obj) {
         var ret = _objs.Update(obj);
         return ret.Entity;
     }

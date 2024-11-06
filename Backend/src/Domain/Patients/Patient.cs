@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
-using DDDSample1.Domain.OperationRequests;
-using DDDSample1.Domain.Shared;
+using Backend.Domain.OperationRequests;
+using Backend.Domain.Shared;
 
-namespace DDDSample1.Domain.Patients;
+namespace Backend.Domain.Patients;
 
 public class Patient : Entity<PatientId>, IAggregateRoot {
 

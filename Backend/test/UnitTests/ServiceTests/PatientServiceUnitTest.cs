@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DDDSample1.Domain.DomainLogs;
-using DDDSample1.Domain.Patients;
-using DDDSample1.Domain.Shared;
-using DDDSample1.Infrastructure.Shared.MessageSender;
+using Backend.Domain.DomainLogs;
+using Backend.Domain.Patients;
+using Backend.Domain.Shared;
+using Backend.Infrastructure.Shared.MessageSender;
 using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DDDSample1.UnitTests.ServiceTests;
+namespace Backend.UnitTests.ServiceTests;
 
 public class PatientServiceUnitTest {
     private readonly Mock<IUnitOfWork> _mockUnit;

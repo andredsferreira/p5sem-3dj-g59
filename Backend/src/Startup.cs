@@ -4,28 +4,28 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using DDDSample1.Infrastructure;
-using DDDSample1.Infrastructure.OperationRequests;
-using DDDSample1.Domain.Shared;
-using DDDSample1.Domain.OperationRequests;
-using DDDSample1.Domain.Patients;
-using DDDSample1.Infrastructure.Patients;
-using DDDSample1.Domain.Staffs;
-using DDDSample1.Infrastructure.Staffs;
+using Backend.Infrastructure;
+using Backend.Infrastructure.OperationRequests;
+using Backend.Domain.Shared;
+using Backend.Domain.OperationRequests;
+using Backend.Domain.Patients;
+using Backend.Infrastructure.Patients;
+using Backend.Domain.Staffs;
+using Backend.Infrastructure.Staffs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using System;
-using DDDSample1.Domain.Auth;
-using DDDSample1.Infrastructure.Shared.MessageSender;
-using DDDSample1.Domain.DomainLogs;
-using DDDSample1.Infrastructure.DomainLogs;
+using Backend.Domain.Auth;
+using Backend.Infrastructure.Shared.MessageSender;
+using Backend.Domain.DomainLogs;
+using Backend.Infrastructure.DomainLogs;
 using Microsoft.OpenApi.Models;
-using DDDSample1.Domain.OperationTypes;
-using DDDSample1.Infrastructure.OperationTypes;
+using Backend.Domain.OperationTypes;
+using Backend.Infrastructure.OperationTypes;
 
-namespace DDDSample1;
+namespace Backend;
 public class Startup {
 
     public Startup(IConfiguration configuration) {
@@ -47,15 +47,11 @@ public class Startup {
 
         services.AddLogging();
 
-        services.AddDbContext<DDDSample1DbContext>(options => {
+        services.AddDbContext<AppDbContext>(options => {
             options.UseMySql(connectionString, mySqlVersion, mySqlOptions => {
                 mySqlOptions.SchemaBehavior(Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Ignore);
             });
         });
-
-        services.AddDbContext<IdentityContext>();
-
-        // services.AddControllers().AddNewtonsoftJson();
 
         services.AddControllers().AddJsonOptions(options => {
             options.JsonSerializerOptions.PropertyNamingPolicy = null;
@@ -94,7 +90,7 @@ public class Startup {
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequiredLength = 6;
         })
-        .AddEntityFrameworkStores<IdentityContext>()
+        .AddEntityFrameworkStores<AppDbContext>()
         .AddDefaultTokenProviders();
 
         services.AddAuthentication(options => {

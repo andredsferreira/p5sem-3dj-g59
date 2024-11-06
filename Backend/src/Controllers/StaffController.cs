@@ -1,14 +1,14 @@
-using DDDSample1.Domain.Staffs;
+using Backend.Domain.Staffs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using DDDSample1.Domain.Auth;
+using Backend.Domain.Auth;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 
 
-namespace DDDSample1.Controllers;
+namespace Backend.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

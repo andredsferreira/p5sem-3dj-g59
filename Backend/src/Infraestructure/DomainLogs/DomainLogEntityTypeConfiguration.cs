@@ -1,16 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using DDDSample1.Domain.DomainLogs;
-using DDDSample1.Domain.Patients;
-using DDDSample1.Domain.Shared;
+using Backend.Domain.DomainLogs;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DDDSample1.Infrastructure.DomainLogs;
+namespace Backend.Infrastructure.DomainLogs;
 
 internal class DomainLogEntityTypeConfiguration : IEntityTypeConfiguration<DomainLog> {
 

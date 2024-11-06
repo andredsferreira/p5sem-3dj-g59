@@ -1,11 +1,10 @@
 using System;
-using System.Collections.Generic;
-using DDDSample1.Domain.OperationRequests;
-using DDDSample1.Domain.Shared;
-using DDDSample1.Domain.SurgeryRooms;
+using Backend.Domain.OperationRequests;
+using Backend.Domain.Shared;
+using Backend.Domain.SurgeryRooms;
 using Domain.Appointments;
 
-namespace DDDSample1.Domain.Appointments;
+namespace Backend.Domain.Appointments;
 
 public class Appointment : Entity<AppointmentId>, IAggregateRoot {
 

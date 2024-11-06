@@ -1,8 +1,8 @@
 using System;
 using System.Text.Json.Serialization;
-using DDDSample1.Domain.Shared;
+using Backend.Domain.Shared;
 
-namespace DDDSample1.Domain.OperationRequests;
+namespace Backend.Domain.OperationRequests;
 
 public class OperationRequestId : EntityId {
 

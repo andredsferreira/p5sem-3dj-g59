@@ -1,9 +1,9 @@
 using System.Net.Mail;
-using DDDSample1.Domain.Shared;
-using DDDSample1.Domain.Staffs;
+using Backend.Domain.Shared;
+using Backend.Domain.Staffs;
 using Microsoft.EntityFrameworkCore;
 
-namespace DDDSample1.Infrastructure.Staffs;
+namespace Backend.Infrastructure.Staffs;
 
 internal class StaffEntityTypeConfiguration : IEntityTypeConfiguration<Staff> {
 

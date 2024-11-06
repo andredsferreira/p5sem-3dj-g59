@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace DDDSample1 {
+namespace Backend {
     public class Program {
         public static void Main(string[] args) {
             CreateWebHostBuilder(args).Build().Run();

@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using DDDSample1.Domain.Auth;
 
-namespace DDDSample1.Domain;
+namespace Backend.Domain;
 
 public class RegisterBackofficeDTO {
     

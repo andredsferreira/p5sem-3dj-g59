@@ -1,4 +1,4 @@
-namespace DDDSample1.Domain.Patients;
+namespace Backend.Domain.Patients;
 
 public enum Gender {
     Male, //0

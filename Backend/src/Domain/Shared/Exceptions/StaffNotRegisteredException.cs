@@ -1,4 +1,4 @@
-namespace DDDSample1.Domain.Shared.Exceptions;
+namespace Backend.Domain.Shared.Exceptions;
 
 public class StaffNotRegisteredException : BusinessRuleValidationException {
 

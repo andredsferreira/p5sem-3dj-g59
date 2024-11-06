@@ -1,12 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using DDDSample1.Domain.OperationTypes;
-using DDDSample1.Domain.Patients;
-using DDDSample1.Domain.Shared;
-using DDDSample1.Domain.Staffs;
+using Backend.Domain.OperationTypes;
+using Backend.Domain.Patients;
+using Backend.Domain.Shared;
+using Backend.Domain.Staffs;
 
-namespace DDDSample1.Domain.OperationRequests;
+namespace Backend.Domain.OperationRequests;
 
 public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
 

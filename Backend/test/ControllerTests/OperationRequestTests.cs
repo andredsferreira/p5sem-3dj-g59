@@ -3,11 +3,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace DDDSample1.ControllerTests;
+namespace Backend.ControllerTests;
 
 public class OperationRequestControllerTests {
 
-    private readonly HttpClient _client;
+    // private readonly HttpClient _client;
 
     //[Fact]
     //public async Task testCreation() {

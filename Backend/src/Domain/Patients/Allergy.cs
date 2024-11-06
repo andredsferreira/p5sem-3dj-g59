@@ -1,6 +1,6 @@
 using System;
 
-namespace DDDSample1.Domain.Patients;
+namespace Backend.Domain.Patients;
 
 public class Allergy {
 

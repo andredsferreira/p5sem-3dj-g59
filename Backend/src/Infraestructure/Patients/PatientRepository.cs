@@ -1,18 +1,17 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
-using System.Threading.Tasks;
-using DDDSample1.Domain.Patients;
-using DDDSample1.Infrastructure.Shared;
-using Microsoft.EntityFrameworkCore;
+using Backend.Domain.Patients;
+using Backend.Infrastructure.Shared;
 
-namespace DDDSample1.Infrastructure.Patients;
+namespace Backend.Infrastructure.Patients;
 
 public class PatientRepository : BaseRepository<Patient, PatientId>, IPatientRepository {
 
-    private readonly DDDSample1DbContext _context;
+    #nullable disable
 
-    public PatientRepository(DDDSample1DbContext context) : base(context.Patients) {
+    private readonly AppDbContext _context;
+
+    public PatientRepository(AppDbContext context) : base(context.Patients) {
         _context = context;
     }
 

@@ -1,25 +1,26 @@
 using Microsoft.EntityFrameworkCore;
-using DDDSample1.Domain.OperationRequests;
-using DDDSample1.Infrastructure.OperationRequests;
-using DDDSample1.Domain.Patients;
-using DDDSample1.Infrastructure.Patients;
-using DDDSample1.Domain.OperationTypes;
-using Microsoft.Extensions.Configuration;
-using DDDSample1.Infrastructure.OperationTypes;
-using DDDSample1.Infrastructure.Staffs;
+using Backend.Domain.OperationRequests;
+using Backend.Infrastructure.OperationRequests;
+using Backend.Domain.Patients;
+using Backend.Infrastructure.Patients;
+using Backend.Domain.OperationTypes;
+using Backend.Infrastructure.OperationTypes;
+using Backend.Infrastructure.Staffs;
 using System;
 using System.Collections.Generic;
-using DDDSample1.Domain.Shared;
-using DDDSample1.Domain.Staffs;
-using DDDSample1.Domain.Auth;
+using Backend.Domain.Shared;
+using Backend.Domain.Staffs;
+using Backend.Domain.Auth;
 using System.Linq;
-using DDDSample1.Domain.DomainLogs;
-using DDDSample1.Infrastructure.DomainLogs;
+using Backend.Domain.DomainLogs;
+using Backend.Infrastructure.DomainLogs;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace DDDSample1.Infrastructure;
+namespace Backend.Infrastructure;
 
-public class DDDSample1DbContext : DbContext {
+public class AppDbContext : IdentityDbContext<IdentityUser> {
 
     public virtual DbSet<OperationRequest> OperationRequests { get; set; }
 
@@ -31,12 +32,14 @@ public class DDDSample1DbContext : DbContext {
 
     public virtual DbSet<DomainLog> DomainLogs { get; set; }
 
-    public DDDSample1DbContext(DbContextOptions<DDDSample1DbContext> options) : base(options) {
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {
 
     }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        IdentityBootstrap(modelBuilder);
+
         modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new PatientEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
@@ -57,7 +60,7 @@ public class DDDSample1DbContext : DbContext {
 
         modelBuilder.Entity<Patient>().HasData(patientA, patientB, patientC);
 
-        modelBuilder.Entity<Staff>().HasData(staffDoctor,staffDoctor2, staffNurse);
+        modelBuilder.Entity<Staff>().HasData(staffDoctor, staffDoctor2, staffNurse);
 
 
         modelBuilder.Entity<OperationType>().HasData(operationTypeA, operationTypeB, operationTypeC);
@@ -96,12 +99,72 @@ public class DDDSample1DbContext : DbContext {
         builder.Entity<DomainLog>().HasData(log);
     }
 
-    private void SeedStaff(ModelBuilder builder,Staff staff){
-        var log = new DomainLog(LogObjectType.Staff, LogActionType.Creation, string.Format("Created a new Staff (License Number = {0}, Name = {1}, Email = {2}, PhoneNumber = {3})",
-                        staff.LicenseNumber, staff.FullName.Full, staff.Email, staff.PhoneNumber));
-        builder.Entity<Staff>().HasData(staff);
-        builder.Entity<DomainLog>().HasData(log);
-    }
+    private void IdentityBootstrap(ModelBuilder builder) {
 
+        // Bootstrap das roles na base de dados
+        string adminRoleId = Guid.NewGuid().ToString();
+        string doctorRoleId = Guid.NewGuid().ToString();
+        string nurseRoleId = Guid.NewGuid().ToString();
+        string technicianRoleId = Guid.NewGuid().ToString();
+        string patientRoleId = Guid.NewGuid().ToString();
+
+        builder.Entity<IdentityRole>().HasData(
+            new IdentityRole {
+                Id = adminRoleId,
+                Name = HospitalRoles.Admin,
+                NormalizedName = HospitalRoles.Admin.ToUpper()
+            }, new IdentityRole {
+                Id = doctorRoleId,
+                Name = HospitalRoles.Doctor,
+                NormalizedName = HospitalRoles.Doctor.ToUpper()
+            }, new IdentityRole {
+                Id = nurseRoleId,
+                Name = HospitalRoles.Nurse,
+                NormalizedName = HospitalRoles.Nurse.ToUpper()
+            }, new IdentityRole {
+                Id = technicianRoleId,
+                Name = HospitalRoles.Technician,
+                NormalizedName = HospitalRoles.Technician.ToUpper()
+            }, new IdentityRole {
+                Id = patientRoleId,
+                Name = HospitalRoles.Patient,
+                NormalizedName = HospitalRoles.Patient.ToUpper()
+            }
+        );
+
+        // Bootsrap de utilizadores usando o método de auxílio SeedHospitalUser():
+        SeedHospitalUser(builder, adminRoleId, "admin", "admin@hospital.com", "adminpassword");
+        SeedHospitalUser(builder, doctorRoleId, "doctor", "doctor@hospital.com", "doctorpassword");
+        SeedHospitalUser(builder, nurseRoleId, "nurse", "nurse@hospital.com", "nursepassword");
+        SeedHospitalUser(builder, technicianRoleId, "technician", "technician@hospital.com", "technicianpassword");
+        SeedHospitalUser(builder, patientRoleId, "patient", "patient@hospital.com", "patientpassword");
+
+
+    }
+    private void SeedHospitalUser(ModelBuilder builder, string roleId, string username, string email, string password) {
+        string adminUserId = Guid.NewGuid().ToString();
+        var adminUser = new IdentityUser {
+            Id = adminUserId,
+            UserName = username,
+            NormalizedUserName = username.ToUpper(),
+            Email = email,
+            NormalizedEmail = email.ToUpper(),
+            EmailConfirmed = true,
+            SecurityStamp = Guid.NewGuid().ToString()
+        };
+
+        var passwordHasher = new PasswordHasher<IdentityUser>();
+        adminUser.PasswordHash = passwordHasher.HashPassword(adminUser, password);
+
+        builder.Entity<IdentityUser>().HasData(adminUser);
+
+        // Atribuir admin role ao admin user
+        builder.Entity<IdentityUserRole<string>>().HasData(
+            new IdentityUserRole<string> {
+                RoleId = roleId,
+                UserId = adminUserId
+            }
+        );
+    }
 
 }

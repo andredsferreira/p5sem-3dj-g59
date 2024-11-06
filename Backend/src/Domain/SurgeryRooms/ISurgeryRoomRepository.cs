@@ -1,9 +1,8 @@
-using DDDSample1.Domain.Shared;
+using Backend.Domain.Shared;
 
-namespace DDDSample1.Domain.SurgeryRooms {
+namespace Backend.Domain.SurgeryRooms;
 
-    public interface ISurgeryRoomRepository : IRepository<SurgeryRoom, RoomNumber> {
-
-    }
+public interface ISurgeryRoomRepository : IRepository<SurgeryRoom, RoomNumber> {
 
 }
+

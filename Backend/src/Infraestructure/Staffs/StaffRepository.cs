@@ -1,14 +1,14 @@
 using System.Linq;
 using System.Threading.Tasks;
-using DDDSample1.Domain.Staffs;
-using DDDSample1.Infrastructure.Shared;
+using Backend.Domain.Staffs;
+using Backend.Infrastructure.Shared;
 using Microsoft.EntityFrameworkCore;
 
-namespace DDDSample1.Infrastructure.Staffs;
+namespace Backend.Infrastructure.Staffs;
 
 public class StaffRepository : BaseRepository<Staff, StaffId>, IStaffRepository {
 
-    public StaffRepository(DDDSample1DbContext context) : base(context.Staffs) {
+    public StaffRepository(AppDbContext context) : base(context.Staffs) {
 
     }
 

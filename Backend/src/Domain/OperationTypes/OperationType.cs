@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DDDSample1.Domain.OperationRequests;
-using DDDSample1.Domain.Shared;
+using Backend.Domain.OperationRequests;
+using Backend.Domain.Shared;
 
-namespace DDDSample1.Domain.OperationTypes;
+namespace Backend.Domain.OperationTypes;
 
 public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
 

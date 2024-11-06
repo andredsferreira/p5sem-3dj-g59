@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DDDSample1.Controllers;
-using DDDSample1.Domain.OperationTypes;
+using Backend.Controllers;
+using Backend.Domain.OperationTypes;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
 
-namespace DDDSample1.ControllerTests;
+namespace Backend.ControllerTests;
 
 public class OperationTypeControllerMockTests{
 

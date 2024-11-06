@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DDDSample1.Domain.Shared;
-using DDDSample1.Domain.OperationTypes;
+using Backend.Domain.Shared;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using DDDSample1.Domain.DomainLogs;
+using Backend.Domain.DomainLogs;
 
 
-namespace DDDSample1.Domain.OperationTypes;
+namespace Backend.Domain.OperationTypes;
 public class AddOperationTypeService {
 
     private readonly IOperationTypeRepository _repository;
