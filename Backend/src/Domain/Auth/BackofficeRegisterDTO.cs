@@ -4,8 +4,9 @@ using DDDSample1.Domain.Auth;
 namespace DDDSample1.Domain;
 
 public class RegisterBackofficeDTO {
+    
     [Required]
-    public string Role {get;set;}
+    public string Role { get; set; }
     [Required]
     public string Username { get; set; }
 

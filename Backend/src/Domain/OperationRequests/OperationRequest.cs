@@ -8,13 +8,13 @@ namespace DDDSample1.Domain.OperationRequests;
 
 public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
 
-    public PatientId patientId { get; private set; }
-
-    public Patient patient { get; set; }
-
     public StaffId staffId { get; set; }
 
     public Staff staff { get; set; }
+
+    public PatientId patientId { get; private set; }
+
+    public Patient patient { get; set; }
 
     public OperationTypeId operationTypeId { get; set; }
 
@@ -69,6 +69,24 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
         var dateTime = or.dateTime;
         var requestStatus = or.requestStatus;
         var operationRequestDTO = new OperationRequestDTO(or.Id.AsGuid(), patientId.AsGuid(), staffId.AsGuid(), operationTypeId.AsGuid(), priority, dateTime, requestStatus);
+        return operationRequestDTO;
+    }
+
+    public static OperationRequestDTO returnListDTO(OperationRequest or) {
+        var operationId = or.Id.AsGuid();
+        var staffId = or.staffId;
+        var patientId = or.patientId;
+        var operationTypeId = or.operationTypeId;
+        var priority = or.priority;
+        var dateTime = or.dateTime;
+        var requestStatus = or.requestStatus;
+        var operationRequestDTO = new OperationRequestDTO(operationId,
+            staffId.AsGuid(),
+            patientId.AsGuid(),
+            operationTypeId.AsGuid(),
+            priority,
+            dateTime,
+            requestStatus);
         return operationRequestDTO;
     }
 

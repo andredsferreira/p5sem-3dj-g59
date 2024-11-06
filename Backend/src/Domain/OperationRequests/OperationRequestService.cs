@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using DDDSample1.Domain.OperationTypes;
 using DDDSample1.Domain.Patients;
 using DDDSample1.Domain.Shared;
+using DDDSample1.Domain.Shared.Exceptions;
 using DDDSample1.Domain.Staffs;
 using DDDSample1.Infrastructure.OperationRequests;
 using DDDSample1.Infrastructure.OperationTypes;
@@ -28,11 +30,10 @@ public class OperationRequestService {
 
     private readonly IOperationTypeRepository _operationTypeRepository;
 
-    public OperationRequestService() {
-
-    }
-
-    public OperationRequestService(IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, IOperationRequestRepository operationRequestRepository, IPatientRepository patientRepository, IStaffRepository staffRepository, IOperationTypeRepository operationTypeRepository) {
+    public OperationRequestService(IHttpContextAccessor httpContextAccessor,
+        IUnitOfWork unitOfWork, IOperationRequestRepository operationRequestRepository,
+        IPatientRepository patientRepository, IStaffRepository staffRepository,
+        IOperationTypeRepository operationTypeRepository) {
         _httpContextAccessor = httpContextAccessor;
         _unitOfWork = unitOfWork;
         _operationRequestRepository = operationRequestRepository;
@@ -44,19 +45,19 @@ public class OperationRequestService {
     public virtual async Task<OperationRequestDTO> CreateOperationRequest([FromBody] OperationRequestDTO dto) {
         var patient = await _patientRepository.GetByIdAsync(new PatientId(dto.patientId));
         if (patient == null) {
-            throw new Exception("The patient you provided does not exist!");
+            throw new PatientNotFoundException("The patient you provided does not exist!");
         }
         string username = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
         if (username == null) {
-            throw new Exception("Your accessing with an empty username");
+            throw new EmptyUserNameException("Your accessing with an empty username");
         }
         Staff staff = await _staffRepository.GetByIdentityUsernameAsync(username);
         if (staff == null) {
-            throw new Exception("Your are not registered in the system.");
+            throw new StaffNotRegisteredException("Your are not registered in the system.");
         }
         var operationType = await _operationTypeRepository.GetByIdAsync(new OperationTypeId(dto.operationTypeId));
         if (operationType == null) {
-            throw new Exception("That operation type is not valid.");
+            throw new InvalidOperationTypeException("That operation type is not valid.");
         }
         var operationRequest = OperationRequest.CreateFromDTO(dto);
         operationRequest.patient = patient;
@@ -73,7 +74,7 @@ public class OperationRequestService {
         if (operationRequest == null) {
             throw new Exception("The operation request you are trying to update does not exist!");
         }
-        var username = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
+        var username = _httpContextAccessor.HttpContext?.User?.FindFirst(JwtRegisteredClaimNames.UniqueName)?.Value;
         if (operationRequest.staff.IdentityUsername != username) {
             throw new Exception("The operation request you are trying to update is associated with another doctor");
         }
@@ -97,7 +98,7 @@ public class OperationRequestService {
         var operationRequests = await _operationRequestRepository.GetAllAsync();
         var operationRequestsDTO = new List<OperationRequestDTO>();
         foreach (var operationRequest in operationRequests) {
-            operationRequestsDTO.Add(OperationRequest.returnDTO(operationRequest));
+            operationRequestsDTO.Add(OperationRequest.returnListDTO(operationRequest));
         }
         await _unitOfWork.CommitAsync();
         return operationRequestsDTO;

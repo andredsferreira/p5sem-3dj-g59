@@ -75,8 +75,7 @@ public class AuthController : ControllerBase {
         if (!ModelState.IsValid) {
             return BadRequest(ModelState);
         }
-        RoleType role = (RoleType)Enum.Parse(typeof(RoleType), dto.Role);
-        if (role == RoleType.Patient)
+        if (dto.Role == HospitalRoles.Patient)
             return BadRequest(dto.Role);
 
         var backofficeUser = new IdentityUser {

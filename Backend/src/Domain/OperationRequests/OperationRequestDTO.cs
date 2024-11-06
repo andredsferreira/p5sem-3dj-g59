@@ -6,6 +6,10 @@ namespace DDDSample1.Domain.OperationRequests;
 
 public class OperationRequestDTO {
 
+    public Guid operationRequestId { get; set; }
+
+    public Guid staffId { get; set; }
+
     [Required]
     public Guid patientId { get; set; }
 
@@ -35,7 +39,9 @@ public class OperationRequestDTO {
     }
 
     // Constructor for listing operation requests.
-    public OperationRequestDTO(Guid id, Guid patientId, Guid staffId, Guid operationTypeId, string priority, DateTime dateTime, string requestStatus) {
+    public OperationRequestDTO(Guid operationRequestId, Guid staffId, Guid patientId, Guid operationTypeId, string priority, DateTime dateTime, string requestStatus) {
+        this.operationRequestId = operationRequestId;
+        this.staffId = staffId;
         this.patientId = patientId;
         this.operationTypeId = operationTypeId;
         this.priority = priority;

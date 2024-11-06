@@ -26,7 +26,7 @@ public class OperationRequestControllerMockTests {
             operationTypeId: Guid.NewGuid(),
             priority: "High",
             dateTime: DateTime.Now,
-            requestStatus: RequestStatus.Pending 
+            requestStatus: "Pending" 
         );
 
         _mockService.Setup(service => service.CreateOperationRequest(dto)).ReturnsAsync(dto);

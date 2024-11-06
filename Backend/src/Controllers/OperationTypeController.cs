@@ -17,66 +17,60 @@ namespace DDDSample1.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-public class OperationTypeController : ControllerBase
-{
+public class OperationTypeController : ControllerBase {
 
     private readonly IConfiguration Configuration;
     private readonly IdentityContext Context;
     private readonly UserManager<IdentityUser> UserManager;
     private readonly AddOperationTypeService AddOperationTypeService;
-    
 
-    public OperationTypeController(IConfiguration Configuration, IdentityContext Context, UserManager<IdentityUser> UserManager, AddOperationTypeService AddOperationTypeService)
-    {
+
+    public OperationTypeController(IConfiguration Configuration, IdentityContext Context, UserManager<IdentityUser> UserManager, AddOperationTypeService AddOperationTypeService) {
         this.Configuration = Configuration;
         this.Context = Context;
         this.UserManager = UserManager;
         this.AddOperationTypeService = AddOperationTypeService;
     }
-    public OperationTypeController(AddOperationTypeService AddOperationTypeService)
-    {
+    public OperationTypeController(AddOperationTypeService AddOperationTypeService) {
         this.AddOperationTypeService = AddOperationTypeService;
     }
 
     [HttpPost("Add")]
     [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<OperationTypeDTO>> AddOperationType([FromForm] OperationTypeDTO dto)
-    {
-       
+    public async Task<ActionResult<OperationTypeDTO>> AddOperationType([FromForm] OperationTypeDTO dto) {
+
         var result = await AddOperationTypeService.CreateOperationType(dto);
-   
+
         return result != null ? Ok(result) : BadRequest("Could not create operation type");
     }
 
-    
-    
-    private async Task<ActionResult<IEnumerable<OperationTypeDTO>> > GetOperationTypes()
-    {
+
+
+    private async Task<ActionResult<IEnumerable<OperationTypeDTO>>> GetOperationTypes() {
         var list = await AddOperationTypeService.GetAll();
         return list.ToList();
-          
+
     }
 
     [HttpGet("All")]
     [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<IEnumerable<OperationTypeDTO>>> DeactivateOperationType()
-    {
-       return await GetOperationTypes();
+    public async Task<ActionResult<IEnumerable<OperationTypeDTO>>> DeactivateOperationType() {
+        return await GetOperationTypes();
     }
 
-    
+
     [HttpPut("Edit/{id}")]
     [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<OperationTypeDTO>> UpdateOperationType([FromForm] UpdatedOperationTypeDTO operationTypeDTO, string id){
+    public async Task<ActionResult<OperationTypeDTO>> UpdateOperationType([FromForm] UpdatedOperationTypeDTO operationTypeDTO, string id) {
 
         var result = await AddOperationTypeService.UpdateOperationType(operationTypeDTO, id);
         return result != null ? Ok(result) : BadRequest("Could not update operation type");
-        
+
     }
 
     [HttpPut("Deactivate/{id}")]
     [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<OperationTypeDTO>> DeactivateOperationType(String id){
+    public async Task<ActionResult<OperationTypeDTO>> DeactivateOperationType(String id) {
 
         var result = await AddOperationTypeService.DeactivateOperationType(id);
         return result != null ? Ok(result) : BadRequest("Could not deactivate operation type");
@@ -84,7 +78,7 @@ public class OperationTypeController : ControllerBase
 
     [HttpGet("Get/{id}")]
     [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<OperationTypeDTO>> GetOperationType(String id){
+    public async Task<ActionResult<OperationTypeDTO>> GetOperationType(String id) {
 
         var result = await AddOperationTypeService.GetOperationTypeById(id);
         return result != null ? Ok(result) : BadRequest("Could not find operation type");
@@ -92,7 +86,7 @@ public class OperationTypeController : ControllerBase
 
     [HttpGet("GetByName/{name}")]
     [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<OperationTypeDTO>> GetOperationTypeByName(string name){
+    public async Task<ActionResult<OperationTypeDTO>> GetOperationTypeByName(string name) {
 
         var result = await AddOperationTypeService.GetOperationTypeByName(name);
         return result != null ? Ok(result) : BadRequest("Could not find operation type");
@@ -100,7 +94,7 @@ public class OperationTypeController : ControllerBase
 
     [HttpGet("GetStatus/{status}")]
     [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<IEnumerable<OperationTypeDTO>> > GetOperationTypeByStatus(string status){
+    public async Task<ActionResult<IEnumerable<OperationTypeDTO>>> GetOperationTypeByStatus(string status) {
 
         var list = await AddOperationTypeService.GetAll();
         var result = list.Where(type => type.Status == status);
@@ -109,7 +103,7 @@ public class OperationTypeController : ControllerBase
 
     [HttpGet("GetSpecialization/{specialization}")]
     [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<IEnumerable<OperationTypeDTO>> > GetOperationTypeBySpecialization(string specialization){
+    public async Task<ActionResult<IEnumerable<OperationTypeDTO>>> GetOperationTypeBySpecialization(string specialization) {
 
         var result = await AddOperationTypeService.GetBySpecialization(specialization);
         return result != null ? Ok(result) : BadRequest("Could not find operation type");
