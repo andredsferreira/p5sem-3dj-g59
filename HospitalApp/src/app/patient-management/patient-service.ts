@@ -12,6 +12,15 @@ interface Patient {
   [key: string]: any;
 }
 
+interface PatientSearchAttributes {
+  MedicalRecordNumber?: string;
+  Email?: string;
+  PhoneNumber?: string;
+  FullName?: string;
+  DateOfBirth?: string | Date;
+  Gender?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -23,13 +32,19 @@ export class PatientService {
   ];
 
   // Retrieve patients list
-  async getPatients(token: string | null): Promise<any> {
+  async getPatients(token: string | null, searchableAttributes: PatientSearchAttributes) : Promise<any> {
     if (!token) return undefined;
     const headers = new HttpHeaders({
-        'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
     });
+
+    const body = Object.fromEntries(
+        Object.entries(searchableAttributes).filter(([_, value]) => value != null) // Remove properties with null or undefined values
+    );
+
     const patients = await lastValueFrom(
-        this.http.get('https://localhost:5001/api/Patient/All', { headers })
+        this.http.post('https://localhost:5001/api/Patient/Search', body, { headers })
       );
     return patients;
   }

@@ -16,6 +16,15 @@ interface Field {
   value: string;
 }
 
+interface PatientSearchAttributes {
+  MedicalRecordNumber?: string;
+  Email?: string;
+  PhoneNumber?: string;
+  FullName?: string;
+  DateOfBirth?: string | Date;
+  Gender?: string;
+}
+
 @Component({
   selector: 'app-patient-management',
   standalone: true,
@@ -88,22 +97,31 @@ export class PatientManagementComponent implements OnInit {
     this.loadPatients();
   }
 
-  // Load patients from service
   async loadPatients(): Promise<void> {
-    try {
-      const patients = await this.patientService.getPatients(this.token);
+    // Construct search parameters based on selected search fields
+    const searchParams: PatientSearchAttributes = {};
 
-      if (patients && patients.length > 0) {
-        this.patients = patients;
-      } else {
-        this.patients = []; // Set to empty array if no patients are returned
-        console.log("No patients found."); // Replace with your user notification logic
-      }
+    for (const [key, field] of Object.entries(this.searchFields)) {
+        if (field.selected && field.value) {
+            searchParams[key as keyof PatientSearchAttributes] = field.value;
+        }
+    }
+
+    try {
+        // Pass searchParams to getPatients to filter results
+        const patients = await this.patientService.getPatients(this.token, searchParams);
+
+        if (patients && patients.length > 0) {
+            this.patients = patients;
+        } else {
+            this.patients = [];
+            console.log("No patients found.");
+        }
     } catch (error) {
-      console.error("Failed to load patients:", error);
-      // Handle error and inform user, if needed
+        console.error("Failed to load patients:", error);
     }
   }
+
 
   // Select a patient for editing
   onSelect(patient: Patient): void {

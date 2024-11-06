@@ -94,7 +94,7 @@ public class PatientController : ControllerBase {
         }
     }
 
-    [HttpGet("Search")]
+    [HttpPost("Search")]
     [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<IEnumerable<PatientDTO>>> SearchAndFilterPatients(FilterPatientDTO filterPatientDTO){
         var patients = await _service.SearchPatients(filterPatientDTO);
