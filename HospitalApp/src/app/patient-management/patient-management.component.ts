@@ -40,6 +40,10 @@ export class PatientManagementComponent implements OnInit {
   isEditing = false;
   isInitialized = false;
   token: string | null = null;
+  paginatedPatients: any[] = [];
+  currentPage: number = 1;
+  pageSize: number = 5;
+  confirmingDelete = false;
 
   // Define editable and searchable attributes
   editableAttributes = [
@@ -101,7 +105,30 @@ export class PatientManagementComponent implements OnInit {
     this.loadPatients();
   }
 
+  returnToFilters() {
+    this.isInitialized = false;
+    this.currentPage = 1;
+    this.selectedItem = null;
+  }
+
+  // Close the patient details modal
+  onCloseDetails() {
+    this.selectedItem = null;
+  }
+
+  // Confirm delete
+  confirmDelete(patient: any) {
+    this.selectedItem = patient;
+    this.confirmingDelete = true;
+  }
+
+  // Cancel delete confirmation
+  cancelDelete() {
+    this.confirmingDelete = false;
+  }
+
   async loadPatients(): Promise<void> {
+    this.patients = [];
     // Construct search parameters based on selected search fields
     const searchParams: PatientSearchAttributes = {};
 
@@ -117,12 +144,37 @@ export class PatientManagementComponent implements OnInit {
 
         if (patients && patients.length > 0) {
             this.patients = patients;
+            this.updatePagination();
         } else {
             this.patients = [];
             console.log("No patients found.");
         }
     } catch (error) {
         console.error("Failed to load patients:", error);
+    }
+  }
+
+  updatePagination(): void {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedPatients = this.patients.slice(startIndex, endIndex);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.patients.length / this.pageSize);
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagination();
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagination();
     }
   }
 
@@ -172,8 +224,10 @@ export class PatientManagementComponent implements OnInit {
   }
 
   // Delete a patient
-  onDelete(patient: Patient): void {
-    this.patientService.deletePatient(patient.id);
-    this.loadPatients();
+  onDelete(patient: Patient | null): void {
+    if(patient){
+      this.patientService.deletePatient(patient.id);
+      this.loadPatients();
+    } else console.error("O Paciente não existe.")
   }
 }

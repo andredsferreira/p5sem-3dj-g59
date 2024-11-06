@@ -1,4 +1,21 @@
-<div class="p-4 max-w-lg mx-auto"> <!-- Changed max-w-md to max-w-lg for wider boxes -->
+<div class="p-4 max-w-lg mx-auto">
+  <!-- Back to Filters Button -->
+  <button
+    *ngIf="isInitialized"
+    (click)="returnToFilters()"
+    class="mb-4 px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
+  >
+    &larr; Voltar para os Filtros
+  </button>
+
+  <!-- Create Patient Button (always shown) -->
+  <button
+    (click)="onCreate()"
+    class="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+  >
+    Criar um novo Paciente
+  </button>
+
   <!-- Initial Search Fields Before Listing Patients -->
   <div *ngIf="!isInitialized" class="mb-4">
     <h2 class="text-lg font-semibold mb-2">Insira os seus filtros desejados</h2>
@@ -13,7 +30,7 @@
           />
           <span>{{ attribute.label }}</span>
         </label>
-      
+
         <!-- Gender select box -->
         <ng-container *ngIf="attribute.key === 'Gender'; else standardInput">
           <select
@@ -23,12 +40,12 @@
             [disabled]="!searchFields['Gender'].selected"
           >
             <option value="" disabled selected hidden>Selecione Género</option>
-            <option value="Male">Masculinho</option>
+            <option value="Male">Masculino</option>
             <option value="Female">Feminino</option>
             <option value="Others">Outros</option>
           </select>
         </ng-container>
-      
+
         <!-- Date picker for DateOfBirth -->
         <ng-template #standardInput>
           <input
@@ -40,7 +57,7 @@
             [disabled]="!searchFields['DateOfBirth'].selected"
           />
         </ng-template>
-      
+
         <!-- Standard text input for other fields -->
         <ng-template #textInput>
           <input
@@ -52,107 +69,116 @@
           />
         </ng-template>
       </div>
-      
 
       <button
         type="submit"
         class="mt-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
       >
-        Search
+        Pesquisar
       </button>
     </form>
   </div>
 
   <!-- Patient List (Shown After Initialization) -->
   <div *ngIf="isInitialized">
-    <!-- Button to create a new item -->
-    <button
-      (click)="onCreate()"
-      class="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-    >
-      Criar um novo Paciente
-    </button>
+    <!-- Message for no patients available -->
+    <div *ngIf="patients.length === 0" class="text-center text-gray-500">
+      <p>Não foi encontrado nenhum Paciente com essas configurações.</p>
+    </div>
 
-    <!-- List of patients -->
-    <ul class="space-y-2">
-      <li
-        *ngFor="let patient of patients"
-        [class.bg-blue-100]="selectedItem?.id === patient.id"
-        [class.border-blue-300]="selectedItem?.id === patient.id"
-        class="p-3 border rounded-lg cursor-pointer bg-white border-gray-300 hover:bg-gray-100 transition"
-        (click)="onSelect(patient)"
-      >
-        <div>
-          <strong>{{ patient.MedicalRecordNumber }}</strong> <br />
-          <span><strong>Nome Completo:</strong> {{ patient.FullName }}</span> <br />
-          <span><strong>Email:</strong> {{ patient.Email }}</span> <br />
-          <span><strong>Data de Nascimento:</strong> {{ patient.DateOfBirth | date: 'dd/MM/YYYY' }}</span>
-        </div>
+    <!-- Patient list and pagination controls (only if patients exist) -->
+    <div *ngIf="patients.length > 0">
+      <!-- List of patients -->
+      <ul class="space-y-2">
+        <li
+          *ngFor="let patient of paginatedPatients"
+          class="p-3 border rounded-lg cursor-pointer bg-white border-gray-300 hover:bg-gray-100 transition"
+          (click)="onSelect(patient)"
+        >
+          <div>
+            <strong>{{ patient.MedicalRecordNumber }}</strong> <br />
+            <span><strong>Nome Completo:</strong> {{ patient.FullName }}</span> <br />
+            <span><strong>Email:</strong> {{ patient.Email }}</span> <br />
+            <span><strong>Data de Nascimento:</strong> {{ patient.DateOfBirth | date: 'dd/MM/yyyy' }}</span>
+          </div>
+        </li>
+      </ul>
+
+      <!-- Pagination Controls -->
+      <div class="flex justify-center mt-4 space-x-2">
+        <button
+          (click)="previousPage()"
+          [disabled]="currentPage === 1"
+          class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+        >
+          Anterior
+        </button>
+        <span>Página {{ currentPage }} de {{ totalPages }}</span>
+        <button
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+          class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+        >
+          Próxima
+        </button>
+      </div>
+    </div>
+
+    <!-- Patient Details Modal -->
+    <div
+      *ngIf="selectedItem"
+      class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50"
+    >
+      <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+        <h2 class="text-lg font-semibold mb-4">Detalhes do Paciente</h2>
+        <p><strong>Nome Completo:</strong> {{ selectedItem['FullName'] }}</p>
+        <p><strong>Email:</strong> {{ selectedItem['Email'] }}</p>
+        <p><strong>Data de Nascimento:</strong> {{ selectedItem['DateOfBirth'] | date: 'dd/MM/yyyy' }}</p>
+        <p><strong>Telefone:</strong> {{ selectedItem['PhoneNumber'] }}</p>
+        <p><strong>Género:</strong> 
+          {{ selectedItem['Gender'] === 'Male' ? 'Masculino' : 
+             selectedItem['Gender'] === 'Female' ? 'Feminino' : 
+             selectedItem['Gender'] === 'Others' ? 'Outros' : '' }}
+        </p>
+        <p><strong>Alergias:</strong> {{ selectedItem['Allergies'] }}</p>
 
         <!-- Edit and delete buttons -->
-        <div class="space-x-2 flex justify-end mt-2">
+        <div class="space-x-2 flex justify-end mt-4">
           <button
-            (click)="onEdit(patient); $event.stopPropagation()"
-            class="px-2 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600"
+            (click)="onEdit(selectedItem); $event.stopPropagation()"
+            class="px-4 py-2 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600"
           >
             Editar
           </button>
           <button
-            (click)="onDelete(patient); $event.stopPropagation()"
-            class="px-2 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
+            (click)="confirmDelete(selectedItem); $event.stopPropagation()"
+            class="px-4 py-2 text-sm bg-red-500 text-white rounded hover:bg-red-600"
           >
             Eliminar
           </button>
+          <button
+            (click)="onCloseDetails()"
+            class="px-4 py-2 text-sm bg-gray-300 text-black rounded hover:bg-gray-400"
+          >
+            Fechar
+          </button>
         </div>
-      </li>
-    </ul>
-
-    <!-- Edit Modal -->
-    <div
-      *ngIf="isEditing"
-      class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50"
-    >
-      <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full"> <!-- Changed max-w-md to max-w-lg -->
-        <h2 class="text-lg font-semibold mb-4">Edit Patient</h2>
-        <form (ngSubmit)="submitEdit()">
-          <!-- Editable Fields -->
-          <div *ngFor="let attribute of editableAttributes">
-            <label class="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                [(ngModel)]="editingFields[attribute.key].selected"
-                name="{{attribute.key}}Selected"
-              />
-              <span>{{ attribute.label }}</span>
-            </label>
-
-            <input
-              [(ngModel)]="editingFields[attribute.key].value"
-              name="{{attribute.key}}Value"
-              class="mt-1 px-3 py-2 border rounded w-full"
-              placeholder="Enter new {{attribute.label}}"
-              [disabled]="!editingFields[attribute.key].selected"
-            />
-          </div>
-
-          <!-- Submit and Cancel Buttons -->
-          <div class="mt-4 flex justify-end space-x-2">
-            <button
-              type="button"
-              (click)="cancelEdit()"
-              class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              Save
-            </button>
-          </div>
-        </form>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div *ngIf="confirmingDelete" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="bg-white p-4 rounded-lg shadow-lg max-w-sm w-full">
+    <p class="text-center">Quer mesmo eliminar este paciente? Esta ação é permanente!</p>
+    <div class="flex justify-center space-x-4 mt-4">
+      <button (click)="onDelete(selectedItem)" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+        Sim
+      </button>
+      <button (click)="cancelDelete()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
+        Não
+      </button>
     </div>
   </div>
 </div>
