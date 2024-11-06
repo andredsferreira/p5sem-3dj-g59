@@ -30,6 +30,10 @@ public class OperationRequestService {
 
     private readonly IOperationTypeRepository _operationTypeRepository;
 
+    public OperationRequestService() {
+        
+    }
+
     public OperationRequestService(IHttpContextAccessor httpContextAccessor,
         IUnitOfWork unitOfWork, IOperationRequestRepository operationRequestRepository,
         IPatientRepository patientRepository, IStaffRepository staffRepository,
