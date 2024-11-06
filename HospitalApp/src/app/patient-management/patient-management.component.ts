@@ -48,8 +48,12 @@ export class PatientManagementComponent implements OnInit {
     { key: 'PhoneNumber', label: 'Telemóvel'}
   ];
   searchableAttributes = [
-    { key: 'FullName', label: 'Name' },
-    { key: 'Email', label: 'Email' },
+    { key: "MedicalRecordNumber", label: "Medical Record Number" },
+    { key: "Email", label: "Email" },
+    { key: "PhoneNumber", label: "Telemóvel" },
+    { key: "FullName", label: "Nome Completo" },
+    { key: "DateOfBirth", label: "Data de Nascimento" },
+    { key: "Gender", label: "Género" },
   ];
 
   // Fields for search criteria

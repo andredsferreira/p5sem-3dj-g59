@@ -1,7 +1,7 @@
 <div class="p-4 max-w-lg mx-auto"> <!-- Changed max-w-md to max-w-lg for wider boxes -->
   <!-- Initial Search Fields Before Listing Patients -->
   <div *ngIf="!isInitialized" class="mb-4">
-    <h2 class="text-lg font-semibold mb-2">Enter Search Criteria</h2>
+    <h2 class="text-lg font-semibold mb-2">Insira os seus filtros desejados</h2>
     <form (ngSubmit)="onInitialize()">
       <!-- Loop through each attribute to display checkboxes and locked input fields -->
       <div *ngFor="let attribute of searchableAttributes" class="mb-2">
@@ -13,15 +13,46 @@
           />
           <span>{{ attribute.label }}</span>
         </label>
-
-        <input
-          [(ngModel)]="searchFields[attribute.key].value"
-          name="{{attribute.key}}Value"
-          class="mt-1 px-3 py-2 border rounded w-full"
-          placeholder="Enter {{attribute.label}} to search"
-          [disabled]="!searchFields[attribute.key].selected"
-        />
+      
+        <!-- Gender select box -->
+        <ng-container *ngIf="attribute.key === 'Gender'; else standardInput">
+          <select
+            [(ngModel)]="searchFields['Gender'].value"
+            name="GenderValue"
+            class="mt-1 px-3 py-2 border rounded w-full"
+            [disabled]="!searchFields['Gender'].selected"
+          >
+            <option value="" disabled selected hidden>Selecione Género</option>
+            <option value="Male">Masculinho</option>
+            <option value="Female">Feminino</option>
+            <option value="Others">Outros</option>
+          </select>
+        </ng-container>
+      
+        <!-- Date picker for DateOfBirth -->
+        <ng-template #standardInput>
+          <input
+            *ngIf="attribute.key === 'DateOfBirth'; else textInput"
+            type="date"
+            [(ngModel)]="searchFields['DateOfBirth'].value"
+            name="DateOfBirthValue"
+            class="mt-1 px-3 py-2 border rounded w-full"
+            [disabled]="!searchFields['DateOfBirth'].selected"
+          />
+        </ng-template>
+      
+        <!-- Standard text input for other fields -->
+        <ng-template #textInput>
+          <input
+            [(ngModel)]="searchFields[attribute.key].value"
+            name="{{attribute.key}}Value"
+            class="mt-1 px-3 py-2 border rounded w-full"
+            placeholder="Insira o/a {{attribute.label}} para filtrar"
+            [disabled]="!searchFields[attribute.key].selected"
+          />
+        </ng-template>
       </div>
+      
 
       <button
         type="submit"
@@ -39,7 +70,7 @@
       (click)="onCreate()"
       class="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
     >
-      Create New Patient
+      Criar um novo Paciente
     </button>
 
     <!-- List of patients -->
@@ -64,13 +95,13 @@
             (click)="onEdit(patient); $event.stopPropagation()"
             class="px-2 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600"
           >
-            Edit
+            Editar
           </button>
           <button
             (click)="onDelete(patient); $event.stopPropagation()"
             class="px-2 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
           >
-            Delete
+            Eliminar
           </button>
         </div>
       </li>
