@@ -132,12 +132,10 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
 
     private void SeedOperationRequest(ModelBuilder builder, Staff doctor, Patient patient, OperationType operationType, OperationRequestPriority priority, DateTime dateTime, OperationRequestStatus requestStatus) {
         var operationRequest = new OperationRequest {
+            Id = new OperationRequestId(Guid.NewGuid()),
             staffId = doctor.Id,
-            staff = doctor,
             patientId = patient.Id,
-            patient = patient,
             operationTypeId = operationType.Id,
-            operationType = operationType,
             priority = priority,
             dateTime = dateTime,
             requestStatus = requestStatus

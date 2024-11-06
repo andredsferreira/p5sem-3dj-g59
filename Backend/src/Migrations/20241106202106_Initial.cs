@@ -335,11 +335,9 @@ namespace Backend.Migrations
                     patientId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     operationTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    priority = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    priority = table.Column<int>(type: "int", nullable: false),
                     dateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    requestStatus = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    requestStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -373,11 +371,11 @@ namespace Backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "135292c2-0a32-48d0-bbf7-f2781e280273", null, "Doctor", "DOCTOR" },
-                    { "417e7d4c-c7e3-4795-b09e-51f4684d4ac0", null, "Nurse", "NURSE" },
-                    { "45cd69e8-0014-47be-aba8-99544086b028", null, "Admin", "ADMIN" },
-                    { "94f7448c-37d8-484b-8750-5b6fd86e7ee5", null, "Technician", "TECHNICIAN" },
-                    { "e441ed89-ae5f-4113-9a81-699d2cc1158a", null, "Patient", "PATIENT" }
+                    { "37f2f4a5-f84c-49a2-8880-0227ad268447", null, "Admin", "ADMIN" },
+                    { "9771ee37-524c-46f4-b18c-0f482fd31f95", null, "Nurse", "NURSE" },
+                    { "a580508f-af98-4b67-b5af-3a2b3c325c86", null, "Patient", "PATIENT" },
+                    { "aa30ac7e-f41b-42ad-9f2f-c86b40dad20a", null, "Technician", "TECHNICIAN" },
+                    { "c826e632-8996-4579-aa46-59a1f1bd7069", null, "Doctor", "DOCTOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -385,11 +383,11 @@ namespace Backend.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "0755eec6-1025-498b-8eda-7bf6ab0f5e78", 0, "3318cbfd-2a9a-4016-baf1-a0f923334830", "technician@hospital.com", true, false, null, "TECHNICIAN@HOSPITAL.COM", "TECHNICIAN", "AQAAAAIAAYagAAAAEJT81lG3uzeROWT3zu3Hph2FR2pJZvGZ8/EDjF1A0RXhxcpqRCIdVI3NhGQVsITtTw==", null, false, "1160e7cf-72a8-4917-b379-5b603f4025c5", false, "technician" },
-                    { "2863485c-d9f3-44fb-aeb7-b6bb3ee872f6", 0, "dadd0b9c-6f3d-4761-b66d-dae303b2d5ad", "nurse@hospital.com", true, false, null, "NURSE@HOSPITAL.COM", "NURSE", "AQAAAAIAAYagAAAAEA0bnhgQxooYa0T/HoRUczF9hwkdZp4ABL7+BCKtIqSNzlB6upgz4x93DMQsDcMyAw==", null, false, "6918da69-f08d-4a79-b2e7-c0fe0141b571", false, "nurse" },
-                    { "75f8216d-5de0-41a5-9e80-875814523713", 0, "62263857-f774-4e53-8a9c-9fd0f731e837", "doctor@hospital.com", true, false, null, "DOCTOR@HOSPITAL.COM", "DOCTOR", "AQAAAAIAAYagAAAAEGzOs+z6hFuXQBJxFGPC2hJkcjGkUxJFOLQwBmPk8erNWxRZzAET0TbRZ2ieMcACjQ==", null, false, "88aea5c1-d4e5-4c0a-8c4f-cc965765193f", false, "doctor" },
-                    { "ed5ace53-890f-4a73-8a02-c389f3a9284d", 0, "f9bcdb8f-b91d-436d-8681-feb92e5388b1", "admin@hospital.com", true, false, null, "ADMIN@HOSPITAL.COM", "ADMIN", "AQAAAAIAAYagAAAAECO6jppTLETqwuIdnF0Vs2SiaakIHdd066ZvonBXAx1Xk1xiFMMrDIKYN8dMkDqr+Q==", null, false, "50fd9ba9-d8b6-4527-a09e-4092dc2d8a93", false, "admin" },
-                    { "f7adb802-8d39-4368-9fd2-bab7d99f5a71", 0, "ba440d7d-7784-414a-8fe9-6bcf4da19386", "patient@hospital.com", true, false, null, "PATIENT@HOSPITAL.COM", "PATIENT", "AQAAAAIAAYagAAAAEIPr9VABqBD0ZRUYxuX/j2ZMUlsPf3kosCgt1FvaJ/4HvB4Na2U8w0Gcxhuwzv1lnA==", null, false, "2b2abf4f-f99c-43f4-8c69-da60ea68fff2", false, "patient" }
+                    { "4a9a8dc7-038a-4700-af2a-f43f62536b71", 0, "8ba98ae6-5838-4221-8f5c-6e574a946e27", "doctor@hospital.com", true, false, null, "DOCTOR@HOSPITAL.COM", "DOCTOR", "AQAAAAIAAYagAAAAENKsK/9Zc3Me+lgMLdU+r3Qp/Duy/yne3rrSw4XVsRG2maQGSsFa4uP9FwmYtu+VWg==", null, false, "6ae9c25a-5f63-441c-84bd-695838dc357f", false, "doctor" },
+                    { "6defc040-87ca-48cd-b845-9855a4197690", 0, "05eb6920-6251-4d6b-9681-2df02cd6bbce", "nurse@hospital.com", true, false, null, "NURSE@HOSPITAL.COM", "NURSE", "AQAAAAIAAYagAAAAEImLQBclkob23BCbdaB+rMP2PBkw5CpFzYXlaiSUbqw76eBUr6kfYYxQPibQLyHHpQ==", null, false, "ef25dfc6-2456-469c-ba01-c037806349cc", false, "nurse" },
+                    { "857a67b2-5855-4836-8e5c-0537711794dd", 0, "d51e3b29-71cd-4172-9b16-8de87c55e723", "admin@hospital.com", true, false, null, "ADMIN@HOSPITAL.COM", "ADMIN", "AQAAAAIAAYagAAAAELAHOF4SrPe+bj8TcDXw4+xgi82jdNu4kDKOLSDChxBDoqwypJEjRgwxs2DvthTe+w==", null, false, "01dd76de-bcc4-46a0-9889-096a663975d9", false, "admin" },
+                    { "d798827a-4965-409a-a0c1-65b77a3ee671", 0, "f5811c6d-41ed-4aa2-8b4b-236879bca65e", "technician@hospital.com", true, false, null, "TECHNICIAN@HOSPITAL.COM", "TECHNICIAN", "AQAAAAIAAYagAAAAEFWuR7XAzXNYATyGU2j+DNJ3qTyNsum55exDFU+BYZOXSat3fzHY0zMky1iyqr9C3A==", null, false, "4c8b88ea-8802-4e62-8d00-0ecc72f1f7c0", false, "technician" },
+                    { "d8311ff8-fcd7-4208-aa7d-122fcd9a0e0f", 0, "7c7990f5-f95d-42ba-823c-9e3c4d943847", "patient@hospital.com", true, false, null, "PATIENT@HOSPITAL.COM", "PATIENT", "AQAAAAIAAYagAAAAEIV6Ht4RfTlZ7bzByEBgIqTnutdjVEtPatYm6BKrlkUB1exnRQFJoaqiZ9kNhK0NiQ==", null, false, "0b3f4161-12d3-46a4-916b-adcb83840c7f", false, "patient" }
                 });
 
             migrationBuilder.InsertData(
@@ -398,9 +396,9 @@ namespace Backend.Migrations
                 columns: new[] { "Id", "MinAnesthetist", "MinCirculatingNurse", "MinDoctor", "MinInstrumentingNurse", "MinMedicalActionAssistant", "MinNurseAnaesthetist", "MinXRayTechnician", "Specialization", "Status", "anaesthesiaTime", "cleaningTime", "name", "surgeryTime" },
                 values: new object[,]
                 {
-                    { new Guid("230d7010-8291-4e91-8758-fd791b4dcd1b"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Knee Replacement", 0 },
-                    { new Guid("c9a0aa63-4474-4c12-8cb9-4969e59b6f44"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "ACL Reconstruction", 0 },
-                    { new Guid("e57adf56-1d31-4267-b521-2db23247b1a9"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Shoulder Replacement", 0 }
+                    { new Guid("05b6a13c-8e76-4e1c-9c05-9e6856c9ed04"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Shoulder Replacement", 0 },
+                    { new Guid("0f247952-19c2-4c1f-8bd7-3fb698485b2b"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "ACL Reconstruction", 0 },
+                    { new Guid("86e4a2ec-0a97-48c8-a5c1-d54c96e15b8a"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Knee Replacement", 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -409,9 +407,9 @@ namespace Backend.Migrations
                 columns: new[] { "Id", "DateOfBirth", "Email", "FullName", "Gender", "MedicalRecordNumber", "PhoneNumber", "UserEmail" },
                 values: new object[,]
                 {
-                    { "4e44793a-5a3c-4135-b82a-82f6ccd9a144", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "Female", "202410000003", "910555333", null },
-                    { "7fbf997d-d213-443b-b538-cd6db20866c3", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "Male", "202410000001", "910555111", null },
-                    { "9e211a62-07c0-4fcd-9b5e-d37ce98e0272", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "Male", "202410000002", "910555222", null }
+                    { "5106a65c-dca1-42a5-8ff5-314b2a28519b", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "Male", "202410000001", "910555111", null },
+                    { "9e4de29b-7bee-415a-bd64-039dc8df91d5", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "Female", "202410000003", "910555333", null },
+                    { "d09829d2-50bd-4e2d-8f65-733ace13f377", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "Male", "202410000002", "910555222", null }
                 });
 
             migrationBuilder.InsertData(
@@ -420,9 +418,9 @@ namespace Backend.Migrations
                 columns: new[] { "Id", "Email", "FullName", "IdentityUsername", "LicenseNumber", "PhoneNumber", "StaffRole" },
                 values: new object[,]
                 {
-                    { "0fc87ea4-8a46-481a-b131-84b3483b1039", null, null, "doctor", null, null, "Doctor" },
-                    { "1bf1b489-6d0a-409a-946b-7feebf1d76bd", null, null, "nurese", null, null, "Nurse" },
-                    { "79a8586c-e1a0-4b58-93c1-e4452871da0a", "doctor2@hospital.com", "Doctor 2", "doctor2", "f47ac10b-58cc-4372-a567-0e02b2c3d479", "910555444", "Doctor" }
+                    { "3ca2602a-1d92-4f07-a363-0aa488b4547a", null, null, "doctor", null, null, "Doctor" },
+                    { "5619b4e9-1185-479b-b6e4-8099d245d280", "doctor2@hospital.com", "Doctor 2", "doctor2", "f47ac10b-58cc-4372-a567-0e02b2c3d479", "910555444", "Doctor" },
+                    { "8d94a130-912d-4d24-9ec9-df8132f48caf", null, null, "nurse", null, null, "Nurse" }
                 });
 
             migrationBuilder.InsertData(
@@ -430,11 +428,11 @@ namespace Backend.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "94f7448c-37d8-484b-8750-5b6fd86e7ee5", "0755eec6-1025-498b-8eda-7bf6ab0f5e78" },
-                    { "417e7d4c-c7e3-4795-b09e-51f4684d4ac0", "2863485c-d9f3-44fb-aeb7-b6bb3ee872f6" },
-                    { "135292c2-0a32-48d0-bbf7-f2781e280273", "75f8216d-5de0-41a5-9e80-875814523713" },
-                    { "45cd69e8-0014-47be-aba8-99544086b028", "ed5ace53-890f-4a73-8a02-c389f3a9284d" },
-                    { "e441ed89-ae5f-4113-9a81-699d2cc1158a", "f7adb802-8d39-4368-9fd2-bab7d99f5a71" }
+                    { "c826e632-8996-4579-aa46-59a1f1bd7069", "4a9a8dc7-038a-4700-af2a-f43f62536b71" },
+                    { "9771ee37-524c-46f4-b18c-0f482fd31f95", "6defc040-87ca-48cd-b845-9855a4197690" },
+                    { "37f2f4a5-f84c-49a2-8880-0227ad268447", "857a67b2-5855-4836-8e5c-0537711794dd" },
+                    { "aa30ac7e-f41b-42ad-9f2f-c86b40dad20a", "d798827a-4965-409a-a0c1-65b77a3ee671" },
+                    { "a580508f-af98-4b67-b5af-3a2b3c325c86", "d8311ff8-fcd7-4208-aa7d-122fcd9a0e0f" }
                 });
 
             migrationBuilder.InsertData(
@@ -443,8 +441,8 @@ namespace Backend.Migrations
                 columns: new[] { "Id", "dateTime", "operationTypeId", "patientId", "priority", "requestStatus", "staffId" },
                 values: new object[,]
                 {
-                    { new Guid("7c70f4cc-b0c8-488f-b62d-bfc08bd4381f"), new DateTime(2024, 11, 6, 17, 29, 11, 313, DateTimeKind.Local).AddTicks(6739), new Guid("c9a0aa63-4474-4c12-8cb9-4969e59b6f44"), "7fbf997d-d213-443b-b538-cd6db20866c3", "none", "Pending", "0fc87ea4-8a46-481a-b131-84b3483b1039" },
-                    { new Guid("cb654c33-67d1-4ac9-bf5a-3d9f256fc70a"), new DateTime(2024, 11, 6, 17, 29, 11, 313, DateTimeKind.Local).AddTicks(6849), new Guid("230d7010-8291-4e91-8758-fd791b4dcd1b"), "9e211a62-07c0-4fcd-9b5e-d37ce98e0272", "top", "Pending.", "0fc87ea4-8a46-481a-b131-84b3483b1039" }
+                    { new Guid("35f0a726-5c43-4cf4-b43b-3e62f1b7a086"), new DateTime(2024, 11, 6, 20, 21, 6, 382, DateTimeKind.Local).AddTicks(4928), new Guid("86e4a2ec-0a97-48c8-a5c1-d54c96e15b8a"), "d09829d2-50bd-4e2d-8f65-733ace13f377", 1, 0, "3ca2602a-1d92-4f07-a363-0aa488b4547a" },
+                    { new Guid("df6ad348-6455-48f3-9d33-3fd7c1420c56"), new DateTime(2024, 11, 6, 20, 21, 6, 382, DateTimeKind.Local).AddTicks(4831), new Guid("0f247952-19c2-4c1f-8bd7-3fb698485b2b"), "5106a65c-dca1-42a5-8ff5-314b2a28519b", 0, 0, "3ca2602a-1d92-4f07-a363-0aa488b4547a" }
                 });
 
             migrationBuilder.CreateIndex(
