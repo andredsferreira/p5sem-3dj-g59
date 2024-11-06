@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{1037053F-CB2C-4F92-B4B6-DE4270F3A979}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDDNetCore", "Backend\src\DDDNetCore.csproj", "{3E5CD31F-D473-4246-BF09-AECB85AFE7E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\src\Backend.csproj", "{3E5CD31F-D473-4246-BF09-AECB85AFE7E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDDNetCoreTest", "Backend\test\DDDNetCoreTest.csproj", "{7C0B4891-3272-45B7-BF68-3F2AE4D49A8E}"
 EndProject

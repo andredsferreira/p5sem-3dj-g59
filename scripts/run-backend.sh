@@ -1,1 +1,1 @@
-dotnet run --project ../Backend/src/DDDNetCore.csproj
+dotnet run --project ../Backend/src/Backend.csproj
