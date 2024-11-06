@@ -43,14 +43,30 @@ public class OperationRequestController : ControllerBase {
 
     [HttpPut("update")]
     public async Task<IActionResult> UpdateOperationRequest([FromBody] UpdatedOperationRequestDTO dto) {
-        var updatedOperationRequest = await _service.UpdateOperationRequest(dto);
-        return updatedOperationRequest != null ? Ok(updatedOperationRequest) : BadRequest("Could not update operation request");
+        try {
+            var updatedOperationRequest = await _service.UpdateOperationRequest(dto);
+            return Ok(updatedOperationRequest);
+        }
+        catch (OperationRequestNotFoundException ex) {
+            return BadRequest(new { error = ex.Message });
+        }
+        catch (InvalidOperationRequestException ex) {
+            return BadRequest(new { error = ex.Message });
+        }
     }
 
     [HttpDelete("delete")]
     public async Task<IActionResult> DeleteOperationRequest(Guid id) {
-        var deletedRequestId = await _service.DeleteOperationRequest(id);
-        return Ok(deletedRequestId);
+        try {
+            var deletedRequestId = await _service.DeleteOperationRequest(id);
+            return Ok();
+        }
+        catch (OperationRequestNotFoundException ex) {
+            return BadRequest(new { error = ex.Message });
+        }
+        catch (InvalidOperationRequestException ex) {
+            return BadRequest(new { error = ex.Message });
+        }
     }
 
     [HttpGet("list")]

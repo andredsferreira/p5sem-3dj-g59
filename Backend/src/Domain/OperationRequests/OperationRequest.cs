@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using DDDSample1.Domain.OperationTypes;
 using DDDSample1.Domain.Patients;
 using DDDSample1.Domain.Shared;
@@ -91,4 +93,3 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
     }
 
 }
-

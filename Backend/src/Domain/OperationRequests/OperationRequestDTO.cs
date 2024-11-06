@@ -25,28 +25,19 @@ public class OperationRequestDTO {
     [Required]
     public string requestStatus { get; set; }
 
-    public OperationRequestDTO() {
-
-    }
-
-    // Constructor for creating operation request.
-    public OperationRequestDTO(Guid patientId, Guid operationTypeId, string priority, DateTime dateTime, string requestStatus) {
-        this.patientId = patientId;
-        this.operationTypeId = operationTypeId;
-        this.priority = priority;
-        this.dateTime = dateTime;
-        this.requestStatus = requestStatus;
-    }
-
-    // Constructor for listing operation requests.
-    public OperationRequestDTO(Guid operationRequestId, Guid staffId, Guid patientId, Guid operationTypeId, string priority, DateTime dateTime, string requestStatus) {
-        this.operationRequestId = operationRequestId;
-        this.staffId = staffId;
-        this.patientId = patientId;
-        this.operationTypeId = operationTypeId;
-        this.priority = priority;
-        this.dateTime = dateTime;
-        this.requestStatus = requestStatus;
+    public OperationRequestDTO(Guid operationRequestId = default, Guid staffId = default,
+        Guid patientId = default,
+        Guid operationTypeId = default,
+        string priority = null,
+        DateTime dateTime = default,
+        string requestStatus = null) {
+            this.operationRequestId = operationRequestId != default ? operationRequestId : Guid.NewGuid();
+            this.staffId = staffId;
+            this.patientId = patientId != default ? patientId : throw new ArgumentNullException(nameof(patientId));
+            this.operationTypeId = operationTypeId != default ? operationTypeId : throw new ArgumentNullException(nameof(operationTypeId));
+            this.priority = priority ?? throw new ArgumentNullException(nameof(priority));
+            this.dateTime = dateTime != default ? dateTime : DateTime.UtcNow;
+            this.requestStatus = requestStatus ?? throw new ArgumentNullException(nameof(requestStatus));
     }
 
 }

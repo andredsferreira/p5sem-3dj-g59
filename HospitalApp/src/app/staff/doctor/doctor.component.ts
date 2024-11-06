@@ -1,8 +1,8 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { OperationRequestService } from '../../operation-request/operation-request.service';
 import { RequestStatus } from '../../operation-request/request-status.enum';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-doctor',
@@ -12,11 +12,22 @@ import { RequestStatus } from '../../operation-request/request-status.enum';
   styleUrls: ['./doctor.component.css']
 })
 export class DoctorComponent {
-  operationRequestForm: FormGroup;
-  requestStatusOptions = Object.values(RequestStatus);
-  showModal: boolean = false;
-  formError: string | null = null
+
   operationRequests: any[] = [];
+
+  operationRequestForm: FormGroup;
+
+  updateRequestForm: FormGroup;
+
+  requestStatusOptions = Object.values(RequestStatus);
+
+  showModal: boolean = false;
+
+  showUpdateModal: boolean = false;
+
+  formError: string | null = null;
+
+  selectedRequest: any = null;
 
   constructor(private fb: FormBuilder, private ors: OperationRequestService) {
     this.operationRequestForm = this.fb.group({
@@ -25,6 +36,11 @@ export class DoctorComponent {
       priority: ['', Validators.required],
       dateTime: ['', Validators.required],
       requestStatus: [RequestStatus.Pending, Validators.required]
+    });
+
+    this.updateRequestForm = this.fb.group({
+      priority: ['', Validators.required],
+      dateTime: ['', Validators.required]
     });
   }
 
@@ -36,17 +52,10 @@ export class DoctorComponent {
   async onSubmit(): Promise<void> {
     if (this.operationRequestForm.valid) {
       try {
-        const { patientId, operationTypeId, priority, dateTime, requestStatus } =
-          this.operationRequestForm.value;
-        console.log({
-          patientId,
-          operationTypeId,
-          priority,
-          dateTime,
-          requestStatus
-        });
+        const { patientId, operationTypeId, priority, dateTime, requestStatus } = this.operationRequestForm.value;
         await this.ors.createOperationRequest(patientId, operationTypeId, priority, dateTime, requestStatus);
         this.closeModal();
+        this.listOperationRequests();
       } catch (error) {
         this.formError = 'Failed to create operation request. Please check your input and try again.';
       }
@@ -58,21 +67,51 @@ export class DoctorComponent {
     this.operationRequestForm.reset();
   }
 
-  updateOperationRequest() {
-
-  }
-
-  deleteOperationRequest() {
-
+  closeUpdateModal(): void {
+    this.showUpdateModal = false;
+    this.updateRequestForm.reset();
   }
 
   async listOperationRequests(): Promise<void> {
     try {
-      this.operationRequests = await this.ors.getDoctorOperationRequests();
+      this.operationRequests = await this.ors.getOperationRequests();
       console.log("Fetched Operation Requests:", this.operationRequests);
     } catch (error) {
       console.error("Error fetching operation requests:", error);
     }
   }
+  async updateOperationRequest(request: any): Promise<void> {
+    this.selectedRequest = request;
+    this.updateRequestForm.patchValue({
+      priority: request.priority,
+      dateTime: request.dateTime
+    });
+    this.showUpdateModal = true;
+  }
+
+  // Use `operationRequestId` here
+  async onUpdateSubmit(): Promise<void> {
+    if (this.updateRequestForm.valid && this.selectedRequest) {
+      try {
+        const { priority, dateTime } = this.updateRequestForm.value;
+        await this.ors.updateOperationRequest(this.selectedRequest.operationRequestId, priority, dateTime);
+        this.closeUpdateModal();
+        this.listOperationRequests();
+      } catch (error) {
+        console.error('Failed to update operation request:', error);
+      }
+    }
+  }
+
+  // Use `operationRequestId` here as well
+  async deleteOperationRequest(requestId: string): Promise<void> {
+    try {
+      await this.ors.deleteOperationRequest(requestId);
+      this.listOperationRequests();
+    } catch (error) {
+      console.error('Failed to delete operation request:', error);
+    }
+  }
+
 
 }

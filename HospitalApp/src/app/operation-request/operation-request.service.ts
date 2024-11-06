@@ -39,23 +39,52 @@ export class OperationRequestService {
       throw error;
     }
   }
-  async updateOperationRequest(id: number) {
-    throw new Error("Not implemented yet")
+
+  async updateOperationRequest(id: string, priority: string, dateTime: string): Promise<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`,
+      'Content-Type': 'application/json'
+    });
+    const body = { updatedId: id, priority, dateTime };
+
+    try {
+      const response = await lastValueFrom(
+        this.http.put('https://localhost:5001/api/operationrequest/update',
+          body, { headers })
+      );
+      return response;
+    } catch (error) {
+      console.error('Error updating operation request:', error);
+      throw error;
+    }
   }
 
-  async deleteOperationRequest(id: number) {
-    throw new Error("Not implemented yet")
+  async deleteOperationRequest(id: string): Promise<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+
+    try {
+      const response = await lastValueFrom(
+        this.http.delete(`https://localhost:5001/api/operationrequest/delete?id=${id}`,
+          { headers })
+      );
+      return response;
+    } catch (error) {
+      console.error('Error deleting operation request:', error);
+      throw error;
+    }
   }
 
-  async getDoctorOperationRequests(): Promise<any> {
+  async getOperationRequests(): Promise<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`
     })
     try {
-      const users = await lastValueFrom(
+      const response = await lastValueFrom(
         this.http.get('https://localhost:5001/api/operationrequest/list', { headers })
       );
-      return users
+      return response
     } catch (error) {
       console.error('Error fetching operation requests:', error)
       throw error

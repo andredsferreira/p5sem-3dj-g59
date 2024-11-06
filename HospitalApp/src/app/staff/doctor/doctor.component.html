@@ -4,8 +4,6 @@
     <div class="buttons">
         <button (click)="createOperationRequest()">Create Operation Request</button>
         <button (click)="listOperationRequests()">List Operation Requests</button>
-        <button (click)="updateOperationRequest()">Update Operation Request</button>
-        <button (click)="deleteOperationRequest()">Delete Operation Request</button>
     </div>
 </div>
 
@@ -14,11 +12,15 @@
     <h3>Operation Request List</h3>
     <ul>
         <li *ngFor="let request of operationRequests" class="request-item">
-            <strong>Patient ID:</strong> {{ request.patientId }} |
-            <strong>Operation Type:</strong> {{ request.operationTypeId }} |
-            <strong>Priority:</strong> {{ request.priority }} |
-            <strong>Date:</strong> {{ request.dateTime }} |
+            <strong>ID:</strong> {{ request.operationRequestId }}
+            <strong>Doctor ID:</strong> {{ request.staffId }}
+            <strong>Patient ID:</strong> {{ request.patientId }}
+            <strong>Operation Type:</strong> {{ request.operationTypeId }}
+            <strong>Priority:</strong> {{ request.priority }}
+            <strong>Date:</strong> {{ request.dateTime }}
             <strong>Status:</strong> {{ request.requestStatus }}
+            <button (click)="updateOperationRequest(request)">Update</button>
+            <button (click)="deleteOperationRequest(request.operationRequestId)">Delete</button>
         </li>
     </ul>
 </div>
@@ -29,14 +31,18 @@
         <span (click)="closeModal()" class="close-button">&times;</span>
         <h2>Create Operation Request</h2>
         <form [formGroup]="operationRequestForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <label for="patientId">Patient ID</label>
-                <input id="patientId" formControlName="patientId" />
-            </div>
-            <div class="form-group">
-                <label for="operationTypeId">Operation Type ID</label>
-                <input id="operationTypeId" formControlName="operationTypeId" />
-            </div>
+            <!-- form fields here -->
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+<!-- Update operation request modal -->
+<div *ngIf="showUpdateModal" class="modal">
+    <div class="modal-content">
+        <span (click)="closeUpdateModal()" class="close-button">&times;</span>
+        <h2>Update Operation Request</h2>
+        <form [formGroup]="updateRequestForm" (ngSubmit)="onUpdateSubmit()">
             <div class="form-group">
                 <label for="priority">Priority</label>
                 <input id="priority" formControlName="priority" />
@@ -45,15 +51,7 @@
                 <label for="dateTime">Date and Time</label>
                 <input type="datetime-local" id="dateTime" formControlName="dateTime" />
             </div>
-            <!-- Updated requestStatus field to a select dropdown -->
-            <div class="form-group">
-                <label for="requestStatus">Request Status</label>
-                <select id="requestStatus" formControlName="requestStatus">
-                    <option *ngFor="let status of requestStatusOptions" [value]="status">
-                        {{ status }}
-                    </option>
-                </select>
-            </div> <button type="submit" class="login-button">Submit</button>
+            <button type="submit">Update</button>
         </form>
     </div>
 </div>

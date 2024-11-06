@@ -72,11 +72,11 @@ public class OperationRequestService {
     public virtual async Task<UpdatedOperationRequestDTO> UpdateOperationRequest(UpdatedOperationRequestDTO dto) {
         var operationRequest = await _operationRequestRepository.GetByIdAsync(new OperationRequestId(dto.updatedId));
         if (operationRequest == null) {
-            throw new Exception("The operation request you are trying to update does not exist!");
+            throw new OperationRequestNotFoundException("The operation request you are trying to update does not exist!");
         }
         var username = _httpContextAccessor.HttpContext?.User?.FindFirst(JwtRegisteredClaimNames.UniqueName)?.Value;
         if (operationRequest.staff.IdentityUsername != username) {
-            throw new Exception("The operation request you are trying to update is associated with another doctor");
+            throw new InvalidOperationRequestException("The operation request you are trying to update is associated with another doctor");
         }
         operationRequest.dateTime = dto.dateTime;
         operationRequest.priority = dto.priority;
@@ -87,7 +87,11 @@ public class OperationRequestService {
     public virtual async Task<Guid> DeleteOperationRequest(Guid id) {
         var operationRequest = await _operationRequestRepository.GetByIdAsync(new OperationRequestId(id));
         if (operationRequest == null) {
-            throw new Exception("That operation request does not exist");
+            throw new OperationRequestNotFoundException("That operation request does not exist");
+        }
+        var username = _httpContextAccessor.HttpContext?.User?.FindFirst(JwtRegisteredClaimNames.UniqueName)?.Value;
+        if (operationRequest.staff.IdentityUsername != username) {
+            throw new InvalidOperationRequestException("The operation request you are trying to update is associated with another doctor");
         }
         _operationRequestRepository.Remove(operationRequest);
         await _unitOfWork.CommitAsync();
