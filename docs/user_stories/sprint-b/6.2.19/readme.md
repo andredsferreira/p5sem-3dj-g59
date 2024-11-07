@@ -1,4 +1,4 @@
-# 6.1.19 - Edit Operation Type
+# 6.2.19 - Edit Operation Type
 
 As an Admin, I want to edit existing operation types, so that I can update or correct information about the procedure. (UI for US 5.1.21).
 

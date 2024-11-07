@@ -1,4 +1,4 @@
-# US 6.1.18 - Create Operation Type
+# US 6.2.18 - Create Operation Type
 
 As an Admin, I want to add new types of operations, so that I can reflect on the available medical procedures in the system. (UI for US 5.1.20)
 
