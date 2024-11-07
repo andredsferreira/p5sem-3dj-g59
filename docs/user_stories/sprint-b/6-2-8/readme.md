@@ -45,7 +45,8 @@ The team decided the following aspects:
 
 ## 6. Tests
 
--
+* Test if deletion occurs.
+* Test if deletion can't work on a *Patient Profile* that doesn't exist.
 
 ## 7. Implementation
 

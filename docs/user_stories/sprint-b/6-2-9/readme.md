@@ -51,7 +51,9 @@ The team decided the following aspects:
 
 ## 6. Tests
 
--
+* Test if filter works as intended.
+* Test if an empty list is presented with a message.
+* Test if page is reloaded when a change is made.
 
 ## 7. Implementation
 
