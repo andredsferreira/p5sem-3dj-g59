@@ -47,7 +47,7 @@ public class OperationRequestService {
             throw new EmptyUserNameException("Your accessing with an empty username");
         }
 
-        var fetchedStaff = await _staffRepository.GetByIdentityUsernameAsync(fetchedUsername);
+        var fetchedStaff = _staffRepository.GetByIdentityUsername(fetchedUsername);
         if (fetchedStaff == null) {
             throw new StaffNotRegisteredException("Your are not registered in the system.");
         }

@@ -23,11 +23,6 @@ public class Staff : Entity<StaffId>, IAggregateRoot {
 
     }
 
-    public Staff(string staffRole, string username) {
-        this.Id = new StaffId(Guid.NewGuid());
-        this.StaffRole = staffRole;
-        this.IdentityUsername = username;
-    }
 
     public Staff(string staffRole, string identityUsername, MailAddress email, PhoneNumber phone, FullName fullName, LicenseNumber licenseNumber) {
         this.Id = new StaffId(Guid.NewGuid());

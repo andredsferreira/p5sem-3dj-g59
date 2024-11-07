@@ -6,7 +6,7 @@ import * as jwt_decode from "jwt-decode";
 
 // Define the Patient interface
 interface Patient {
-  id: number;
+  MedicalRecordNumber: string;
   name: string;
   email: string;
   [key: string]: any;
@@ -27,8 +27,8 @@ interface PatientSearchAttributes {
 export class PatientService {
   constructor(private http: HttpClient) {}
   private patients: Patient[] = [
-    { id: 1, name: 'Patient 1', email: 'patient1@example.com' },
-    { id: 2, name: 'Patient 2', email: 'patient2@example.com' },
+    { MedicalRecordNumber: "temp1", name: 'Patient 1', email: 'patient1@example.com' },
+    { MedicalRecordNumber: "temp2", name: 'Patient 2', email: 'patient2@example.com' },
   ];
 
   // Retrieve patients list
@@ -56,14 +56,20 @@ export class PatientService {
 
   // Edit an existing patient
   editPatient(updatedPatient: Patient): void {
-    const index = this.patients.findIndex((p) => p.id === updatedPatient.id);
+    const index = this.patients.findIndex((p) => p.MedicalRecordNumber === updatedPatient.MedicalRecordNumber);
     if (index !== -1) {
       this.patients[index] = updatedPatient;
     }
   }
 
   // Delete a patient
-  deletePatient(patientId: number): void {
-    this.patients = this.patients.filter((patient) => patient.id !== patientId);
+  async deletePatient(token: string | null, MedicalRecordNumber: string): Promise<any> {
+    if (!token) return undefined;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    const patient = await lastValueFrom(this.http.delete("https://localhost:5001/api/Patient/Delete/" + MedicalRecordNumber, { headers }));
+    return patient;
   }
 }

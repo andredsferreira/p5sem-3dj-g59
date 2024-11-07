@@ -168,6 +168,11 @@
   </div>
 </div>
 
+<!-- Feedback Message -->
+<div *ngIf="showMessage" [class]="messageClass + ' fixed top-4 right-4 p-3 rounded shadow-lg'">
+  {{ messageText }}
+</div>
+
 <!-- Delete Confirmation Modal -->
 <div *ngIf="confirmingDelete" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
   <div class="bg-white p-4 rounded-lg shadow-lg max-w-sm w-full">

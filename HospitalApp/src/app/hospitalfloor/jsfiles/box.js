@@ -20,23 +20,22 @@ export default class Box {
 
         this.group = new THREE.Group();
 
-        var wall1 = new Wall({textureUrl: this.parameters.wallTextureUrl, size:{height:this.parameters.wallHeight, width:this.parameters.floorWidth, depth:this.parameters.wallDepth}});
-        wall1.object.translateZ(this.parameters.floorHeight/2);
-        this.group.add(wall1.object);
+        var wall = new Wall({textureUrl: this.parameters.wallTextureUrl, size:{height:this.parameters.wallHeight, width:this.parameters.floorWidth, depth:this.parameters.wallDepth}});
+        wall.object.translateZ(this.parameters.floorHeight/2);
+        this.group.add(wall.object);
 
-        var wall2 = new Wall({textureUrl: this.parameters.wallTextureUrl, size:{height:this.parameters.wallHeight, width:this.parameters.floorWidth, depth:this.parameters.wallDepth}});
-        wall2.object.translateZ(-this.parameters.floorHeight/2);
-        this.group.add(wall2.object);
+        var wallClone = wall.object.clone();
+        wallClone.translateZ(-this.parameters.floorHeight);
+        this.group.add(wallClone);
 
-        var wall3 = new Wall({textureUrl: this.parameters.wallTextureUrl, size:{height:this.parameters.wallHeight, width:this.parameters.floorHeight, depth:this.parameters.wallDepth}});
-        wall3.object.rotateY(Math.PI/2);
-        wall3.object.translateZ(this.parameters.floorWidth/2);
-        this.group.add(wall3.object);
+        wall = new Wall({textureUrl: this.parameters.wallTextureUrl, size:{height:this.parameters.wallHeight, width:this.parameters.floorHeight, depth:this.parameters.wallDepth}});
+        wall.object.rotateY(Math.PI/2);
+        wall.object.translateZ(this.parameters.floorWidth/2);
+        this.group.add(wall.object);
 
-        var wall4 = new Wall({textureUrl: this.parameters.wallTextureUrl, size:{height:this.parameters.wallHeight, width:this.parameters.floorHeight, depth:this.parameters.wallDepth}});
-        wall4.object.rotateY(Math.PI/2);
-        wall4.object.translateZ(-this.parameters.floorWidth/2);
-        this.group.add(wall4.object);
+        wallClone = wall.object.clone();
+        wallClone.translateZ(-this.parameters.floorWidth);
+        this.group.add(wallClone);
 
         //Hospital Floor
         var floor = new Ground({textureUrl: this.parameters.floorTextureUrl, size:{height:this.parameters.floorHeight, width:this.parameters.floorWidth}})

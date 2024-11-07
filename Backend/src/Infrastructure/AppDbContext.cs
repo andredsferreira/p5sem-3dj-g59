@@ -192,7 +192,13 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
 
         var staffNurse = new Staff(
             HospitalRoles.Nurse,
-            "nurse");
+            "nurse",
+            new MailAddress("nurse@hospital.com"),        
+            new PhoneNumber("910555567"),                   
+            new FullName("Nurse One"),                      
+            new LicenseNumber("n47ac10b-58cc-4372-a567-0e02b2c3d481")  
+        );
+
 
         var operationTypeA = new OperationType(new OperationName("ACL reconstruction"));
         var operationTypeB = new OperationType(new OperationName("Knee replacement"));

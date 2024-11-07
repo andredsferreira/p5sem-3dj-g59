@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,12 +23,10 @@ public class StaffService {
         _messageSender = messageSender;
     }
 
-    public async Task<Staff> getStaffByIdentityUsername(string identityUsername) {
-        return await _staffRepository.GetByIdentityUsernameAsync(identityUsername);
-    }
+    
 
     public async Task<StaffDTO> CreateStaff(StaffDTO dto){
-        
+        //dto.license = (await GenerateLicense()).ToString();
         var staff = Staff.createFromDTO(dto);
         await _staffRepository.AddAsync(staff);
         await this._logRepository.AddAsync(new DomainLog(LogObjectType.Staff, LogActionType.Creation, 
@@ -39,8 +38,26 @@ public class StaffService {
         return dto;
     }
 
+    public StaffDTO GetStafftById(LicenseNumber id) {
+        var staff = this._staffRepository.GetByLicenseNumber(id);
+        if (staff == null) return null;
+        return staff.returnDTO();
+    }
+
     public async Task<IEnumerable<StaffDTO>> GetAll() {
         var list = _staffRepository.GetAllAsync();
         return (await list).Select(staff => staff.returnDTO());
+    }
+
+    public virtual async Task<StaffDTO> DeleteStaff(LicenseNumber id) {
+        var staff = this._staffRepository.GetByLicenseNumber(id);
+        if (staff == null) return null;
+
+        this._staffRepository.Remove(staff);
+        await this._logRepository.AddAsync(new DomainLog(LogObjectType.Staff, LogActionType.Deletion,
+            string.Format("Deleted Staff with License Number = {0}", staff.LicenseNumber.License)));
+        await this._unitOfWork.CommitAsync();
+
+        return staff.returnDTO();
     }
 }

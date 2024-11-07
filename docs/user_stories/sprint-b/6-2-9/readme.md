@@ -43,6 +43,7 @@ The team decided the following aspects:
     * Have their **Medical Record Number**, **Full Name**, **Email** and **Date of Birth** shown when listed.
     * After picking one, it should additionally show the other attributes of that **Patient** and show an **Edit button** and a **Delete button**.
 * Each page should display **5 Patients**.
+* If, when listing *Patient Profiles*, a change (a creation, an edit or a deletion) is made, the list should reload.
 
 ## 5. C4 Views
 
@@ -50,7 +51,9 @@ The team decided the following aspects:
 
 ## 6. Tests
 
--
+* Test if filter works as intended.
+* Test if an empty list is presented with a message.
+* Test if page is reloaded when a change is made.
 
 ## 7. Implementation
 

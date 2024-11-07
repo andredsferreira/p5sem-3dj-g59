@@ -60,7 +60,7 @@ export class HospitalFloorComponent implements AfterViewInit {
       wallDepth:0.1, 
       wallHeight:1
     });
-    this.scene.add(box.group);
+    
 
     var mtlLoader = new MTLLoader();
     mtlLoader.load("models/SurgeryTableWithPerson/SurgeryTableWithPerson.mtl", (materials) =>{
@@ -73,22 +73,39 @@ export class HospitalFloorComponent implements AfterViewInit {
         object.translateY(-0.45);
         object.castShadow = true;
         object.receiveShadow = true;
-        this.scene.add(object);
+        object.traverse( function( node ) { if ( node instanceof THREE.Mesh ) { node.castShadow = true; } } );
+        box.group.add(object);
       })
-    })
+    });
+
+    console.log(JSON.stringify(box.group.toJSON()));
+    this.scene.add(box.group);
 
     const light = new THREE.AmbientLight(0xffffff, 0.5);
     this.scene.add(light);
 
-    const spotLight = new THREE.SpotLight( 0xffffff,800);
-    spotLight.position.set( 10,10,5 );
-    spotLight.target = box.group;
-    spotLight.penumbra = 0.4;
+    const directionalLight = new THREE.DirectionalLight( 0xffffff,7);
+    directionalLight.castShadow = true;
+    directionalLight.position.set( 5,3,5 );
+    directionalLight.target = box.group;
 
-    this.scene.add(spotLight);
+    directionalLight.shadow.mapSize.width = 2048;
+    directionalLight.shadow.mapSize.height = 2048;
 
-    const spotLightHelper = new THREE.SpotLightHelper(spotLight);
-    this.scene.add(spotLightHelper);
+    directionalLight.shadow.camera.left = -15;
+    directionalLight.shadow.camera.right = 15;
+    directionalLight.shadow.camera.top = 5;
+    directionalLight.shadow.camera.bottom = -10;
+    directionalLight.shadow.camera.near = -15;
+    directionalLight.shadow.camera.far = 25;
+
+    this.scene.add(directionalLight);
+
+    //const shadowCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
+    //this.scene.add(shadowCameraHelper);
+
+    //const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight);
+    //this.scene.add(directionalLightHelper);
 
     //*Camera
     let aspectRatio = this.getAspectRatio();
@@ -100,11 +117,17 @@ export class HospitalFloorComponent implements AfterViewInit {
     this.renderer = new THREE.WebGLRenderer({canvas: this.canvas});
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(this.canvas.clientWidth*3, this.canvas.clientHeight*3);
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.shadowMap.enabled = true;
     //this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     //Camera
     const controls = new OrbitControls(this.camera, this.renderer.domElement);
+    controls.mouseButtons = {
+      //LEFT will be defined in the next sprint
+      MIDDLE: THREE.MOUSE.DOLLY,
+      RIGHT: THREE.MOUSE.ROTATE
+    };
     controls.target.set( 0, 0, 0 );
     controls.maxDistance = 40;
     controls.minDistance = 5;
