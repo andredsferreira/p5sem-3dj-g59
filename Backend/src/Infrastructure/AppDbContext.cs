@@ -76,7 +76,12 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
 
         var staffDoctor = new Staff(
             HospitalRoles.Doctor,
-            "doctor");
+            "doctor",
+            new MailAddress("doctor@hospital.com"),       
+            new PhoneNumber("910555123"),                  
+            new FullName("Doctor One"),                     
+            new LicenseNumber("d47ac10b-58cc-4372-a567-0e02b2c3d480")  
+        );
 
         var staffDoctor2 = new Staff(
             HospitalRoles.Doctor,
@@ -84,11 +89,18 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new MailAddress("doctor2@hospital.com"),
             new PhoneNumber("910555444"),
             new FullName("Doctor 2"),
-            new LicenseNumber("f47ac10b-58cc-4372-a567-0e02b2c3d479"));
+            new LicenseNumber("f47ac10b-58cc-4372-a567-0e02b2c3d479")
+        );
 
         var staffNurse = new Staff(
             HospitalRoles.Nurse,
-            "nurse");
+            "nurse",
+            new MailAddress("nurse@hospital.com"),        
+            new PhoneNumber("910555567"),                   
+            new FullName("Nurse One"),                      
+            new LicenseNumber("n47ac10b-58cc-4372-a567-0e02b2c3d481")  
+        );
+
 
         var operationTypeA = new OperationType(new OperationName("ACL Reconstruction"));
         var operationTypeB = new OperationType(new OperationName("Knee Replacement"));

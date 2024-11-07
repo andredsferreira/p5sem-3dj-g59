@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
+using System;
 
 
 namespace Backend.Controllers;
@@ -34,8 +35,24 @@ public class StaffController : ControllerBase {
     [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<StaffDTO>> CreateStaff(StaffDTO dto) {
         var cat = await _service.CreateStaff(dto);
-        return CreatedAtAction("Staff creation", cat);
+        return  CreatedAtAction(nameof(GetStaffById), new { id = cat.LicenseNumber }, cat);
+
     }
+
+   
+
+    [HttpGet("Get/{id}")]
+    [Authorize(Roles = HospitalRoles.Admin)]
+    public ActionResult<StaffDTO> GetStaffById(string id) {
+        var cat = _service.GetStafftById(new LicenseNumber(id));
+        if (cat == null) return NotFound();
+        return Ok(cat);
+    }
+
+    /*public async Task<ActionResult<PatientDTO>> CreatePatient(PatientDTO dto) {
+   var cat = await _service.CreatePatient(dto);
+   return CreatedAtAction(nameof(GetPatientById), new { id = cat.MedicalRecordNumber }, cat);
+}*/
 
     /*[HttpPut("Edit/{id}")]
     [Authorize(Roles = HospitalRoles.Admin)]
@@ -72,10 +89,9 @@ public class StaffController : ControllerBase {
 
     [HttpGet("All")]
     public async Task<ActionResult<IEnumerable<StaffDTO>>> GetAllStaffs() {
-        var pats = await _service.GetAll();
-        return pats.ToList();
+        var staff = await _service.GetAll();
+        return staff.ToList();
     }
 
-    
 
 }

@@ -22,12 +22,10 @@ public class StaffService {
         _messageSender = messageSender;
     }
 
-    public async Task<Staff> getStaffByIdentityUsername(string identityUsername) {
-        return await _staffRepository.GetByIdentityUsernameAsync(identityUsername);
-    }
+    
 
     public async Task<StaffDTO> CreateStaff(StaffDTO dto){
-        
+        //dto.license = (await GenerateLicense()).ToString();
         var staff = Staff.createFromDTO(dto);
         await _staffRepository.AddAsync(staff);
         await this._logRepository.AddAsync(new DomainLog(LogObjectType.Staff, LogActionType.Creation, 
@@ -37,6 +35,12 @@ public class StaffService {
         await this._unitOfWork.CommitAsync();
         
         return dto;
+    }
+
+    public StaffDTO GetStafftById(LicenseNumber id) {
+        var staff = this._staffRepository.GetByLicenseNumber(id);
+        if (staff == null) return null;
+        return staff.returnDTO();
     }
 
     public async Task<IEnumerable<StaffDTO>> GetAll() {

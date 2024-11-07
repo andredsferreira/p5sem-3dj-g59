@@ -8,12 +8,20 @@ namespace Backend.Infrastructure.Staffs;
 
 public class StaffRepository : BaseRepository<Staff, StaffId>, IStaffRepository {
 
-    public StaffRepository(AppDbContext context) : base(context.Staffs) {
+    #nullable disable
 
+    private readonly AppDbContext _context;
+
+    public StaffRepository(AppDbContext context) : base(context.Staffs) {
+        _context = context;
     }
 
-    public async Task<Staff> GetByIdentityUsernameAsync(string identityUsername) {
-        return await _objs.FirstOrDefaultAsync(s => s.IdentityUsername == identityUsername);
+    public Staff GetByIdentityUsername(string identityUsername) {
+        return _context.Staffs.Where(p => p.IdentityUsername.Equals(identityUsername)).SingleOrDefault();
+    }
+
+    public Staff GetByLicenseNumber(LicenseNumber license) {
+        return _context.Staffs.Where(p => p.LicenseNumber.Equals(license)).SingleOrDefault();  
     }
 
 

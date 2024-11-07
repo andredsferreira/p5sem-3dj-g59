@@ -5,7 +5,8 @@ namespace Backend.Domain.Staffs;
 
 public interface IStaffRepository : IRepository<Staff, StaffId> {
 
-    Task<Staff> GetByIdentityUsernameAsync(string identityUsername);
+    Staff GetByIdentityUsername(string identityUsername);
+    Staff GetByLicenseNumber(LicenseNumber license);
 
 }
 
