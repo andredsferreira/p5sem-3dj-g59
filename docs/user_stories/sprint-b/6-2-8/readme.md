@@ -19,6 +19,7 @@ This **US** is the *Frontend* version of [**US 5.1.10**](../../sprint-a/us10/rea
 
 This **US** depends on:
 * [**US 5.1.10**](../../sprint-a/us10/readme.md), since this functionality calls the *Web API* request to delete a *Patient Profile*.
+* [**US 6.2.9**](../6-2-9/readme.md), since the user has to list *Patient Profiles* in order to select one to delete.
 
 ### 2.3. Pre-Conditions
 
@@ -34,7 +35,9 @@ This *US* is merely a *Frontend version* of another **US**, which contains the l
 
 ## 4. Design
 
--
+The team decided the following aspects:
+* The delete button shouldn't appear until the user has clicked on a specific *Patient Profile* from the list.
+* After confirmation, the system should create a pop-up telling the user if the *Patient Profile* was successfully deleted or not.
 
 ## 5. C4 Views
 
