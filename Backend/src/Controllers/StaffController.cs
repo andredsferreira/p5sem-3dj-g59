@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using System;
+using Backend.Domain.Shared;
 
 
 namespace Backend.Controllers;
@@ -49,10 +50,7 @@ public class StaffController : ControllerBase {
         return Ok(cat);
     }
 
-    /*public async Task<ActionResult<PatientDTO>> CreatePatient(PatientDTO dto) {
-   var cat = await _service.CreatePatient(dto);
-   return CreatedAtAction(nameof(GetPatientById), new { id = cat.MedicalRecordNumber }, cat);
-}*/
+
 
     /*[HttpPut("Edit/{id}")]
     [Authorize(Roles = HospitalRoles.Admin)]
@@ -65,9 +63,22 @@ public class StaffController : ControllerBase {
         catch (BusinessRuleValidationException ex) {
             return BadRequest(new { ex.Message });
         }
+    } */
+
+    [HttpDelete("Delete/{license}")]
+    [Authorize(Roles = HospitalRoles.Admin)]
+    public async Task<ActionResult<StaffDTO>> DeleteStaff(string license) {
+        try {
+            var pat = await _service.DeleteStaff(new LicenseNumber(license));
+            if (pat == null) return NotFound(license);
+            return Ok(pat);
+        }
+        catch (BusinessRuleValidationException ex) {
+            return BadRequest(new { ex.Message });
+        }
     }
 
-    [HttpDelete("Delete/{record}")]
+    /*[HttpDelete("Delete/{record}")]
     [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<StaffDTO>> DeleteStaff(string record) {
         try {

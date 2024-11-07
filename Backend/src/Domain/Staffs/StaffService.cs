@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,5 +47,17 @@ public class StaffService {
     public async Task<IEnumerable<StaffDTO>> GetAll() {
         var list = _staffRepository.GetAllAsync();
         return (await list).Select(staff => staff.returnDTO());
+    }
+
+    public virtual async Task<StaffDTO> DeleteStaff(LicenseNumber id) {
+        var staff = this._staffRepository.GetByLicenseNumber(id);
+        if (staff == null) return null;
+
+        this._staffRepository.Remove(staff);
+        await this._logRepository.AddAsync(new DomainLog(LogObjectType.Staff, LogActionType.Deletion,
+            string.Format("Deleted Staff with License Number = {0}", staff.LicenseNumber.License)));
+        await this._unitOfWork.CommitAsync();
+
+        return staff.returnDTO();
     }
 }
