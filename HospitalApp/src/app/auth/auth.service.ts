@@ -26,6 +26,22 @@ export class AuthService {
     }
   }
 
+  async registerPatient(username: string, email: string, phone: string, password: string): Promise<any> {
+    try {
+      const response: any = await lastValueFrom(
+        this.http.post('https://localhost:5001/api/auth/registerpatient', {
+          Username: username,
+          Email: email,
+          Phone: phone,
+          Password: password
+        })
+      )
+      return response
+    } catch (error) {
+      console.error("Error registering the patient", error)
+    }
+  }
+
   getRoleFromToken(token: string): string {
     try {
       const decodedToken: any = jwt_decode.jwtDecode(token);
