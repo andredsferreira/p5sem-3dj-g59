@@ -6,3 +6,4 @@ In order for an **issue** to be classified as **Ready**, the following points mu
 * Code commited with proper messages
 * Unit tests developed and passing
 * Functional tests performed, passing and documented
+* Code Review done by member not assigned to this issue
