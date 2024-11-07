@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 // Define the Patient interface
 interface Patient {
-  id: number;
+  MedicalRecordNumber: string;
   name: string;
   email: string;
   [key: string]: any;
@@ -44,6 +44,9 @@ export class PatientManagementComponent implements OnInit {
   currentPage: number = 1;
   pageSize: number = 5;
   confirmingDelete = false;
+  showMessage = false;
+  messageText = '';
+  messageClass = '';
 
   // Define editable and searchable attributes
   editableAttributes = [
@@ -215,7 +218,7 @@ export class PatientManagementComponent implements OnInit {
   // Create a new patient
   onCreate(): void {
     const newPatient: Patient = {
-      id: Date.now(),
+      MedicalRecordNumber: "temp",
       name: `New Patient ${this.patients.length + 1}`,
       email: `newpatient${this.patients.length + 1}@example.com`,
     };
@@ -224,10 +227,33 @@ export class PatientManagementComponent implements OnInit {
   }
 
   // Delete a patient
-  onDelete(patient: Patient | null): void {
-    if(patient){
-      this.patientService.deletePatient(patient.id);
-      this.loadPatients();
-    } else console.error("O Paciente não existe.")
+  async onDelete(patient: Patient | null): Promise<void> {
+    if (patient) {
+      try {
+        const response = await this.patientService.deletePatient(this.token, patient.MedicalRecordNumber);
+  
+        this.showMessage = true;
+        if (response) {
+          this.messageText = 'Paciente eliminado com sucesso!';
+          this.messageClass = 'bg-green-500 text-white';
+        }
+        
+      } catch (error) {
+        console.error("Erro ao eliminar paciente:", error);
+        this.showMessage = true;
+        this.messageText = 'Erro ao eliminar paciente. Tente novamente.';
+        this.messageClass = 'bg-red-500 text-white';
+      } finally {
+        this.confirmingDelete = false;
+        this.selectedItem = null;
+        await this.loadPatients();
+  
+        setTimeout(() => {
+          this.showMessage = false;
+        }, 3000);
+      }
+    } else {
+      console.error("O Paciente não existe.");
+    }
   }
 }
