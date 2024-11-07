@@ -20,11 +20,11 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
 
     public OperationType operationType { get; set; }
 
-    public OperationRequestPriority priority { get; set; }
+    public OperationRequestPriority priority { get; set; } = OperationRequestPriority.Elective;
 
-    public DateTime dateTime { get; set; }
+    public DateTime dateTime { get; set; } = DateTime.Now;
 
-    public OperationRequestStatus requestStatus { get; set; }
+    public OperationRequestStatus requestStatus { get; set; } = OperationRequestStatus.Pending;
 
 
 }

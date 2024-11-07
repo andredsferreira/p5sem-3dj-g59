@@ -25,8 +25,8 @@ public class OperationRequestController : ControllerBase {
     [Authorize(Roles = HospitalRoles.Doctor)]
     public async Task<IActionResult> CreateOperationRequest([FromBody] CreateOperationRequestDTO dto) {
         try {
-            var createdOperationRequest = await _service.CreateOperationRequest(dto);
-            return Ok(createdOperationRequest);
+            var result = await _service.CreateOperationRequest(dto);
+            return Ok(new { message = $"Successfully created operation request: {result}" });
         }
         catch (PatientNotFoundException ex) {
             return BadRequest(new { error = ex.Message });
@@ -46,8 +46,8 @@ public class OperationRequestController : ControllerBase {
     [Authorize(Roles = HospitalRoles.Doctor)]
     public async Task<IActionResult> UpdateOperationRequest([FromBody] UpdateOperationRequestDTO dto) {
         try {
-            var updatedOperationRequest = await _service.UpdateOperationRequest(dto);
-            return Ok(updatedOperationRequest);
+            var result = await _service.UpdateOperationRequest(dto);
+            return Ok(new { message = $"Successfully updated operation request: {result}" });
         }
         catch (OperationRequestNotFoundException ex) {
             return BadRequest(new { error = ex.Message });
@@ -61,8 +61,10 @@ public class OperationRequestController : ControllerBase {
     [Authorize(Roles = HospitalRoles.Doctor)]
     public async Task<IActionResult> DeleteOperationRequest(Guid id) {
         try {
-            var deletedRequestId = await _service.DeleteOperationRequest(id);
-            return Ok();
+            var result = await _service.DeleteOperationRequest(id);
+            return Ok(new {
+                message = $"Successfully deleted operation request: {result}"
+            });
         }
         catch (OperationRequestNotFoundException ex) {
             return BadRequest(new { error = ex.Message });

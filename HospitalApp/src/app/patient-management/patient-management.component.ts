@@ -33,7 +33,7 @@ interface PatientSearchAttributes {
   styleUrl: './patient-management.component.css'
 })
 export class PatientManagementComponent implements OnInit {
-  
+
   errorMessage: string | null = null;
   patients: any[] = [];
   selectedItem: Patient | null = null;
@@ -49,7 +49,7 @@ export class PatientManagementComponent implements OnInit {
   editableAttributes = [
     { key: 'FullName', label: 'Nome' },
     { key: 'Email', label: 'Email' },
-    { key: 'PhoneNumber', label: 'Telemóvel'}
+    { key: 'PhoneNumber', label: 'Telemóvel' }
   ];
   searchableAttributes = [
     { key: "MedicalRecordNumber", label: "Medical Record Number" },
@@ -73,8 +73,8 @@ export class PatientManagementComponent implements OnInit {
     this.token = localStorage.getItem('token'); // Get token from local storage
 
     if (!this.token) {
-        this.errorMessage = 'No token found. Please log in first.';
-        return;
+      this.errorMessage = 'No token found. Please log in first.';
+      return;
     }
     if (this.isInitialized) {
       this.loadPatients();
@@ -133,24 +133,24 @@ export class PatientManagementComponent implements OnInit {
     const searchParams: PatientSearchAttributes = {};
 
     for (const [key, field] of Object.entries(this.searchFields)) {
-        if (field.selected && field.value) {
-            searchParams[key as keyof PatientSearchAttributes] = field.value;
-        }
+      if (field.selected && field.value) {
+        searchParams[key as keyof PatientSearchAttributes] = field.value;
+      }
     }
 
     try {
-        // Pass searchParams to getPatients to filter results
-        const patients = await this.patientService.getPatients(this.token, searchParams);
+      // Pass searchParams to getPatients to filter results
+      const patients = await this.patientService.getPatients(this.token, searchParams);
 
-        if (patients && patients.length > 0) {
-            this.patients = patients;
-            this.updatePagination();
-        } else {
-            this.patients = [];
-            console.log("No patients found.");
-        }
+      if (patients && patients.length > 0) {
+        this.patients = patients;
+        this.updatePagination();
+      } else {
+        this.patients = [];
+        console.log("No patients found.");
+      }
     } catch (error) {
-        console.error("Failed to load patients:", error);
+      console.error("Failed to load patients:", error);
     }
   }
 
@@ -225,7 +225,7 @@ export class PatientManagementComponent implements OnInit {
 
   // Delete a patient
   onDelete(patient: Patient | null): void {
-    if(patient){
+    if (patient) {
       this.patientService.deletePatient(patient.id);
       this.loadPatients();
     } else console.error("O Paciente não existe.")

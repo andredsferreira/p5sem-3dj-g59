@@ -9,6 +9,9 @@ public class ListOperationRequestDTO {
     public Guid operationRequestId { get; set; }
 
     [Required]
+    public string doctorName {get; set;}
+
+    [Required]
     public Guid patientId { get; set; }
 
     [Required]

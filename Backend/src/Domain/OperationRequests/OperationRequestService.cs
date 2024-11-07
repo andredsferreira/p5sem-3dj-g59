@@ -39,7 +39,7 @@ public class OperationRequestService {
         _operationTypeRepository = operationTypeRepository;
     }
 
-    public virtual async Task<CreateOperationRequestDTO> CreateOperationRequest(CreateOperationRequestDTO dto) {
+    public virtual async Task<Guid> CreateOperationRequest(CreateOperationRequestDTO dto) {
 
         var fetchedUsername = _httpContextAccessor.HttpContext?.User?
             .FindFirst(HospitalClaims.Username)?.Value;
@@ -78,11 +78,11 @@ public class OperationRequestService {
         await _operationRequestRepository.AddAsync(operationRequest);
         await _unitOfWork.CommitAsync();
 
-        return dto;
+        return operationRequest.Id.AsGuid();
 
     }
 
-    public virtual async Task<UpdateOperationRequestDTO> UpdateOperationRequest(UpdateOperationRequestDTO dto) {
+    public virtual async Task<Guid> UpdateOperationRequest(UpdateOperationRequestDTO dto) {
 
         var operationRequest = await _operationRequestRepository.GetByIdAsync(new OperationRequestId(dto.updatedId));
         if (operationRequest == null) {
@@ -103,7 +103,7 @@ public class OperationRequestService {
 
         await _unitOfWork.CommitAsync();
 
-        return dto;
+        return operationRequest.Id.AsGuid();
 
     }
 
@@ -138,8 +138,10 @@ public class OperationRequestService {
         foreach (var or in operationRequests) {
             var orPatient = await _patientRepository.GetByIdAsync(or.patientId);
             var orType = await _operationTypeRepository.GetByIdAsync(or.operationTypeId);
+            var orStaff = await _staffRepository.GetByIdAsync(or.staffId);
             var listOperationRequestDTO = new ListOperationRequestDTO {
                 operationRequestId = or.Id.AsGuid(),
+                doctorName = orStaff.FullName.Full,
                 patientId = or.patientId.AsGuid(),
                 patientFullName = orPatient.FullName.Full,
                 operationTypeName = orType.name.name,
