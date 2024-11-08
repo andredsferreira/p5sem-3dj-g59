@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 using Backend.Domain.DomainLogs;
+using Backend.Domain.Staffs;
 using Backend.Domain.Shared;
 using Backend.Infrastructure.Shared.MessageSender;
 
@@ -41,6 +44,46 @@ public class StaffService {
     public StaffDTO GetStafftById(LicenseNumber id) {
         var staff = this._staffRepository.GetByLicenseNumber(id);
         if (staff == null) return null;
+        return staff.returnDTO();
+    }
+
+    public async virtual Task<StaffDTO> EditStaff(LicenseNumber id, FilterStaffDTO dto) {
+        var staff = this._staffRepository.GetByLicenseNumber(id);
+        if (staff == null) return null;
+
+        bool warn = false;
+        string email = staff.Email.ToString();
+        StringBuilder messageBuilder = new(string.Format("Hello {0},<br>This message was sent to warn you that:<br>", staff.FullName.Full)),
+            logBuilder = new(string.Format("Edit in Staff {0}: ", id.License));
+
+        if (!string.IsNullOrEmpty(dto.FullName)) {
+            logBuilder.Append(string.Format("Full name changed from {0} to {1}, ", staff.FullName.Full, dto.FullName));
+            staff.FullName = new FullName(dto.FullName);
+        }
+
+        if (!string.IsNullOrEmpty(dto.PhoneNumber)) {
+            warn = true;
+            logBuilder.Append(string.Format("Phone Number changed from {0} to {1}, ", staff.PhoneNumber, dto.PhoneNumber));
+            messageBuilder.Append(string.Format("-The Phone Number associated with your account was changed from {0} to {1}.<br>", staff.PhoneNumber, dto.PhoneNumber));
+            staff.PhoneNumber = new PhoneNumber(dto.PhoneNumber);
+        }
+        if (!string.IsNullOrEmpty(dto.Email)) {
+            warn = true;
+            logBuilder.Append(string.Format("Email changed from {0} to {1}, ", staff.Email, dto.Email));
+            messageBuilder.Append(string.Format("-The Email associated with your account was changed from {0} to {1}.<br>", staff.Email, dto.Email));
+            staff.Email = new MailAddress(dto.Email);
+        }
+        
+
+        this._staffRepository.Update(staff);
+        await this._logRepository.AddAsync(new DomainLog(LogObjectType.Staff, LogActionType.Edit, logBuilder.ToString()));
+        await this._unitOfWork.CommitAsync();
+
+        if (warn) {
+            messageBuilder.Append("<br>This message was sent automatically. Don't answer it.<br>");
+            _messageSender.SendMessage(email, "Some of your data was altered", messageBuilder.ToString());
+        }
+
         return staff.returnDTO();
     }
 

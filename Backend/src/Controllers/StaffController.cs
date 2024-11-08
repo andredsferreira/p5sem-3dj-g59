@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using System;
 using Backend.Domain.Shared;
+using Backend.Domain.Patients;
 
 
 namespace Backend.Controllers;
@@ -52,11 +53,39 @@ public class StaffController : ControllerBase {
 
 
 
-    /*[HttpPut("Edit/{id}")]
+    [HttpPut("Edit/{id}")]
     [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<StaffDTO>> EditStaff(string id, [FromBody] FilterStaffDTO dto) {
         try {
-            var pat = await _service.EditStaff(new MedicalRecordNumber(id), dto);
+            var pat = await _service.EditStaff(new LicenseNumber(id), dto);
+            if (pat == null) return NotFound();
+            return Ok(pat);
+        }
+        catch (BusinessRuleValidationException ex) {
+            return BadRequest(new { ex.Message });
+        }
+    }
+
+/*#nullable disable
+    [HttpPut("Edit/Self/{id}")]
+    [Authorize(Roles = HospitalRoles.Patient)]
+    public async Task<ActionResult<PatientDTO>> EditSelf(string id, [FromBody] FilterPatientDTO dto) {
+        try {
+            var pat = await _service.EditPatientSelf(new MedicalRecordNumber(id), dto);
+            if (pat == null) return NotFound();
+            return Ok(pat);
+        }
+        catch (BusinessRuleValidationException ex) {
+            return BadRequest(new { ex.Message });
+        }
+    }
+#nullable restore
+
+    [HttpPut("confirmEdit/id={id}&name={name}&email={email}&phone={phone}")]
+    [Authorize(Roles = HospitalRoles.Patient)]
+    public async Task<ActionResult<PatientDTO>> ConfirmEdit(string id, string name, string email, string phone) {
+        try {
+            var pat = await _service.ConfirmEdit(id, name, email, phone);
             if (pat == null) return NotFound();
             return Ok(pat);
         }
@@ -78,19 +107,7 @@ public class StaffController : ControllerBase {
         }
     }
 
-    /*[HttpDelete("Delete/{record}")]
-    [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<StaffDTO>> DeleteStaff(string record) {
-        try {
-            var pat = await _service.DeleteStaff(new MedicalRecordNumber(record));
-            if (pat == null) return NotFound();
-            return Ok(pat);
-        }
-        catch (BusinessRuleValidationException ex) {
-            return BadRequest(new { ex.Message });
-        }
-    }
-
+    /*
     [HttpGet("Search")]
     [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<IEnumerable<StaffDTO>>> SearchAndFilterStaffs(FilterStafftDTO filteStaffDTO){
