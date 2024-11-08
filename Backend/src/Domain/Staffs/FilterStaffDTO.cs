@@ -7,8 +7,6 @@ public class FilterStaffDTO {
 
     public string LicenseNumber { get; set; }
 
-    public DateOnly? DateOfBirth { get; set; }
-
     [EmailAddress]
     public string Email { get; set; }
 

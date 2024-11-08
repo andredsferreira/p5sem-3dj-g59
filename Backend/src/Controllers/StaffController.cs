@@ -66,33 +66,7 @@ public class StaffController : ControllerBase {
         }
     }
 
-/*#nullable disable
-    [HttpPut("Edit/Self/{id}")]
-    [Authorize(Roles = HospitalRoles.Patient)]
-    public async Task<ActionResult<PatientDTO>> EditSelf(string id, [FromBody] FilterPatientDTO dto) {
-        try {
-            var pat = await _service.EditPatientSelf(new MedicalRecordNumber(id), dto);
-            if (pat == null) return NotFound();
-            return Ok(pat);
-        }
-        catch (BusinessRuleValidationException ex) {
-            return BadRequest(new { ex.Message });
-        }
-    }
-#nullable restore
 
-    [HttpPut("confirmEdit/id={id}&name={name}&email={email}&phone={phone}")]
-    [Authorize(Roles = HospitalRoles.Patient)]
-    public async Task<ActionResult<PatientDTO>> ConfirmEdit(string id, string name, string email, string phone) {
-        try {
-            var pat = await _service.ConfirmEdit(id, name, email, phone);
-            if (pat == null) return NotFound();
-            return Ok(pat);
-        }
-        catch (BusinessRuleValidationException ex) {
-            return BadRequest(new { ex.Message });
-        }
-    } */
 
     [HttpDelete("Delete/{license}")]
     [Authorize(Roles = HospitalRoles.Admin)]
@@ -107,13 +81,14 @@ public class StaffController : ControllerBase {
         }
     }
 
-    /*
-    [HttpGet("Search")]
+    
+    [HttpPost("Search")]
     [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<IEnumerable<StaffDTO>>> SearchAndFilterStaffs(FilterStafftDTO filteStaffDTO){
+    public async Task<ActionResult<IEnumerable<StaffDTO>>> SearchAndFilterStaffs(FilterStaffDTO filterStaffDTO){
         var staff = await _service.SearchStaffs(filterStaffDTO);
-        return staff.ToList();
-    }*/
+        if (staff == null) return NotFound();
+        return Ok(staff.ToList());
+    }
 
     [HttpGet("All")]
     public async Task<ActionResult<IEnumerable<StaffDTO>>> GetAllStaffs() {

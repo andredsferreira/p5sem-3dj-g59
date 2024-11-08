@@ -8,6 +8,7 @@ using Backend.Domain.DomainLogs;
 using Backend.Domain.Staffs;
 using Backend.Domain.Shared;
 using Backend.Infrastructure.Shared.MessageSender;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Backend.Domain.Staffs;
 
@@ -34,7 +35,7 @@ public class StaffService {
         await _staffRepository.AddAsync(staff);
         await this._logRepository.AddAsync(new DomainLog(LogObjectType.Staff, LogActionType.Creation, 
             string.Format("Created a new Staff (License Number = {0}, Name = {1}, Email = {2}, PhoneNumber = {3})",
-                        staff.LicenseNumber, staff.FullName.Full, staff.Email, staff.PhoneNumber)));
+                        staff.LicenseNumber, staff.FullName, staff.Email, staff.PhoneNumber)));
 
         await this._unitOfWork.CommitAsync();
         
@@ -86,6 +87,24 @@ public class StaffService {
 
         return staff.returnDTO();
     }
+
+    public async virtual Task<IEnumerable<StaffDTO>> SearchStaffs(FilterStaffDTO filterstaffDTO) {
+        var staffs = await GetAll();
+
+        if (!string.IsNullOrEmpty(filterstaffDTO.LicenseNumber))
+            staffs = staffs.Where(p => p.LicenseNumber.Equals(filterstaffDTO.LicenseNumber));
+        if (!string.IsNullOrEmpty(filterstaffDTO.Email))
+            staffs = staffs.Where(p => p.Email.Contains(filterstaffDTO.Email, StringComparison.OrdinalIgnoreCase));
+        if (!string.IsNullOrEmpty(filterstaffDTO.PhoneNumber))
+            staffs = staffs.Where(p => p.Phone.Contains(filterstaffDTO.PhoneNumber));
+        if (!string.IsNullOrEmpty(filterstaffDTO.FullName))
+            staffs = staffs.Where(p => p.Name.Contains(filterstaffDTO.FullName, StringComparison.OrdinalIgnoreCase));
+
+        return staffs.IsNullOrEmpty() ? null : staffs;
+    }
+
+
+
 
     public async Task<IEnumerable<StaffDTO>> GetAll() {
         var list = _staffRepository.GetAllAsync();
