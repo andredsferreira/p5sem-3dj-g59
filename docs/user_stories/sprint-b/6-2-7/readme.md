@@ -35,7 +35,12 @@ This *US* is merely a *Frontend version* of another **US**, which contains the l
 
 ## 4. Design
 
--
+The team decided the following aspects:
+* The edit button shouldn't appear until the user has clicked on a specific *Patient Profile* from the list.
+* The user should be able to pick what attributes they want to edit.
+    * If they pick an attribute, its text box will unlock, allowing the user to enter the value they desire.
+    * The 'Allergies' attribute should be a list of strings. Thus, it should have a small button to add an allergy and a button to remove an allergy.
+* After confirmation, the system should create a pop-up telling the user if the *Patient Profile* was successfully edited or not.
 
 ## 5. C4 Views
 
