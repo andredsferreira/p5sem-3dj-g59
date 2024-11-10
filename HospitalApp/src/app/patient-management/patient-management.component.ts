@@ -25,6 +25,13 @@ interface PatientSearchAttributes {
   Gender?: string;
 }
 
+interface PatientEditAttributes {
+  Email?: string;
+  PhoneNumber?: string;
+  FullName?: string;
+  Allergies?: string;
+}
+
 @Component({
   selector: 'app-patient-management',
   standalone: true,
@@ -47,12 +54,14 @@ export class PatientManagementComponent implements OnInit {
   showMessage = false;
   messageText = '';
   messageClass = '';
+  allergiesList: string[] = [];
 
   // Define editable and searchable attributes
   editableAttributes = [
     { key: 'FullName', label: 'Nome' },
     { key: 'Email', label: 'Email' },
-    { key: 'PhoneNumber', label: 'Telemóvel' }
+    { key: 'PhoneNumber', label: 'Telemóvel' },
+    { key: 'Allergies', label: 'Alergias'}
   ];
   searchableAttributes = [
     { key: "MedicalRecordNumber", label: "Medical Record Number" },
@@ -191,22 +200,68 @@ export class PatientManagementComponent implements OnInit {
   onEdit(patient: Patient): void {
     this.selectedItem = { ...patient };
     this.isEditing = true;
+    
     this.editableAttributes.forEach((attr) => {
-      this.editingFields[attr.key].value = patient[attr.key] || '';
+      const value = patient[attr.key] || '';
+      this.editingFields[attr.key].value = value;
+      
+      // Initialize allergies list from comma-separated string
+      if (attr.key === 'Allergies') {
+        this.allergiesList = value ? value.split(',').map((item: string) => item.trim()) : [];
+      }
     });
+  }
+  addAllergy(): void {
+    this.allergiesList.push('');
+  }
+  removeAllergy(index: number): void {
+    this.allergiesList.splice(index, 1);
+  }
+  trackByIndex(index: number): number {
+    return index;
   }
 
   // Submit edits to the service
-  submitEdit(): void {
-    if (this.selectedItem) {
-      this.editableAttributes.forEach((attr) => {
-        if (this.editingFields[attr.key].selected) {
-          this.selectedItem![attr.key] = this.editingFields[attr.key].value;
+  async submitEdit(patient: Patient | null): Promise<void> {
+    const editParams: PatientEditAttributes = {};
+
+    // Loop through each field, adding only selected fields
+    for (const [key, field] of Object.entries(this.editingFields)) {
+      if (field.selected) {
+        // Handle allergies field as comma-separated string
+        if (key === 'Allergies') {
+          editParams[key as keyof PatientEditAttributes] = this.allergiesList.join(', ');
+        } else {
+          editParams[key as keyof PatientEditAttributes] = field.value;
         }
-      });
-      this.patientService.editPatient(this.selectedItem);
-      this.isEditing = false;
-      this.loadPatients();
+      }
+    }
+
+    if (patient) {
+      try {
+        const response = await this.patientService.editPatient(this.token, patient.MedicalRecordNumber, editParams);
+
+        this.showMessage = true;
+        if (response) {
+          this.messageText = 'Paciente editado com sucesso!';
+          this.messageClass = 'bg-green-500 text-white';
+        }
+      } catch (error) {
+        console.error("Erro ao editar paciente:", error);
+        this.showMessage = true;
+        this.messageText = 'Erro ao editar paciente. Tente novamente.';
+        this.messageClass = 'bg-red-500 text-white';
+      } finally {
+        this.isEditing = false;
+        this.selectedItem = null;
+        await this.loadPatients();
+
+        setTimeout(() => {
+          this.showMessage = false;
+        }, 3000);
+      }
+    } else {
+      console.error("O Paciente não existe.");
     }
   }
 

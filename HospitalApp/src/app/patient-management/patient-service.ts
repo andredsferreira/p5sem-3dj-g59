@@ -21,6 +21,13 @@ interface PatientSearchAttributes {
   Gender?: string;
 }
 
+interface PatientEditAttributes {
+  Email?: string;
+  PhoneNumber?: string;
+  FullName?: string;
+  Allergies?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -55,11 +62,18 @@ export class PatientService {
   }
 
   // Edit an existing patient
-  editPatient(updatedPatient: Patient): void {
-    const index = this.patients.findIndex((p) => p.MedicalRecordNumber === updatedPatient.MedicalRecordNumber);
-    if (index !== -1) {
-      this.patients[index] = updatedPatient;
-    }
+  async editPatient(token: string | null, MedicalRecordNumber: string, attributes: PatientEditAttributes): Promise<any> {
+    console.log(attributes.Allergies);
+    if (!token) return undefined;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    const body = Object.fromEntries(
+      Object.entries(attributes).filter(([_, value]) => value != null) // Remove properties with null or undefined values
+    );
+    const patient = await lastValueFrom(this.http.put("https://localhost:5001/api/Patient/Edit/" + MedicalRecordNumber, body, { headers }));
+    return patient;
   }
 
   // Delete a patient

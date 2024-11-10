@@ -165,6 +165,64 @@
         </div>
       </div>
     </div>
+    <div *ngIf="isEditing" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+        <h2 class="text-lg font-semibold mb-4">Editar Paciente</h2>
+        
+        <form (ngSubmit)="submitEdit(selectedItem)">
+          <div *ngFor="let attr of editableAttributes" class="mb-4">
+            <label class="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                [(ngModel)]="editingFields[attr.key].selected"
+                name="{{attr.key}}Selected"
+              />
+              <span>{{ attr.label }}</span>
+            </label>
+    
+            <!-- Input for Editable Fields -->
+            <div *ngIf="attr.key !== 'Allergies'; else allergiesInput">
+              <input
+                [(ngModel)]="editingFields[attr.key].value"
+                name="{{attr.key}}Value"
+                class="mt-1 px-3 py-2 border rounded w-full"
+                placeholder="Insira o {{attr.label}}"
+                [disabled]="!editingFields[attr.key].selected"
+              />
+            </div>
+    
+            <!-- Special Handling for Allergies List -->
+            <ng-template #allergiesInput>
+              <div *ngIf="editingFields['Allergies'].selected">
+                <div *ngFor="let allergy of allergiesList; let i = index; trackBy: trackByIndex" class="flex items-center space-x-2 mb-1">
+                  <input
+                    [(ngModel)]="allergiesList[i]"
+                    name="allergy{{i}}"
+                    class="px-3 py-2 border rounded w-full"
+                    placeholder="Insira uma alergia"
+                  />
+                  <button type="button" (click)="removeAllergy(i)" class="px-2 bg-red-500 text-white rounded">
+                    Remover
+                  </button>
+                </div>
+                <button type="button" (click)="addAllergy()" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">
+                  Adicionar Alergia
+                </button>
+              </div>
+            </ng-template>
+          </div>
+    
+          <div class="flex justify-end space-x-2 mt-4">
+            <button type="button" (click)="cancelEdit()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
+              Cancelar
+            </button>
+            <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+              Salvar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>    
   </div>
 </div>
 
