@@ -41,6 +41,7 @@ The team decided the following aspects:
     * If they pick an attribute, its text box will unlock, allowing the user to enter the value they desire.
     * The 'Allergies' attribute should be a list of strings. Thus, it should have a small button to add an allergy and a button to remove an allergy.
 * After confirmation, the system should create a pop-up telling the user if the *Patient Profile* was successfully edited or not.
+    * If the edit failed due to a business rule violation, the message should tell the user what rule was violated (e.g., Email is not unique)
 
 ## 5. C4 Views
 
@@ -48,7 +49,9 @@ The team decided the following aspects:
 
 ## 6. Tests
 
--
+* Test if edit occurs.
+* Test if edit can't work on a *Patient Profile* that doesn't exist.
+* Test if program forces valid format on 'Email' and 'Phone Number'.
 
 ## 7. Implementation
 
