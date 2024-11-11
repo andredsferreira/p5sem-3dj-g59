@@ -3,6 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { PatientService } from './patient-service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { path } from '../app.config';
+import { API_PATH } from '../config-path';
 
 describe('PatientService', () => {
   let service: PatientService;
@@ -10,8 +12,11 @@ describe('PatientService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [PatientService]
+      imports: [HttpClientTestingModule],  // Use HttpClientTestingModule instead of HttpClientModule
+      providers: [
+        PatientService,
+        { provide: API_PATH, useValue: path }  // Provide a mock API_PATH
+      ]
     });
     service = TestBed.inject(PatientService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -37,7 +42,7 @@ describe('PatientService', () => {
       expect(patients).toEqual(mockResponse);
     });
 
-    const req = httpMock.expectOne('https://localhost:5001/api/Patient/Search');
+    const req = httpMock.expectOne(`${path}/Patient/Search`);
     expect(req.request.method).toBe('POST');
     expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
     expect(req.request.body).toEqual(searchAttributes);
@@ -54,7 +59,7 @@ describe('PatientService', () => {
       expect(response).toEqual(mockResponse);
     });
 
-    const req = httpMock.expectOne(`https://localhost:5001/api/Patient/Edit/${MedicalRecordNumber}`);
+    const req = httpMock.expectOne(`${path}/Patient/Edit/${MedicalRecordNumber}`);
     expect(req.request.method).toBe('PUT');
     expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
     expect(req.request.body).toEqual(attributes);
@@ -70,7 +75,7 @@ describe('PatientService', () => {
       expect(response).toEqual(mockResponse);
     });
 
-    const req = httpMock.expectOne(`https://localhost:5001/api/Patient/Delete/${MedicalRecordNumber}`);
+    const req = httpMock.expectOne(`${path}/Patient/Delete/${MedicalRecordNumber}`);
     expect(req.request.method).toBe('DELETE');
     expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
     req.flush(mockResponse);

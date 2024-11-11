@@ -1,8 +1,8 @@
 // patient.service.ts
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import * as jwt_decode from "jwt-decode";
+import { API_PATH } from '../config-path';
 
 // Define the Patient interface
 interface Patient {
@@ -10,6 +10,15 @@ interface Patient {
   name: string;
   email: string;
   [key: string]: any;
+}
+
+interface PatientCreateAttributes {
+  Email: string;
+  PhoneNumber: string;
+  FullName: string;
+  DateOfBirth: string | Date;
+  Gender: string;
+  Allergies: string;
 }
 
 interface PatientSearchAttributes {
@@ -32,11 +41,7 @@ interface PatientEditAttributes {
   providedIn: 'root',
 })
 export class PatientService {
-  constructor(private http: HttpClient) {}
-  private patients: Patient[] = [
-    { MedicalRecordNumber: "temp1", name: 'Patient 1', email: 'patient1@example.com' },
-    { MedicalRecordNumber: "temp2", name: 'Patient 2', email: 'patient2@example.com' },
-  ];
+  constructor(private http: HttpClient, @Inject(API_PATH) private apiPath:string) {}
 
   // Retrieve patients list
   async getPatients(token: string | null, searchableAttributes: PatientSearchAttributes) : Promise<any> {
@@ -51,19 +56,18 @@ export class PatientService {
     );
 
     const patients = await lastValueFrom(
-        this.http.post('https://localhost:5001/api/Patient/Search', body, { headers })
+        this.http.post(`${this.apiPath}/Patient/Search`, body, { headers })
       );
     return patients;
   }
 
   // Create a new patient
-  createPatient(newPatient: Patient): void {
-    this.patients.push(newPatient);
+  async createPatient(token: string | null, attributes: PatientCreateAttributes): Promise<any> {
+    null;
   }
 
   // Edit an existing patient
   async editPatient(token: string | null, MedicalRecordNumber: string, attributes: PatientEditAttributes): Promise<any> {
-    console.log(attributes.Allergies);
     if (!token) return undefined;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
@@ -72,7 +76,7 @@ export class PatientService {
     const body = Object.fromEntries(
       Object.entries(attributes).filter(([_, value]) => value != null) // Remove properties with null or undefined values
     );
-    const patient = await lastValueFrom(this.http.put("https://localhost:5001/api/Patient/Edit/" + MedicalRecordNumber, body, { headers }));
+    const patient = await lastValueFrom(this.http.put(`${this.apiPath}/Patient/Edit/${MedicalRecordNumber}`, body, { headers }));
     return patient;
   }
 
@@ -83,7 +87,7 @@ export class PatientService {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-    const patient = await lastValueFrom(this.http.delete("https://localhost:5001/api/Patient/Delete/" + MedicalRecordNumber, { headers }));
+    const patient = await lastValueFrom(this.http.delete(`${this.apiPath}/Patient/Delete/${MedicalRecordNumber}`, { headers }));
     return patient;
   }
 }
