@@ -1,41 +1,9 @@
 // patient.service.ts
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { API_PATH } from '../config-path';
-
-// Define the Patient interface
-interface Patient {
-  MedicalRecordNumber: string;
-  name: string;
-  email: string;
-  [key: string]: any;
-}
-
-interface PatientCreateAttributes {
-  Email: string;
-  PhoneNumber: string;
-  FullName: string;
-  DateOfBirth: string | Date;
-  Gender: string;
-  Allergies: string;
-}
-
-interface PatientSearchAttributes {
-  MedicalRecordNumber?: string;
-  Email?: string;
-  PhoneNumber?: string;
-  FullName?: string;
-  DateOfBirth?: string | Date;
-  Gender?: string;
-}
-
-interface PatientEditAttributes {
-  Email?: string;
-  PhoneNumber?: string;
-  FullName?: string;
-  Allergies?: string;
-}
+import { Patient, PatientCreateAttributes, PatientEditAttributes, PatientSearchAttributes } from './patient-types';
 
 @Injectable({
   providedIn: 'root',
@@ -44,8 +12,8 @@ export class PatientService {
   constructor(private http: HttpClient, @Inject(API_PATH) private apiPath:string) {}
 
   // Retrieve patients list
-  async getPatients(token: string | null, searchableAttributes: PatientSearchAttributes) : Promise<any> {
-    if (!token) return undefined;
+  async getPatients(token: string | null, searchableAttributes: PatientSearchAttributes) : Promise<HttpResponse<Patient[]>> {
+    if (!token) throw new Error("Token is required");
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
@@ -56,19 +24,14 @@ export class PatientService {
     );
 
     const patients = await lastValueFrom(
-        this.http.post(`${this.apiPath}/Patient/Search`, body, { headers })
+        this.http.post<Patient[]>(`${this.apiPath}/Patient/Search`, body, { headers, observe: 'response' })
       );
     return patients;
   }
 
   // Create a new patient
-  async createPatient(token: string | null, attributes: PatientCreateAttributes): Promise<any> {
-    null;
-  }
-
-  // Edit an existing patient
-  async editPatient(token: string | null, MedicalRecordNumber: string, attributes: PatientEditAttributes): Promise<any> {
-    if (!token) return undefined;
+  async createPatient(token: string | null, attributes: PatientCreateAttributes): Promise<HttpResponse<Patient>> {
+    if (!token) throw new Error("Token is required");
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
@@ -76,18 +39,33 @@ export class PatientService {
     const body = Object.fromEntries(
       Object.entries(attributes).filter(([_, value]) => value != null) // Remove properties with null or undefined values
     );
-    const patient = await lastValueFrom(this.http.put(`${this.apiPath}/Patient/Edit/${MedicalRecordNumber}`, body, { headers }));
+    console.log(body);
+    const patient = await lastValueFrom(this.http.post<Patient>(`${this.apiPath}/Patient/Create`, body, {headers, observe: 'response'}));
     return patient;
   }
 
-  // Delete a patient
-  async deletePatient(token: string | null, MedicalRecordNumber: string): Promise<any> {
-    if (!token) return undefined;
+  // Edit an existing patient
+  async editPatient(token: string | null, MedicalRecordNumber: string, attributes: PatientEditAttributes): Promise<HttpResponse<Patient>> {
+    if (!token) throw new Error("Token is required");
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-    const patient = await lastValueFrom(this.http.delete(`${this.apiPath}/Patient/Delete/${MedicalRecordNumber}`, { headers }));
+    const body = Object.fromEntries(
+      Object.entries(attributes).filter(([_, value]) => value != null) // Remove properties with null or undefined values
+    );
+    const patient = await lastValueFrom(this.http.put<Patient>(`${this.apiPath}/Patient/Edit/${MedicalRecordNumber}`, body, { headers, observe: 'response' }));
+    return patient;
+  }
+
+  // Delete a patient
+  async deletePatient(token: string | null, MedicalRecordNumber: string): Promise<HttpResponse<Patient>> {
+    if (!token) throw new Error("Token is required");
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    const patient = await lastValueFrom(this.http.delete<Patient>(`${this.apiPath}/Patient/Delete/${MedicalRecordNumber}`, { headers, observe: 'response' }));
     return patient;
   }
 }

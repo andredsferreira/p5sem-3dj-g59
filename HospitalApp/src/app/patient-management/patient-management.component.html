@@ -8,13 +8,87 @@
     &larr; Voltar para os Filtros
   </button>
 
-  <!-- Create Patient Button (always shown) -->
-  <button
-    (click)="onCreate()"
-    class="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-  >
-    Criar um novo Paciente
-  </button>
+<!-- Botão para iniciar criação de novo paciente (sempre visível) -->
+<button
+  (click)="startCreate()"
+  class="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+>
+  Criar um novo Paciente
+</button>
+
+<!-- Formulário de criação de paciente, visível apenas se isCreating for true -->
+<div *ngIf="isCreating" class="p-6 bg-pink-50 border rounded shadow-md space-y-4">
+  <h2 class="text-xl font-semibold">Criar Novo Paciente</h2>
+
+  <!-- Loop para criar campos de entrada baseados nos atributos -->
+  <div *ngFor="let attr of creatingAttributes" class="space-y-2">
+    <label [for]="attr.key" class="block font-medium">{{ attr.label }}:</label>
+    
+    <!-- Campo de texto padrão para Email, Telefone e Nome Completo -->
+    <input
+      *ngIf="attr.key !== 'DateOfBirth' && attr.key !== 'Gender'"
+      [(ngModel)]="createFields[attr.key].value"
+      [name]="attr.key"
+      required
+      class="w-full px-3 py-2 border rounded"
+      placeholder="Insira {{ attr.label }}"
+    />
+
+    <!-- Campo de data para Data de Nascimento -->
+    <input
+      *ngIf="attr.key === 'DateOfBirth'"
+      [(ngModel)]="createFields[attr.key].value"
+      [name]="attr.key"
+      type="date"
+      required
+      class="w-full px-3 py-2 border rounded"
+    />
+
+    <!-- Select para o campo Gênero -->
+    <select
+      *ngIf="attr.key === 'Gender'"
+      [(ngModel)]="createFields[attr.key].value"
+      [name]="attr.key"
+      required
+      class="w-full px-3 py-2 border rounded"
+    >
+      <option value="" disabled selected>Selecione o género</option>
+      <option value="Male">Masculino</option>
+      <option value="Female">Feminino</option>
+      <option value="Other">Outro</option>
+    </select>
+  </div>
+
+  <!-- Campo para lista de Alergias -->
+  <div class="space-y-2">
+    <label class="block font-medium">Alergias:</label>
+    <!-- Itera pela lista de alergias e exibe uma caixa de texto para cada alergia -->
+    <div *ngFor="let allergy of allergiesList; let i = index; trackBy: trackByIndex" class="flex items-center space-x-2 mb-1">
+      <input
+        [(ngModel)]="allergiesList[i]"
+        name="allergy{{ i }}"
+        class="px-3 py-2 border rounded w-full"
+        placeholder="Insira uma alergia"
+      />
+      <button type="button" (click)="removeAllergy(i)" class="px-2 bg-red-500 text-white rounded">Remover</button>
+    </div>
+    <!-- Botão para adicionar nova alergia -->
+    <button type="button" (click)="addAllergy()" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">
+      Adicionar Alergia
+    </button>
+  </div>
+
+  <!-- Botões de ação para salvar ou cancelar a criação do paciente -->
+  <div class="flex space-x-4 mt-4">
+    <button type="button" (click)="onCreate()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">
+      Salvar
+    </button>
+    <button type="button" (click)="cancelCreate()" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">
+      Cancelar
+    </button>
+  </div>
+</div>
+
 
   <!-- Initial Search Fields Before Listing Patients -->
   <div *ngIf="!isInitialized" class="mb-4">

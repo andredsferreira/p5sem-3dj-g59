@@ -2,34 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PatientService } from './patient-service';
 import { FormsModule } from '@angular/forms';
-
-// Define the Patient interface
-interface Patient {
-  MedicalRecordNumber: string;
-  name: string;
-  email: string;
-  [key: string]: any;
-}
+import { Patient, PatientSearchAttributes, PatientEditAttributes, PatientCreateAttributes } from './patient-types';
 
 interface Field {
   selected: boolean;
   value: string;
-}
-
-interface PatientSearchAttributes {
-  MedicalRecordNumber?: string;
-  Email?: string;
-  PhoneNumber?: string;
-  FullName?: string;
-  DateOfBirth?: string | Date;
-  Gender?: string;
-}
-
-interface PatientEditAttributes {
-  Email?: string;
-  PhoneNumber?: string;
-  FullName?: string;
-  Allergies?: string;
 }
 
 @Component({
@@ -44,6 +21,7 @@ export class PatientManagementComponent implements OnInit {
   errorMessage: string | null = null;
   patients: any[] = [];
   selectedItem: Patient | null = null;
+  isCreating = false;
   isEditing = false;
   isInitialized = false;
   token: string | null = null;
@@ -56,9 +34,16 @@ export class PatientManagementComponent implements OnInit {
   messageClass = '';
   allergiesList: string[] = [];
 
-  // Define editable and searchable attributes
+  // Define creating, editable and searchable attributes
+  creatingAttributes = [
+    { key: "Email", label: "Email" },
+    { key: "PhoneNumber", label: "Telemóvel" },
+    { key: "FullName", label: "Nome Completo" },
+    { key: "DateOfBirth", label: "Data de Nascimento" },
+    { key: "Gender", label: "Género" },
+  ];
   editableAttributes = [
-    { key: 'FullName', label: 'Nome' },
+    { key: 'FullName', label: 'Nome Completo' },
     { key: 'Email', label: 'Email' },
     { key: 'PhoneNumber', label: 'Telemóvel' },
     { key: 'Allergies', label: 'Alergias'}
@@ -72,6 +57,7 @@ export class PatientManagementComponent implements OnInit {
     { key: "Gender", label: "Género" },
   ];
 
+  createFields: { [key: string]: Field} = {};
   // Fields for search criteria
   searchFields: { [key: string]: Field } = {};
   // Fields for editing selected item
@@ -95,6 +81,13 @@ export class PatientManagementComponent implements OnInit {
 
   // Initialize/reset search and edit fields
   resetFields() {
+    this.createFields = this.creatingAttributes.reduce(
+      (fields, attr) => {
+        fields[attr.key] = { selected: false, value: '' };
+        return fields;
+      },
+      {} as { [key: string]: Field }
+    );
     this.searchFields = this.searchableAttributes.reduce(
       (fields, attr) => {
         fields[attr.key] = { selected: false, value: '' };
@@ -139,6 +132,8 @@ export class PatientManagementComponent implements OnInit {
     this.confirmingDelete = false;
   }
 
+  //------------------------------------------------Search-----------------------------------------------------------------
+
   async loadPatients(): Promise<void> {
     this.patients = [];
     // Construct search parameters based on selected search fields
@@ -152,7 +147,9 @@ export class PatientManagementComponent implements OnInit {
 
     try {
       // Pass searchParams to getPatients to filter results
-      const patients = await this.patientService.getPatients(this.token, searchParams);
+      const response = await this.patientService.getPatients(this.token, searchParams);
+      const patients = response.body;
+      console.log(response.status);
 
       if (patients && patients.length > 0) {
         this.patients = patients;
@@ -195,6 +192,8 @@ export class PatientManagementComponent implements OnInit {
   onSelect(patient: Patient): void {
     this.selectedItem = patient;
   }
+
+  //------------------------------------------------Edit-----------------------------------------------------------------
 
   // Start editing a patient
   onEdit(patient: Patient): void {
@@ -243,7 +242,7 @@ export class PatientManagementComponent implements OnInit {
 
         this.showMessage = true;
         if (response) {
-          this.messageText = 'Paciente editado com sucesso!';
+          this.messageText = `Paciente ${response.body?.MedicalRecordNumber} editado com sucesso!`;
           this.messageClass = 'bg-green-500 text-white';
         }
       } catch (error) {
@@ -270,16 +269,52 @@ export class PatientManagementComponent implements OnInit {
     this.isEditing = false;
   }
 
-  // Create a new patient
-  onCreate(): void {
-    const newPatient: Patient = {
-      MedicalRecordNumber: "temp",
-      name: `New Patient ${this.patients.length + 1}`,
-      email: `newpatient${this.patients.length + 1}@example.com`,
-    };
-    this.patientService.createPatient(newPatient);
-    this.loadPatients();
+//------------------------------------------------Create-----------------------------------------------------------------
+
+  startCreate() : void {
+    this.isCreating = true;
   }
+
+  // Create a new patient
+  async onCreate(): Promise<void> {
+    const createParams: PatientCreateAttributes = {Email: '',PhoneNumber: '',FullName: '',DateOfBirth: '',Gender: '',Allergies: ''};
+    for (const [key, field] of Object.entries(this.createFields)) {
+      if (key === 'Allergies') {
+        createParams[key as keyof PatientCreateAttributes] = this.allergiesList.join(', ');
+      } else {
+        console.log(field.value);
+        createParams[key as keyof PatientCreateAttributes] = field.value;
+      }
+    }
+    try{
+      const response = await this.patientService.createPatient(this.token, createParams);
+      this.showMessage = true;
+      if (response) {
+        this.messageText = `Paciente ${response.body?.MedicalRecordNumber} criado com sucesso!`;
+        this.messageClass = 'bg-green-500 text-white';
+      }
+      
+    } catch (error) {
+      console.error("Erro ao criar paciente:", error);
+      this.showMessage = true;
+      this.messageText = 'Erro ao criar paciente. Tente novamente.';
+      this.messageClass = 'bg-red-500 text-white';
+    } finally {
+      this.isEditing = false;
+      this.selectedItem = null;
+      await this.loadPatients();
+
+      setTimeout(() => {
+        this.showMessage = false;
+      }, 3000);
+    }
+  }
+
+  cancelCreate(){
+    this.isCreating = false;
+  }
+
+  //------------------------------------------------Delete-----------------------------------------------------------------
 
   // Delete a patient
   async onDelete(patient: Patient | null): Promise<void> {
@@ -289,7 +324,7 @@ export class PatientManagementComponent implements OnInit {
   
         this.showMessage = true;
         if (response) {
-          this.messageText = 'Paciente eliminado com sucesso!';
+          this.messageText = `Paciente ${response.body?.MedicalRecordNumber} eliminado com sucesso!`;
           this.messageClass = 'bg-green-500 text-white';
         }
         
