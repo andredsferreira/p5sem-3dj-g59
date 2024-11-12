@@ -35,7 +35,14 @@ This *US* is merely a *Frontend version* of another **US**, which contains the l
 
 ## 4. Design
 
--
+The team decided that:
+* The button to create a **Patient Profile** should be available before and after listing.
+* After pressing button to create a **Patient Profile**, a small window should appear with the necessary data fields.
+    * That window should enforce valid formats for fields like 'Email' and 'PhoneNumber'.
+    * That window should have a "Save" button and a "Cancel" button.
+    * After saving, the system should send a message saying:
+        * The Patient was created successfully.
+        * If it wasn't due to a Backend business rule violation (e.g. Email wasn't unique), the message should explain what business rule was violated.
 
 ## 5. C4 Views
 
@@ -43,7 +50,12 @@ This *US* is merely a *Frontend version* of another **US**, which contains the l
 
 ## 6. Tests
 
--
+* Test that:
+    * The **Patient** was successfully created.
+    * The system warns the user about not unique Email.
+    * The system enforces valid Email format.
+    * The system warns the user about not unique PhoneNumber.
+    * The system enforces valid PhoneNumber format.
 
 ## 7. Implementation
 
