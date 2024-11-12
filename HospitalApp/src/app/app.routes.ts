@@ -9,16 +9,18 @@ import { AboutusComponent } from './aboutus/aboutus.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { PatientManagementComponent } from './patient-management/patient-management.component';
 import { MainPageComponent } from './main-page/main-page.component';
+import { RegisterPatientComponent } from './auth/register-patient.component';
 
 export const routes: Routes = [
-    { path: '', component: MainPageComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'privacy', component: PrivacypolicyComponent},
-    { path: 'aboutus', component: AboutusComponent},
-    { path: 'contacts', component: ContactsComponent},
-    { path: 'userlist', component: UserListComponent },
-    { path: 'doctor', component: DoctorComponent },
-    { path: 'cube', component: CubeComponent },
-    { path: 'hospitalfloor', component: HospitalFloorComponent },
-    { path: 'patientmanagement', component: PatientManagementComponent },
+  { path: '', component: MainPageComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'privacy', component: PrivacypolicyComponent },
+  { path: 'aboutus', component: AboutusComponent },
+  { path: 'contacts', component: ContactsComponent },
+  { path: 'userlist', component: UserListComponent },
+  { path: 'doctor', component: DoctorComponent },
+  { path: 'registerpatient', component: RegisterPatientComponent },
+  { path: 'cube', component: CubeComponent },
+  { path: 'hospitalfloor', component: HospitalFloorComponent },
+  { path: 'patientmanagement', component: PatientManagementComponent },
 ];

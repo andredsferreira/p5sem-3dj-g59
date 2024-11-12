@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -117,6 +118,10 @@ public class AuthController : ControllerBase {
         var pat = _patientRepository.GetByEmail(new MailAddress(dto.Email));
         if (pat == null) {
             return NotFound("Patient is not registered by the admin");
+        }
+        var existingUser = await UserManager.FindByNameAsync(dto.Username);
+        if (existingUser != null) {
+            return BadRequest("Username is already taken");
         }
 
         pat.LinkToAccount(dto.Email);

@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { OperationRequestService } from '../../operation-request/operation-request.service';
 import { RequestStatus } from '../../operation-request/request-status.enum';
 import { CommonModule } from '@angular/common';
@@ -10,10 +15,9 @@ import { RequestPriority } from '../../operation-request/request-priority.enum';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './doctor.component.html',
-  styleUrls: ['./doctor.component.css']
+  styleUrls: ['./doctor.component.css'],
 })
 export class DoctorComponent {
-
   operationRequests: any[] = [];
 
   filteredRequests: any[] = [];
@@ -36,7 +40,7 @@ export class DoctorComponent {
 
   notFound: boolean = false;
 
-  updateSuccessMessage: string | null = null
+  updateSuccessMessage: string | null = null;
 
   selectedRequest: any = null;
   confirmingDelete: boolean = false;
@@ -48,17 +52,17 @@ export class DoctorComponent {
       operationTypeId: ['', Validators.required],
       priority: [RequestPriority.Elective, Validators.required],
       dateTime: ['', Validators.required],
-      requestStatus: [RequestStatus.Pending, Validators.required]
+      requestStatus: [RequestStatus.Pending, Validators.required],
     });
 
     this.updateRequestForm = this.fb.group({
       priority: ['', Validators.required],
-      dateTime: ['', Validators.required]
+      dateTime: ['', Validators.required],
     });
 
     this.filterForm = this.fb.group({
       filterCriteria: ['patientName', Validators.required],
-      filterValue: ['', Validators.required]
+      filterValue: ['', Validators.required],
     });
   }
 
@@ -74,12 +78,25 @@ export class DoctorComponent {
   async onSubmit(): Promise<void> {
     if (this.operationRequestForm.valid) {
       try {
-        const { patientId, operationTypeId, priority, dateTime, requestStatus } = this.operationRequestForm.value;
-        await this.ors.createOperationRequest(patientId, operationTypeId, priority, dateTime, requestStatus);
+        const {
+          patientId,
+          operationTypeId,
+          priority,
+          dateTime,
+          requestStatus,
+        } = this.operationRequestForm.value;
+        await this.ors.createOperationRequest(
+          patientId,
+          operationTypeId,
+          priority,
+          dateTime,
+          requestStatus
+        );
         this.closeModal();
         this.listOperationRequests();
       } catch (error) {
-        this.formError = 'Failed to create operation request. Please check your input and try again.';
+        this.formError =
+          'Failed to create operation request. Please check your input and try again.';
       }
     }
   }
@@ -98,7 +115,7 @@ export class DoctorComponent {
     this.selectedRequest = request;
     this.updateRequestForm.patchValue({
       priority: request.priority,
-      dateTime: request.dateTime
+      dateTime: request.dateTime,
     });
     this.showUpdateModal = true;
   }
@@ -107,7 +124,11 @@ export class DoctorComponent {
     if (this.updateRequestForm.valid && this.selectedRequest) {
       try {
         const { priority, dateTime } = this.updateRequestForm.value;
-        await this.ors.updateOperationRequest(this.selectedRequest.operationRequestId, priority, dateTime);
+        await this.ors.updateOperationRequest(
+          this.selectedRequest.operationRequestId,
+          priority,
+          dateTime
+        );
         this.updateSuccessMessage = `Operation request with ID ${this.selectedRequest.operationRequestId} was updated successfully.`;
         this.closeUpdateModal();
         this.listOperationRequests();
@@ -115,7 +136,6 @@ export class DoctorComponent {
         setTimeout(() => {
           this.updateSuccessMessage = null;
         }, 3000);
-
       } catch (error) {
         console.error('Failed to update operation request:', error);
       }
@@ -150,18 +170,18 @@ export class DoctorComponent {
   async listOperationRequests(): Promise<void> {
     try {
       this.operationRequests = await this.ors.getOperationRequests();
-      this.filteredRequests = [...this.operationRequests]
+      this.filteredRequests = [...this.operationRequests];
       this.notFound = this.filteredRequests.length === 0;
-      console.log("Fetched Operation Requests:", this.operationRequests);
+      console.log('Fetched Operation Requests:', this.operationRequests);
     } catch (error) {
-      console.error("Error fetching operation requests:", error);
+      console.error('Error fetching operation requests:', error);
     }
   }
 
   filterRequests(): void {
     const { filterCriteria, filterValue } = this.filterForm.value;
 
-    this.filteredRequests = this.operationRequests.filter(request => {
+    this.filteredRequests = this.operationRequests.filter((request) => {
       const value = request[filterCriteria]?.toString().toLowerCase();
       return value.includes(filterValue.toLowerCase());
     });
