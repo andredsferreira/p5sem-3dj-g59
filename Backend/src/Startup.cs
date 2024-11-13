@@ -23,6 +23,8 @@ using Backend.Infrastructure.DomainLogs;
 using Microsoft.OpenApi.Models;
 using Backend.Domain.OperationTypes;
 using Backend.Infrastructure.OperationTypes;
+using Backend.Domain.SurgeryRooms;
+using Backend.Infrastructure.SurgeryRooms;
 
 namespace Backend;
 public class Startup {
@@ -129,6 +131,10 @@ public class Startup {
         // Patient services
         services.AddTransient<IPatientRepository, PatientRepository>();
         services.AddTransient<PatientService>();
+
+        // Patient services
+        services.AddTransient<ISurgeryRoomRepository, SurgeryRoomRepository>();
+        services.AddTransient<SurgeryRoomService>();
 
         // Staff services
         services.AddTransient<IStaffRepository, StaffRepository>();

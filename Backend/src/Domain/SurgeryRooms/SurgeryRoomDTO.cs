@@ -4,8 +4,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Backend.Domain.SurgeryRooms;
 
-public class SurgeryRoomDTO(RoomType RoomType, RoomStatus RoomStatus, int Capacity, List<string> AssignedEquipment, List<string> MaintenanceSlots) {
-    public Guid RoomNumber { get; set; } = Guid.NewGuid();
+public class SurgeryRoomDTO(RoomNumber Number, RoomType RoomType, RoomStatus RoomStatus, int Capacity, List<string> AssignedEquipment, List<string> MaintenanceSlots) {
+    
+    [Required]
+    public RoomNumber Number {get; set;} = Number;
     [Required]
     public RoomType RoomType { get; set; } = RoomType;
     [Required]

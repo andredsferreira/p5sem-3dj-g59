@@ -17,6 +17,8 @@ using Backend.Infrastructure.DomainLogs;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Backend.Domain.SurgeryRooms;
+using Backend.Infrastructure.SurgeryRooms;
 
 namespace Backend.Infrastructure;
 
@@ -25,6 +27,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
     public virtual DbSet<OperationRequest> OperationRequests { get; set; }
 
     public virtual DbSet<Patient> Patients { get; set; }
+
+    public virtual DbSet<SurgeryRoom> Rooms { get; set; }
 
     public virtual DbSet<OperationType> OperationTypes { get; set; }
 
@@ -43,6 +47,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
 
         modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new PatientEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new SurgeryRoomEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new DomainLogEntityTypeConfiguration());
