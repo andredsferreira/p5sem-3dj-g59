@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241113090416_Initial")]
+    [Migration("20241113110557_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -87,173 +87,173 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1918757b-5e34-4339-846f-9d9a065bf746"),
+                            Id = new Guid("dad926e8-2818-46af-8e4c-c7d358329b92"),
                             dateTime = new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("b892be18-edd8-4174-801c-fe5f4874eda1"),
-                            patientId = "3fab474d-a02e-42ad-a8c9-eb33c14af459",
+                            operationTypeId = new Guid("8e92ad66-d580-42ce-85ce-37602e2f71fe"),
+                            patientId = "63cdd304-c40d-4b15-be4a-44acafc85fa2",
                             priority = "Elective",
                             requestStatus = "Pending",
-                            staffId = "df68ef61-e764-4f01-8da0-aaafa17ea62e"
+                            staffId = "1b874f2c-7ab3-47f8-8d42-4df654abdbe8"
                         },
                         new
                         {
-                            Id = new Guid("52ad58b3-f69e-4af5-a044-585535a19372"),
+                            Id = new Guid("bc03ade7-0057-4104-8de8-1668bdf8f6e9"),
                             dateTime = new DateTime(2024, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("df63be30-f855-499d-83b9-7ffebafa43c6"),
-                            patientId = "a7764fa2-82e7-4849-a816-9375dc0d1a69",
+                            operationTypeId = new Guid("5df5e4cc-fcb9-4988-a65a-cb1b6b6fcfce"),
+                            patientId = "1220249d-7797-4ed6-801e-924f45b68682",
                             priority = "Urgent",
                             requestStatus = "Pending",
-                            staffId = "df68ef61-e764-4f01-8da0-aaafa17ea62e"
+                            staffId = "1b874f2c-7ab3-47f8-8d42-4df654abdbe8"
                         },
                         new
                         {
-                            Id = new Guid("560aa8df-c989-46c8-a45c-aa8555b9134f"),
+                            Id = new Guid("e13376ec-f1c8-4a9c-aa9d-caac8709a26d"),
                             dateTime = new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("8a31397a-2162-44f5-a3c0-a7e1b2232bc8"),
-                            patientId = "0ca2d8f1-7f58-4111-afda-defba4bd205e",
+                            operationTypeId = new Guid("b9a94298-3f5d-472c-840b-1d5ab6f0aef6"),
+                            patientId = "9f5fe0aa-3eb1-4986-874c-7b3010214c2f",
                             priority = "Emergency",
                             requestStatus = "Pending",
-                            staffId = "df68ef61-e764-4f01-8da0-aaafa17ea62e"
+                            staffId = "1b874f2c-7ab3-47f8-8d42-4df654abdbe8"
                         },
                         new
                         {
-                            Id = new Guid("4b2261a5-b0b4-4238-814a-8515cabcc0f1"),
+                            Id = new Guid("5b6fb55f-9bd5-4971-928a-12ad3d0d0bad"),
                             dateTime = new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("8f8ba1db-a33a-4603-a287-7645d2af0aa0"),
-                            patientId = "ff590868-295d-4b08-a5af-37c4de024da8",
+                            operationTypeId = new Guid("06e69a44-f66f-4356-84ff-e2023d582c65"),
+                            patientId = "a89d6afd-692c-4cb5-8bc6-73547872e8c5",
                             priority = "Urgent",
                             requestStatus = "Pending",
-                            staffId = "df68ef61-e764-4f01-8da0-aaafa17ea62e"
+                            staffId = "1b874f2c-7ab3-47f8-8d42-4df654abdbe8"
                         },
                         new
                         {
-                            Id = new Guid("fb0b7659-e0d5-4d85-8a14-ee26dbed0a65"),
+                            Id = new Guid("017d35a2-8026-4708-b720-e47ea0da5842"),
                             dateTime = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("51c93387-09e3-468d-8bd0-a28c5a880698"),
-                            patientId = "b0941d54-935d-478b-a9a2-3c12f5788bc6",
+                            operationTypeId = new Guid("e7513a0a-373a-4a9f-bdd1-f71857721773"),
+                            patientId = "dd3d37e9-aa7d-473e-90f8-607c8c13749e",
                             priority = "Emergency",
                             requestStatus = "Pending",
-                            staffId = "df68ef61-e764-4f01-8da0-aaafa17ea62e"
+                            staffId = "1b874f2c-7ab3-47f8-8d42-4df654abdbe8"
                         },
                         new
                         {
-                            Id = new Guid("50a38822-f709-4979-96c3-4f9d79515e80"),
+                            Id = new Guid("f611bafc-82b1-4429-a6c0-ec5cc93f58d9"),
                             dateTime = new DateTime(2025, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("b26fe3f6-c1f9-42a9-b4ad-05b4c2d73b7f"),
-                            patientId = "d746a831-192b-4a54-bacd-b0c592fab6fa",
+                            operationTypeId = new Guid("f687c7ec-19ae-437c-a179-fe2d1156f875"),
+                            patientId = "b17f08f0-9351-4384-bbcf-607cd525405f",
                             priority = "Elective",
                             requestStatus = "Pending",
-                            staffId = "df68ef61-e764-4f01-8da0-aaafa17ea62e"
+                            staffId = "1b874f2c-7ab3-47f8-8d42-4df654abdbe8"
                         },
                         new
                         {
-                            Id = new Guid("02d85950-7cf6-473e-a1fb-4ab82053c054"),
+                            Id = new Guid("f21c6a3e-9259-461a-acd5-b4f8d558e9a4"),
                             dateTime = new DateTime(2024, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("51c93387-09e3-468d-8bd0-a28c5a880698"),
-                            patientId = "47942037-9797-4676-bae0-f13128e523cf",
+                            operationTypeId = new Guid("e7513a0a-373a-4a9f-bdd1-f71857721773"),
+                            patientId = "84de3125-e4cb-4281-88dc-8cddb9089388",
                             priority = "Elective",
                             requestStatus = "Pending",
-                            staffId = "9a960f09-ef65-4ac1-8590-9450018decff"
+                            staffId = "b06c4e76-e81e-4e59-aaea-c21b1e97f457"
                         },
                         new
                         {
-                            Id = new Guid("383c357b-bc2a-4280-86ba-91adbc3d0374"),
+                            Id = new Guid("96613806-30c7-4422-81e9-76d4dbb08e73"),
                             dateTime = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("7b687618-0a4c-4e72-ad71-341ce3143c75"),
-                            patientId = "d746a831-192b-4a54-bacd-b0c592fab6fa",
+                            operationTypeId = new Guid("b3a9c0bd-3cca-4e1d-8f0e-373d716b0549"),
+                            patientId = "b17f08f0-9351-4384-bbcf-607cd525405f",
                             priority = "Urgent",
                             requestStatus = "Pending",
-                            staffId = "9a960f09-ef65-4ac1-8590-9450018decff"
+                            staffId = "b06c4e76-e81e-4e59-aaea-c21b1e97f457"
                         },
                         new
                         {
-                            Id = new Guid("75b40f62-2e54-4b7d-9584-245e2f691e69"),
+                            Id = new Guid("69f7014c-7d64-4afe-8da1-05f81f4bc691"),
                             dateTime = new DateTime(2025, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("b26fe3f6-c1f9-42a9-b4ad-05b4c2d73b7f"),
-                            patientId = "f60a31c2-3919-4af4-8108-730ef3231f42",
+                            operationTypeId = new Guid("f687c7ec-19ae-437c-a179-fe2d1156f875"),
+                            patientId = "b81f5794-88dd-4f15-a617-70a5385f26ec",
                             priority = "Emergency",
                             requestStatus = "Pending",
-                            staffId = "9a960f09-ef65-4ac1-8590-9450018decff"
+                            staffId = "b06c4e76-e81e-4e59-aaea-c21b1e97f457"
                         },
                         new
                         {
-                            Id = new Guid("37f18ca6-4dc7-43eb-85be-8cfff8c7cc9c"),
+                            Id = new Guid("5e9a4951-5681-4805-a6cd-fbe50e14f2f2"),
                             dateTime = new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("6a1057b5-bcdb-48af-9bcf-01814e78fe7d"),
-                            patientId = "6fccd1f1-3bbe-4f93-b515-c873b742c64c",
+                            operationTypeId = new Guid("1eef30c5-3c58-4222-b16c-fa966bbb62a4"),
+                            patientId = "30a31600-ba58-46e4-aa17-f7c249bc7fb6",
                             priority = "Urgent",
                             requestStatus = "Pending",
-                            staffId = "9a960f09-ef65-4ac1-8590-9450018decff"
+                            staffId = "b06c4e76-e81e-4e59-aaea-c21b1e97f457"
                         },
                         new
                         {
-                            Id = new Guid("21c38021-0f8c-4c16-937a-9a922dd45c94"),
+                            Id = new Guid("6c1e6c83-836f-489a-9761-d1a4a72a24a6"),
                             dateTime = new DateTime(2025, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("ffc431a8-9f3a-4862-85aa-9c72b78a6300"),
-                            patientId = "28e27aee-4071-4884-a2f5-a8773e5fbbdc",
+                            operationTypeId = new Guid("358f8c51-0047-43a6-bd30-ac468959ec31"),
+                            patientId = "08fddd3e-cb65-45c8-b282-dee11656a8c9",
                             priority = "Emergency",
                             requestStatus = "Pending",
-                            staffId = "9a960f09-ef65-4ac1-8590-9450018decff"
+                            staffId = "b06c4e76-e81e-4e59-aaea-c21b1e97f457"
                         },
                         new
                         {
-                            Id = new Guid("dd1d256e-e5ec-4f1b-bb68-627108ac18c6"),
+                            Id = new Guid("5ff7eca9-e80a-4bf6-95c0-8dceebc1b647"),
                             dateTime = new DateTime(2024, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("ffc431a8-9f3a-4862-85aa-9c72b78a6300"),
-                            patientId = "28e27aee-4071-4884-a2f5-a8773e5fbbdc",
+                            operationTypeId = new Guid("358f8c51-0047-43a6-bd30-ac468959ec31"),
+                            patientId = "08fddd3e-cb65-45c8-b282-dee11656a8c9",
                             priority = "Elective",
                             requestStatus = "Pending",
-                            staffId = "9a481f2c-fd27-4797-ba7c-cccde4c9e7f4"
+                            staffId = "753e0ada-4ee6-40b3-b638-cf7d0b284ffa"
                         },
                         new
                         {
-                            Id = new Guid("caaeb7e0-f503-4b64-85fe-00dd8ed1aa97"),
+                            Id = new Guid("4c16f5f6-f2ee-4960-ba14-5f50f2fdc139"),
                             dateTime = new DateTime(2024, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("0fc3172b-a55d-48c0-97fa-188275fd7ba6"),
-                            patientId = "c09c9241-bc52-4fcb-b1e4-3f803d0357fb",
+                            operationTypeId = new Guid("2ebba2ec-e38d-4c49-b049-655bf5229363"),
+                            patientId = "462e3764-e58d-492d-bfa8-3c5eb3606adf",
                             priority = "Urgent",
                             requestStatus = "Pending",
-                            staffId = "9a481f2c-fd27-4797-ba7c-cccde4c9e7f4"
+                            staffId = "753e0ada-4ee6-40b3-b638-cf7d0b284ffa"
                         },
                         new
                         {
-                            Id = new Guid("21a895be-79ea-46a9-8415-b4efedcdc18f"),
+                            Id = new Guid("a9a794f2-50d1-4b21-a5eb-11330cbefee5"),
                             dateTime = new DateTime(2025, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("b892be18-edd8-4174-801c-fe5f4874eda1"),
-                            patientId = "b26fcf60-8eff-4f08-abdf-25c50ef1cfb9",
+                            operationTypeId = new Guid("8e92ad66-d580-42ce-85ce-37602e2f71fe"),
+                            patientId = "64b39a11-46df-4443-a43a-685fd2179e85",
                             priority = "Emergency",
                             requestStatus = "Pending",
-                            staffId = "9a481f2c-fd27-4797-ba7c-cccde4c9e7f4"
+                            staffId = "753e0ada-4ee6-40b3-b638-cf7d0b284ffa"
                         },
                         new
                         {
-                            Id = new Guid("88a295a8-47a5-43e8-a52a-3c5cfc0dd1af"),
+                            Id = new Guid("5411443c-f9ee-4f54-b216-51b5d1c3a05a"),
                             dateTime = new DateTime(2025, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("df63be30-f855-499d-83b9-7ffebafa43c6"),
-                            patientId = "44b4fcf1-9640-4bb4-8c69-a04a19c8cf82",
+                            operationTypeId = new Guid("5df5e4cc-fcb9-4988-a65a-cb1b6b6fcfce"),
+                            patientId = "4fa26fb1-2aa1-42f0-b443-4538a4a6d19e",
                             priority = "Urgent",
                             requestStatus = "Pending",
-                            staffId = "9a481f2c-fd27-4797-ba7c-cccde4c9e7f4"
+                            staffId = "753e0ada-4ee6-40b3-b638-cf7d0b284ffa"
                         },
                         new
                         {
-                            Id = new Guid("b6d80047-0f4c-4f36-8985-8f7040cf79ed"),
+                            Id = new Guid("c637d754-ab0d-427c-96ad-bc0dcda19340"),
                             dateTime = new DateTime(2025, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("8a31397a-2162-44f5-a3c0-a7e1b2232bc8"),
-                            patientId = "b0941d54-935d-478b-a9a2-3c12f5788bc6",
+                            operationTypeId = new Guid("b9a94298-3f5d-472c-840b-1d5ab6f0aef6"),
+                            patientId = "dd3d37e9-aa7d-473e-90f8-607c8c13749e",
                             priority = "Urgent",
                             requestStatus = "Pending",
-                            staffId = "9a481f2c-fd27-4797-ba7c-cccde4c9e7f4"
+                            staffId = "753e0ada-4ee6-40b3-b638-cf7d0b284ffa"
                         },
                         new
                         {
-                            Id = new Guid("e6197ee3-26fd-4762-8d60-abdf72daecca"),
+                            Id = new Guid("19fcb58a-14d5-4863-ae5b-85934caa5a00"),
                             dateTime = new DateTime(2025, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("8f8ba1db-a33a-4603-a287-7645d2af0aa0"),
-                            patientId = "3fab474d-a02e-42ad-a8c9-eb33c14af459",
+                            operationTypeId = new Guid("06e69a44-f66f-4356-84ff-e2023d582c65"),
+                            patientId = "63cdd304-c40d-4b15-be4a-44acafc85fa2",
                             priority = "Emergency",
                             requestStatus = "Pending",
-                            staffId = "9a481f2c-fd27-4797-ba7c-cccde4c9e7f4"
+                            staffId = "753e0ada-4ee6-40b3-b638-cf7d0b284ffa"
                         });
                 });
 
@@ -312,7 +312,7 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b892be18-edd8-4174-801c-fe5f4874eda1"),
+                            Id = new Guid("8e92ad66-d580-42ce-85ce-37602e2f71fe"),
                             MinAnesthetist = 1,
                             MinCirculatingNurse = 1,
                             MinDoctor = 1,
@@ -329,7 +329,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("df63be30-f855-499d-83b9-7ffebafa43c6"),
+                            Id = new Guid("5df5e4cc-fcb9-4988-a65a-cb1b6b6fcfce"),
                             MinAnesthetist = 1,
                             MinCirculatingNurse = 1,
                             MinDoctor = 1,
@@ -346,7 +346,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8a31397a-2162-44f5-a3c0-a7e1b2232bc8"),
+                            Id = new Guid("b9a94298-3f5d-472c-840b-1d5ab6f0aef6"),
                             MinAnesthetist = 1,
                             MinCirculatingNurse = 1,
                             MinDoctor = 1,
@@ -363,7 +363,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8f8ba1db-a33a-4603-a287-7645d2af0aa0"),
+                            Id = new Guid("06e69a44-f66f-4356-84ff-e2023d582c65"),
                             MinAnesthetist = 1,
                             MinCirculatingNurse = 1,
                             MinDoctor = 1,
@@ -380,7 +380,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("51c93387-09e3-468d-8bd0-a28c5a880698"),
+                            Id = new Guid("e7513a0a-373a-4a9f-bdd1-f71857721773"),
                             MinAnesthetist = 1,
                             MinCirculatingNurse = 1,
                             MinDoctor = 1,
@@ -397,7 +397,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7b687618-0a4c-4e72-ad71-341ce3143c75"),
+                            Id = new Guid("b3a9c0bd-3cca-4e1d-8f0e-373d716b0549"),
                             MinAnesthetist = 1,
                             MinCirculatingNurse = 1,
                             MinDoctor = 1,
@@ -414,7 +414,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b26fe3f6-c1f9-42a9-b4ad-05b4c2d73b7f"),
+                            Id = new Guid("f687c7ec-19ae-437c-a179-fe2d1156f875"),
                             MinAnesthetist = 1,
                             MinCirculatingNurse = 1,
                             MinDoctor = 1,
@@ -431,7 +431,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6a1057b5-bcdb-48af-9bcf-01814e78fe7d"),
+                            Id = new Guid("1eef30c5-3c58-4222-b16c-fa966bbb62a4"),
                             MinAnesthetist = 1,
                             MinCirculatingNurse = 1,
                             MinDoctor = 1,
@@ -448,7 +448,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ffc431a8-9f3a-4862-85aa-9c72b78a6300"),
+                            Id = new Guid("358f8c51-0047-43a6-bd30-ac468959ec31"),
                             MinAnesthetist = 1,
                             MinCirculatingNurse = 1,
                             MinDoctor = 1,
@@ -465,7 +465,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("0fc3172b-a55d-48c0-97fa-188275fd7ba6"),
+                            Id = new Guid("2ebba2ec-e38d-4c49-b049-655bf5229363"),
                             MinAnesthetist = 1,
                             MinCirculatingNurse = 1,
                             MinDoctor = 1,
@@ -554,7 +554,7 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3fab474d-a02e-42ad-a8c9-eb33c14af459",
+                            Id = "63cdd304-c40d-4b15-be4a-44acafc85fa2",
                             DateOfBirth = new DateOnly(2001, 10, 21),
                             Email = "patientA@hospital.com",
                             FullName = "João Camião",
@@ -564,7 +564,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "a7764fa2-82e7-4849-a816-9375dc0d1a69",
+                            Id = "1220249d-7797-4ed6-801e-924f45b68682",
                             DateOfBirth = new DateOnly(1998, 5, 14),
                             Email = "patientB@hospital.com",
                             FullName = "Bruno Silva",
@@ -574,7 +574,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "0ca2d8f1-7f58-4111-afda-defba4bd205e",
+                            Id = "9f5fe0aa-3eb1-4986-874c-7b3010214c2f",
                             DateOfBirth = new DateOnly(1995, 12, 30),
                             Email = "patientC@hospital.com",
                             FullName = "Carla Ferreira",
@@ -584,7 +584,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "ff590868-295d-4b08-a5af-37c4de024da8",
+                            Id = "a89d6afd-692c-4cb5-8bc6-73547872e8c5",
                             DateOfBirth = new DateOnly(1988, 5, 14),
                             Email = "patientD@hospital.com",
                             FullName = "David Oliveira",
@@ -594,7 +594,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "47942037-9797-4676-bae0-f13128e523cf",
+                            Id = "84de3125-e4cb-4281-88dc-8cddb9089388",
                             DateOfBirth = new DateOnly(1992, 8, 22),
                             Email = "patientE@hospital.com",
                             FullName = "Emma Sousa",
@@ -604,7 +604,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "d746a831-192b-4a54-bacd-b0c592fab6fa",
+                            Id = "b17f08f0-9351-4384-bbcf-607cd525405f",
                             DateOfBirth = new DateOnly(1985, 3, 10),
                             Email = "patientF@hospital.com",
                             FullName = "Felipe Costa",
@@ -614,7 +614,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "f60a31c2-3919-4af4-8108-730ef3231f42",
+                            Id = "b81f5794-88dd-4f15-a617-70a5385f26ec",
                             DateOfBirth = new DateOnly(2000, 11, 2),
                             Email = "patientG@hospital.com",
                             FullName = "Gabriela Santos",
@@ -624,7 +624,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "6fccd1f1-3bbe-4f93-b515-c873b742c64c",
+                            Id = "30a31600-ba58-46e4-aa17-f7c249bc7fb6",
                             DateOfBirth = new DateOnly(1990, 7, 19),
                             Email = "patientH@hospital.com",
                             FullName = "Henrique Almeida",
@@ -634,7 +634,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "28e27aee-4071-4884-a2f5-a8773e5fbbdc",
+                            Id = "08fddd3e-cb65-45c8-b282-dee11656a8c9",
                             DateOfBirth = new DateOnly(1994, 1, 15),
                             Email = "patientI@hospital.com",
                             FullName = "Isabel Pereira",
@@ -644,7 +644,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "c09c9241-bc52-4fcb-b1e4-3f803d0357fb",
+                            Id = "462e3764-e58d-492d-bfa8-3c5eb3606adf",
                             DateOfBirth = new DateOnly(1982, 6, 8),
                             Email = "patientJ@hospital.com",
                             FullName = "João Lima",
@@ -654,7 +654,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "b26fcf60-8eff-4f08-abdf-25c50ef1cfb9",
+                            Id = "64b39a11-46df-4443-a43a-685fd2179e85",
                             DateOfBirth = new DateOnly(1996, 9, 25),
                             Email = "patientK@hospital.com",
                             FullName = "Karina Martins",
@@ -664,7 +664,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "44b4fcf1-9640-4bb4-8c69-a04a19c8cf82",
+                            Id = "4fa26fb1-2aa1-42f0-b443-4538a4a6d19e",
                             DateOfBirth = new DateOnly(1987, 4, 12),
                             Email = "patientL@hospital.com",
                             FullName = "Lucas Rodrigues",
@@ -674,7 +674,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "b0941d54-935d-478b-a9a2-3c12f5788bc6",
+                            Id = "dd3d37e9-aa7d-473e-90f8-607c8c13749e",
                             DateOfBirth = new DateOnly(1993, 12, 5),
                             Email = "patientM@hospital.com",
                             FullName = "Marta Silva",
@@ -726,7 +726,7 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "df68ef61-e764-4f01-8da0-aaafa17ea62e",
+                            Id = "1b874f2c-7ab3-47f8-8d42-4df654abdbe8",
                             Email = "pedro@hospital.com",
                             FullName = "Pedro Carvalho Oliveira Monteiro",
                             IdentityUsername = "pedro",
@@ -736,7 +736,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "9a960f09-ef65-4ac1-8590-9450018decff",
+                            Id = "b06c4e76-e81e-4e59-aaea-c21b1e97f457",
                             Email = "andre@hospital.com",
                             FullName = "André de Sousa Ferreira",
                             IdentityUsername = "andre",
@@ -746,7 +746,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "9a481f2c-fd27-4797-ba7c-cccde4c9e7f4",
+                            Id = "753e0ada-4ee6-40b3-b638-cf7d0b284ffa",
                             Email = "tiago@hospital.com",
                             FullName = "Tiago Filipe Carvalho Nunes",
                             IdentityUsername = "tiago",
@@ -756,7 +756,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "69e93642-9ecf-4e13-a6bd-f9e090e51b18",
+                            Id = "cea9b410-3300-40f1-9e6a-2895d62fc04d",
                             Email = "nurse@hospital.com",
                             FullName = "Nurse One",
                             IdentityUsername = "nurse",
@@ -772,13 +772,15 @@ namespace Backend.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("AssignedEquipment")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("JSON");
 
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
                     b.Property<string>("MaintenanceSlots")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("JSON");
 
                     b.Property<int>("Number")
                         .HasColumnType("int");
@@ -797,6 +799,18 @@ namespace Backend.Migrations
                         .IsUnique();
 
                     b.ToTable("SurgeryRoom", "projeto5sem");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "c536b45f-92c4-4e94-bf3c-2f8d93dbea57",
+                            AssignedEquipment = "[\"Scalpel\",\"Monitor\"]",
+                            Capacity = 10,
+                            MaintenanceSlots = "[\"09:00\",\"10:00\"]",
+                            Number = 200,
+                            RoomStatus = "Available",
+                            RoomType = "OperatingRoom"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -827,31 +841,31 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b4d0b3f9-d373-449c-8a63-2a1ff329edf3",
+                            Id = "b3af442d-f001-4346-8cc3-64168586b0ef",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "4dfb755c-603e-40c3-a4dd-c7a6110b311e",
+                            Id = "279ae6ee-bd35-4926-a954-16e90f34e3ea",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "aadd5d4c-73b8-4a6f-adc9-82da57b8deb8",
+                            Id = "a3c8618d-d543-4184-984f-7a07611b01ff",
                             Name = "Nurse",
                             NormalizedName = "NURSE"
                         },
                         new
                         {
-                            Id = "dbfdb3b2-2f91-45bb-b8d6-daf635164bf2",
+                            Id = "03b12819-03f4-46c0-bb65-4b59dca2b24e",
                             Name = "Technician",
                             NormalizedName = "TECHNICIAN"
                         },
                         new
                         {
-                            Id = "5aaa47f1-6087-40c0-8b6a-f5216ffda21d",
+                            Id = "d9eaf0c7-38ec-4d98-9f47-e3eaeba30564",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });
@@ -948,113 +962,113 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "60f0ec0b-17a1-44ee-90e7-26ca2cf5f146",
+                            Id = "da9e65af-95ea-41af-b72a-328f9966f7f4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1a907c8c-ce3c-42cd-80e8-895c90637474",
+                            ConcurrencyStamp = "798a4f17-706e-4594-8bed-69b350ca2943",
                             Email = "admin@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@HOSPITAL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDdhpAgv1/WRBIeLveU4qxyCIm/Cprtvy+4Oz04qoHeA27rdLnMggA2hYIRL9qRZeQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMEylLsa9fZzwEUY+farb3cjH8YqzQEr7lrctNFhVL+xGTND+BuZIDyi3GmCYNi4lw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "459912ae-600c-4059-923f-612111467b03",
+                            SecurityStamp = "526cde0e-9314-4d49-82e7-f7891d183a38",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
                         new
                         {
-                            Id = "d1ca3ada-1a1f-4bb4-962c-1855190a5538",
+                            Id = "e1a697e8-ca09-4adb-ac5a-33de5d895993",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9d74f32a-4fa5-493d-a897-d7284cca090e",
+                            ConcurrencyStamp = "32318392-d053-4006-8f68-c41484b184e8",
                             Email = "doctor@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "DOCTOR@HOSPITAL.COM",
                             NormalizedUserName = "DOCTOR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEgX1Ibqs7cwyNKtb30aAMeCVjmXvnVixWdGn4doYE/+DT5rC8JnJIFbGAiJngLz9w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPa6oJHOpWGxytHPY9d8HMrkOmOSwEaX565gz6ATXeXf/cueGw/BfhOlyNwjYZR5GA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d40beeb0-0459-4e82-a553-ab05dc093fda",
+                            SecurityStamp = "ca74d084-6fb5-478b-bcda-cc6d980d18b0",
                             TwoFactorEnabled = false,
                             UserName = "doctor"
                         },
                         new
                         {
-                            Id = "cfd4792d-a180-413c-937e-f03e9b794508",
+                            Id = "b7601193-e8e5-44cc-9d0d-79cffa9c82ec",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "13018ce3-4a66-4169-8333-d8c190bd8395",
+                            ConcurrencyStamp = "1e3cbf3d-5ab3-4b13-ba17-c97c76eb244d",
                             Email = "andre@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ANDRE@HOSPITAL.COM",
                             NormalizedUserName = "ANDRE",
-                            PasswordHash = "AQAAAAIAAYagAAAAELm0hyJr/WNTx63UIy+jxnv5sPT/U8qwDD6oXLDX67y7UVEoffPrlWCl+yPL/rGhaA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFDPrlMa2omws8euMDnPy7SAlV6CRdy/RlD7F9rlsLyCe+AZqE7nX/gElNYJE3pW4g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7e8363d0-3b84-4252-8a1d-04e231d484ae",
+                            SecurityStamp = "2bcdcfc4-f17e-42a0-8e13-732082ce8888",
                             TwoFactorEnabled = false,
                             UserName = "andre"
                         },
                         new
                         {
-                            Id = "5e004765-e73d-46ca-8b88-4b596237a0c9",
+                            Id = "8304c0ea-c720-4e71-9fff-f0ef1b8409d8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0c30359d-aeaf-4919-9bfa-1eced7740d98",
+                            ConcurrencyStamp = "f734d859-ae3b-48ad-aca3-cee57787cbd6",
                             Email = "tiago@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "TIAGO@HOSPITAL.COM",
                             NormalizedUserName = "TIAGO",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEtv7kxS20PvSJtXaJHMjocm1AH9WpuObPqocW4ppKmIjME+Ty4kR8rTkOaKnpB4LQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPe8lfyUQBCWqehPdOcQuSsIYkg3mSILXbtOZLS/A0JWNI5ihnGXyMzWiCMwkmpqyA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "718b1b3d-4e3b-4433-bb22-cd10dd6740c6",
+                            SecurityStamp = "31b008a7-77a2-45cf-bf88-63595b71894a",
                             TwoFactorEnabled = false,
                             UserName = "tiago"
                         },
                         new
                         {
-                            Id = "62d76af6-dfde-4c58-92c1-04b609783f19",
+                            Id = "121d102a-6b3d-4cc5-baaa-194543e11f08",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6c1386b0-4407-4295-9810-f60731b5d384",
+                            ConcurrencyStamp = "6853f355-0bf0-4524-9f62-a7c5e11012a5",
                             Email = "nurse@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "NURSE@HOSPITAL.COM",
                             NormalizedUserName = "NURSE",
-                            PasswordHash = "AQAAAAIAAYagAAAAENdJAWqQ+uKjwBsOEi+SgZTh/vJvFrOolsV3hAeT+xvrbSMhdO3aXGZxbrkAsiK5Hg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPqxj2sLyO2Z8mm7Zww7mpNNvQZq3B/GLDCIqB4HiuqmfJOZrWSutAJTA8adW8tzlQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "75e9f234-96dc-4151-a565-eb45af617b8b",
+                            SecurityStamp = "b8544006-6665-4451-a601-c4093ea76b64",
                             TwoFactorEnabled = false,
                             UserName = "nurse"
                         },
                         new
                         {
-                            Id = "4421d1af-9062-4324-a841-68567445815b",
+                            Id = "b2860946-768f-4e93-9f96-5c140f3dd17f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3a86c993-6468-4e1a-81f1-e418d230fb66",
+                            ConcurrencyStamp = "8ac96047-801d-4139-97fb-8735090a6cda",
                             Email = "technician@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "TECHNICIAN@HOSPITAL.COM",
                             NormalizedUserName = "TECHNICIAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHcs8y0UA52/dw1eghmob+zUHUkW4Rg3OOzJlHFVJCti3VHj2gWpkj3xlEgDhxKsQg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEC8g7Ne8jNISA2LNNsKmQyvYrnL9nHo3e5+7X9XZwTGjfnmfyHweblQpXveFBpEeUA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "aa00f85f-0567-4bae-a6f9-3addc0edda2f",
+                            SecurityStamp = "a60da534-c343-4c22-b7f5-f71801330b3d",
                             TwoFactorEnabled = false,
                             UserName = "technician"
                         },
                         new
                         {
-                            Id = "8480957f-1e8c-4ae1-8e4f-9630eb7410db",
+                            Id = "66629a42-f4ca-4820-8c79-894c01bcd9b7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c035b668-a830-4ecb-826d-75f9d03d42ee",
+                            ConcurrencyStamp = "80646f5d-b2f5-4580-a5a7-299a16b5c1f3",
                             Email = "patient@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "PATIENT@HOSPITAL.COM",
                             NormalizedUserName = "PATIENT",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMdGmBA/iXG11H53odRu9OoFmqWPRsN9WUrcOwRHFC4T8846j/dQ4laEVu/EPgRV/w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENRZaulqcWZAUyv9nXbEBMgShxS31Po9al6QBOZJgGmTKVI9+4Jr9CmJVZdv5ULRsQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "579ad397-f334-488a-9f48-cb9c1bc80503",
+                            SecurityStamp = "ba669269-8901-46de-adfc-f4a4f28ec628",
                             TwoFactorEnabled = false,
                             UserName = "patient"
                         });
@@ -1124,38 +1138,38 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "60f0ec0b-17a1-44ee-90e7-26ca2cf5f146",
-                            RoleId = "b4d0b3f9-d373-449c-8a63-2a1ff329edf3"
+                            UserId = "da9e65af-95ea-41af-b72a-328f9966f7f4",
+                            RoleId = "b3af442d-f001-4346-8cc3-64168586b0ef"
                         },
                         new
                         {
-                            UserId = "d1ca3ada-1a1f-4bb4-962c-1855190a5538",
-                            RoleId = "4dfb755c-603e-40c3-a4dd-c7a6110b311e"
+                            UserId = "e1a697e8-ca09-4adb-ac5a-33de5d895993",
+                            RoleId = "279ae6ee-bd35-4926-a954-16e90f34e3ea"
                         },
                         new
                         {
-                            UserId = "cfd4792d-a180-413c-937e-f03e9b794508",
-                            RoleId = "4dfb755c-603e-40c3-a4dd-c7a6110b311e"
+                            UserId = "b7601193-e8e5-44cc-9d0d-79cffa9c82ec",
+                            RoleId = "279ae6ee-bd35-4926-a954-16e90f34e3ea"
                         },
                         new
                         {
-                            UserId = "5e004765-e73d-46ca-8b88-4b596237a0c9",
-                            RoleId = "4dfb755c-603e-40c3-a4dd-c7a6110b311e"
+                            UserId = "8304c0ea-c720-4e71-9fff-f0ef1b8409d8",
+                            RoleId = "279ae6ee-bd35-4926-a954-16e90f34e3ea"
                         },
                         new
                         {
-                            UserId = "62d76af6-dfde-4c58-92c1-04b609783f19",
-                            RoleId = "aadd5d4c-73b8-4a6f-adc9-82da57b8deb8"
+                            UserId = "121d102a-6b3d-4cc5-baaa-194543e11f08",
+                            RoleId = "a3c8618d-d543-4184-984f-7a07611b01ff"
                         },
                         new
                         {
-                            UserId = "4421d1af-9062-4324-a841-68567445815b",
-                            RoleId = "dbfdb3b2-2f91-45bb-b8d6-daf635164bf2"
+                            UserId = "b2860946-768f-4e93-9f96-5c140f3dd17f",
+                            RoleId = "03b12819-03f4-46c0-bb65-4b59dca2b24e"
                         },
                         new
                         {
-                            UserId = "8480957f-1e8c-4ae1-8e4f-9630eb7410db",
-                            RoleId = "5aaa47f1-6087-40c0-8b6a-f5216ffda21d"
+                            UserId = "66629a42-f4ca-4820-8c79-894c01bcd9b7",
+                            RoleId = "d9eaf0c7-38ec-4d98-9f47-e3eaeba30564"
                         });
                 });
 

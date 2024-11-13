@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Backend.Domain.SurgeryRooms;
 using Backend.Infrastructure.SurgeryRooms;
+using Backend.Domain.Slots;
 
 namespace Backend.Infrastructure;
 
@@ -29,6 +30,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
     public virtual DbSet<Patient> Patients { get; set; }
 
     public virtual DbSet<SurgeryRoom> Rooms { get; set; }
+
+    //public virtual DbSet<Slot> Slots { get; set; }
 
     public virtual DbSet<OperationType> OperationTypes { get; set; }
 
@@ -386,6 +389,9 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new DateTime(2025, 4, 20),
             OperationRequestStatus.Pending);
 
+        //SeedSurgeryRoom(modelBuilder, new RoomNumber(200), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor"], [new Slot(DateOnly.Parse("2024-11-13"), TimeOnly.Parse("09:00"), TimeOnly.Parse("10:00"))]);  
+        SeedSurgeryRoom(modelBuilder, new RoomNumber(200), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor"], ["09:00", "10:00"]);  
+
         base.OnModelCreating(modelBuilder);
     }
 
@@ -402,6 +408,22 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
 
         builder.Entity<OperationRequest>().HasData(operationRequest);
 
+    }
+
+    //private void SeedSurgeryRoom(ModelBuilder builder, RoomNumber Number, RoomType RoomType, RoomStatus RoomStatus, int Capacity, List<string> AssignedEquipment, List<Slot> MaintenanceSlots){
+    //    var surgeryRoom = new SurgeryRoom(
+    //        Number, RoomType, RoomStatus, Capacity,
+    //        AssignedEquipment, MaintenanceSlots
+    //    );
+    //    builder.Entity<SurgeryRoom>().HasData(surgeryRoom);
+    //}
+
+    private void SeedSurgeryRoom(ModelBuilder builder, RoomNumber Number, RoomType RoomType, RoomStatus RoomStatus, int Capacity, List<string> AssignedEquipment, List<string> MaintenanceSlots){
+        var surgeryRoom = new SurgeryRoom(
+            Number, RoomType, RoomStatus, Capacity,
+            AssignedEquipment, MaintenanceSlots
+        );
+        builder.Entity<SurgeryRoom>().HasData(surgeryRoom);
     }
 
     private void IdentityBootstrap(ModelBuilder builder) {

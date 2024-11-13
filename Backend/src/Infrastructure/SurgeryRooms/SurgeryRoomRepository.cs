@@ -1,5 +1,4 @@
 using System.Linq;
-using Backend.Domain.Patients;
 using Backend.Domain.SurgeryRooms;
 using Backend.Infrastructure.Shared;
 

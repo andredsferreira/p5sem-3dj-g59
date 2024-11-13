@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Mail;
+using System.Text.Json;
 using Backend.Domain.Patients;
 using Backend.Domain.Shared;
 using Backend.Domain.SurgeryRooms;
@@ -26,12 +28,35 @@ internal class SurgeryRoomEntityTypeConfiguration : IEntityTypeConfiguration<Sur
 
         builder.Property(p => p.RoomStatus)
             .HasConversion(roomStatus => roomStatus.ToString(), status => (RoomStatus)Enum.Parse(typeof(RoomStatus), status)).IsRequired();
+
+        builder.Property(p => p.Capacity).IsRequired();
+
+        builder.Property(p => p.AssignedEquipment)
+            .HasConversion(
+                equipment => JsonSerializer.Serialize(equipment, (JsonSerializerOptions)null),
+                equipment => JsonSerializer.Deserialize<List<string>>(equipment, (JsonSerializerOptions)null))
+            .HasColumnType("JSON")
+            .IsRequired();
+
+        /*builder.OwnsMany(
+            p => p.MaintenanceSlots,
+            a =>
+            {
+                a.WithOwner().HasForeignKey("SurgeryRoomId");
+                a.Property(s => s.day).HasColumnName("MaintenanceDay").IsRequired();
+                a.Property(s => s.begin).HasColumnName("MaintenanceStart").IsRequired();
+                a.Property(s => s.end).HasColumnName("MaintenanceEnd").IsRequired();
+
+                a.ToTable("SurgeryRoomMaintenanceSlots", SchemaNames.DDDSample1);
+            });*/
         
         builder.HasIndex(p => p.Number).IsUnique();
 
-        //builder.HasMany(p => p.Allergies)
-        //    .WithOne()
-        //    .OnDelete(DeleteBehavior.Cascade);
-
+        builder.Property(p => p.MaintenanceSlots)
+            .HasConversion(
+                slots => JsonSerializer.Serialize(slots, (JsonSerializerOptions)null),
+                slots => JsonSerializer.Deserialize<List<string>>(slots, (JsonSerializerOptions)null))
+            .HasColumnType("JSON")
+            .IsRequired();
     }
 }
