@@ -54,7 +54,7 @@ export class PatientService {
     const body = Object.fromEntries(
       Object.entries(attributes).filter(([_, value]) => value != null) // Remove properties with null or undefined values
     );
-    const patient = await lastValueFrom(this.http.put<Patient>(`${this.apiPath}/Patient/Edit/${MedicalRecordNumber}`, body, { headers, observe: 'response' }));
+    const patient = await lastValueFrom(this.http.patch<Patient>(`${this.apiPath}/Patient/Edit/${MedicalRecordNumber}`, body, { headers, observe: 'response' }));
     return patient;
   }
 

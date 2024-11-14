@@ -24,15 +24,41 @@
   <div *ngFor="let attr of creatingAttributes" class="space-y-2">
     <label [for]="attr.key" class="block font-medium">{{ attr.label }}:</label>
     
-    <!-- Campo de texto padrão para Email, Telefone e Nome Completo -->
+    <!-- Campo de texto padrão para Nome Completo -->
     <input
-      *ngIf="attr.key !== 'DateOfBirth' && attr.key !== 'Gender'"
+      *ngIf="attr.key == 'FullName'"
       [(ngModel)]="createFields[attr.key].value"
       [name]="attr.key"
       required
       class="w-full px-3 py-2 border rounded"
       placeholder="Insira {{ attr.label }}"
     />
+
+    <!-- Campo de texto padrão para Email -->
+    <input
+      *ngIf="attr.key === 'Email'"
+      [(ngModel)]="createFields[attr.key].value"
+      [name]="attr.key"
+      type="email"
+      required
+      class="w-full px-3 py-2 border rounded"
+      placeholder="Insira {{ attr.label }}"
+      pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+      title="Por favor, insira um email válido."
+    />
+
+    <!-- Campo de texto padrão para Telemóvel -->
+    <input
+      *ngIf="attr.key === 'PhoneNumber'"
+      [(ngModel)]="createFields[attr.key].value"
+      [name]="attr.key"
+      type="tel"
+      required
+      class="w-full px-3 py-2 border rounded"
+      placeholder="Insira {{ attr.label }}"
+      pattern="^\d{9}$"
+      title="Por favor, insira um número de telemóvel com 9 dígitos."
+    />   
 
     <!-- Campo de data para Data de Nascimento -->
     <input

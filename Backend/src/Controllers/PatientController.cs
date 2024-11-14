@@ -41,7 +41,7 @@ public class PatientController : ControllerBase {
         return Ok(cat);
     }
 
-    [HttpPut("Edit/{id}")]
+    [HttpPatch("Edit/{id}")]
     [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<PatientDTO>> EditPatient(string id, [FromBody] FilterPatientDTO dto) {
         try {
