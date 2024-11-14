@@ -6,8 +6,6 @@ namespace Backend.Domain.Staffs;
 
 public class StaffDTO(string StaffRole, string IdentityUsername, string email, string phone,string name, string licenseNumber) {
 
-    //public Guid id { get; set; } = Guid.NewGuid();
-
     public string StaffRole { get; set; } = StaffRole;
     public string IdentityUsername { get; set; } = IdentityUsername;
     [Required]

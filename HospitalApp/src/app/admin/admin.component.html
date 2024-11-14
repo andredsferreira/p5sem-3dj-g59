@@ -1,0 +1,119 @@
+<div class="staff-management flex flex-col items-center mb-6">
+    <h2 class="text-lg font-semibold mb-4">Staff</h2>
+
+    <div class="buttons flex space-x-4 mb-4">
+        <button (click)="createStaff()"
+            class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">Create Staff</button>
+        <button (click)="listStaffs()"
+            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">List Staffs</button>
+    </div>
+</div>
+
+<!-- Create form -->
+<div *ngIf="showModal" class="modal fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div class="modal-content bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+        <form [formGroup]="staffForm" (ngSubmit)="onSubmit()">
+            <div class="form-group mb-4">
+                <label for="staffRole" class="block text-sm font-semibold mb-2">Staff Role</label>
+                <input id="staffRole" formControlName="staffRole" type="text" placeholder="Enter Staff Role" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                <div *ngIf="staffForm.get('staffRole')?.invalid && staffForm.get('staffRole')?.touched"
+                    class="error text-red-500 text-sm mt-1">
+                    Staff Role is required.
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="identityUsername" class="block text-sm font-semibold mb-2">Identity Username</label>
+                <input id="identityUsername" formControlName="identityUsername" type="text" placeholder="Enter Identity Username" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                <div *ngIf="staffForm.get('identityUsername')?.invalid && staffForm.get('identityUsername')?.touched"
+                    class="error text-red-500 text-sm mt-1">
+                    Identity Username is required.
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="email" class="block text-sm font-semibold mb-2">Email</label>
+                <input id="email" formControlName="email" type="email" placeholder="Enter Email" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                <div *ngIf="staffForm.get('email')?.invalid && staffForm.get('email')?.touched"
+                    class="error text-red-500 text-sm mt-1">
+                    A valid email is required.
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="phone" class="block text-sm font-semibold mb-2">Phone</label>
+                <input id="phone" formControlName="phone" type="text" placeholder="Enter Phone Number" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                <div *ngIf="staffForm.get('phone')?.invalid && staffForm.get('phone')?.touched"
+                    class="error text-red-500 text-sm mt-1">
+                    Phone is required.
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="name" class="block text-sm font-semibold mb-2">Name</label>
+                <input id="name" formControlName="name" type="text" placeholder="Enter Name" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                <div *ngIf="staffForm.get('name')?.invalid && staffForm.get('name')?.touched"
+                    class="error text-red-500 text-sm mt-1">
+                    Name is required.
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="licenseNumber" class="block text-sm font-semibold mb-2">License Number</label>
+                <input id="licenseNumber" formControlName="licenseNumber" type="text" placeholder="Enter License Number" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                <div *ngIf="staffForm.get('licenseNumber')?.invalid && staffForm.get('licenseNumber')?.touched"
+                    class="error text-red-500 text-sm mt-1">
+                    License Number is required.
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-2 mt-4">
+                <button type="submit" [disabled]="staffForm.invalid"
+                    class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Submit</button>
+                <button type="button" (click)="closeModal()"
+                    class="px-4 py-2 bg-slate-300 text-black rounded hover:bg-slate-600 transition">Cancel</button>
+            </div>
+
+            <div *ngIf="formError" class="error text-red-500 text-sm mt-2">
+                {{ formError }}
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- List -->
+<div *ngIf="staffList.length > 0" class="staff-list mt-4 mx-auto max-w-4xl px-4">
+    <ul class="space-y-4">
+        <li *ngFor="let staff of staffList"
+            class="staff-item p-4 w-full sm:w-[600px] mx-auto border border-gray-300 rounded-lg bg-white hover:bg-gray-50">
+            <div><strong>Staff Role:</strong> {{ staff.StaffRole }}</div>
+            <div><strong>Username:</strong> {{ staff.IdentityUsername }}</div>
+            <div><strong>Email:</strong> {{ staff.Email }}</div>
+            <div><strong>Phone:</strong> {{ staff.Phone }}</div>
+            <div><strong>Name:</strong> {{ staff.Name }}</div>
+            <div><strong>License Number:</strong> {{ staff.LicenseNumber }}</div>
+            <div class="mt-2 flex space-x-2">
+                <button (click)="updateStaff(staff)"
+                    class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition">Update</button>
+                <button (click)="deleteStaff(staff.staffId)"
+                    class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">Delete</button>
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+<div *ngIf="updateSuccessMessage"
+    class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 w-full max-w-md text-center">
+    {{ updateSuccessMessage }}
+</div>
+
+<div *ngIf="notFound" class="text-center text-red-500 font-semibold text-lg mt-4">
+    No Staff Found.
+</div>
