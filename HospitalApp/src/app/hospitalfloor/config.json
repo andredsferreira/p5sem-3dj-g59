@@ -4,10 +4,10 @@
     "wallTextureUrl": "./wall.jpg",
     "tableModel":{"url":"./models/SurgeryTable/", "obj":"SurgeryTable.obj", "mtl":"SurgeryTable.mtl"},
     "tableWithPersonModel":{"url": "./models/SurgeryTableWithPerson/", "obj":"SurgeryTableWithPerson.obj", "mtl":"SurgeryTableWithPerson.mtl"},
-    "doorModel":{"url":"./models/Room-Door2/", "obj":"porta.obj", "mtl": "porta.mtl"},
+    "doorModel":{"url":"./models/hospital-door/source/", "fbx": "untitled.fbx"},
     "groundSize": {"width": 40, "height": 40},
     "floorSize": { "width": 10, "height": 20 },
-    "wallSize": {"width": 1, "height": 2, "depth": 0.1},
+    "wallSize": {"width": 1.01, "height": 2, "depth": 0.1},
     "map": [
         [3, 2, 2, 3, 2, 2, 2, 3, 2, 2, 1],
         [1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1],

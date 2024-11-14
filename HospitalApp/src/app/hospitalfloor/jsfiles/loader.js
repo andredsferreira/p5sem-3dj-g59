@@ -3,6 +3,7 @@ import Wall from "./wall";
 import Ground from "./ground";
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 
 export default class Loader {
     constructor(description) {
@@ -22,7 +23,39 @@ export default class Loader {
         // Build the maze
         let wallObject;
 
-        function loadObject(description, objectDesc, i, j, { scale, translateY, scaleX = 0, rotateX = 0, rotateY = 0 }) {
+        function loadFbx(description, objectDesc, i, j, { scale, translateY=0, scaleX = 0, rotateY = 0, translateX=0 }){
+            const fbxLoader = new FBXLoader();
+            fbxLoader.load(objectDesc.url + objectDesc.fbx, (obj) => {
+                obj.position.set(
+                    i - description.groundSize.width / 2 + 0.5,
+                    0.5,
+                    j - description.groundSize.height / 2
+                );
+                obj.traverse((node) => {
+                    if (node instanceof THREE.Mesh) {
+                        node.receiveShadow = true;
+                        node.castShadow = true;
+                    }
+                });
+                obj.scale.set(scale,scale,scale);
+                if (scaleX !== 0)
+                    obj.scale.x *= scaleX;
+
+                if (rotateY !== 0) {
+                    obj.rotateY(rotateY);
+                    let rotateOthers;
+                    if(rotateY > 0) rotateOthers = 0.1;
+                    else rotateOthers = 1.1;
+                    obj.translateZ(rotateOthers-0.6);
+                    obj.translateX(rotateOthers);
+                }  
+                obj.translateY(translateY);
+                obj.translateX(translateX);
+                this.object.add(obj);
+            });
+        }
+
+        function loadObj(description, objectDesc, i, j, { scale, translateY, scaleX = 0, rotateX = 0, rotateY = 0 }) {
             const mtlLoader = new MTLLoader();
             mtlLoader.load(objectDesc.url + objectDesc.mtl, (materials) => {
                 materials.preload();
@@ -45,7 +78,6 @@ export default class Loader {
                         else rotateOthers = 0.5;
                         obj.translateZ(rotateOthers);
                         obj.translateX(rotateOthers);
-                        
                     }        
                     if (scaleX !== 0) {
                         obj.scale.x *= scaleX;
@@ -106,22 +138,22 @@ export default class Loader {
                 } else {
                     switch (this.description.map[j][i]) {
                         case 4:
-                            loadObject.call(this, this.description, this.description.table, i, j, { scale: 0.2, translateY: -0.95 });
+                            loadObj.call(this, this.description, this.description.table, i, j, { scale: 0.2, translateY: -0.95 });
                             break;
                         case 5:
-                            loadObject.call(this, this.description, this.description.tableWithPerson, i, j, { scale: 0.2, translateY: -0.95 });
+                            loadObj.call(this, this.description, this.description.tableWithPerson, i, j, { scale: 0.2, translateY: -0.95 });
                             break;
                         case 6:
-                            loadObject.call(this, this.description, this.description.door, i, j, { scale: 0.105, translateY: -0.93, rotateX: Math.PI / 2 });
+                            loadFbx.call(this, this.description, this.description.door, i, j, {scale: 0.00155, translateY: -0.95, translateX: -0.5, scaleX: -0.93});
                             break;
                         case 7:
-                            loadObject.call(this, this.description, this.description.door, i, j, { scale: 0.105, translateY: -0.93, scaleX: -1, rotateX: Math.PI / 2 });
+                            loadFbx.call(this, this.description, this.description.door, i, j, {scale: 0.00155, translateY: -0.95, translateX: 0.5, scaleX: 0.93});
                             break;
                         case 8:
-                            loadObject.call(this, this.description, this.description.door, i, j, { scale: 0.105, translateY: -0.93, rotateX: Math.PI / 2, rotateY: Math.PI / 2 });
+                            loadFbx.call(this, this.description, this.description.door, i, j, {scale: 0.00155, translateY: -0.95, rotateY: Math.PI/2});
                             break;
                         case 9:
-                            loadObject.call(this, this.description, this.description.door, i, j, { scale: 0.105, translateY: -0.93, rotateX: Math.PI / 2, rotateY: -Math.PI / 2 });
+                            loadFbx.call(this, this.description, this.description.door, i, j, {scale: 0.00155, translateY: -0.95, rotateY: -Math.PI/2});
                             break;
                     }
 

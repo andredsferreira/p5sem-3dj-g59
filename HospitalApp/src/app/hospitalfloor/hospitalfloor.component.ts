@@ -43,8 +43,8 @@ export class HospitalFloorComponent implements AfterViewInit {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xfbeef2);
 
-    const axesHelpers = new THREE.AxesHelper(10);
-    this.scene.add(axesHelpers);
+    //const axesHelpers = new THREE.AxesHelper(10);
+    //this.scene.add(axesHelpers);
 
     // Create an instance of Loader
     var loaderInstance = new Loader({map: configJson.map, groundTextureUrl: configJson.floorTextureUrl, 
@@ -53,7 +53,7 @@ export class HospitalFloorComponent implements AfterViewInit {
       wallSize: {width: configJson.wallSize.width, height: configJson.wallSize.height, depth: configJson.wallSize.depth},
       table: {url: configJson.tableModel.url, obj: configJson.tableModel.obj, mtl: configJson.tableModel.mtl},
       tableWithPerson: {url: configJson.tableWithPersonModel.url, obj: configJson.tableWithPersonModel.obj, mtl: configJson.tableWithPersonModel.mtl},
-      door: {url: configJson.doorModel.url, obj: configJson.doorModel.obj, mtl: configJson.doorModel.mtl},
+      door: {url: configJson.doorModel.url, fbx: configJson.doorModel.fbx},
     });
     loaderInstance.object.translateY(configJson.wallSize.height/4)
     this.scene.add(loaderInstance.object);
@@ -68,7 +68,7 @@ export class HospitalFloorComponent implements AfterViewInit {
     const light = new THREE.AmbientLight(0xffffff, 0.5);
     this.scene.add(light);
 
-    const directionalLight = new THREE.DirectionalLight( 0xffffff,7);
+    const directionalLight = new THREE.DirectionalLight( 0xffffff,3);
     directionalLight.castShadow = true;
     directionalLight.position.set( 5,3,5 );
     directionalLight.lookAt(new THREE.Vector3(0,0,0));
@@ -111,7 +111,7 @@ export class HospitalFloorComponent implements AfterViewInit {
     controls.mouseButtons = {
       //LEFT will be defined in the next sprint
       MIDDLE: THREE.MOUSE.DOLLY,
-      LEFT: THREE.MOUSE.ROTATE
+      RIGHT: THREE.MOUSE.ROTATE
     };
     controls.target.set( 0, 0, 0 );
     controls.maxDistance = 40;

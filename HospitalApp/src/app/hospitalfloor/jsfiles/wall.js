@@ -18,10 +18,10 @@ export default class Wall {
         texture.colorSpace = THREE.SRGBColorSpace;
         
         texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
+        texture.wrapT = THREE.ClampToEdgeWrapping;
         texture.repeat.set(this.size.width, this.size.height);
         texture.magFilter = THREE.LinearFilter;
-        texture.minFilter = THREE.LinearMipmapLinearFilter;
+        texture.minFilter = THREE.LinearFilter;
 
         // Create a ground box that receives shadows but does not cast them
         const geometry = new THREE.BoxGeometry(this.size.width, this.size.height, this.size.depth);
