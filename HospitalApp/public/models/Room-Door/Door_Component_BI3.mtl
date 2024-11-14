@@ -10,9 +10,9 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd Door_C.jpg
-map_Bump -bm 0.100000 Door_C.jpg
-map_Ks  Door_C.jpg
+map_Kd textures/Door_C.jpg
+map_Bump -bm 0.100000 textures/Door_C.jpg
+map_Ks  textures/Door_C.jpg
 
 newmtl Glossy
 Ns 96.078431
@@ -23,8 +23,8 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd Door_C.jpg
-refl  Reflexion.jpg
+map_Kd textures/Door_C.jpg
+refl  textures/Reflexion.jpg
 
 newmtl Glossy_Reflexion.jpg
 Ns 96.078431
@@ -35,5 +35,5 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd Reflexion.jpg
-refl  Reflexion.jpg
+map_Kd textures/Reflexion.jpg
+refl  textures/Reflexion.jpg
