@@ -70,7 +70,7 @@ export class StaffService {
 
     try {
       const response = await lastValueFrom(
-        this.http.delete(`https://localhost:5001/api/staff/delete?id=${id}`, { headers })
+        this.http.delete(`https://localhost:5001/api/staff/delete/${id}`, { headers })
       );
       return response;
     } catch (error) {

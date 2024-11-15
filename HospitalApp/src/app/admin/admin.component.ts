@@ -139,11 +139,13 @@ export class AdminComponent {
   }
 
   deleteStaff(staffId: string): void {
+    console.log('Deleting staff:', staffId);
     this.staffIdToDelete = staffId;
     this.confirmingDelete = true;
   }
 
   async confirmDelete(): Promise<void> {
+    console.log('Deleting staff:', this.staffIdToDelete);
     if (this.staffIdToDelete) {
       try {
         await this.staffService.deleteStaff(this.staffIdToDelete);
