@@ -36,12 +36,12 @@ export class AdminComponent {
   constructor(private fb: FormBuilder, private staffService: StaffService) {
     // Formulário de criação de Staff
     this.staffForm = this.fb.group({
-      staffRole: ['', Validators.required],
-      identityUsername: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', Validators.required],
-      FullName: ['', Validators.required],
-      licenseNumber: ['', Validators.required],
+      StaffRole: ['', Validators.required],
+      IdentityUsername: ['', Validators.required],
+      Email: ['', [Validators.required, Validators.email]],
+      Phone: ['', Validators.required],
+      Name: ['', Validators.required],
+      LicenseNumber: ['', Validators.required],
     });
 
     // Formulário de atualização de Staff
@@ -66,21 +66,21 @@ export class AdminComponent {
     if (this.staffForm.valid) {
       try {
         const {
-          staffRole,
-          identityUsername,
-          email,
-          phone,
-          FullName,
-          licenseNumber,
+          StaffRole,
+          IdentityUsername,
+          Email,
+          Phone,
+          Name,
+          LicenseNumber,
         } = this.staffForm.value;
         
         await this.staffService.createStaff({
-          staffRole,
-          identityUsername,
-          email,
-          phone,
-          FullName,
-          licenseNumber,
+          StaffRole,
+          IdentityUsername,
+          Email,
+          Phone,
+          Name,
+          LicenseNumber,
         });
         
         this.closeModal();

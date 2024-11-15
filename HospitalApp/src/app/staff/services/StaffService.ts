@@ -12,13 +12,14 @@ export class StaffService {
   constructor(private http: HttpClient) {}
 
   // Método para criar um Staff
+  
   async createStaff(staff: {
-    staffRole: string,
-    identityUsername: string,
-    email: string,
-    phone: string,
-    FullName: string,
-    licenseNumber: string
+    StaffRole: string,
+    IdentityUsername: string,
+    Email: string,
+    Phone: string,
+    Name: string,
+    LicenseNumber: string
   }): Promise<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`,
