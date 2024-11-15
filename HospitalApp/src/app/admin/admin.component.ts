@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { StaffService } from '../staff/services/StaffService';
+import { ConnectableObservable } from 'rxjs';
 
 @Component({
   selector: 'app-admin',
@@ -39,19 +40,19 @@ export class AdminComponent {
       identityUsername: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
-      name: ['', Validators.required],
+      FullName: ['', Validators.required],
       licenseNumber: ['', Validators.required],
     });
 
     // Formulário de atualização de Staff
     this.updateStaffForm = this.fb.group({
-      staffRole: ['', Validators.required],
+      FullName: ['', Validators.required],
       phone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
     });
 
     this.filterForm = this.fb.group({
-      filterCriteria: ['name', Validators.required],
+      filterCriteria: ['FullName', Validators.required],
       filterValue: ['', Validators.required],
     });
   }
@@ -69,7 +70,7 @@ export class AdminComponent {
           identityUsername,
           email,
           phone,
-          name,
+          FullName,
           licenseNumber,
         } = this.staffForm.value;
         
@@ -78,7 +79,7 @@ export class AdminComponent {
           identityUsername,
           email,
           phone,
-          name,
+          FullName,
           licenseNumber,
         });
         
@@ -101,28 +102,30 @@ export class AdminComponent {
     this.updateStaffForm.reset();
   }
 
-  async updateStaff(staff: any): Promise<void> {
+  async updateStaff(staff: any): Promise<void> {  
+
     this.selectedStaff = staff;
+    
     this.updateStaffForm.patchValue({
-      staffRole: staff.staffRole,
-      phone: staff.phone,
-      email: staff.email,
+      email: staff.Email,
+      phone: staff.Phone,
+      FullName: staff.Name,
     });
     this.showUpdateModal = true;
   }
 
   async onUpdateSubmit(): Promise<void> {
-    if (this.updateStaffForm.valid && this.selectedStaff) {
+    if (this.updateStaffForm.valid ) {
       try {
-        const { staffRole, phone, email } = this.updateStaffForm.value;
+        const { FullName, phone, email } = this.updateStaffForm.value;
         
-        await this.staffService.updateStaff(this.selectedStaff.id, {
-          staffRole,
+        await this.staffService.updateStaff(this.selectedStaff.LicenseNumber, {
+          FullName,
           phone,
           email,
         });
         
-        this.updateSuccessMessage = `Staff with ID ${this.selectedStaff.id} was updated successfully.`;
+        this.updateSuccessMessage = `Staff with ID ${this.selectedStaff.LicenseNumber} was updated successfully.`;
         this.closeUpdateModal();
         this.listStaffs();
 

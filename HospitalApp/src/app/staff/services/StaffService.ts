@@ -17,7 +17,7 @@ export class StaffService {
     identityUsername: string,
     email: string,
     phone: string,
-    name: string,
+    FullName: string,
     licenseNumber: string
   }): Promise<any> {
     const headers = new HttpHeaders({
@@ -38,7 +38,7 @@ export class StaffService {
 
   // Método para atualizar um Staff
   async updateStaff(id: string, staff: {
-    staffRole: string,
+    FullName: string,
     phone: string,
     email: string
   }): Promise<any> {
@@ -47,11 +47,12 @@ export class StaffService {
       'Content-Type': 'application/json'
     });
 
-    const body = { updatedId: id, ...staff };
+    const body = { FullName: staff.FullName, phone: staff.phone, email: staff.email };
+    console.log(JSON.stringify(body));
 
     try {
       const response = await lastValueFrom(
-        this.http.put('https://localhost:5001/api/staff/update', body, { headers })
+        this.http.put(`https://localhost:5001/api/staff/edit/${id}`, body, { headers })
       );
       return response;
     } catch (error) {
