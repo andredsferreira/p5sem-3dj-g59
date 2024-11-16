@@ -51,9 +51,17 @@ Throught the requisites and open questions, we can conclude that US is going to 
 * **Surgery Rooms**, in order to display them.
 * **Appointments**, in order to display if a **Surgery Room** is currently occupied, and link the user to the respective **Appointment** if that's the case.
 
+The client owner also stated that a maximum of **3 rooms** will be scheduled at one given time.
+
 ## 4. Design
 
--
+The team decided that:
+* The information about **Surgery Rooms** and **Appointments** must come from the **Backend**, as it's not viable to run the **Planning** module everytime someone opens the **3D visualization** module.
+* Regarding **3D Models**:
+    * [This](../../../../HospitalApp/public/models/hospital-door/source/README.md) should be the model for the door.
+    * [This](../../../../HospitalApp/public/models/SurgeryTableWithPerson/README.md) should be the model for the **Surgery Table** with a **Person** on it, representing an occupied **Room**. It is a team-made combination of:
+        * A [**Surgery Table** model](../../../../HospitalApp/public/models/SurgeryTable/README.md), which was also team made and appears in the **3D visualization**, representing a **Room** that is not occupied.
+        * A free-to-use [**Human** model](../../../../HospitalApp/public/models/Human/README.md).        
 
 ## 5. C4 Views
 
