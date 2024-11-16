@@ -47,7 +47,9 @@ keep in mind that creating a new surgery room is not something that happens freq
 
 ## 3. Analysis
 
--
+Throught the requisites and open questions, we can conclude that US is going to include information from the domain:
+* **Surgery Rooms**, in order to display them.
+* **Appointments**, in order to display if a **Surgery Room** is currently occupied, and link the user to the respective **Appointment** if that's the case.
 
 ## 4. Design
 
