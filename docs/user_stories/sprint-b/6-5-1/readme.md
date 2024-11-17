@@ -1,4 +1,4 @@
-# US 6.5.1 - Edit a Patient Profile
+# US 6.5.1 - Show a 3D Visualization of the Hospital Floor
 
 As a **healthcare staff member**, I want to see a 3D representation of the hospital/clinic floor. Its description shouls be imported from a **JSON (JavaScript Object Notation)** formatted file. The floor must consist of several surgical table. Each room must be enclosed by walls and include a door and a surgical table. There should be no representation of the ceiling. If a room is being used at any given time, a 3D model of a human body should be lying on the table. Models can either be created or imported.
 
@@ -47,7 +47,7 @@ keep in mind that creating a new surgery room is not something that happens freq
 
 ## 3. Analysis
 
-Throught the requisites and open questions, we can conclude that US is going to include information from the domain:
+Through the requisites and open questions, we can conclude that US is going to include information from the domain:
 * **Surgery Rooms**, in order to display them.
 * **Appointments**, in order to display if a **Surgery Room** is currently occupied, and link the user to the respective **Appointment** if that's the case.
 
