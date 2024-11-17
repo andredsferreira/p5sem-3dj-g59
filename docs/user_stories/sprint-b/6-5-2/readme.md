@@ -28,7 +28,9 @@ This **US** depends on:
 
 ## 3. Analysis
 
--
+Through the requisites, we can conclude that:
+* The textures chosen must be hospital-appropriate.
+* The textures must be mapped in a way that makes sense.
 
 ## 4. Design
 
