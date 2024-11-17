@@ -62,6 +62,9 @@ The team decided that:
     * [This](../../../../HospitalApp/public/models/SurgeryTableWithPerson/README.md) should be the model for the **Surgery Table** with a **Person** on it, representing an occupied **Room**. It is a team-made combination of:
         * A [**Surgery Table** model](../../../../HospitalApp/public/models/SurgeryTable/README.md), which was also team made and appears in the **3D visualization**, representing a **Room** that is not occupied.
         * A free-to-use [**Human** model](../../../../HospitalApp/public/models/Human/README.md).        
+* The general logic is in the main component file, [hospitalfloor.component.ts](../../../../HospitalApp/src/app/hospitalfloor/hospitalfloor.component.ts).
+* The structure construction logic in [loader.js](../../../../HospitalApp/src/app/hospitalfloor/jsfiles/loader.js).
+* The JSON with the structures and models to be used is [config.json](../../../../HospitalApp/src/app/hospitalfloor/config.json).
 
 ## 5. C4 Views
 
@@ -69,7 +72,9 @@ The team decided that:
 
 ## 6. Tests
 
--
+* Test if the structure is loaded
+* Test if the number of rooms in the visualization is the same as the number of rooms received from the *Web API*
+* Test if a human model is shown above the table of an occupied room
 
 ## 7. Implementation
 
