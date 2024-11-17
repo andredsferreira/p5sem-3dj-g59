@@ -54,7 +54,7 @@ The team chose the following textures:
 
 ## 6. Tests
 
--
+* Test if the textures are correctly mapped to the objects.
 
 ## 7. Implementation
 
