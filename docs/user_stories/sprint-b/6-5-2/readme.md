@@ -34,7 +34,19 @@ Through the requisites, we can conclude that:
 
 ## 4. Design
 
--
+The team chose the following textures:
+
+**Ground Texture**
+![](../../../../HospitalApp/public/ground.jfif)
+
+**Hospital Floor Texture**
+![](../../../../HospitalApp/public/floor.png)
+
+**Inside Hospital Wall Texture**
+![](../../../../HospitalApp/public/wall.jpg)
+
+**Hospital Icon Texture**
+![](../../../../HospitalApp/public/icon.png)
 
 ## 5. C4 Views
 
