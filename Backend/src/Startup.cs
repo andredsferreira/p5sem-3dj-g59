@@ -25,6 +25,8 @@ using Backend.Domain.OperationTypes;
 using Backend.Infrastructure.OperationTypes;
 using Backend.Domain.SurgeryRooms;
 using Backend.Infrastructure.SurgeryRooms;
+using Backend.Domain.Appointments;
+using Backend.Infrastructure.Appointments;
 
 namespace Backend;
 public class Startup {
@@ -143,6 +145,8 @@ public class Startup {
         // Operation type
         services.AddTransient<IOperationTypeRepository, OperationTypeRepository>();
         services.AddTransient<AddOperationTypeService>();
+
+        services.AddTransient<IAppointmentRepository, AppointmentRepository>();
 
         services.AddTransient<IDomainLogRepository, DomainLogRepository>();
         services.AddTransient<IMessageSenderService, EmailSenderService>();

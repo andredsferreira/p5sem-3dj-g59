@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Backend.Domain.Shared;
 using Backend.Domain.SurgeryRooms;
+using System;
 
 namespace Backend.Controllers;
 
@@ -42,5 +43,17 @@ public class SurgeryRoomController : ControllerBase {
     public async Task<ActionResult<IEnumerable<SurgeryRoomDTO>>> GetAllPatients() {
         var pats = await _service.GetAll();
         return pats.ToList();
+    }
+
+    [HttpGet("Occupied/{id}/{date}")]
+    public async Task<ActionResult<bool>> IsRoomOccupied(int id, string date){
+        bool result;
+        try{
+            result = await _service.IsRoomOccupiedAsync(new RoomNumber(id), DateTime.ParseExact(date, "yyyyMMddHHmm", null));
+        }
+        catch (KeyNotFoundException){
+            return NotFound();
+        }
+        return Ok(result);
     }
 }

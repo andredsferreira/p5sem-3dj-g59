@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Backend.Domain.Appointments;
 using Backend.Domain.Shared;
 using Backend.Domain.Slots;
 
@@ -13,6 +14,7 @@ public class SurgeryRoom : Entity<SurgeryRoomId>, IAggregateRoot {
     public int Capacity { get; set; }
     public List<string> AssignedEquipment { get; set; }
     public List<DaySlots> MaintenanceSlots {get; set;}
+    public ICollection<Appointment> Appointments { get; set; } = [];
     private SurgeryRoom(){}
 
     public SurgeryRoom(RoomNumber Number, RoomType RoomType, RoomStatus RoomStatus, int Capacity, List<string> AssignedEquipment, List<DaySlots> MaintenanceSlots) {

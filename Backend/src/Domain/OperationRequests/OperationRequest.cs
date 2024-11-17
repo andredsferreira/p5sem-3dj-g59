@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Backend.Domain.Appointments;
 using Backend.Domain.OperationTypes;
 using Backend.Domain.Patients;
 using Backend.Domain.Shared;
@@ -25,6 +27,8 @@ public class OperationRequest : Entity<OperationRequestId>, IAggregateRoot {
     public DateTime dateTime { get; set; } = DateTime.Now;
 
     public OperationRequestStatus requestStatus { get; set; } = OperationRequestStatus.Pending;
+
+    public ICollection<Appointment> Appointments { get; set; } = [];
 
 
 }

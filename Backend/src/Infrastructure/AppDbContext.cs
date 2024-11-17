@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Backend.Domain.SurgeryRooms;
 using Backend.Infrastructure.SurgeryRooms;
 using Backend.Domain.Slots;
+using Backend.Domain.Appointments;
 
 namespace Backend.Infrastructure;
 
@@ -34,6 +35,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
     public virtual DbSet<OperationType> OperationTypes { get; set; }
 
     public virtual DbSet<Staff> Staffs { get; set; }
+
+    public virtual DbSet<Appointment> Appointments {get;set;}
 
     public virtual DbSet<DomainLog> DomainLogs { get; set; }
 
@@ -51,6 +54,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
         modelBuilder.ApplyConfiguration(new SurgeryRoomEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new AppointmentEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new DomainLogEntityTypeConfiguration());
 
         var patientA = new Patient(
