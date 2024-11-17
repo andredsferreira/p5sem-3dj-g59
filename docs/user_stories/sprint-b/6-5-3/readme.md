@@ -42,6 +42,66 @@ Not applicable here, as this functionality doesn't leave room for design decisio
 * Test if the lights are being cast correctly.
 * Test if shadows are being created.
 
+Both of these tests are represented in these methods:
+
+```ts
+  it('should add ambient light to the scene', () => {
+    const light = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(light);
+
+    const ambientLight = scene.children.find(
+      (child) => child instanceof THREE.AmbientLight
+    ) as THREE.AmbientLight;
+
+    expect(ambientLight).toBeTruthy();
+    expect(ambientLight.color.getHex()).toBe(0xffffff);
+    expect(ambientLight.intensity).toBe(0.5);
+  });
+```
+
+```ts
+  it('should add directional light with shadows enabled to the scene', () => {
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 3);
+    directionalLight.castShadow = true;
+    directionalLight.position.set(5, 3, 5);
+    directionalLight.lookAt(new THREE.Vector3(0, 0, 0));
+
+    directionalLight.shadow.mapSize.width = 2048;
+    directionalLight.shadow.mapSize.height = 2048;
+
+    directionalLight.shadow.camera.left = -15;
+    directionalLight.shadow.camera.right = 15;
+    directionalLight.shadow.camera.top = 5;
+    directionalLight.shadow.camera.bottom = -10;
+    directionalLight.shadow.camera.near = -15;
+    directionalLight.shadow.camera.far = 25;
+
+    scene.add(directionalLight);
+
+    const addedDirectionalLight = scene.children.find(
+      (child) => child instanceof THREE.DirectionalLight
+    ) as THREE.DirectionalLight;
+
+    expect(addedDirectionalLight).toBeTruthy();
+    expect(addedDirectionalLight.color.getHex()).toBe(0xffffff);
+    expect(addedDirectionalLight.intensity).toBe(3);
+
+    // Verify shadow settings
+    expect(addedDirectionalLight.castShadow).toBeTrue();
+    expect(addedDirectionalLight.shadow.mapSize.width).toBe(2048);
+    expect(addedDirectionalLight.shadow.mapSize.height).toBe(2048);
+
+    // Verify shadow camera bounds
+    const shadowCamera = addedDirectionalLight.shadow.camera as THREE.OrthographicCamera;
+    expect(shadowCamera.left).toBe(-15);
+    expect(shadowCamera.right).toBe(15);
+    expect(shadowCamera.top).toBe(5);
+    expect(shadowCamera.bottom).toBe(-10);
+    expect(shadowCamera.near).toBe(-15);
+    expect(shadowCamera.far).toBe(25);
+  });
+```
+
 ## 7. Implementation
 
 **hospitalfloor.component.ts**

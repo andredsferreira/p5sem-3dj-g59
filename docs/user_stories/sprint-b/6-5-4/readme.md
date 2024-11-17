@@ -45,11 +45,52 @@ The team decided that:
 ## 6. Tests
 
 * Test if the camera is correctly set up.
+```ts
+  it('should correctly set up the camera and OrbitControls', () => {
+    const controls = new OrbitControls(mockCamera, mockRenderer.domElement);
+    controls.target.set( 0, 0, 0 );
+    controls.maxDistance = 40;
+    controls.minDistance = 5;
+
+    expect(controls.target.x).toBe(0);
+    expect(controls.target.y).toBe(0);
+    expect(controls.target.z).toBe(0);
+
+    expect(controls.maxDistance).toBe(40);
+    expect(controls.minDistance).toBe(5);
+  });
+```
 * Test if the right button and wheel function as intended.
+```ts
+  it('should configure the right mouse button for rotation and the middle button for dolly', () => {
+    const controls = new OrbitControls(mockCamera, mockRenderer.domElement);
+    controls.mouseButtons = {
+      MIDDLE: THREE.MOUSE.DOLLY,
+      RIGHT: THREE.MOUSE.ROTATE,
+    };
+
+    expect(controls.mouseButtons.MIDDLE).toBe(THREE.MOUSE.DOLLY);
+    expect(controls.mouseButtons.RIGHT).toBe(THREE.MOUSE.ROTATE);
+  });
+```
 
 ## 7. Implementation
 
--
+**hospitalfloor.component.ts**
+
+```ts
+const controls = new OrbitControls(this.camera, this.renderer.domElement);
+controls.mouseButtons = {
+    //LEFT will be defined in the next sprint
+    MIDDLE: THREE.MOUSE.DOLLY,
+    RIGHT: THREE.MOUSE.ROTATE
+};
+controls.target.set( 0, 0, 0 );
+controls.maxDistance = 40;
+controls.minDistance = 5;
+```
+
+As stated in the **Design** section, the Camera controls were imported and modified as needed from **OrbitControls**.
 
 ## 8. Demonstration
 

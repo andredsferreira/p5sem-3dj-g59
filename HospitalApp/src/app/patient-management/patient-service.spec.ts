@@ -111,7 +111,7 @@ describe('PatientService', () => {
     });
   
     const req = httpMock.expectOne(`${path}/Patient/Edit/${MedicalRecordNumber}`);
-    expect(req.request.method).toBe('PUT');
+    expect(req.request.method).toBe('PATCH');
     expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
     req.flush(mockPatient);
   });
