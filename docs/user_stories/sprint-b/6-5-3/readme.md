@@ -27,11 +27,11 @@ This **US** is part of the **3D visualization module**.
 
 ## 3. Analysis
 
--
+Not applicable here, as this functionality has no business logic.
 
 ## 4. Design
 
--
+Not applicable here, as this functionality doesn't leave room for design decisions.
 
 ## 5. C4 Views
 
@@ -39,7 +39,8 @@ This **US** is part of the **3D visualization module**.
 
 ## 6. Tests
 
--
+* Test if the lights are being cast correctly.
+* Test if shadows are being created.
 
 ## 7. Implementation
 
