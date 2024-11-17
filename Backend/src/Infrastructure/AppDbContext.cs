@@ -31,8 +31,6 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
 
     public virtual DbSet<SurgeryRoom> Rooms { get; set; }
 
-    //public virtual DbSet<Slot> Slots { get; set; }
-
     public virtual DbSet<OperationType> OperationTypes { get; set; }
 
     public virtual DbSet<Staff> Staffs { get; set; }
@@ -390,7 +388,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             OperationRequestStatus.Pending);
 
         //SeedSurgeryRoom(modelBuilder, new RoomNumber(200), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor"], [new Slot(DateOnly.Parse("2024-11-13"), TimeOnly.Parse("09:00"), TimeOnly.Parse("10:00"))]);  
-        SeedSurgeryRoom(modelBuilder, new RoomNumber(200), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor"], ["09:00", "10:00"]);  
+        SeedSurgeryRoom(modelBuilder, new RoomNumber(200), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor"], [new DaySlots(new DateOnly(2024,10,28),[new Slot(new TimeOnly(9,30),new TimeOnly(10,0))])]);  
 
         base.OnModelCreating(modelBuilder);
     }
@@ -410,15 +408,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
 
     }
 
-    //private void SeedSurgeryRoom(ModelBuilder builder, RoomNumber Number, RoomType RoomType, RoomStatus RoomStatus, int Capacity, List<string> AssignedEquipment, List<Slot> MaintenanceSlots){
-    //    var surgeryRoom = new SurgeryRoom(
-    //        Number, RoomType, RoomStatus, Capacity,
-    //        AssignedEquipment, MaintenanceSlots
-    //    );
-    //    builder.Entity<SurgeryRoom>().HasData(surgeryRoom);
-    //}
-
-    private void SeedSurgeryRoom(ModelBuilder builder, RoomNumber Number, RoomType RoomType, RoomStatus RoomStatus, int Capacity, List<string> AssignedEquipment, List<string> MaintenanceSlots){
+    private void SeedSurgeryRoom(ModelBuilder builder, RoomNumber Number, RoomType RoomType, RoomStatus RoomStatus, int Capacity, List<string> AssignedEquipment, List<DaySlots> MaintenanceSlots){
         var surgeryRoom = new SurgeryRoom(
             Number, RoomType, RoomStatus, Capacity,
             AssignedEquipment, MaintenanceSlots

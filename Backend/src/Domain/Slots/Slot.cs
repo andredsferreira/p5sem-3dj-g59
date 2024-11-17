@@ -1,28 +1,23 @@
 using System;
-using Backend.Domain.Shared;
-using Backend.Domain.Staffs;
-using Backend.Domain.SurgeryRooms;
 
 namespace Backend.Domain.Slots;
 
-public class Slot : Entity<SlotId> {
-    public SurgeryRoomId surgeryRoomId;
-    public StaffId staffId;
-    public DateOnly day;
+public class Slot {
     public TimeOnly begin, end;
-    public Slot(SurgeryRoomId surgeryRoomId, DateOnly day, TimeOnly begin, TimeOnly end){
-        generalConstructor(day, begin, end);
-        this.surgeryRoomId = surgeryRoomId;
+    public Slot(string slot){
+        Console.WriteLine(slot);
+        slot = slot[1..^1];
+        string[] times = slot.Split(",");
+        begin = TimeOnly.Parse(times[0]);
+        end = TimeOnly.Parse(times[1]);
     }
-    public Slot(StaffId staffId, DateOnly day, TimeOnly begin, TimeOnly end){
-        generalConstructor(day, begin, end);
-        this.staffId = staffId;
-    }
-    private void generalConstructor(DateOnly day, TimeOnly begin, TimeOnly end){
+    public Slot(TimeOnly begin, TimeOnly end){
         if(begin.CompareTo(end) > 0) throw new Exception("End time cannot be before Start time");
-        Id = new SlotId(Guid.NewGuid());
-        this.day = day;
         this.begin = begin;
         this.end = end;
+    }
+    public override string ToString()
+    {
+        return "["+begin.ToString()+","+end.ToString()+"]";
     }
 }

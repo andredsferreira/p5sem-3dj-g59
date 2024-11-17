@@ -19,18 +19,14 @@ public class SurgeryRoomController : ControllerBase {
 
     private readonly SurgeryRoomService _service;
 
-
-    private readonly UserManager<IdentityUser> userManager;
-
-    public SurgeryRoomController(SurgeryRoomService service, UserManager<IdentityUser> userManager) {
+    public SurgeryRoomController(SurgeryRoomService service) {
         _service = service;
-        this.userManager = userManager;
     }
 
     [HttpPost("Create")]
     [Authorize(Roles = HospitalRoles.Admin)]
-    public async Task<ActionResult<SurgeryRoomDTO>> CreatePatient(SurgeryRoomDTO dto) {
-        var cat = await _service.CreatePatient(dto);
+    public async Task<ActionResult<SurgeryRoomDTO>> CreateRoom(SurgeryRoomDTO dto) {
+        var cat = await _service.CreateRoom(dto);
         return CreatedAtAction(nameof(GetRoomByNumber), new { id = cat.Number }, cat);
     }
 

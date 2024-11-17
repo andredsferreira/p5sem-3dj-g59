@@ -397,11 +397,11 @@ namespace Backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "03b12819-03f4-46c0-bb65-4b59dca2b24e", null, "Technician", "TECHNICIAN" },
-                    { "279ae6ee-bd35-4926-a954-16e90f34e3ea", null, "Doctor", "DOCTOR" },
-                    { "a3c8618d-d543-4184-984f-7a07611b01ff", null, "Nurse", "NURSE" },
-                    { "b3af442d-f001-4346-8cc3-64168586b0ef", null, "Admin", "ADMIN" },
-                    { "d9eaf0c7-38ec-4d98-9f47-e3eaeba30564", null, "Patient", "PATIENT" }
+                    { "47963905-fd7b-480c-9bc7-8343b78958db", null, "Patient", "PATIENT" },
+                    { "5f8f4e1a-f1d0-4271-bc63-93c8e7c32d27", null, "Admin", "ADMIN" },
+                    { "6b9b1541-cc32-4b91-ba84-f2c433cb1665", null, "Nurse", "NURSE" },
+                    { "8025f309-ff88-4697-90ff-918d19fdc185", null, "Doctor", "DOCTOR" },
+                    { "edb5811a-0b2d-4aa4-bef1-a1744ba12db5", null, "Technician", "TECHNICIAN" }
                 });
 
             migrationBuilder.InsertData(
@@ -409,13 +409,13 @@ namespace Backend.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "121d102a-6b3d-4cc5-baaa-194543e11f08", 0, "6853f355-0bf0-4524-9f62-a7c5e11012a5", "nurse@hospital.com", true, false, null, "NURSE@HOSPITAL.COM", "NURSE", "AQAAAAIAAYagAAAAEPqxj2sLyO2Z8mm7Zww7mpNNvQZq3B/GLDCIqB4HiuqmfJOZrWSutAJTA8adW8tzlQ==", null, false, "b8544006-6665-4451-a601-c4093ea76b64", false, "nurse" },
-                    { "66629a42-f4ca-4820-8c79-894c01bcd9b7", 0, "80646f5d-b2f5-4580-a5a7-299a16b5c1f3", "patient@hospital.com", true, false, null, "PATIENT@HOSPITAL.COM", "PATIENT", "AQAAAAIAAYagAAAAENRZaulqcWZAUyv9nXbEBMgShxS31Po9al6QBOZJgGmTKVI9+4Jr9CmJVZdv5ULRsQ==", null, false, "ba669269-8901-46de-adfc-f4a4f28ec628", false, "patient" },
-                    { "8304c0ea-c720-4e71-9fff-f0ef1b8409d8", 0, "f734d859-ae3b-48ad-aca3-cee57787cbd6", "tiago@hospital.com", true, false, null, "TIAGO@HOSPITAL.COM", "TIAGO", "AQAAAAIAAYagAAAAEPe8lfyUQBCWqehPdOcQuSsIYkg3mSILXbtOZLS/A0JWNI5ihnGXyMzWiCMwkmpqyA==", null, false, "31b008a7-77a2-45cf-bf88-63595b71894a", false, "tiago" },
-                    { "b2860946-768f-4e93-9f96-5c140f3dd17f", 0, "8ac96047-801d-4139-97fb-8735090a6cda", "technician@hospital.com", true, false, null, "TECHNICIAN@HOSPITAL.COM", "TECHNICIAN", "AQAAAAIAAYagAAAAEC8g7Ne8jNISA2LNNsKmQyvYrnL9nHo3e5+7X9XZwTGjfnmfyHweblQpXveFBpEeUA==", null, false, "a60da534-c343-4c22-b7f5-f71801330b3d", false, "technician" },
-                    { "b7601193-e8e5-44cc-9d0d-79cffa9c82ec", 0, "1e3cbf3d-5ab3-4b13-ba17-c97c76eb244d", "andre@hospital.com", true, false, null, "ANDRE@HOSPITAL.COM", "ANDRE", "AQAAAAIAAYagAAAAEFDPrlMa2omws8euMDnPy7SAlV6CRdy/RlD7F9rlsLyCe+AZqE7nX/gElNYJE3pW4g==", null, false, "2bcdcfc4-f17e-42a0-8e13-732082ce8888", false, "andre" },
-                    { "da9e65af-95ea-41af-b72a-328f9966f7f4", 0, "798a4f17-706e-4594-8bed-69b350ca2943", "admin@hospital.com", true, false, null, "ADMIN@HOSPITAL.COM", "ADMIN", "AQAAAAIAAYagAAAAEMEylLsa9fZzwEUY+farb3cjH8YqzQEr7lrctNFhVL+xGTND+BuZIDyi3GmCYNi4lw==", null, false, "526cde0e-9314-4d49-82e7-f7891d183a38", false, "admin" },
-                    { "e1a697e8-ca09-4adb-ac5a-33de5d895993", 0, "32318392-d053-4006-8f68-c41484b184e8", "doctor@hospital.com", true, false, null, "DOCTOR@HOSPITAL.COM", "DOCTOR", "AQAAAAIAAYagAAAAEPa6oJHOpWGxytHPY9d8HMrkOmOSwEaX565gz6ATXeXf/cueGw/BfhOlyNwjYZR5GA==", null, false, "ca74d084-6fb5-478b-bcda-cc6d980d18b0", false, "doctor" }
+                    { "0f8130b5-e1a9-41a2-b3ee-dba2ae1ace09", 0, "0b74bfff-6729-4916-8805-cd0a0655c394", "nurse@hospital.com", true, false, null, "NURSE@HOSPITAL.COM", "NURSE", "AQAAAAIAAYagAAAAEPxEb+HQJw1c2pxOUC8FeaDVde+ow4VznZ80cPVp0L+1sUsbJQAaGa0JJZYUpoJApQ==", null, false, "0bce9a04-b222-40d7-8f7b-6e71c3e0c73a", false, "nurse" },
+                    { "33c7275c-5e4e-4fcb-b2d5-ce7d20c181cb", 0, "03094051-b43c-4626-8e41-77e2a0536c00", "andre@hospital.com", true, false, null, "ANDRE@HOSPITAL.COM", "ANDRE", "AQAAAAIAAYagAAAAEHw+Wk6TQbkawwnmafoqtKNiFLvboC3wmE7tQCU21+gpCnxnERk4MEcO2gts2itj9g==", null, false, "a077f12c-b20b-4805-81b7-79c6425056bb", false, "andre" },
+                    { "5d9e65fa-d651-4673-81b5-6cf10f4ec872", 0, "7f9815d6-97e5-4e27-91b4-d01afa938d3e", "doctor@hospital.com", true, false, null, "DOCTOR@HOSPITAL.COM", "DOCTOR", "AQAAAAIAAYagAAAAED6Bb9H/iPk+ZxtfxseqQDYkq38CNzRNJX3kfx6V7PhWdJWUPrzbKonJn+GCwwnqfw==", null, false, "a76f6127-d7f8-4907-aa80-f3164f872350", false, "doctor" },
+                    { "919be094-987e-46d0-9ff5-2c2ef9be532a", 0, "99de1e37-4433-4683-9931-4064bd181e07", "tiago@hospital.com", true, false, null, "TIAGO@HOSPITAL.COM", "TIAGO", "AQAAAAIAAYagAAAAEKtQ1qA39Om0FWAJGMZAedFb5TW1u9kHlSE//zBPgLAumv8GWMnjBDw3iazgIFv6mQ==", null, false, "212e42d3-b6ce-4753-9430-a9ff48b1104e", false, "tiago" },
+                    { "a031e988-c76f-48b4-a045-b249fa33f8cc", 0, "1577612c-a812-4570-9181-6a99a856b254", "admin@hospital.com", true, false, null, "ADMIN@HOSPITAL.COM", "ADMIN", "AQAAAAIAAYagAAAAEDEHAFSAhjuoXDNj9GSTfCQ9HoQRMxkaPcTK22UZRx6cpw3uygUGUWDQvlAt2dZPXQ==", null, false, "253e511d-1e83-4b1c-8bfd-dc7994326897", false, "admin" },
+                    { "aa304386-f654-4ee3-95ec-e279921c983e", 0, "489cb354-3b54-41a5-b355-eb9705e7e311", "technician@hospital.com", true, false, null, "TECHNICIAN@HOSPITAL.COM", "TECHNICIAN", "AQAAAAIAAYagAAAAECRSef/0xFc54I8tsH7XjozTfpccbzS5UcZmlf37d+ytxcnZJ2uNxVwg99Nwy05cnw==", null, false, "4ac45263-4a0b-47cd-bf36-adbdb07a37b0", false, "technician" },
+                    { "b53a3e3c-a633-446c-839c-e070407dc5b9", 0, "c9f35f26-e2bb-4dbc-8323-19833082bad0", "patient@hospital.com", true, false, null, "PATIENT@HOSPITAL.COM", "PATIENT", "AQAAAAIAAYagAAAAECqkhEvRgw5jjAjCCAV50Xd3uyeCEI3VXuF4Y9W9A/PqLHJMuL5ZXof7R4tyAuQGuw==", null, false, "a0758f02-cd6a-46f0-ad65-297f40fa8335", false, "patient" }
                 });
 
             migrationBuilder.InsertData(
@@ -424,16 +424,16 @@ namespace Backend.Migrations
                 columns: new[] { "Id", "MinAnesthetist", "MinCirculatingNurse", "MinDoctor", "MinInstrumentingNurse", "MinMedicalActionAssistant", "MinNurseAnaesthetist", "MinXRayTechnician", "Specialization", "Status", "anaesthesiaTime", "cleaningTime", "name", "surgeryTime" },
                 values: new object[,]
                 {
-                    { new Guid("06e69a44-f66f-4356-84ff-e2023d582c65"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Hip replacement", 0 },
-                    { new Guid("1eef30c5-3c58-4222-b16c-fa966bbb62a4"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Lumbar disectomy", 0 },
-                    { new Guid("2ebba2ec-e38d-4c49-b049-655bf5229363"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Carpal tunnel syndrome", 0 },
-                    { new Guid("358f8c51-0047-43a6-bd30-ac468959ec31"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Trigger finger", 0 },
-                    { new Guid("5df5e4cc-fcb9-4988-a65a-cb1b6b6fcfce"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Knee replacement", 0 },
-                    { new Guid("8e92ad66-d580-42ce-85ce-37602e2f71fe"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "ACL reconstruction", 0 },
-                    { new Guid("b3a9c0bd-3cca-4e1d-8f0e-373d716b0549"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Rotator cuff repair", 0 },
-                    { new Guid("b9a94298-3f5d-472c-840b-1d5ab6f0aef6"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Shoulder replacement", 0 },
-                    { new Guid("e7513a0a-373a-4a9f-bdd1-f71857721773"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Meniscal inury treatment", 0 },
-                    { new Guid("f687c7ec-19ae-437c-a179-fe2d1156f875"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Ankle ligaments repair", 0 }
+                    { new Guid("027588b8-6c0b-4acf-a9d4-2293f1439452"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Carpal tunnel syndrome", 0 },
+                    { new Guid("0c4d43f6-7d19-4e92-9609-1b630e713661"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "ACL reconstruction", 0 },
+                    { new Guid("193f7e79-db4f-4c0f-b9c2-a0cd8375ef2c"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Ankle ligaments repair", 0 },
+                    { new Guid("34f25021-5d81-49e4-b6a9-c32c7912fe70"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Rotator cuff repair", 0 },
+                    { new Guid("649868fb-0b3b-44bb-a6bb-9944a2cc2361"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Trigger finger", 0 },
+                    { new Guid("9b13028b-a48a-4b46-9c47-647ed5998c49"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Lumbar disectomy", 0 },
+                    { new Guid("a4e65b61-bb88-4f00-b3db-6012f673f670"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Meniscal inury treatment", 0 },
+                    { new Guid("c258452a-fdb9-4631-8e42-c6a0f55328f1"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Hip replacement", 0 },
+                    { new Guid("d5623d59-8ab9-4585-b25b-67a785fe0bdf"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Shoulder replacement", 0 },
+                    { new Guid("f97c9032-a554-4836-8279-20fa7fc50cb5"), 1, 1, 1, 1, 1, 1, 1, 0, "ACTIVE", 0, 0, "Knee replacement", 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -442,19 +442,19 @@ namespace Backend.Migrations
                 columns: new[] { "Id", "DateOfBirth", "Email", "FullName", "Gender", "MedicalRecordNumber", "PhoneNumber", "UserEmail" },
                 values: new object[,]
                 {
-                    { "08fddd3e-cb65-45c8-b282-dee11656a8c9", new DateOnly(1994, 1, 15), "patientI@hospital.com", "Isabel Pereira", "Female", "202410000009", "910555339", null },
-                    { "1220249d-7797-4ed6-801e-924f45b68682", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "Male", "202410000002", "910555222", null },
-                    { "30a31600-ba58-46e4-aa17-f7c249bc7fb6", new DateOnly(1990, 7, 19), "patientH@hospital.com", "Henrique Almeida", "Male", "202410000008", "910555338", null },
-                    { "462e3764-e58d-492d-bfa8-3c5eb3606adf", new DateOnly(1982, 6, 8), "patientJ@hospital.com", "João Lima", "Male", "202410000010", "910555340", null },
-                    { "4fa26fb1-2aa1-42f0-b443-4538a4a6d19e", new DateOnly(1987, 4, 12), "patientL@hospital.com", "Lucas Rodrigues", "Male", "202410000012", "910555342", null },
-                    { "63cdd304-c40d-4b15-be4a-44acafc85fa2", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "Male", "202410000001", "910555111", null },
-                    { "64b39a11-46df-4443-a43a-685fd2179e85", new DateOnly(1996, 9, 25), "patientK@hospital.com", "Karina Martins", "Female", "202410000011", "910555341", null },
-                    { "84de3125-e4cb-4281-88dc-8cddb9089388", new DateOnly(1992, 8, 22), "patientE@hospital.com", "Emma Sousa", "Female", "202410000005", "910555335", null },
-                    { "9f5fe0aa-3eb1-4986-874c-7b3010214c2f", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "Female", "202410000003", "910555333", null },
-                    { "a89d6afd-692c-4cb5-8bc6-73547872e8c5", new DateOnly(1988, 5, 14), "patientD@hospital.com", "David Oliveira", "Male", "202410000004", "910555334", null },
-                    { "b17f08f0-9351-4384-bbcf-607cd525405f", new DateOnly(1985, 3, 10), "patientF@hospital.com", "Felipe Costa", "Male", "202410000006", "910555336", null },
-                    { "b81f5794-88dd-4f15-a617-70a5385f26ec", new DateOnly(2000, 11, 2), "patientG@hospital.com", "Gabriela Santos", "Female", "202410000007", "910555337", null },
-                    { "dd3d37e9-aa7d-473e-90f8-607c8c13749e", new DateOnly(1993, 12, 5), "patientM@hospital.com", "Marta Silva", "Female", "202410000013", "910555343", null }
+                    { "0fb3e11d-9d0b-436c-9f21-246101405e33", new DateOnly(2000, 11, 2), "patientG@hospital.com", "Gabriela Santos", "Female", "202410000007", "910555337", null },
+                    { "434bd425-9598-4233-9d5d-d701c7e3dc86", new DateOnly(1985, 3, 10), "patientF@hospital.com", "Felipe Costa", "Male", "202410000006", "910555336", null },
+                    { "75284377-cfe5-4190-9ec8-6a792763c976", new DateOnly(1987, 4, 12), "patientL@hospital.com", "Lucas Rodrigues", "Male", "202410000012", "910555342", null },
+                    { "76e1138e-af45-49b8-9045-9714b57a12f6", new DateOnly(1992, 8, 22), "patientE@hospital.com", "Emma Sousa", "Female", "202410000005", "910555335", null },
+                    { "776a0a7f-fe55-4656-8f3f-832aa82f0e16", new DateOnly(1998, 5, 14), "patientB@hospital.com", "Bruno Silva", "Male", "202410000002", "910555222", null },
+                    { "89ce250b-6958-4be1-bb32-9fa183ab0d6e", new DateOnly(1990, 7, 19), "patientH@hospital.com", "Henrique Almeida", "Male", "202410000008", "910555338", null },
+                    { "8ae2bc7a-4047-4fa6-9c28-63250b11ea11", new DateOnly(1995, 12, 30), "patientC@hospital.com", "Carla Ferreira", "Female", "202410000003", "910555333", null },
+                    { "934c2b06-5273-4e55-b493-32be379fdbff", new DateOnly(1988, 5, 14), "patientD@hospital.com", "David Oliveira", "Male", "202410000004", "910555334", null },
+                    { "9b3bc8c0-c1c8-48c6-ba0a-87d54d5ebedd", new DateOnly(1993, 12, 5), "patientM@hospital.com", "Marta Silva", "Female", "202410000013", "910555343", null },
+                    { "ade041a0-29d0-4654-bd3c-1c53c4e68b79", new DateOnly(1996, 9, 25), "patientK@hospital.com", "Karina Martins", "Female", "202410000011", "910555341", null },
+                    { "e15b6d17-c89d-4942-a736-e735753d553d", new DateOnly(1982, 6, 8), "patientJ@hospital.com", "João Lima", "Male", "202410000010", "910555340", null },
+                    { "f05afd70-a2b2-4cdb-b716-9a4f902c35d7", new DateOnly(2001, 10, 21), "patientA@hospital.com", "João Camião", "Male", "202410000001", "910555111", null },
+                    { "f556982b-b778-4def-b2a0-b42b24baf2f4", new DateOnly(1994, 1, 15), "patientI@hospital.com", "Isabel Pereira", "Female", "202410000009", "910555339", null }
                 });
 
             migrationBuilder.InsertData(
@@ -463,30 +463,30 @@ namespace Backend.Migrations
                 columns: new[] { "Id", "Email", "FullName", "IdentityUsername", "LicenseNumber", "PhoneNumber", "StaffRole" },
                 values: new object[,]
                 {
-                    { "1b874f2c-7ab3-47f8-8d42-4df654abdbe8", "pedro@hospital.com", "Pedro Carvalho Oliveira Monteiro", "pedro", "f47ac10b-08cc-4372-a507-0e02b2d3d479", "910555111", "Doctor" },
-                    { "753e0ada-4ee6-40b3-b638-cf7d0b284ffa", "tiago@hospital.com", "Tiago Filipe Carvalho Nunes", "tiago", "f57ac10b-68cc-5372-a567-1e02b2c3d479", "930555333", "Doctor" },
-                    { "b06c4e76-e81e-4e59-aaea-c21b1e97f457", "andre@hospital.com", "André de Sousa Ferreira", "andre", "f47ac10b-58cc-4372-a567-0e02b2c3d479", "920555222", "Doctor" },
-                    { "cea9b410-3300-40f1-9e6a-2895d62fc04d", "nurse@hospital.com", "Nurse One", "nurse", "n47ac10b-58cc-4372-a567-0e02b2c3d481", "910555567", "Nurse" }
+                    { "08849d66-77ec-4d2d-a561-a8f694c1cb21", "nurse@hospital.com", "Nurse One", "nurse", "n47ac10b-58cc-4372-a567-0e02b2c3d481", "910555567", "Nurse" },
+                    { "3faa9aaf-5958-4b8c-b7cf-b730b381faa1", "pedro@hospital.com", "Pedro Carvalho Oliveira Monteiro", "pedro", "f47ac10b-08cc-4372-a507-0e02b2d3d479", "910555111", "Doctor" },
+                    { "52a883ca-9c58-41cf-a5b0-dc2e4224cf50", "andre@hospital.com", "André de Sousa Ferreira", "andre", "f47ac10b-58cc-4372-a567-0e02b2c3d479", "920555222", "Doctor" },
+                    { "7684bba1-f6a6-4c1b-8ceb-0f6a80b89d5a", "tiago@hospital.com", "Tiago Filipe Carvalho Nunes", "tiago", "f57ac10b-68cc-5372-a567-1e02b2c3d479", "930555333", "Doctor" }
                 });
 
             migrationBuilder.InsertData(
                 schema: "projeto5sem",
                 table: "SurgeryRoom",
                 columns: new[] { "Id", "AssignedEquipment", "Capacity", "MaintenanceSlots", "Number", "RoomStatus", "RoomType" },
-                values: new object[] { "c536b45f-92c4-4e94-bf3c-2f8d93dbea57", "[\"Scalpel\",\"Monitor\"]", 10, "[\"09:00\",\"10:00\"]", 200, "Available", "OperatingRoom" });
+                values: new object[] { "ce9668d8-a46a-42b7-a7c7-0004df9aa031", "[\"Scalpel\",\"Monitor\"]", 10, "[\"28/10/2024=[09:30,10:00];\"]", 200, "Available", "OperatingRoom" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "a3c8618d-d543-4184-984f-7a07611b01ff", "121d102a-6b3d-4cc5-baaa-194543e11f08" },
-                    { "d9eaf0c7-38ec-4d98-9f47-e3eaeba30564", "66629a42-f4ca-4820-8c79-894c01bcd9b7" },
-                    { "279ae6ee-bd35-4926-a954-16e90f34e3ea", "8304c0ea-c720-4e71-9fff-f0ef1b8409d8" },
-                    { "03b12819-03f4-46c0-bb65-4b59dca2b24e", "b2860946-768f-4e93-9f96-5c140f3dd17f" },
-                    { "279ae6ee-bd35-4926-a954-16e90f34e3ea", "b7601193-e8e5-44cc-9d0d-79cffa9c82ec" },
-                    { "b3af442d-f001-4346-8cc3-64168586b0ef", "da9e65af-95ea-41af-b72a-328f9966f7f4" },
-                    { "279ae6ee-bd35-4926-a954-16e90f34e3ea", "e1a697e8-ca09-4adb-ac5a-33de5d895993" }
+                    { "6b9b1541-cc32-4b91-ba84-f2c433cb1665", "0f8130b5-e1a9-41a2-b3ee-dba2ae1ace09" },
+                    { "8025f309-ff88-4697-90ff-918d19fdc185", "33c7275c-5e4e-4fcb-b2d5-ce7d20c181cb" },
+                    { "8025f309-ff88-4697-90ff-918d19fdc185", "5d9e65fa-d651-4673-81b5-6cf10f4ec872" },
+                    { "8025f309-ff88-4697-90ff-918d19fdc185", "919be094-987e-46d0-9ff5-2c2ef9be532a" },
+                    { "5f8f4e1a-f1d0-4271-bc63-93c8e7c32d27", "a031e988-c76f-48b4-a045-b249fa33f8cc" },
+                    { "edb5811a-0b2d-4aa4-bef1-a1744ba12db5", "aa304386-f654-4ee3-95ec-e279921c983e" },
+                    { "47963905-fd7b-480c-9bc7-8343b78958db", "b53a3e3c-a633-446c-839c-e070407dc5b9" }
                 });
 
             migrationBuilder.InsertData(
@@ -495,23 +495,23 @@ namespace Backend.Migrations
                 columns: new[] { "Id", "dateTime", "operationTypeId", "patientId", "priority", "requestStatus", "staffId" },
                 values: new object[,]
                 {
-                    { new Guid("017d35a2-8026-4708-b720-e47ea0da5842"), new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("e7513a0a-373a-4a9f-bdd1-f71857721773"), "dd3d37e9-aa7d-473e-90f8-607c8c13749e", "Emergency", "Pending", "1b874f2c-7ab3-47f8-8d42-4df654abdbe8" },
-                    { new Guid("19fcb58a-14d5-4863-ae5b-85934caa5a00"), new DateTime(2025, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("06e69a44-f66f-4356-84ff-e2023d582c65"), "63cdd304-c40d-4b15-be4a-44acafc85fa2", "Emergency", "Pending", "753e0ada-4ee6-40b3-b638-cf7d0b284ffa" },
-                    { new Guid("4c16f5f6-f2ee-4960-ba14-5f50f2fdc139"), new DateTime(2024, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("2ebba2ec-e38d-4c49-b049-655bf5229363"), "462e3764-e58d-492d-bfa8-3c5eb3606adf", "Urgent", "Pending", "753e0ada-4ee6-40b3-b638-cf7d0b284ffa" },
-                    { new Guid("5411443c-f9ee-4f54-b216-51b5d1c3a05a"), new DateTime(2025, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("5df5e4cc-fcb9-4988-a65a-cb1b6b6fcfce"), "4fa26fb1-2aa1-42f0-b443-4538a4a6d19e", "Urgent", "Pending", "753e0ada-4ee6-40b3-b638-cf7d0b284ffa" },
-                    { new Guid("5b6fb55f-9bd5-4971-928a-12ad3d0d0bad"), new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("06e69a44-f66f-4356-84ff-e2023d582c65"), "a89d6afd-692c-4cb5-8bc6-73547872e8c5", "Urgent", "Pending", "1b874f2c-7ab3-47f8-8d42-4df654abdbe8" },
-                    { new Guid("5e9a4951-5681-4805-a6cd-fbe50e14f2f2"), new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("1eef30c5-3c58-4222-b16c-fa966bbb62a4"), "30a31600-ba58-46e4-aa17-f7c249bc7fb6", "Urgent", "Pending", "b06c4e76-e81e-4e59-aaea-c21b1e97f457" },
-                    { new Guid("5ff7eca9-e80a-4bf6-95c0-8dceebc1b647"), new DateTime(2024, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("358f8c51-0047-43a6-bd30-ac468959ec31"), "08fddd3e-cb65-45c8-b282-dee11656a8c9", "Elective", "Pending", "753e0ada-4ee6-40b3-b638-cf7d0b284ffa" },
-                    { new Guid("69f7014c-7d64-4afe-8da1-05f81f4bc691"), new DateTime(2025, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("f687c7ec-19ae-437c-a179-fe2d1156f875"), "b81f5794-88dd-4f15-a617-70a5385f26ec", "Emergency", "Pending", "b06c4e76-e81e-4e59-aaea-c21b1e97f457" },
-                    { new Guid("6c1e6c83-836f-489a-9761-d1a4a72a24a6"), new DateTime(2025, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("358f8c51-0047-43a6-bd30-ac468959ec31"), "08fddd3e-cb65-45c8-b282-dee11656a8c9", "Emergency", "Pending", "b06c4e76-e81e-4e59-aaea-c21b1e97f457" },
-                    { new Guid("96613806-30c7-4422-81e9-76d4dbb08e73"), new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("b3a9c0bd-3cca-4e1d-8f0e-373d716b0549"), "b17f08f0-9351-4384-bbcf-607cd525405f", "Urgent", "Pending", "b06c4e76-e81e-4e59-aaea-c21b1e97f457" },
-                    { new Guid("a9a794f2-50d1-4b21-a5eb-11330cbefee5"), new DateTime(2025, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("8e92ad66-d580-42ce-85ce-37602e2f71fe"), "64b39a11-46df-4443-a43a-685fd2179e85", "Emergency", "Pending", "753e0ada-4ee6-40b3-b638-cf7d0b284ffa" },
-                    { new Guid("bc03ade7-0057-4104-8de8-1668bdf8f6e9"), new DateTime(2024, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("5df5e4cc-fcb9-4988-a65a-cb1b6b6fcfce"), "1220249d-7797-4ed6-801e-924f45b68682", "Urgent", "Pending", "1b874f2c-7ab3-47f8-8d42-4df654abdbe8" },
-                    { new Guid("c637d754-ab0d-427c-96ad-bc0dcda19340"), new DateTime(2025, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("b9a94298-3f5d-472c-840b-1d5ab6f0aef6"), "dd3d37e9-aa7d-473e-90f8-607c8c13749e", "Urgent", "Pending", "753e0ada-4ee6-40b3-b638-cf7d0b284ffa" },
-                    { new Guid("dad926e8-2818-46af-8e4c-c7d358329b92"), new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("8e92ad66-d580-42ce-85ce-37602e2f71fe"), "63cdd304-c40d-4b15-be4a-44acafc85fa2", "Elective", "Pending", "1b874f2c-7ab3-47f8-8d42-4df654abdbe8" },
-                    { new Guid("e13376ec-f1c8-4a9c-aa9d-caac8709a26d"), new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("b9a94298-3f5d-472c-840b-1d5ab6f0aef6"), "9f5fe0aa-3eb1-4986-874c-7b3010214c2f", "Emergency", "Pending", "1b874f2c-7ab3-47f8-8d42-4df654abdbe8" },
-                    { new Guid("f21c6a3e-9259-461a-acd5-b4f8d558e9a4"), new DateTime(2024, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("e7513a0a-373a-4a9f-bdd1-f71857721773"), "84de3125-e4cb-4281-88dc-8cddb9089388", "Elective", "Pending", "b06c4e76-e81e-4e59-aaea-c21b1e97f457" },
-                    { new Guid("f611bafc-82b1-4429-a6c0-ec5cc93f58d9"), new DateTime(2025, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("f687c7ec-19ae-437c-a179-fe2d1156f875"), "b17f08f0-9351-4384-bbcf-607cd525405f", "Elective", "Pending", "1b874f2c-7ab3-47f8-8d42-4df654abdbe8" }
+                    { new Guid("0d42d567-7ad6-48e2-82ce-361a51b6f0d5"), new DateTime(2024, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("a4e65b61-bb88-4f00-b3db-6012f673f670"), "76e1138e-af45-49b8-9045-9714b57a12f6", "Elective", "Pending", "52a883ca-9c58-41cf-a5b0-dc2e4224cf50" },
+                    { new Guid("0f616726-5f24-49d7-a4f1-efddaac4daaf"), new DateTime(2025, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("0c4d43f6-7d19-4e92-9609-1b630e713661"), "ade041a0-29d0-4654-bd3c-1c53c4e68b79", "Emergency", "Pending", "7684bba1-f6a6-4c1b-8ceb-0f6a80b89d5a" },
+                    { new Guid("1f98d9f6-a857-4740-92d7-a2cbd67790ae"), new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("d5623d59-8ab9-4585-b25b-67a785fe0bdf"), "8ae2bc7a-4047-4fa6-9c28-63250b11ea11", "Emergency", "Pending", "3faa9aaf-5958-4b8c-b7cf-b730b381faa1" },
+                    { new Guid("43574cd6-21f9-4b5d-87a6-c5fc5519ba77"), new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("c258452a-fdb9-4631-8e42-c6a0f55328f1"), "934c2b06-5273-4e55-b493-32be379fdbff", "Urgent", "Pending", "3faa9aaf-5958-4b8c-b7cf-b730b381faa1" },
+                    { new Guid("68c2d8fa-bd0b-4ea2-9d0c-5a4a8b79ec53"), new DateTime(2025, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("193f7e79-db4f-4c0f-b9c2-a0cd8375ef2c"), "0fb3e11d-9d0b-436c-9f21-246101405e33", "Emergency", "Pending", "52a883ca-9c58-41cf-a5b0-dc2e4224cf50" },
+                    { new Guid("841271fc-42da-4ea4-bcaa-7497ec594f1d"), new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("a4e65b61-bb88-4f00-b3db-6012f673f670"), "9b3bc8c0-c1c8-48c6-ba0a-87d54d5ebedd", "Emergency", "Pending", "3faa9aaf-5958-4b8c-b7cf-b730b381faa1" },
+                    { new Guid("89ec04e1-6112-47d1-9ff9-b7800a7062bb"), new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("34f25021-5d81-49e4-b6a9-c32c7912fe70"), "434bd425-9598-4233-9d5d-d701c7e3dc86", "Urgent", "Pending", "52a883ca-9c58-41cf-a5b0-dc2e4224cf50" },
+                    { new Guid("a506699a-5131-4c97-8202-61041ddfa424"), new DateTime(2025, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("c258452a-fdb9-4631-8e42-c6a0f55328f1"), "f05afd70-a2b2-4cdb-b716-9a4f902c35d7", "Emergency", "Pending", "7684bba1-f6a6-4c1b-8ceb-0f6a80b89d5a" },
+                    { new Guid("b5230eb8-a865-4002-8444-b41dc887c8cd"), new DateTime(2024, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("f97c9032-a554-4836-8279-20fa7fc50cb5"), "776a0a7f-fe55-4656-8f3f-832aa82f0e16", "Urgent", "Pending", "3faa9aaf-5958-4b8c-b7cf-b730b381faa1" },
+                    { new Guid("bb561efe-c62f-4610-b334-ecb648dd84fa"), new DateTime(2025, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("649868fb-0b3b-44bb-a6bb-9944a2cc2361"), "f556982b-b778-4def-b2a0-b42b24baf2f4", "Emergency", "Pending", "52a883ca-9c58-41cf-a5b0-dc2e4224cf50" },
+                    { new Guid("bf6f11d2-26fd-4315-aff5-00c3b0231bee"), new DateTime(2025, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("193f7e79-db4f-4c0f-b9c2-a0cd8375ef2c"), "434bd425-9598-4233-9d5d-d701c7e3dc86", "Elective", "Pending", "3faa9aaf-5958-4b8c-b7cf-b730b381faa1" },
+                    { new Guid("d5b8327d-325b-499d-aea5-076734cef432"), new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("0c4d43f6-7d19-4e92-9609-1b630e713661"), "f05afd70-a2b2-4cdb-b716-9a4f902c35d7", "Elective", "Pending", "3faa9aaf-5958-4b8c-b7cf-b730b381faa1" },
+                    { new Guid("db596732-ef64-410b-a54f-85e434574949"), new DateTime(2024, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("649868fb-0b3b-44bb-a6bb-9944a2cc2361"), "f556982b-b778-4def-b2a0-b42b24baf2f4", "Elective", "Pending", "7684bba1-f6a6-4c1b-8ceb-0f6a80b89d5a" },
+                    { new Guid("e420a69b-d8d4-41c2-a888-ebb313421465"), new DateTime(2025, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("f97c9032-a554-4836-8279-20fa7fc50cb5"), "75284377-cfe5-4190-9ec8-6a792763c976", "Urgent", "Pending", "7684bba1-f6a6-4c1b-8ceb-0f6a80b89d5a" },
+                    { new Guid("ed8143f9-0986-4cb3-8181-eee7108bbec6"), new DateTime(2025, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("d5623d59-8ab9-4585-b25b-67a785fe0bdf"), "9b3bc8c0-c1c8-48c6-ba0a-87d54d5ebedd", "Urgent", "Pending", "7684bba1-f6a6-4c1b-8ceb-0f6a80b89d5a" },
+                    { new Guid("edb37be8-9816-4d5b-8b42-1af41607a5d3"), new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("9b13028b-a48a-4b46-9c47-647ed5998c49"), "89ce250b-6958-4be1-bb32-9fa183ab0d6e", "Urgent", "Pending", "52a883ca-9c58-41cf-a5b0-dc2e4224cf50" },
+                    { new Guid("fab6aa4c-86fc-4f7f-ba11-dbf75a2a7ed0"), new DateTime(2024, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("027588b8-6c0b-4acf-a9d4-2293f1439452"), "e15b6d17-c89d-4942-a736-e735753d553d", "Urgent", "Pending", "7684bba1-f6a6-4c1b-8ceb-0f6a80b89d5a" }
                 });
 
             migrationBuilder.CreateIndex(

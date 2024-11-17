@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mail;
 using System.Text.Json;
 using Backend.Domain.Patients;
 using Backend.Domain.Shared;
+using Backend.Domain.Slots;
 using Backend.Domain.SurgeryRooms;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -37,25 +39,18 @@ internal class SurgeryRoomEntityTypeConfiguration : IEntityTypeConfiguration<Sur
                 equipment => JsonSerializer.Deserialize<List<string>>(equipment, (JsonSerializerOptions)null))
             .HasColumnType("JSON")
             .IsRequired();
-
-        /*builder.OwnsMany(
-            p => p.MaintenanceSlots,
-            a =>
-            {
-                a.WithOwner().HasForeignKey("SurgeryRoomId");
-                a.Property(s => s.day).HasColumnName("MaintenanceDay").IsRequired();
-                a.Property(s => s.begin).HasColumnName("MaintenanceStart").IsRequired();
-                a.Property(s => s.end).HasColumnName("MaintenanceEnd").IsRequired();
-
-                a.ToTable("SurgeryRoomMaintenanceSlots", SchemaNames.DDDSample1);
-            });*/
         
         builder.HasIndex(p => p.Number).IsUnique();
 
         builder.Property(p => p.MaintenanceSlots)
             .HasConversion(
-                slots => JsonSerializer.Serialize(slots, (JsonSerializerOptions)null),
-                slots => JsonSerializer.Deserialize<List<string>>(slots, (JsonSerializerOptions)null))
+                slots => JsonSerializer.Serialize(
+                    slots.Select(slot => slot.ToString()).ToList(),
+                    (JsonSerializerOptions)null),
+                
+                slots => JsonSerializer.Deserialize<List<string>>(slots, (JsonSerializerOptions)null)
+                    .Select(s => new DaySlots(s))
+                    .ToList())
             .HasColumnType("JSON")
             .IsRequired();
     }

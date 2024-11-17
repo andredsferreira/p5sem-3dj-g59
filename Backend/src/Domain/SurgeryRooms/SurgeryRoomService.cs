@@ -24,9 +24,9 @@ public class SurgeryRoomService {
         return room.ReturnDTO();
     }
 
-    public async virtual Task<SurgeryRoomDTO> CreatePatient(SurgeryRoomDTO dto) {
-        var patient = SurgeryRoom.CreateFromDTO(dto);
-        await this._repository.AddAsync(patient);
+    public async virtual Task<SurgeryRoomDTO> CreateRoom(SurgeryRoomDTO dto) {
+        var room = SurgeryRoom.CreateFromDTO(dto);
+        await this._repository.AddAsync(room);
         await this._unitOfWork.CommitAsync();
         return dto;
     }
