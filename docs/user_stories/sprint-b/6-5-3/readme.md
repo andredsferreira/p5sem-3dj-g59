@@ -1,4 +1,4 @@
-# US 6.5.2 - Light the Hospital Floor
+# US 6.5.3 - Light the Hospital Floor
 
 As a **healthcare staff member**, I want to see the hospital/clinic floor illuminated with ambient and directional light.
 
