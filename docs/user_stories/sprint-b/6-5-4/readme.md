@@ -31,11 +31,12 @@ This **US** is part of the **3D visualization module**.
 
 ## 3. Analysis
 
--
+Not applicable here, as this functionality has no business logic.
 
 ## 4. Design
 
--
+The team decided that:
+* The Camera controls will be imported (and modified) from OrbitControls.
 
 ## 5. C4 Views
 
@@ -43,7 +44,8 @@ This **US** is part of the **3D visualization module**.
 
 ## 6. Tests
 
--
+* Test if the camera is correctly set up.
+* Test if the right button and wheel function as intended.
 
 ## 7. Implementation
 
