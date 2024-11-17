@@ -44,7 +44,66 @@ Not applicable here, as this functionality doesn't leave room for design decisio
 
 ## 7. Implementation
 
--
+**hospitalfloor.component.ts**
+
+```ts
+const light = new THREE.AmbientLight(0xffffff, 0.5);
+this.scene.add(light);
+
+const directionalLight = new THREE.DirectionalLight( 0xffffff,3);
+directionalLight.castShadow = true;
+directionalLight.position.set( 5,3,5 );
+directionalLight.lookAt(new THREE.Vector3(0,0,0));
+
+directionalLight.shadow.mapSize.width = 2048;
+directionalLight.shadow.mapSize.height = 2048;
+
+directionalLight.shadow.camera.left = -15;
+directionalLight.shadow.camera.right = 15;
+directionalLight.shadow.camera.top = 5;
+directionalLight.shadow.camera.bottom = -10;
+directionalLight.shadow.camera.near = -15;
+directionalLight.shadow.camera.far = 25;
+
+this.scene.add(directionalLight);
+```
+
+The ambient light lights the entire scene, so it doesn't cast a shadow. 
+
+The directional light is stronger and applies from a certain angle (from **(5,3,5)** to **(0,0,0)**) and it applies shadows to the scene. It has a large enough **mapSize** to not have the shadows be too pixelated. Its camera must contain the entire scene.
+
+Both lights are white, in order not to mess with the other objects' colors.
+
+**Ground**
+
+```js
+this.object.castShadow = false;
+this.object.receiveShadow = true;
+```
+
+The ground and floor must receive shadows from other objects, but not cast any shadows.
+
+**Complex Objects (imported .obj)**
+
+```js
+obj.traverse((node) => {
+    if (node instanceof THREE.Mesh) {
+        node.receiveShadow = true;
+        node.castShadow = true;
+    }
+});
+```
+
+In complex objects, we must make every one of its nodes receive and cast shadows.
+
+**Other Objects**
+
+```js
+this.object.castShadow = true;
+this.object.receiveShadow = true;
+```
+
+In other simple objects, it's only needed to add these 2 lines.
 
 ## 8. Demonstration
 

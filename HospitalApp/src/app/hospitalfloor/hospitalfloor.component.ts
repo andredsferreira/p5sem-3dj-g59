@@ -54,6 +54,7 @@ export class HospitalFloorComponent implements AfterViewInit {
       table: {url: configJson.tableModel.url, obj: configJson.tableModel.obj, mtl: configJson.tableModel.mtl},
       tableWithPerson: {url: configJson.tableWithPersonModel.url, obj: configJson.tableWithPersonModel.obj, mtl: configJson.tableWithPersonModel.mtl},
       door: {url: configJson.doorModel.url, fbx: configJson.doorModel.fbx},
+      windowSize: configJson.windowSize
     });
     loaderInstance.object.translateY(configJson.wallSize.height/4)
     this.scene.add(loaderInstance.object);

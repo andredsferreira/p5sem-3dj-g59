@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import Wall from "./wall";
+import Window from "./window";
 import Ground from "./ground";
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
@@ -17,11 +18,16 @@ export default class Loader {
         this.ground.object.translateZ(-this.description.wallSize.height/4);
         this.object.add(this.ground.object);
 
+        this.window = new Window({
+            textureUrl: this.description.wallTextureUrl, 
+            size: this.description.wallSize
+        });
+
         // Create a wall
         this.wall = new Wall({ textureUrl: this.description.wallTextureUrl, size: this.description.wallSize });
 
         // Build the maze
-        let wallObject;
+        let wallObject, windowObject;
 
         function loadFbx(description, objectDesc, i, j, { scale, translateY=0, scaleX = 0, rotateY = 0, translateX=0 }){
             const fbxLoader = new FBXLoader();
@@ -127,6 +133,15 @@ export default class Loader {
                         j - this.description.groundSize.height/2);
                     this.object.add(wallObject);
                 }
+                if (this.description.map[j][i] == 10) {
+                    windowObject = this.window.object.clone();
+                    windowObject.rotateOnAxis(new THREE.Vector3(0,1,0), Math.PI/2);
+                    windowObject.position.set(
+                        i - this.description.groundSize.width/2, 
+                        0.5, 
+                        j - this.description.groundSize.height/2 + 0.5);
+                    this.object.add(windowObject);
+                }                
                 if (this.description.map[j][i] == 1 || this.description.map[j][i] == 3) {
                     wallObject = this.wall.object.clone();
                     wallObject.rotateOnAxis(new THREE.Vector3(0,1,0), Math.PI/2);
