@@ -18,6 +18,7 @@ import { RequestPriority } from '../../operation-request/request-priority.enum';
   styleUrls: ['./doctor.component.css'],
 })
 export class DoctorComponent {
+  
   operationRequests: any[] = [];
 
   filteredRequests: any[] = [];

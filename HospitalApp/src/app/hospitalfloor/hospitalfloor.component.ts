@@ -1,16 +1,34 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Ground from './jsfiles/ground';
 import configJson from './config.json';
 import Loader from './jsfiles/loader';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-hospitalfloor',
   templateUrl: './hospitalfloor.component.html',
   styleUrl: './hospitalfloor.component.css'
 })
-export class HospitalFloorComponent implements AfterViewInit {
+export class HospitalFloorComponent implements AfterViewInit, OnInit {
+
+  role: string = ""
+  canRenderCanvas: boolean = false
+
+  constructor(private auth: AuthService) { }
+
+  ngOnInit(): void {
+    let token = localStorage.getItem('token')
+    if (token) {
+      this.role = this.auth.getRoleFromToken(token);
+      this.canRenderCanvas = this.role !== 'Patient' && this.role !== "";
+    } else {
+      console.warn('No token found in localStorage');
+    }
+  }
+
+
   @ViewChild('myCanvas') private canvasRef!: ElementRef;
 
   //* Stage Properties
@@ -27,11 +45,11 @@ export class HospitalFloorComponent implements AfterViewInit {
   private renderer!: THREE.WebGLRenderer;
   private scene: THREE.Scene = new THREE.Scene();
   private camera!: THREE.PerspectiveCamera;
-    
+
   private getAspectRatio(): number {
     return this.canvas.clientWidth / this.canvas.clientHeight;
   }
-    
+
   /**
   * Create the scene
   *
@@ -47,20 +65,21 @@ export class HospitalFloorComponent implements AfterViewInit {
     //this.scene.add(axesHelpers);
 
     // Create an instance of Loader
-    var loaderInstance = new Loader({map: configJson.map, groundTextureUrl: configJson.floorTextureUrl, 
-      groundSize: {width: configJson.floorSize.width, height: configJson.floorSize.height},
+    var loaderInstance = new Loader({
+      map: configJson.map, groundTextureUrl: configJson.floorTextureUrl,
+      groundSize: { width: configJson.floorSize.width, height: configJson.floorSize.height },
       wallTextureUrl: configJson.wallTextureUrl,
-      wallSize: {width: configJson.wallSize.width, height: configJson.wallSize.height, depth: configJson.wallSize.depth},
-      table: {url: configJson.tableModel.url, obj: configJson.tableModel.obj, mtl: configJson.tableModel.mtl},
-      tableWithPerson: {url: configJson.tableWithPersonModel.url, obj: configJson.tableWithPersonModel.obj, mtl: configJson.tableWithPersonModel.mtl},
-      door: {url: configJson.doorModel.url, fbx: configJson.doorModel.fbx},
+      wallSize: { width: configJson.wallSize.width, height: configJson.wallSize.height, depth: configJson.wallSize.depth },
+      table: { url: configJson.tableModel.url, obj: configJson.tableModel.obj, mtl: configJson.tableModel.mtl },
+      tableWithPerson: { url: configJson.tableWithPersonModel.url, obj: configJson.tableWithPersonModel.obj, mtl: configJson.tableWithPersonModel.mtl },
+      door: { url: configJson.doorModel.url, fbx: configJson.doorModel.fbx },
       windowSize: configJson.windowSize
     });
-    loaderInstance.object.translateY(configJson.wallSize.height/4)
+    loaderInstance.object.translateY(configJson.wallSize.height / 4)
     this.scene.add(loaderInstance.object);
 
     //Ground around hospital
-    var floor = new Ground({textureUrl: configJson.groundTextureUrl, size: configJson.groundSize})
+    var floor = new Ground({ textureUrl: configJson.groundTextureUrl, size: configJson.groundSize })
     floor.object.translateZ(-0.01);
     this.scene.add(floor.object);
 
@@ -69,10 +88,10 @@ export class HospitalFloorComponent implements AfterViewInit {
     const light = new THREE.AmbientLight(0xffffff, 0.5);
     this.scene.add(light);
 
-    const directionalLight = new THREE.DirectionalLight( 0xffffff,3);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 3);
     directionalLight.castShadow = true;
-    directionalLight.position.set( 5,3,5 );
-    directionalLight.lookAt(new THREE.Vector3(0,0,0));
+    directionalLight.position.set(5, 3, 5);
+    directionalLight.lookAt(new THREE.Vector3(0, 0, 0));
 
     directionalLight.shadow.mapSize.width = 2048;
     directionalLight.shadow.mapSize.height = 2048;
@@ -95,14 +114,14 @@ export class HospitalFloorComponent implements AfterViewInit {
     //*Camera
     let aspectRatio = this.getAspectRatio();
     this.camera = new THREE.PerspectiveCamera(this.fieldOfView, aspectRatio,
-    this.nearClippingPane, this.farClippingPane);
+      this.nearClippingPane, this.farClippingPane);
     this.camera.position.z = this.cameraZ;
     this.camera.position.y = this.cameraY;
     //* Renderer
     // Use canvas element in template
-    this.renderer = new THREE.WebGLRenderer({canvas: this.canvas});
+    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
     this.renderer.setPixelRatio(devicePixelRatio);
-    this.renderer.setSize(this.canvas.clientWidth*3, this.canvas.clientHeight*3);
+    this.renderer.setSize(this.canvas.clientWidth * 3, this.canvas.clientHeight * 3);
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.shadowMap.enabled = true;
     //this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -114,12 +133,12 @@ export class HospitalFloorComponent implements AfterViewInit {
       MIDDLE: THREE.MOUSE.DOLLY,
       RIGHT: THREE.MOUSE.ROTATE
     };
-    controls.target.set( 0, 0, 0 );
+    controls.target.set(0, 0, 0);
     controls.maxDistance = 40;
     controls.minDistance = 5;
     //controls.update();
   }
-  
+
   /**
   * Render the scene
   *
@@ -130,10 +149,13 @@ export class HospitalFloorComponent implements AfterViewInit {
     requestAnimationFrame(() => this.render());
     this.renderer.render(this.scene, this.camera);
   }
-  
+
   ngAfterViewInit(): void {
-    this.createScene();
-    this.render();
+    if (this.canRenderCanvas) {
+      this.createScene();
+      this.render();
+
+    }
   }
-    
+
 }
