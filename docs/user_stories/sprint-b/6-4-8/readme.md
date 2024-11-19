@@ -26,7 +26,9 @@ No open questions
 
 ## 3. Analysis
 
--
+Through analysis of the requisites, we can conclude that we must develop a script that returns users that have more than 3 incorrect login attempt.
+
+In order to do this, we must access the records in **/var/log/auth.log** and check for failed attempts.
 
 ## 4. Design
 
