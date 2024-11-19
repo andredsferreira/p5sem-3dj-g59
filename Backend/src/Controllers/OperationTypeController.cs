@@ -27,6 +27,9 @@ public class OperationTypeController : ControllerBase {
     
     private readonly AddOperationTypeService AddOperationTypeService;
 
+    public OperationTypeController(AddOperationTypeService service) {
+        this.AddOperationTypeService = service;
+    }
 
     public OperationTypeController(IConfiguration Configuration, AppDbContext Context, UserManager<IdentityUser> UserManager, AddOperationTypeService AddOperationTypeService) {
         this.Configuration = Configuration;
@@ -34,7 +37,7 @@ public class OperationTypeController : ControllerBase {
         this.UserManager = UserManager;
         this.AddOperationTypeService = AddOperationTypeService;
     }
-    
+
     [HttpPost("Add")]
     [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<OperationTypeDTO>> AddOperationType([FromForm] OperationTypeDTO dto) {
