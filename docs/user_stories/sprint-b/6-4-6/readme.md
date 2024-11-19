@@ -32,7 +32,10 @@ Through analysis of the requisites and open questions, we can conclude that the 
 
 ## 4. Design
 
--
+The team decided that:
+* The system would do a backup of our **MySql** database's state, as the source code is already secured in ***GitHub***.
+* The system would do a complete backup in **sundays** and incremental backups in every other week day.
+    * This strategy sets **RPO** at 24 hours and **WRT** at, in the worst-case scenario, 1 complete backup and 6 incremental backups.
 
 ## 5. C4 Views
 
