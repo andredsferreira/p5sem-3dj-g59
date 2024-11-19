@@ -55,7 +55,13 @@ Through the requisites and the open questions, the team can conclude that:
 
 ## 4. Design
 
--
+The team decided that the following should be the process of events:
+1. The **Planning** component should receive the information from the **UI**.
+2. The **Planning** component should process the data and compute the best solution. While this is happening, the **UI** is blocked (in order to increase simplicity).
+3. The **Planning** should then return the information to the **UI**.
+4. The **UI** asks the user if they're satisfied. If they choose "Yes", the appointments are booked in the **Backend**.
+
+The team also decided that the **UI** should give to the user the option to choose what criteria is used to define what is the "Best solution" (Final time vs Average staff exit time).
 
 ## 5. C4 Views
 
@@ -63,7 +69,10 @@ Through the requisites and the open questions, the team can conclude that:
 
 ## 6. Tests
 
--
+* Test if the user can choose between the two criteria
+* Test if the solution is being computed
+* Test if the solution is shown to the user
+* Test if the solution is saved in **Backend** if the user is satisfied.
 
 ## 7. Implementation
 
