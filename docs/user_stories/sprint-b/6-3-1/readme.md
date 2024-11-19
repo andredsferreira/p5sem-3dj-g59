@@ -46,7 +46,12 @@ For this **US** to work, the database must contain **staff** and **surgery rooms
 
 ## 3. Analysis
 
--
+Through the requisites and the open questions, the team can conclude that:
+* The team must create a program that receives a collection of staff, rooms and operations and schedules them, calculating all possibilities and returning the best one.
+    * For now, we only need to develop a solution that accepts only **1 room (Question 2)**.
+    * The best solution is the one that ends the soonest possible (if a solution had a final time of 900, and another had a final time of 1000, the first one would be considered better). **
+        * However, the team must create another evaluation method that, instead of considering the final total time, considers the average staff exit time (if a solution had a final time of 1000, but an average staff exit time of 850, it would be considered better than another solution with a final time of 900 and an average staff exit time of 900) **(Appendix for teams with 5 members)**.
+* The solution must be developed in **Swi Prolog**.
 
 ## 4. Design
 
