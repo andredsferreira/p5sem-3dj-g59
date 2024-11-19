@@ -33,7 +33,7 @@ timetable(n003,20241028,(490,1440)).
 %timetable(d004,20241028,(620,1020)).
 timetable(d005,20241028,(500,1300)).
 timetable(m001,20241028,(450,1000)).
-timetable(m002,20241028,(890,1440)).
+timetable(m002,20241028,(590,1440)).
 
 staff(d001,doctor,orthopaedist,[so2,so3,so4]).
 staff(d002,doctor,orthopaedist,[so2,so3,so4]).
@@ -55,7 +55,7 @@ surgery(so4,45,75,45).
 surgery_id(so100001,so2).
 surgery_id(so100002,so3).
 surgery_id(so100003,so4).
-surgery_id(so100004,so2).
+%surgery_id(so100004,so2).
 %surgery_id(so100005,so4).
 %surgery_id(so100006,so2).
 %surgery_id(so100007,so3).
@@ -79,11 +79,11 @@ assignment_surgery(so100003,d005,1).
 assignment_surgery(so100003,n003,1).
 assignment_surgery(so100003,m001,3).
 
-assignment_surgery(so100004,d001,2).
-assignment_surgery(so100004,d002,2).
-assignment_surgery(so100004,n001,1).
-assignment_surgery(so100004,n002,3).
-assignment_surgery(so100004,m002,3).
+%assignment_surgery(so100004,d001,2).
+%assignment_surgery(so100004,d002,2).
+%assignment_surgery(so100004,n001,1).
+%assignment_surgery(so100004,n002,3).
+%assignment_surgery(so100004,m002,3).
 
 %assignment_surgery(so100005,d002).
 %assignment_surgery(so100005,d003).
@@ -183,26 +183,71 @@ availability_all_surgeries([OpCode | LOpCode], Room, Day) :-
 
 schedule_phases(OpCode, Room, Day) :-
     surgery_id(OpCode, OpType),
+    %write('Scheduling surgery: '), write(OpCode), write(' of type: '), write(OpType), nl,
     surgery(OpType, TAnaesthesia, TSurgery, TCleaning),
-    schedule_phase(OpCode, 1, Room, Day, TAnaesthesia, _, _),
-    schedule_phase(OpCode, 2, Room, Day, TSurgery, _, _),
-    schedule_phase(OpCode, 3, Room, Day, TCleaning, _, _).
 
-schedule_phase(OpCode, Phase, Room, Day, TDuration, LStaff, AgendaPhase) :-
+    % Soma as durações para calcular o intervalo total necessário
+    TotalDuration is TAnaesthesia + TSurgery + TCleaning,
+
+    % Determina o intervalo de tempo contínuo para toda a cirurgia
+    findall(Staff, assignment_surgery(OpCode, Staff, _), LStaff), % Todos os profissionais envolvidos
+    intersect_all_agendas(LStaff, Day, LA),
+    agenda_operation_room1(Room, Day, LAgendaRoom),
+    free_agenda0(LAgendaRoom, LFAgRoom),
+    intersect_2_agendas(LA, LFAgRoom, LIntAgDoctorsRoom),
+    remove_unf_intervals(TotalDuration, LIntAgDoctorsRoom, LPossibilities),
+    schedule_first_interval(TotalDuration, LPossibilities, (TStart, _)),
+
+    % Divide o intervalo total nas três fases, mantendo a ordem
+    TEndAnaesthesia is TStart + TAnaesthesia,
+    TEndSurgery is TEndAnaesthesia + TSurgery,
+    TEndCleaning is TEndSurgery + TCleaning,
+
+    % Aloca os intervalos consecutivamente
+    retract(agenda_operation_room1(Room, Day, Agenda)),
+    insert_agenda((TStart, TEndAnaesthesia, OpCode), Agenda, Agenda1),
+    insert_agenda((TEndAnaesthesia, TEndSurgery, OpCode), Agenda1, Agenda2),
+    insert_agenda((TEndSurgery, TEndCleaning, OpCode), Agenda2, Agenda3),
+    assertz(agenda_operation_room1(Room, Day, Agenda3)),
+
+    % Atualiza a agenda dos médicos
+    insert_agenda_doctors((TStart, TEndAnaesthesia, OpCode), Day, LStaff),
+    insert_agenda_doctors((TEndAnaesthesia, TEndSurgery, OpCode), Day, LStaff),
+    insert_agenda_doctors((TEndSurgery, TEndCleaning, OpCode), Day, LStaff).
+
+    % Logs informativos
+    %write('  Surgery scheduled for '), write(OpCode), nl,
+    %write('    Anesthesia: '), write((TStart, TEndAnaesthesia)), nl,
+    %write('    Surgery: '), write((TEndAnaesthesia, TEndSurgery)), nl,
+    %write('    Cleaning: '), write((TEndSurgery, TEndCleaning)), nl.
+
+schedule_phase(OpCode, Phase, Room, Day, TDuration, TStartPrev, (TStart, TEnd)) :-
     findall(Staff, assignment_surgery(OpCode, Staff, Phase), LStaff),
     intersect_all_agendas(LStaff, Day, LA),
     agenda_operation_room1(Room, Day, LAgendaRoom),
     free_agenda0(LAgendaRoom, LFAgRoom),
     intersect_2_agendas(LA, LFAgRoom, LIntAgDoctorsRoom),
-
     remove_unf_intervals(TDuration, LIntAgDoctorsRoom, LPossibilities),
-    schedule_first_interval(TDuration, LPossibilities, (TStart, TEnd)),
+
+    % Garante que a fase comece imediatamente após a anterior
+    find_next_interval(TStartPrev, TDuration, LPossibilities, (TStart, TEnd)),
+
+    % Verifica continuidade
+    TStart =:= TStartPrev,
 
     retract(agenda_operation_room1(Room, Day, Agenda)),
-    insert_agenda((TStart, TEnd, OpCode), Agenda, Agenda1),
+    insert_agenda((TStart, TEnd, OpCode, Phase), Agenda, Agenda1),
     assertz(agenda_operation_room1(Room, Day, Agenda1)),
-    insert_agenda_doctors((TStart, TEnd, OpCode), Day, LStaff),
-    AgendaPhase = (TStart, TEnd).
+    insert_agenda_doctors((TStart, TEnd, OpCode, Phase), Day, LStaff),
+
+    % Logs informativos
+    write('  Phase '), write(Phase), write(' scheduled for surgery '), write(OpCode),
+    write(' from '), write(TStart), write(' to '), write(TEnd), write(' with staff: '), write(LStaff), nl.
+
+find_next_interval(TPrevEnd, TDuration, LPossibilities, (TStart, TEnd)) :-
+    member((TStart, TEnd), LPossibilities),
+    TStart >= TPrevEnd,
+    TEnd is TStart + TDuration, !.
 
 
 remove_unf_intervals(_,[],[]).
@@ -231,9 +276,9 @@ obtain_better_sol(Room,Day,AgOpRoomBetter,LAgDoctorsBetter,TFinOp):-
 		get_time(Ti),
 		(obtain_better_sol1(Room,Day);true),
 		retract(better_sol(Day,Room,AgOpRoomBetter,LAgDoctorsBetter,TFinOp)),
-            write('Final Result: AgOpRoomBetter='),write(AgOpRoomBetter),nl,
-            write('LAgDoctorsBetter='),write(LAgDoctorsBetter),nl,
-            write('TFinOp='),write(TFinOp),nl,
+            %write('Final Result: AgOpRoomBetter='),write(AgOpRoomBetter),nl,
+            %write('LAgDoctorsBetter='),write(LAgDoctorsBetter),nl,
+            %write('TFinOp='),write(TFinOp),nl,
 		get_time(Tf),
 		T is Tf-Ti,
 		write('Tempo de geracao da solucao:'),write(T),nl.
@@ -296,7 +341,7 @@ heuristic_schedule_all(Room, Day) :-
     final_time(TFinal),
     get_time(Tf),
     T is Tf - Ti,
-    write('Escalonamento concluï¿½do. Tempo final da ï¿½ltima operaï¿½ï¿½o: '), write(TFinal), nl, write('Tempo de execuï¿½ï¿½o: '), write(T), write('s'),nl.
+    write('Escalonamento concluído. Tempo final da última operação: '), write(TFinal), nl, write('Tempo de execução: '), write(T), write('s'),nl.
 
 heuristic_schedule(_, _, []) :- !.
 heuristic_schedule(Room, Day, LOpCode) :-
@@ -317,7 +362,7 @@ update_final_time(TEnd) :-
     retract(final_time(_)),
     asserta(final_time(TEnd)).
 
-% Seleciona a prï¿½xima cirurgia a ser escalonada com base na disponibilidade inicial dos mï¿½dicos
+% Seleciona a próxima cirurgia a ser escalonada com base na disponibilidade inicial dos médicos
 select_next_surgery(Day, LOpCode, SelectedOpCode) :-
     findall((OpCode, EarliestTime), (
         member(OpCode, LOpCode),
@@ -331,12 +376,15 @@ select_next_surgery(Day, LOpCode, SelectedOpCode) :-
     sort(2, @=<, Options, SortedOptions), % Ordena pelas janelas de tempo mais cedo
     SortedOptions = [(SelectedOpCode, _) | _].
 
-% Encontra a primeira janela disponï¿½vel suficiente para uma cirurgia
+% Encontra a primeira janela disponível suficiente para uma cirurgia
 earliest_sufficient_interval(_, [], inf). % Nenhuma janela suficiente
 earliest_sufficient_interval(TotalTime, [(Tin, Tfin) | _], Tin) :-
     Tfin - Tin + 1 >= TotalTime, !. % Janela suficiente encontrada
 earliest_sufficient_interval(TotalTime, [_ | Rest], Earliest) :-
     earliest_sufficient_interval(TotalTime, Rest, Earliest).
+
+
+
 
 
 
