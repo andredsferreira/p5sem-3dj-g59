@@ -37,18 +37,26 @@ The team decided that:
 * The system would do a complete backup in **sundays** and incremental backups in every other week day.
     * This strategy sets **RPO** at 24 hours and **WRT** at, in the worst-case scenario, 1 complete backup and 6 incremental backups.
 
+The decisions made and their justification will be explained more in depth in its section on the [report](../6-4-1/report.pdf).    
+
 ## 5. C4 Views
 
 -
 
 ## 6. Tests
 
--
+No tests.
 
 ## 7. Implementation
 
--
+The implementation and the code explanation will be explained more in depth in its section on the [report](../6-4-1/report.pdf).  
 
 ## 8. Demonstration
 
--
+We can see here how, at sunday (November 17th), the system did a full backup.
+
+![](images/demonstration/full_backup_20241117.png)
+
+However, the system did partial backups the other days (November 18th and 19th).
+
+![](images/demonstration/incremental_backups_20241119.png)
