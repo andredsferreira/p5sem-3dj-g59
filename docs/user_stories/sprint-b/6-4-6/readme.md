@@ -28,7 +28,7 @@ None
 
 ## 3. Analysis
 
--
+Through analysis of the requisites and open questions, we can conclude that the team must establish a backup strategy that's reliable, frequent and quick.
 
 ## 4. Design
 
