@@ -1,0 +1,115 @@
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import { OperationTypeService } from './operation-type.service';
+import { FormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Status } from './status.enum';
+import { Specialization } from './specialization.enum';
+
+
+// Define the OperationType interface
+interface OperationType {
+  name: string;
+  anaesthesiaTime: number;
+  surgeryTime: number;
+  cleaningTime: number;
+  status: Status;
+  specializations: Specialization;
+  minDoctor: number;
+  minAnaesthetist: number;
+  minInstrumentNurse: number;
+  minNurseAnaesthetist: number;
+  minXRay: number;
+  minMedicalAssistant: number;
+}
+
+interface field {
+    selected: boolean;
+    value: string;
+}
+
+@Component({
+    selector: 'app-operation-type',
+    standalone: true,
+    imports: [CommonModule, FormsModule],
+    templateUrl: './operation-type.component.html',
+    styleUrl: './operation-type.component.css'
+    })
+export class OperationTypeComponent implements OnInit {
+    
+        errorMessage: string | null = null;
+        operationTypes: any[] = [];
+        selectedItem: OperationType | null = null;
+        isEditing = false;
+        isInitialized = false;
+        token: string | null = null;
+        paginatedOperationTypes: any[] = [];
+        currentPage: number = 1;
+        pageSize: number = 5;
+        confirmingDelete = false;
+        showMessage = false;
+        messageText = '';
+        messageClass = '';
+        //addForm: FormGroup;
+    
+        // Define editable and searchable attributes
+        editableAttributes = [
+            { key: 'name', label: 'Nome' },
+            { key: 'anaesthesiaTime', label: 'Tempo de Anestesia' },
+            { key: 'surgeryTime', label: 'Tempo de Cirurgia' },
+            { key: 'cleaningTime', label: 'Tempo de Limpeza' },
+            { key: 'status', label: 'Estado' },
+            { key: 'specializations', label: 'Especialização' },
+            { key: 'minDoctor', label: 'Mínimo de Médicos' },
+            { key: 'minAnaesthetist', label: 'Mínimo de Anestesistas' },
+            { key: 'minInstrumentNurse', label: 'Mínimo de Enfermeiros Instrumentistas' },
+            { key: 'minNurseAnaesthetist', label: 'Mínimo de Enfermeiros Anestesistas' },
+            { key: 'minXRay', label: 'Mínimo de Técnicos de Raio-X' },
+            { key: 'minMedicalAssistant', label: 'Mínimo de Assistentes Médicos' }
+        ];
+        searchableAttributes = [
+            { key: 'name', label: 'Nome' },
+            { key: 'anaesthesiaTime', label: 'Tempo de Anestesia' },
+            { key: 'surgeryTime', label: 'Tempo de Cirurgia' },
+            { key: 'cleaningTime', label: 'Tempo de Limpeza' },
+            { key: 'status', label: 'Estado' },
+            { key: 'specializations', label: 'Especialização' },
+            { key: 'minDoctor', label: 'Mínimo de Médicos' },
+            { key: 'minAnaesthetist', label: 'Mínimo de Anestesistas' },
+            { key: 'minInstrumentNurse', label: 'Mínimo de Enfermeiros Instrumentistas' },
+            { key: 'minNurseAnaesthetist', label: 'Mínimo de Enfermeiros Anestesistas' },
+            { key: 'minXRay', label: 'Mínimo de Técnicos de Raio-X' },
+            { key: 'minMedicalAssistant', label: 'Mínimo de Assistentes Médicos' }
+        ];
+
+        constructor(private operationTypeService: OperationTypeService) {
+        }
+
+        async ngOnInit(): Promise<void> {
+
+                this.token = localStorage.getItem('token'); // Get token from local storage
+
+            if (!this.token) {
+                this.errorMessage = 'No token found. Please log in first.';
+                return;
+            }
+            /*if (this.isInitialized) {
+                this.;
+            }*/
+            
+        }
+        /*onSubmit(): void {
+            if (this.operationTypeForm.valid) {
+              const operationTypeName = this.operationTypeForm.value.operationTypeName;
+              console.log('Operation Type:', operationTypeName);
+              // Add your form submission logic here
+            }
+        }
+        ngOnInit(): void {
+            this.operationTypeForm = this.fb.group({
+              operationTypeName: ['', Validators.required]
+            });
+        }*/
+    }
+
+
+
