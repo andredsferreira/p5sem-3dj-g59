@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { StaffService } from '../staff/services/StaffService';
+import { Router } from '@angular/router';
 import { ConnectableObservable } from 'rxjs';
 
 @Component({
@@ -33,7 +34,7 @@ export class AdminComponent {
   confirmingDelete: boolean = false;
   staffIdToDelete: string | null = null;
 
-  constructor(private fb: FormBuilder, private staffService: StaffService) {
+  constructor(private fb: FormBuilder, private staffService: StaffService, private router: Router) {
     // Formulário de criação de Staff
     this.staffForm = this.fb.group({
       StaffRole: ['', Validators.required],
@@ -91,6 +92,17 @@ export class AdminComponent {
       }
     }
   }
+
+  // metodo para mostrar as opções de operationType management
+
+  operationTypeManagement(): void {
+
+    console.log('Operation Type');
+    this.router.navigate(['/operationtypemanagement']);
+    
+  }
+
+
 
   closeModal(): void {
     this.showModal = false;
