@@ -71,7 +71,7 @@ public class OperationTypeController : ControllerBase {
 
     }
 
-    [HttpPut("Deactivate/{id}")]
+    [HttpDelete("Deactivate/{id}")]
     [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<OperationTypeDTO>> DeactivateOperationType(String id) {
 
