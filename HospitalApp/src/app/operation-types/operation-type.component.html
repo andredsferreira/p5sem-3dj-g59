@@ -1,22 +1,29 @@
-<u>operation type works</u>
-<!--<div class="staff-management flex flex-col items-center mb-6">
-    <h2 class="text-lg font-semibold mb-4">Operation Types</h2>
-
-    <div class="buttons flex space-x-4 mb-4">
+<div class="staff-management flex flex-col items-center mb-6">
+    <!--<div class="buttons flex space-x-4 mb-4">
         <button (click)="createOperationType()"
             class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">Create Operation Type</button>    
-    </div>
+    </div>-->
+    
     <div class="buttons flex space-x-4 mb-4">
-        <button (click)="createOperationType()"
-            class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">List Operation Type</button>
+        <button (click)="listOperationType()"
+            class="px-4 py-2 bg-green-500 text-white rounded hover:bg-blue-600 transition">List Operation Type</button>
     </div>
         
-</div>-->
+</div>
 
-<!--list operatinon types
-<div *ngIf="operationTypeList.length > 0" class="staff-list mt-4 mx-auto max-w-4xl px-4"
-    <ul></ul>
--->
+<!-- List of operation types -->
+<div *ngIf="operationTypes.length > 0" class="staff-list mt-4 mx-auto max-w-4xl px-4">
+    <ul class="space-y-4">
+        <li *ngFor="let operationType of operationTypes" 
+        class="staff-item p-4 w-full sm:w-[600px] mx-auto border border-gray-300 rounded-lg bg-white hover:bg-gray-50">
+            <div><strong>Operation Type: </strong>{{operationType.name}}</div>
+            <div><strong>Type ID: </strong>{{operationType.id}}</div>
+            <div><strong>Status: </strong>{{operationType.Status}}</div>
+            <div><strong>Specialization: </strong>{{operationType.Specialization}}</div>
+            
+        </li>
+    </ul>
+</div>
 
 <!-- Create form -->
 <!--
@@ -33,5 +40,11 @@
 </div>
 -->
 
+<div class="staff-management flex flex-col items-center mb-6 mt-6">
+    <div class="buttons flex space-x-4 mb-4">
+        <button (click)="backToAdmin()"
+            class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">Back to Admin Menu</button>
+    </div>
+</div>
 
 

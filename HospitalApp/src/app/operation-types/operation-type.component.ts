@@ -4,10 +4,12 @@ import { OperationTypeService } from './operation-type.service';
 import { FormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Status } from './status.enum';
 import { Specialization } from './specialization.enum';
+import { Router } from '@angular/router';
 
 
 // Define the OperationType interface
 interface OperationType {
+  id: string;
   name: string;
   anaesthesiaTime: number;
   surgeryTime: number;
@@ -34,7 +36,7 @@ interface field {
     templateUrl: './operation-type.component.html',
     styleUrl: './operation-type.component.css'
     })
-export class OperationTypeComponent implements OnInit {
+export class OperationTypeComponent /*implements OnInit*/ {
     
         errorMessage: string | null = null;
         operationTypes: any[] = [];
@@ -49,6 +51,7 @@ export class OperationTypeComponent implements OnInit {
         showMessage = false;
         messageText = '';
         messageClass = '';
+        notFound: boolean = false;
         //addForm: FormGroup;
     
         // Define editable and searchable attributes
@@ -81,10 +84,10 @@ export class OperationTypeComponent implements OnInit {
             { key: 'minMedicalAssistant', label: 'Mínimo de Assistentes Médicos' }
         ];
 
-        constructor(private operationTypeService: OperationTypeService) {
+        constructor(private operationTypeService: OperationTypeService, private router: Router) {
         }
 
-        async ngOnInit(): Promise<void> {
+        /*async ngOnInit(): Promise<void> {
 
                 this.token = localStorage.getItem('token'); // Get token from local storage
 
@@ -94,9 +97,9 @@ export class OperationTypeComponent implements OnInit {
             }
             /*if (this.isInitialized) {
                 this.;
-            }*/
+            }
             
-        }
+        }*/
         /*onSubmit(): void {
             if (this.operationTypeForm.valid) {
               const operationTypeName = this.operationTypeForm.value.operationTypeName;
@@ -109,6 +112,24 @@ export class OperationTypeComponent implements OnInit {
               operationTypeName: ['', Validators.required]
             });
         }*/
+
+        backToAdmin(): void {
+
+            console.log('Admin');
+            this.router.navigate(['/admin']);
+        }
+
+        async listOperationType(): Promise<any> {
+
+            try{
+                this.operationTypes = await this.operationTypeService.listOperationTypes();
+                this.notFound = this.operationTypes.length === 0;
+                console.log('Operation Types:', this.operationTypes);
+            }catch(error){
+                console.error('Error listing operation types:', error);              
+            }
+    
+       }
     }
 
 

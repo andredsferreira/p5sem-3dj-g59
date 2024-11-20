@@ -48,6 +48,25 @@ export class OperationTypeService{
     }
 
   }
+
+    async listOperationTypes(): Promise<any> {
+    
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${this.token}`,
+      });
+
+      try {
+        const response = await lastValueFrom(
+          this.http.get('https://localhost:5001/api/operationtype/All', { headers })
+        );
+        return response;
+      } catch (error) {
+        console.error('Error listing operation types:', error);
+        throw error;
+      }
+
+    }
+
   
 
 
