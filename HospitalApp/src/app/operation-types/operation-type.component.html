@@ -1,3 +1,19 @@
+<style>
+    .form-container {
+      max-height: 800px; /* Adjust to your desired height */
+      overflow-y: auto; /* Enables vertical scrolling */
+      padding: 25px;
+      border-radius: 8px; /* Optional: Makes the border rounded */
+    }
+  
+    .form-content {
+      display: flex;
+      flex-direction: column;
+      gap: 15px; /* Space between form fields */
+    }
+</style>
+  
+
 <div class="staff-management flex flex-col items-center mb-6">
     <!--<div class="buttons flex space-x-4 mb-4">
         <button (click)="createOperationType()"
@@ -36,8 +52,8 @@
 <!-- creation form -->
 
 <div *ngIf="showModal" class="modal fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-    <div class="modal-content bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
-        <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+    <div class="modal-content bg-white p-6 rounded-lg shadow-lg max-w-lg w-full form-container">
+        <form [formGroup]="addForm" (ngSubmit)="onSubmit()" class="form-content">
             <div class="form-group mb-4">
                 <label for="name" class="block text-sm font-semibold mb-2">Tipo de Operação</label>
                 <input id="name" formControlName="name" type="text" placeholder="Tipo de Operação" required
