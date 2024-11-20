@@ -7,7 +7,10 @@
     <div class="buttons flex space-x-4 mb-4">
         <button (click)="listOperationType()"
             class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">List Operation Type</button>
+        <button (click)="createOperationType()"
+            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Create Operation Type</button>
     </div>
+
         
 </div>
 
@@ -30,20 +33,128 @@
     </ul>
 </div>
 
-<!-- Create form -->
-<!--
+<!-- creation form -->
+
 <div *ngIf="showModal" class="modal fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
     <div class="modal-content bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
-        <form [formGroup]="operationTypeForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
             <div class="form-group mb-4">
-                <label for="operationTypeName" class="block text-sm font-semibold mb-2">Operation Type</label>
-                <input id="operationTypeName" formControlName="operationTypeName" type="text" placeholder="Enter Operation Type" required
+                <label for="name" class="block text-sm font-semibold mb-2">Tipo de Operação</label>
+                <input id="name" formControlName="name" type="text" placeholder="Tipo de Operação" required
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                    <div *ngIf="addForm.get('name')?.invalid && addForm.get('name')?.touched"
+                    class = "error text-red-500 text-sm mt-1">
+                    Nome do Tipo de Operação é obrigatório    
+                </div>
             </div>
+            <div class="form-group mb-4">
+                <label for="anaesthesiaTime" class="block text-sm font-semibold mb-2">Duração Anestesia</label>
+                <input id="anaesthesiaTime" formControlName="anaesthesiaTime" type="text" placeholder="Duração Anestesia" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                    <div *ngIf="addForm.get('anaesthesiaTime')?.invalid && addForm.get('anaesthesiaTime')?.touched"
+                    class = "error text-red-500 text-sm mt-1">
+                    Duração da Anestesia é obrigatório
+                </div>
+            </div>
+            <div class="form-group mb-4">
+                <label for="surgeryTime" class="block text sm font-semibold mb-2">Duração Cirurgia</label>
+                <input id="surgeryTime" formControlName="surgeryTime" type="text" placeholder="Duração Cirurgia" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                    <div *ngIf="addForm.get('surgeryTime')?.invalid && addForm.get('surgeryTime')?.touched"
+                    class = "error text-red-500 text-sm mt-1">
+                    Duração da Cirurgia é obrigatório
+                    </div>
+            </div>
+            <div class="form-group mb-4">
+                <label for="cleaningTime" class="block text-sm font-semibold mb-2">Tempo de Limpeza</label>
+                <input id="cleaningTime" formControlName="cleaningTime" type="text" placeholder="Tempo de Limpeza" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                    <div *ngIf="addForm.get('cleaningTime')?.invalid && addForm.get('cleaningTime')?.touched"
+                    class = "error text-red-500 text-sm mt-1">
+                    Tempo de Limpeza é obrigatório
+                    </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="Specialization" class="block text-sm font-semibold mb-2">Especialização</label>
+                <select id="Specialization" formControlName="Specialization" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+                    <option value="Prosthetics">Proteses</option>
+                    <option value="Arthroscopy">Artroscopia</option>
+                    <option value="Spine">Coluna</option>
+                </select>
+                <div *ngIf="addForm.get('Specialization')?.invalid && addForm.get('Specialization')?.touched"
+                     class="error text-red-500 text-sm mt-1">
+                    Especialização é obrigatório
+                </div>
+            </div>
+            <div class="form-group mb4">
+                <label for="minDoctors" class="block text-sm font-semibold mb-2">Mínimo de Doutores</label>
+                <input id="minDoctors" formControlName="minDoctors" type="text" placeholder="Mínimo de Doutores" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                    <div *ngIf="addForm.get('minDoctors')?.invalid && addForm.get('minDoctors')?.touched"
+                    class = "error text-red-500 text-sm mt-1">
+                    Mínimo de Doutores é obrigatório
+                    </div>
+            </div>
+            <div class="form-group mb4">
+                <label for="minAnesthetists" class="block text-sm font-semibold mb-2">Mínimo de Anestesistas</label>
+                <input id="minAnesthetists" formControlName="minAnesthetists" type="text" placeholder="Mínimo de Anestesistas" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                    <div *ngIf="addForm.get('minAnesthetists')?.invalid && addForm.get('minAnesthetists')?.touched"
+                    class = "error text-red-500 text-sm mt-1">
+                    Mínimo de Anestesistas é obrigatório
+                    </div>
+            </div>
+            <div class="form-group mb4">
+                <label for="minAnesthetists" class="block text-sm font-semibold mb-2">Mínimo de Enfermeiros Anestesistas</label>
+                <input id="minAnesthetists" formControlName="minAnesthetists" type="text" placeholder="Mínimo de Enfermeiras Anestesistas" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                    <div *ngIf="addForm.get('minAnesthetists')?.invalid && addForm.get('minAnesthetists')?.touched"
+                    class = "error text-red-500 text-sm mt-1">
+                    Mínimo de Enfermeiros Anestesistas é obrigatório
+                    </div>
+            </div>
+            <div class="form-group mb4">
+                <label for="minInstrumentNurse" class="block text-sm font-semibold mb-2">Mínimo de Enfermeiros Instrumentistas</label>
+                <input id="minInstrumentNurse" formControlName="minInstrumentNurse" type="text" placeholder="Mínimo de Enfermeiras Instrumentistas" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                    <div *ngIf="addForm.get('minInstrumentNurses')?.invalid && addForm.get('minInstrumentNurses')?.touched"
+                    class = "error text-red-500 text-sm mt-1">
+                    Mínimo de Enfermeiros Instrumentistas é obrigatório
+                    </div>
+            </div>
+            <div class="form-group mb4">
+                <label for="minCirculatingNurse" class="block text-sm font-semibold mb-2">Mínimo de Enfermeiros Circulantes</label>
+                <input id="minCirculatingNurse" formControlName="minCirculatingNurse" type="text" placeholder="Mínimo de Enfermeiras Circulantes" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                    <div *ngIf="addForm.get('minCirculatingNurses')?.invalid && addForm.get('minCirculatingNurses')?.touched"
+                    class = "error text-red-500 text-sm mt-1">
+                    Mínimo de Enfermeiros Circulantes é obrigatório
+                    </div>
+            </div>
+            <div class="form-group mb4">
+                <label for="minXRay" class="block text-sm font-semibold mb-2">Mínimo de Técnicos de Raio-X</label>
+                <input id="minXRay" formControlName="minXRay" type="text" placeholder="Mínimo de Técnicos de Raio-X" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                    <div *ngIf="addForm.get('minXRay')?.invalid && addForm.get('minXRay')?.touched"
+                    class = "error text-red-500 text-sm mt-1">
+                    Mínimo de Técnicos de Raio-X é obrigatório
+                    </div>
+            </div>
+            <div class="form-group mb4">
+                <label for="minMedicalAssistant" class="block text-sm font-semibold mb-2">Minimo de Assistentes Médicos</label>
+                <input id="minMedicalAssistant" formControlName="minMedicalAssistant" type="text" placeholder="Mínimo de Assistentes Médicos" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                    <div *ngIf="addForm.get('minMedicalAssistant')?.invalid && addForm.get('minMedicalAssistant')?.touched"
+                    class = "error text-red-500 text-sm mt-1">
+                    Mínimo de Assistentes Médicos é obrigatório
+                    </div>
+            </div> 
+            
         </form>
     </div>
 </div>
--->
 
 <!--delete-->
 <div *ngIf="confirmingDelete" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
