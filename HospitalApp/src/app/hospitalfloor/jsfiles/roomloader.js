@@ -136,8 +136,9 @@ export default class RoomLoader {
         }
     }
 
-    // Método para alternar a visibilidade das mesas
     toggleTableVisibility(isOccupied) {
+        if(!isOccupied) return;
+        console.log(isOccupied);
         this.object.traverse((child) => {
             if (child.tableWithPersonObject) {
                 child.tableWithPersonObject.visible = isOccupied;

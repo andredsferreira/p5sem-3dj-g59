@@ -6,11 +6,11 @@
   
     <!-- Control Panel -->
     <div class="w-96 p-4 bg-gray-100 shadow-md overflow-auto">
-      <h2 class="text-xl font-bold mb-4">Controls</h2>
+      <h2 class="text-xl font-bold mb-4">Controlos</h2>
   
       <!-- Date/Time Picker with Button -->
       <div class="mb-6">
-        <label for="dateTimePicker" class="block text-sm font-medium mb-2">Select Date and Time</label>
+        <label for="dateTimePicker" class="block text-sm font-medium mb-2">Seleciona dia e hora</label>
         <div class="flex space-x-2">
           <!-- DateTime Picker -->
           <input
@@ -18,14 +18,14 @@
             type="datetime-local"
             [(ngModel)]="selectedDateTime"
             class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          <!-- Button to Call Method -->
-          <button
+            />
+            <!-- Button to Call Method -->
+            <button
             (click)="handleDateTimeSelection()"
             class="p-2 bg-blue-500 text-white rounded-md focus:outline-none hover:bg-blue-600"
-          >
-            Set Time
-          </button>
+            >
+            Definir dia e hora
+            </button>
         </div>
       </div>
   
@@ -35,10 +35,10 @@
           class="w-full bg-blue-500 text-white p-2 rounded-md mb-2 text-left"
           (click)="toggleAmbientLightControls()"
         >
-          Ambient Light <span [innerText]="showAmbientLightControls ? '-' : '+'"></span>
+          Luz Ambiente <span [innerText]="showAmbientLightControls ? '-' : '+'"></span>
         </button>
         <div *ngIf="showAmbientLightControls" class="pl-4">
-          <label class="block text-sm font-medium mb-2" for="ambientIntensity">Intensity</label>
+          <label class="block text-sm font-medium mb-2" for="ambientIntensity">Intensidade</label>
           <input
             id="ambientIntensity"
             type="range"
@@ -50,7 +50,7 @@
             (input)="updateAmbientLight()"
           />
   
-          <label class="block text-sm font-medium mb-2 mt-4" for="ambientColor">Color</label>
+          <label class="block text-sm font-medium mb-2 mt-4" for="ambientColor">Cor</label>
           <input
             id="ambientColor"
             type="color"
@@ -67,10 +67,10 @@
           class="w-full bg-blue-500 text-white p-2 rounded-md mt-4 text-left"
           (click)="toggleDirectionalLightControls()"
         >
-          Directional Light <span [innerText]="showDirectionalLightControls ? '-' : '+'"></span>
+          Luz Direcional <span [innerText]="showDirectionalLightControls ? '-' : '+'"></span>
         </button>
         <div *ngIf="showDirectionalLightControls" class="pl-4">
-          <label class="block text-sm font-medium mb-2" for="directionalIntensity">Intensity</label>
+          <label class="block text-sm font-medium mb-2" for="directionalIntensity">Intensidade</label>
           <input
             id="directionalIntensity"
             type="range"
@@ -82,7 +82,7 @@
             (input)="updateDirectionalLight()"
           />
   
-          <label class="block text-sm font-medium mb-2 mt-4" for="directionalColor">Color</label>
+          <label class="block text-sm font-medium mb-2 mt-4" for="directionalColor">Cor</label>
           <input
             id="directionalColor"
             type="color"
@@ -92,7 +92,7 @@
           />
   
           <div class="mt-4">
-            <label class="block text-sm font-medium mb-2">Position</label>
+            <label class="block text-sm font-medium mb-2">Posição</label>
             <div class="flex gap-2">
               <input
                 type="number"

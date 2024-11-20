@@ -48,4 +48,5 @@ export default class Loader {
     loaded: boolean;
 
     constructor(parameters: LoaderParameters);
+    toggleTableVisibility(occupied: boolean|null);
 }

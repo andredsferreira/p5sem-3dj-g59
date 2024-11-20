@@ -58,6 +58,8 @@ export class HospitalFloorComponent implements OnInit {
           // Cria a cena assim que os dados estão prontos
           this.createScene();
           this.render();
+          this.selectedDateTime = this.getCurrentDateTime();
+          this.handleDateTimeSelection();
         } catch (error) {
           console.error("Error fetching rooms:", error);
         }
@@ -221,12 +223,12 @@ export class HospitalFloorComponent implements OnInit {
     for(var i=0; i < RoomNumbers!.length; i++){
       var x,z,left;
       if (i%2==0) {
-        x = LeftSide[j].width;
+        x = LeftSide[j].width-3.5;
         z = LeftSide[j].height;
         left = true;
         j++;
       } else {
-        x = RightSide[k].width;
+        x = RightSide[k].width+3.5;
         z = RightSide[k].width;
         left = false;
         k++;
@@ -244,17 +246,36 @@ export class HospitalFloorComponent implements OnInit {
         windowSize: configJson.windowSize
       });
       roomLoaderInstance.object.translateY(configJson.wallSize.height / 4)
-      roomLoaderInstance.object.translateX(x-3.5);
-      roomLoaderInstance.object.translateZ(z-9.5);
+      roomLoaderInstance.object.translateX(x);
+      roomLoaderInstance.object.translateZ(z-4.5);
       this.roomLoaders?.push(roomLoaderInstance);
       this.scene.add(roomLoaderInstance.object);
     }
   }
 
+  private getCurrentDateTime(): string {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Month is zero-based
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
   handleDateTimeSelection(): void {
-    console.log("Selected Date/Time:", this.selectedDateTime);
-    
-    // You can now use this.selectedDateTime to do whatever you need, e.g., sending it to a server or processing it further
+    const date = new Date(this.selectedDateTime);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hour = String(date.getHours()).padStart(2, '0');
+    const minute = String(date.getMinutes()).padStart(2, '0');
+    const time = `${year}${month}${day}${hour}${minute}`;
+    this.roomLoaders!.forEach(async element => {
+      console.log(element.roomNumber);
+      element.toggleTableVisibility((await this.service.isRoomOccupied(this.token, element.roomNumber, time)).body);
+    });
   }
 
 }
