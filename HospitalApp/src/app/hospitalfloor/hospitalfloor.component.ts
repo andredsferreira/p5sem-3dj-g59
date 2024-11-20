@@ -4,30 +4,68 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Ground from './jsfiles/ground';
 import configJson from './config.json';
 import Loader from './jsfiles/loader';
+import RoomLoader from './jsfiles/roomloader';
 import { AuthService } from '../auth/auth.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HospitalFloorService } from './hospitalfloor-service';
+import { RoomType } from './room';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FormsModule],   
   selector: 'app-hospitalfloor',
   templateUrl: './hospitalfloor.component.html',
   styleUrl: './hospitalfloor.component.css'
 })
-export class HospitalFloorComponent implements AfterViewInit, OnInit {
+export class HospitalFloorComponent implements OnInit {
 
+  token!: string|null
   role: string = ""
   canRenderCanvas: boolean = false
 
-  constructor(private auth: AuthService) { }
+  showAmbientLightControls: boolean = false;
+  showDirectionalLightControls: boolean = false;
+  ambientIntensity: number = 0.5;
+  ambientColor: string = "#ffffff";
+  directionalIntensity: number = 3;
+  directionalColor: string = "#ffffff";
+  directionalLightPosition = { x: 5, y: 3, z: 5 };
 
-  ngOnInit(): void {
-    let token = localStorage.getItem('token')
-    if (token) {
-      this.role = this.auth.getRoleFromToken(token);
+  selectedDateTime: string = '';
+
+  roomLoaders!: RoomLoader[]|null;
+
+  rooms!: RoomType[]|null;
+
+  private ambientLight!: THREE.AmbientLight;
+  private directionalLight!: THREE.DirectionalLight;
+
+  constructor(private auth: AuthService, private service: HospitalFloorService) { }
+
+  async ngOnInit(): Promise<void> {
+    this.token = localStorage.getItem('token');
+    if (this.token) {
+      this.role = this.auth.getRoleFromToken(this.token);
       this.canRenderCanvas = this.role !== 'Patient' && this.role !== "";
+  
+      if (this.canRenderCanvas) {
+        try {
+          const response = await this.service.getRooms(this.token);
+          this.rooms = response.body;
+          this.roomLoaders = [];
+  
+          // Cria a cena assim que os dados estão prontos
+          this.createScene();
+          this.render();
+        } catch (error) {
+          console.error("Error fetching rooms:", error);
+        }
+      }
     } else {
       console.warn('No token found in localStorage');
     }
   }
-
 
   @ViewChild('myCanvas') private canvasRef!: ElementRef;
 
@@ -64,46 +102,45 @@ export class HospitalFloorComponent implements AfterViewInit, OnInit {
     //const axesHelpers = new THREE.AxesHelper(10);
     //this.scene.add(axesHelpers);
 
-    // Create an instance of Loader
     var loaderInstance = new Loader({
       map: configJson.map, groundTextureUrl: configJson.floorTextureUrl,
       groundSize: { width: configJson.floorSize.width, height: configJson.floorSize.height },
       wallTextureUrl: configJson.wallTextureUrl,
       wallSize: { width: configJson.wallSize.width, height: configJson.wallSize.height, depth: configJson.wallSize.depth },
-      table: { url: configJson.tableModel.url, obj: configJson.tableModel.obj, mtl: configJson.tableModel.mtl },
-      tableWithPerson: { url: configJson.tableWithPersonModel.url, obj: configJson.tableWithPersonModel.obj, mtl: configJson.tableWithPersonModel.mtl },
       door: { url: configJson.doorModel.url, fbx: configJson.doorModel.fbx },
-      windowSize: configJson.windowSize
     });
     loaderInstance.object.translateY(configJson.wallSize.height / 4)
     this.scene.add(loaderInstance.object);
 
-    //Ground around hospital
+    this.createRoomLoaders(this.rooms,loaderInstance.vectorLeftList,loaderInstance.vectorRightList);
+
     var floor = new Ground({ textureUrl: configJson.groundTextureUrl, size: configJson.groundSize })
     floor.object.translateZ(-0.01);
     this.scene.add(floor.object);
 
-    //this.scene.add(box.group);
+    this.ambientLight = new THREE.AmbientLight(this.ambientColor, this.ambientIntensity);
+    this.scene.add(this.ambientLight);
 
-    const light = new THREE.AmbientLight(0xffffff, 0.5);
-    this.scene.add(light);
+    this.directionalLight = new THREE.DirectionalLight(this.directionalColor, this.directionalIntensity);
+    this.directionalLight.castShadow = true;
+    this.directionalLight.position.set(
+      this.directionalLightPosition.x,
+      this.directionalLightPosition.y,
+      this.directionalLightPosition.z
+    );
+    this.directionalLight.lookAt(new THREE.Vector3(0, 0, 0))
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 3);
-    directionalLight.castShadow = true;
-    directionalLight.position.set(5, 3, 5);
-    directionalLight.lookAt(new THREE.Vector3(0, 0, 0));
+    this.directionalLight.shadow.mapSize.width = 2048;
+    this.directionalLight.shadow.mapSize.height = 2048;
 
-    directionalLight.shadow.mapSize.width = 2048;
-    directionalLight.shadow.mapSize.height = 2048;
+    this.directionalLight.shadow.camera.left = -15;
+    this.directionalLight.shadow.camera.right = 15;
+    this.directionalLight.shadow.camera.top = 5;
+    this.directionalLight.shadow.camera.bottom = -10;
+    this.directionalLight.shadow.camera.near = -15;
+    this.directionalLight.shadow.camera.far = 25;
 
-    directionalLight.shadow.camera.left = -15;
-    directionalLight.shadow.camera.right = 15;
-    directionalLight.shadow.camera.top = 5;
-    directionalLight.shadow.camera.bottom = -10;
-    directionalLight.shadow.camera.near = -15;
-    directionalLight.shadow.camera.far = 25;
-
-    this.scene.add(directionalLight);
+    this.scene.add(this.directionalLight);
 
     //const shadowCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
     //this.scene.add(shadowCameraHelper);
@@ -150,12 +187,74 @@ export class HospitalFloorComponent implements AfterViewInit, OnInit {
     this.renderer.render(this.scene, this.camera);
   }
 
-  ngAfterViewInit(): void {
-    if (this.canRenderCanvas) {
-      this.createScene();
-      this.render();
-
+  updateAmbientLight(): void {
+    if (this.ambientLight) {
+      this.ambientLight.intensity = this.ambientIntensity;
+      this.ambientLight.color.set(this.ambientColor);
     }
+  }
+
+  updateDirectionalLight(): void {
+    if (this.directionalLight) {
+      this.directionalLight.intensity = this.directionalIntensity;
+      this.directionalLight.color.set(this.directionalColor);
+      this.directionalLight.position.set(
+        this.directionalLightPosition.x,
+        this.directionalLightPosition.y,
+        this.directionalLightPosition.z
+      );
+    }
+  }
+
+  // Methods to toggle visibility of control sections
+  toggleAmbientLightControls(): void {
+    this.showAmbientLightControls = !this.showAmbientLightControls;
+  }
+
+  toggleDirectionalLightControls(): void {
+    this.showDirectionalLightControls = !this.showDirectionalLightControls;
+  }
+
+  createRoomLoaders(RoomNumbers: RoomType[]|null, LeftSide: THREE.Vector2[], RightSide: THREE.Vector2[]): void {
+    var j=0,k=0;
+    console.log(RoomNumbers);
+    for(var i=0; i < RoomNumbers!.length; i++){
+      var x,z,left;
+      if (i%2==0) {
+        x = LeftSide[j].width;
+        z = LeftSide[j].height;
+        left = true;
+        j++;
+      } else {
+        x = RightSide[k].width;
+        z = RightSide[k].width;
+        left = false;
+        k++;
+      }
+      var roomLoaderInstance = new RoomLoader({
+        roomNumber: RoomNumbers![i].Number,
+        leftSide: left,
+        map: configJson.roomMap,
+        roomSize: configJson.roomSize,
+        wallTextureUrl: configJson.wallTextureUrl,
+        wallSize: { width: configJson.wallSize.width, height: configJson.wallSize.height, depth: configJson.wallSize.depth },
+        table: { url: configJson.tableModel.url, obj: configJson.tableModel.obj, mtl: configJson.tableModel.mtl },
+        tableWithPerson: { url: configJson.tableWithPersonModel.url, obj: configJson.tableWithPersonModel.obj, mtl: configJson.tableWithPersonModel.mtl },
+        door: { url: configJson.doorModel.url, fbx: configJson.doorModel.fbx },
+        windowSize: configJson.windowSize
+      });
+      roomLoaderInstance.object.translateY(configJson.wallSize.height / 4)
+      roomLoaderInstance.object.translateX(x-3.5);
+      roomLoaderInstance.object.translateZ(z-9.5);
+      this.roomLoaders?.push(roomLoaderInstance);
+      this.scene.add(roomLoaderInstance.object);
+    }
+  }
+
+  handleDateTimeSelection(): void {
+    console.log("Selected Date/Time:", this.selectedDateTime);
+    
+    // You can now use this.selectedDateTime to do whatever you need, e.g., sending it to a server or processing it further
   }
 
 }

@@ -3,22 +3,25 @@ import Wall from "./wall";
 import Ground from "./ground";
 
 interface LoaderParameters {
+    roomNumber: number;
+    leftSide: boolean;
     map: number[][];
-    groundTextureUrl: string;
-    groundSize: Vector2;
+    roomSize: Vector2;
     wallTextureUrl: string;
     wallSize: Vector3;
-    //windowSize: Vector3;
-    //table: ObjMtl;
-    //tableWithPerson: ObjMtl;
+    table: ObjMtl;
+    tableWithPerson: ObjMtl;
+    windowSize: Vector3;
+    table: ObjMtl;
+    tableWithPerson: ObjMtl;
     door: Fbx;
 }
 
-/*interface ObjMtl {
+interface ObjMtl {
     url: string,
     obj: string,
     mtl: string
-}*/
+}
 
 interface Fbx {
     url: string,
@@ -37,11 +40,12 @@ interface Vector3 {
 }
 
 export default class Loader {
+    roomNumber: number;
     scale: THREE.Vector3;
+    map?: number[][];
+    size?: MazeSize;
     object: THREE.Group;
     loaded: boolean;
-    vectorLeftList: THREE.Vector2[];
-    vectorRightList: THREE.Vector2[];
 
     constructor(parameters: LoaderParameters);
 }

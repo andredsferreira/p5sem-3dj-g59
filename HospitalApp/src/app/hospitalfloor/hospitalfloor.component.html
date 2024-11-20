@@ -1,1 +1,124 @@
-<canvas *ngIf="canRenderCanvas" #myCanvas id="myCanvas"></canvas>
+<div class="flex h-screen">
+    <!-- Canvas -->
+    <div class="flex-1 relative">
+      <canvas *ngIf="canRenderCanvas" #myCanvas id="myCanvas" class="w-96"></canvas>
+    </div>
+  
+    <!-- Control Panel -->
+    <div class="w-96 p-4 bg-gray-100 shadow-md overflow-auto">
+      <h2 class="text-xl font-bold mb-4">Controls</h2>
+  
+      <!-- Date/Time Picker with Button -->
+      <div class="mb-6">
+        <label for="dateTimePicker" class="block text-sm font-medium mb-2">Select Date and Time</label>
+        <div class="flex space-x-2">
+          <!-- DateTime Picker -->
+          <input
+            id="dateTimePicker"
+            type="datetime-local"
+            [(ngModel)]="selectedDateTime"
+            class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+          <!-- Button to Call Method -->
+          <button
+            (click)="handleDateTimeSelection()"
+            class="p-2 bg-blue-500 text-white rounded-md focus:outline-none hover:bg-blue-600"
+          >
+            Set Time
+          </button>
+        </div>
+      </div>
+  
+      <!-- Ambient Light Controls -->
+      <div>
+        <button
+          class="w-full bg-blue-500 text-white p-2 rounded-md mb-2 text-left"
+          (click)="toggleAmbientLightControls()"
+        >
+          Ambient Light <span [innerText]="showAmbientLightControls ? '-' : '+'"></span>
+        </button>
+        <div *ngIf="showAmbientLightControls" class="pl-4">
+          <label class="block text-sm font-medium mb-2" for="ambientIntensity">Intensity</label>
+          <input
+            id="ambientIntensity"
+            type="range"
+            min="0"
+            max="2"
+            step="0.1"
+            [(ngModel)]="ambientIntensity"
+            class="w-full"
+            (input)="updateAmbientLight()"
+          />
+  
+          <label class="block text-sm font-medium mb-2 mt-4" for="ambientColor">Color</label>
+          <input
+            id="ambientColor"
+            type="color"
+            [(ngModel)]="ambientColor"
+            class="w-full"
+            (input)="updateAmbientLight()"
+          />
+        </div>
+      </div>
+  
+      <!-- Directional Light Controls -->
+      <div>
+        <button
+          class="w-full bg-blue-500 text-white p-2 rounded-md mt-4 text-left"
+          (click)="toggleDirectionalLightControls()"
+        >
+          Directional Light <span [innerText]="showDirectionalLightControls ? '-' : '+'"></span>
+        </button>
+        <div *ngIf="showDirectionalLightControls" class="pl-4">
+          <label class="block text-sm font-medium mb-2" for="directionalIntensity">Intensity</label>
+          <input
+            id="directionalIntensity"
+            type="range"
+            min="0"
+            max="5"
+            step="0.1"
+            [(ngModel)]="directionalIntensity"
+            class="w-full"
+            (input)="updateDirectionalLight()"
+          />
+  
+          <label class="block text-sm font-medium mb-2 mt-4" for="directionalColor">Color</label>
+          <input
+            id="directionalColor"
+            type="color"
+            [(ngModel)]="directionalColor"
+            class="w-full"
+            (input)="updateDirectionalLight()"
+          />
+  
+          <div class="mt-4">
+            <label class="block text-sm font-medium mb-2">Position</label>
+            <div class="flex gap-2">
+              <input
+                type="number"
+                [(ngModel)]="directionalLightPosition.x"
+                (input)="updateDirectionalLight()"
+                class="w-1/3 p-2 border rounded"
+                placeholder="X"
+              />
+              <input
+                type="number"
+                [(ngModel)]="directionalLightPosition.y"
+                (input)="updateDirectionalLight()"
+                class="w-1/3 p-2 border rounded"
+                placeholder="Y"
+              />
+              <input
+                type="number"
+                [(ngModel)]="directionalLightPosition.z"
+                (input)="updateDirectionalLight()"
+                class="w-1/3 p-2 border rounded"
+                placeholder="Z"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
