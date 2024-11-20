@@ -67,6 +67,22 @@ export class OperationTypeService{
 
     }
 
+    async deleteOperationType(id: string): Promise<any> {
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${this.token}`
+      });
+
+      try {
+        const response = await lastValueFrom(
+          this.http.delete(`https://localhost:5001/api/operationtype/Deactivate/${id}`, { headers })
+        );
+        return response;
+      } catch (error) {
+        console.error('Error deleting operation type:', error);
+        throw error;
+      }
+    }
+
   
 
 

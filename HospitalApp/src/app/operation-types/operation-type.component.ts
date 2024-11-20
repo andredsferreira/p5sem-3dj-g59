@@ -47,7 +47,8 @@ export class OperationTypeComponent /*implements OnInit*/ {
         paginatedOperationTypes: any[] = [];
         currentPage: number = 1;
         pageSize: number = 5;
-        confirmingDelete = false;
+        confirmingDelete: boolean = false;
+        typeToDelete: string | null =null;
         showMessage = false;
         messageText = '';
         messageClass = '';
@@ -87,32 +88,7 @@ export class OperationTypeComponent /*implements OnInit*/ {
         constructor(private operationTypeService: OperationTypeService, private router: Router) {
         }
 
-        /*async ngOnInit(): Promise<void> {
-
-                this.token = localStorage.getItem('token'); // Get token from local storage
-
-            if (!this.token) {
-                this.errorMessage = 'No token found. Please log in first.';
-                return;
-            }
-            /*if (this.isInitialized) {
-                this.;
-            }
-            
-        }*/
-        /*onSubmit(): void {
-            if (this.operationTypeForm.valid) {
-              const operationTypeName = this.operationTypeForm.value.operationTypeName;
-              console.log('Operation Type:', operationTypeName);
-              // Add your form submission logic here
-            }
-        }
-        ngOnInit(): void {
-            this.operationTypeForm = this.fb.group({
-              operationTypeName: ['', Validators.required]
-            });
-        }*/
-
+        
         backToAdmin(): void {
 
             console.log('Admin');
@@ -130,7 +106,37 @@ export class OperationTypeComponent /*implements OnInit*/ {
             }
     
        }
+
+        
+       async deleteOperationType(id: string): Promise<void> {
+            console.log('Deleting operation type:', id);
+            this.typeToDelete = id;
+            this.confirmingDelete = true;
     }
 
+    confirmDelete(): void {
+        console.log('Deleting operation type:', this.selectedItem?.id);
+        if (this.typeToDelete) {
 
+            try{
+                this.operationTypeService.deleteOperationType(this.typeToDelete);
+                this.confirmingDelete = false;
+                this.typeToDelete = null;
+                console.log('Operation Type deleted');
+                this.listOperationType();
+            }catch(error){
+                console.error('Failed to delete operation type:', error);
+                this.confirmingDelete = false;
+                this.typeToDelete = null;
+            }
+
+        }
+    }
+
+    cancelDelete(): void {
+        this.confirmingDelete = false;
+        this.typeToDelete = null;
+    }
+    
+}
 
