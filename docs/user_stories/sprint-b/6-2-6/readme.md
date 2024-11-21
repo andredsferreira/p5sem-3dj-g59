@@ -46,7 +46,7 @@ The team decided that:
 
 ## 5. C4 Views
 
--
+The **C4 Views** for this *US* can be viewed [here](views/readme.md).
 
 ## 6. Tests
 
