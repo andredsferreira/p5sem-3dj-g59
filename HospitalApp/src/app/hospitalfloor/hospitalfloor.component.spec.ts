@@ -2,6 +2,9 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { HospitalFloorComponent } from './hospitalfloor.component';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import * as THREE from 'three';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { API_PATH } from '../config-path';
+import { path } from '../app.config';
 
 describe('HospitalFloorComponent', () => {
   let component: HospitalFloorComponent;
@@ -10,9 +13,12 @@ describe('HospitalFloorComponent', () => {
   let mockRenderer: { domElement: HTMLElement };
   let scene: THREE.Scene;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [HospitalFloorComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [HospitalFloorComponent, HttpClientTestingModule],
+      providers: [
+        { provide: API_PATH, useValue: path }  // Provide a mock API_PATH
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HospitalFloorComponent);

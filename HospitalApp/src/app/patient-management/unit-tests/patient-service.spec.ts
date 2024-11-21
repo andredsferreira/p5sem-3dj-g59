@@ -1,11 +1,11 @@
 // patient.service.spec.ts
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { PatientService } from './patient-service';
+import { PatientService } from '../patient-service';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { path } from '../app.config';
-import { API_PATH } from '../config-path';
-import { Patient, PatientCreateAttributes, PatientEditAttributes, PatientSearchAttributes } from './patient-types';
+import { path } from '../../app.config';
+import { API_PATH } from '../../config-path';
+import { Patient, PatientCreateAttributes, PatientEditAttributes, PatientSearchAttributes } from '../patient-types';
 
 describe('PatientService', () => {
   let service: PatientService;
