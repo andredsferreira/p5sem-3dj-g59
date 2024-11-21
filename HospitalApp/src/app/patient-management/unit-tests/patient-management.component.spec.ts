@@ -5,19 +5,26 @@ import { HttpClient, HttpClientModule, HttpRequest, HttpResponse } from '@angula
 import { API_PATH } from '../../config-path';
 import { path } from '../../app.config';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { Patient, PatientCreateAttributes } from '../patient-types';
+import { Patient, PatientCreateAttributes, PatientEditAttributes } from '../patient-types';
 import { PatientService } from '../patient-service';
 
 describe('PatientManagementComponent', () => {
   let component: PatientManagementComponent;
   let fixture: ComponentFixture<PatientManagementComponent>;
-  let mockToken = 'mock-token';
-  let patient : Patient;
+  let patient : Patient = {
+    MedicalRecordNumber: '202411000001',
+    FullName: 'Test Subject',
+    Email: 'teste@gmail.com',
+    PhoneNumber: '933922900',
+    DateOfBirth: '20041020',
+    Gender: 'Male',
+    Allergies: 'Cats, Dogs, Fungus'
+  };
 
   let mockPatientService: jasmine.SpyObj<PatientService>;
 
   beforeEach(async () => {
-    mockPatientService = jasmine.createSpyObj('PatientService', ['createPatient']);
+    mockPatientService = jasmine.createSpyObj('PatientService', ['createPatient', 'editPatient']);
 
     await TestBed.configureTestingModule({
       imports: [PatientManagementComponent, HttpClientTestingModule],
@@ -27,7 +34,6 @@ describe('PatientManagementComponent', () => {
       ],
     }).compileComponents();
 
-    localStorage.setItem('token',mockToken);
     fixture = TestBed.createComponent(PatientManagementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -62,6 +68,42 @@ describe('PatientManagementComponent', () => {
 
       expect(component.messageText).toContain('criado com sucesso!');
       expect(component.messageClass).toContain('bg-green-500');
+    });
+  })
+  describe('Edit', () => {
+    it('should successfully edit a patient', async () => {
+      const editAttributes: PatientEditAttributes = {
+        Email: 'test@example.com',
+        FullName: 'Test User',
+      };
+      let mockResponse: HttpResponse<Patient> = new HttpResponse();
+      mockPatientService.editPatient.and.returnValue(Promise.resolve(mockResponse));
+      
+      if(editAttributes.Email != undefined) component.editingFields['Email'].value = editAttributes.Email;
+      if(editAttributes.FullName != undefined) component.editingFields['FullName'].value = editAttributes.FullName;
+      
+      await component.submitEdit(patient);
+
+      expect(component.messageText).toContain('editado com sucesso!');
+      expect(component.messageClass).toContain('bg-green-500');
+    });
+
+    it('shouldnt edit non existent patient', async () => {
+      const editAttributes: PatientEditAttributes = {
+        Email: 'test@example.com',
+        FullName: 'Test User',
+      };
+      let mockResponse: HttpResponse<Patient> = new HttpResponse();
+      mockPatientService.editPatient.and.returnValue(Promise.resolve(mockResponse));
+      
+      if(editAttributes.Email != undefined) component.editingFields['Email'].value = editAttributes.Email;
+      if(editAttributes.FullName != undefined) component.editingFields['FullName'].value = editAttributes.FullName;
+      
+      await component.submitEdit(null);
+
+      expect(component.messageText).toBe('');
+      expect(component.messageClass).toBe('');
+      //"patient does not exist" was logged 
     });
   })
 });
