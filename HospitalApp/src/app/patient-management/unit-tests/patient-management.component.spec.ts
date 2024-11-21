@@ -7,7 +7,6 @@ import { path } from '../../app.config';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Patient, PatientCreateAttributes } from '../patient-types';
 import { PatientService } from '../patient-service';
-import { of } from 'rxjs';
 
 describe('PatientManagementComponent', () => {
   let component: PatientManagementComponent;
@@ -55,7 +54,7 @@ describe('PatientManagementComponent', () => {
       component.createFields['DateOfBirth'].value = 
       typeof createAttributes.DateOfBirth === 'string' 
         ? createAttributes.DateOfBirth 
-        : createAttributes.DateOfBirth.toISOString();
+        : createAttributes.DateOfBirth.toISOString(); // Or use any preferred date format
           component.createFields['Gender'].value = createAttributes.Gender;
       component.allergiesList = ['Peanuts', 'Shellfish'];
 
