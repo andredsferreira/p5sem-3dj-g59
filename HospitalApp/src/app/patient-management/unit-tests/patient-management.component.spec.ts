@@ -24,7 +24,7 @@ describe('PatientManagementComponent', () => {
   let mockPatientService: jasmine.SpyObj<PatientService>;
 
   beforeEach(async () => {
-    mockPatientService = jasmine.createSpyObj('PatientService', ['createPatient', 'editPatient']);
+    mockPatientService = jasmine.createSpyObj('PatientService', ['createPatient', 'editPatient', 'deletePatient']);
 
     await TestBed.configureTestingModule({
       imports: [PatientManagementComponent, HttpClientTestingModule],
@@ -100,6 +100,28 @@ describe('PatientManagementComponent', () => {
       if(editAttributes.FullName != undefined) component.editingFields['FullName'].value = editAttributes.FullName;
       
       await component.submitEdit(null);
+
+      expect(component.messageText).toBe('');
+      expect(component.messageClass).toBe('');
+      //"patient does not exist" was logged 
+    });
+  })
+  describe('Delete', () => {
+    it('should successfully delete a patient', async () => {
+      let mockResponse: HttpResponse<Patient> = new HttpResponse();
+      mockPatientService.deletePatient.and.returnValue(Promise.resolve(mockResponse));
+      
+      await component.onDelete(patient);
+
+      expect(component.messageText).toContain('eliminado com sucesso!');
+      expect(component.messageClass).toContain('bg-green-500');
+    });
+
+    it('shouldnt delete non existent patient', async () => {
+      let mockResponse: HttpResponse<Patient> = new HttpResponse();
+      mockPatientService.deletePatient.and.returnValue(Promise.resolve(mockResponse));
+      
+      await component.onDelete(null);
 
       expect(component.messageText).toBe('');
       expect(component.messageClass).toBe('');
