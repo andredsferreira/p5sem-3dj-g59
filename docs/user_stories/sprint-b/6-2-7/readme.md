@@ -279,7 +279,7 @@ it('shouldnt edit non existent patient', async () => {
 
 This is the data form where the user can input the necessary information.
 
-As specified in the 'Design' section, we can choose what attributes we actually want to choose:
+As specified in the 'Design' section, we can choose what attributes we actually want to edit:
 
 ![](images/demonstration/data_form.png)
 

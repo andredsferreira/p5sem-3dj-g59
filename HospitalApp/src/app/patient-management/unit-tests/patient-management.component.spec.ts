@@ -5,7 +5,7 @@ import { HttpClient, HttpClientModule, HttpRequest, HttpResponse } from '@angula
 import { API_PATH } from '../../config-path';
 import { path } from '../../app.config';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { Patient, PatientCreateAttributes, PatientEditAttributes } from '../patient-types';
+import { Patient, PatientCreateAttributes, PatientEditAttributes, PatientSearchAttributes } from '../patient-types';
 import { PatientService } from '../patient-service';
 
 describe('PatientManagementComponent', () => {
@@ -24,7 +24,7 @@ describe('PatientManagementComponent', () => {
   let mockPatientService: jasmine.SpyObj<PatientService>;
 
   beforeEach(async () => {
-    mockPatientService = jasmine.createSpyObj('PatientService', ['createPatient', 'editPatient', 'deletePatient']);
+    mockPatientService = jasmine.createSpyObj('PatientService', ['createPatient', 'editPatient', 'deletePatient', 'getPatients']);
 
     await TestBed.configureTestingModule({
       imports: [PatientManagementComponent, HttpClientTestingModule],
@@ -126,6 +126,39 @@ describe('PatientManagementComponent', () => {
       expect(component.messageText).toBe('');
       expect(component.messageClass).toBe('');
       //"patient does not exist" was logged 
+    });
+  })
+  describe ('Search', () => {
+    it('should successfully list patients', async () => {
+      const searchAttributes: PatientSearchAttributes = {
+        Email: 'test@example.com',
+        FullName: 'Test User',
+      };
+      let mockResponse: HttpResponse<Patient[]> = new HttpResponse({body:[patient]});
+      mockPatientService.getPatients.and.returnValue(Promise.resolve(mockResponse));
+      
+      if(searchAttributes.Email != undefined) component.searchFields['Email'].value = searchAttributes.Email;
+      if(searchAttributes.FullName != undefined) component.searchFields['FullName'].value = searchAttributes.FullName;
+      
+      await component.loadPatients();
+      
+      if(mockResponse.body != null) expect(component.patients).toBe(mockResponse.body);
+      else fail();
+    });
+    it('should display empty list message', async () => {
+      const searchAttributes: PatientSearchAttributes = {
+        Email: 'test@example.com',
+        FullName: 'Test User',
+      };
+      let mockResponse: HttpResponse<Patient[]> = new HttpResponse();
+      mockPatientService.getPatients.and.returnValue(Promise.resolve(mockResponse));
+      
+      if(searchAttributes.Email != undefined) component.searchFields['Email'].value = searchAttributes.Email;
+      if(searchAttributes.FullName != undefined) component.searchFields['FullName'].value = searchAttributes.FullName;
+      
+      await component.loadPatients();
+
+      expect(component.patients.length).toBe(0);
     });
   })
 });

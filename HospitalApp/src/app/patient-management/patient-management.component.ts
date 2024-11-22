@@ -19,7 +19,7 @@ interface Field {
 export class PatientManagementComponent implements OnInit {
 
   errorMessage: string | null = null;
-  patients: any[] = [];
+  patients: Patient[] = [];
   selectedItem: Patient | null = null;
   isCreating = false;
   isEditing = false;
