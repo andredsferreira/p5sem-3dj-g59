@@ -300,7 +300,7 @@ export class PatientManagementComponent implements OnInit {
       this.messageText = 'Erro ao criar paciente. Tente novamente.';
       this.messageClass = 'bg-red-500 text-white';
     } finally {
-      this.isEditing = false;
+      this.isCreating = false;
       this.selectedItem = null;
       await this.loadPatients();
 
