@@ -1,8 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import {Status} from './status.enum';
-import { Specialization } from './specialization.enum';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -15,26 +14,28 @@ export class OperationTypeService{
   }
 
   async createOperationType(name: string, anaesthesiaTime: number, surgeryTime: number, cleaningTime: number, 
-    status: Status, specializations: Specialization, minDoctor: number, minAnaesthetist: number, minInstrumentNurse: number,
-    minNurseAnaesthetist: number, minXRay: number, minMedicalAssistant: number): Promise<any> {
+    specialization: string, minDoctor: number, minAnaesthetist: number, minInstrumentingNurse: number,
+    minCirculatingNurse: number, minNurseAnaesthetist: number, minXRayTechnician: number, minMedicalActionAssistant: number): Promise<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/x-www-form-urlencoded'
     });
-    const body = {
-      name,
-      anaesthesiaTime,
-      surgeryTime,
-      cleaningTime,
-      status,
-      specializations,
-      minDoctor,
-      minAnaesthetist,
-      minInstrumentNurse,
-      minNurseAnaesthetist,
-      minXRay,
-      minMedicalAssistant
-    };
+    const body = new HttpParams()
+      .set('name', name)
+      .set('anaesthesiaTime', anaesthesiaTime.toString())
+      .set('surgeryTime', surgeryTime.toString())
+      .set('cleaningTime', cleaningTime.toString())
+      .set('status', "ACTIVE")
+      .set('specialization', specialization)
+      .set('minDoctor', minDoctor.toString())
+      .set('minAnaesthetist', minAnaesthetist.toString())
+      .set('minInstrumentingNurse', minInstrumentingNurse.toString())
+      .set('minCirculatingNurse', minCirculatingNurse.toString())
+      .set('minNurseAnaesthetist', minNurseAnaesthetist.toString())
+      .set('minXRayTechnician', minXRayTechnician.toString())
+      .set('minMedicalActionAssistant', minMedicalActionAssistant.toString());
+
+    console.log(body);
     
     try{
       const response = await lastValueFrom(

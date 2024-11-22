@@ -55,6 +55,7 @@ export class OperationTypeComponent /*implements OnInit*/ {
     notFound: boolean = false;
     showModal: boolean = false;
     formError: string | null = null;
+    isSubmiting: boolean = false;
     addForm: FormGroup;
 
 
@@ -90,19 +91,19 @@ export class OperationTypeComponent /*implements OnInit*/ {
 
     constructor(private fb: FormBuilder, private operationTypeService: OperationTypeService, private router: Router) {
         this.addForm = this.fb.group({
-            name: ['', Validators.required,],
-            anaesthesiaTime: ['', Validators.required],
-            surgeryTime: ['', Validators.required],
-            cleaningTime: ['', Validators.required],
-            status: ['', Validators.required],
-            Specialization: ['', Validators.required],
-            minDoctor: ['', Validators.required],
-            minAnaesthetist: ['', Validators.required],
-            minInstrumentNurse: ['', Validators.required],
-            minCirculatingNurse: ['', Validators.required],
-            minNurseAnaesthetist: ['', Validators.required],
-            minXRay: ['', Validators.required],
-            minMedicalAssistant: ['', Validators.required]
+            name: [''],
+            anaesthesiaTime: [''],
+            surgeryTime: [''],
+            cleaningTime: [''],
+            status: [''],
+            specialization: [Validators.required],
+            minDoctor: [''],
+            minAnaesthetist: [''],
+            minInstrumentingNurse: [''],
+            minCirculatingNurse: [''],
+            minNurseAnaesthetist: [''],
+            minXRayTechnician: [''],
+            minMedicalActionAssistant: ['']
         });
     }
 
@@ -165,44 +166,52 @@ export class OperationTypeComponent /*implements OnInit*/ {
 
     }
 
-    async onSubmit(): Promise<void> {
-        if (this.addForm.valid) {
-            try {
-                const {
-                    name,
-                    anaesthesiaTime,
-                    surgeryTime,
-                    cleaningTime,
-                    status,
-                    specializations,
-                    minDoctor,
-                    minAnaesthetist,
-                    minInstrumentNurse,
-                    minNurseAnaesthetist,
-                    minXRay,
-                    minMedicalAssistant
-                } = this.addForm.value;
+    async onSubmit(): Promise<any> {
+        if (!this.isSubmiting) {
+            this.isSubmiting = true;
+            console.log('Form submitted:', this.addForm.value);
+            if (this.addForm.valid) {
+                console.log('Form is valid');
+                try {
+                    const {
+                        name,
+                        anaesthesiaTime,
+                        surgeryTime,
+                        cleaningTime,
+                        specialization,
+                        minDoctor,
+                        minAnaesthetist,
+                        minInstrumentingNurse,
+                        minNurseAnaesthetist,
+                        minCirculatingNurse,
+                        minXRayTechnician,
+                        minMedicalActionAssistant
+                    } = this.addForm.value;
 
-                await this.operationTypeService.createOperationType(
-                    name,
-                    anaesthesiaTime,
-                    surgeryTime,
-                    cleaningTime,
-                    status,
-                    specializations,
-                    minDoctor,
-                    minAnaesthetist,
-                    minInstrumentNurse,
-                    minNurseAnaesthetist,
-                    minXRay,
-                    minMedicalAssistant
-                );
+                    console.log(specialization);
 
-                this.closeModal();
-                this.listOperationType();
-            } catch (error) {
-                this.formError = 'Failed to create operation type. Please check your input and try again.';
+                    await this.operationTypeService.createOperationType(
+                        name,
+                        anaesthesiaTime,
+                        surgeryTime,
+                        cleaningTime,
+                        specialization,
+                        minDoctor,
+                        minAnaesthetist,
+                        minInstrumentingNurse,
+                        minCirculatingNurse,
+                        minNurseAnaesthetist,
+                        minXRayTechnician,
+                        minMedicalActionAssistant
+                    );
+
+                    this.closeModal();
+                    this.listOperationType();
+                } catch (error) {
+                    this.formError = 'Failed to create operation type. Please check your input and try again.';
+                }
             }
+            this.isSubmiting = false;
         }
     }
 }
