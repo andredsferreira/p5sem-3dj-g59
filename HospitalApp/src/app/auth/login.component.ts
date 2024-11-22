@@ -46,11 +46,11 @@ export class LoginComponent {
                 }
                 console.log("Logged in successfully. Token saved.");
             } catch (error) {
-                this.errorMessage = "Login failed. Please check your credentials and try again.";
+                this.errorMessage = "A autenticação falhou. Por favor verifique as credenciais e tente outra vez.";
                 console.error("Login error:", error);
             }
         } else {
-            this.errorMessage = "Please fill in all fields.";
+            this.errorMessage = "Por favor preencha todos os campos.";
         }
     }
     

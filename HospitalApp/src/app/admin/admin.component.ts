@@ -102,6 +102,13 @@ export class AdminComponent {
     
   }
 
+  patientManagement(): void {
+
+    console.log('Patient');
+    this.router.navigate(['/patientmanagement']);
+    
+  }
+
 
 
   closeModal(): void {
