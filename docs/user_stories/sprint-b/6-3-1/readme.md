@@ -63,21 +63,6 @@ The team decided that the following should be the process of events:
 
 The team also decided that the **UI** should give to the user the option to choose what criteria is used to define what is the "Best solution" (Final time vs Average staff exit time).
 
-## 5. C4 Views
+## 5. Implementation and Demonstration
 
--
-
-## 6. Tests
-
-* Test if the user can choose between the two criteria
-* Test if the solution is being computed
-* Test if the solution is shown to the user
-* Test if the solution is saved in **Backend** if the user is satisfied.
-
-## 7. Implementation
-
--
-
-## 8. Demonstration
-
--
+These are specified in the [report](report.pdf).
