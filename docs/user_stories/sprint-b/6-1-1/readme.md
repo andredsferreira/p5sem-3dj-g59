@@ -43,4 +43,6 @@ The team decided that:
 
 ## 5. Demonstration
 
--
+This is the login page, as an example:
+
+![](images/demonstration/login-page.png)
