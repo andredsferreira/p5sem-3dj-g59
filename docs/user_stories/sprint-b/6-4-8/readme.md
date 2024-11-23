@@ -32,20 +32,16 @@ In order to do this, we must access the records in **/var/log/auth.log** and che
 
 ## 4. Design
 
--
+The team decided that:
+* The script should be named: **get_users_with_3plus_failed_login_attempts.sh**.
+* The result should be printed to the screen. If the user wants to redirect the output to a file, they can do so using a **pipe**.
+* Each line should be structured like this:
+    * *user* had *number* failed login attempts
 
-## 5. C4 Views
+## 5. Implementation
 
--
+The implementation and the code explanation will be explained more in depth in its section on the [report](../6-4-1/report.pdf).  
 
-## 6. Tests
+## 6. Demonstration
 
--
-
-## 7. Implementation
-
-- 
-
-## 8. Demonstration
-
--
+![](images/demonstration/show_users.png)
