@@ -85,13 +85,13 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
         CleaningTime cleaningTime = new CleaningTime(dto.cleaningTime);
         Status status = (Status)Enum.Parse(typeof(Status), dto.Status);
         Specialization specialization = (Specialization)Enum.Parse(typeof(Specialization), dto.Specialization);
-        int minDoctor = dto.MinDoctor;
-        int minAnesthetist = dto.MinAnesthetist;
-        int minInstrumentingNurse = dto.MinInstrumentingNurse;
-        int minCirculatingNurse = dto.MinCirculatingNurse;
-        int minNurseAnaesthetist = dto.MinNurseAnaesthetist;
-        int minXRayTechnician = dto.MinXRayTechnician;
-        int minMedicalActionAssistant = dto.MinMedicalActionAssistant;
+        int minDoctor = dto.minDoctor;
+        int minAnesthetist = dto.minAnaesthetist;
+        int minInstrumentingNurse = dto.minInstrumentingNurse;
+        int minCirculatingNurse = dto.minCirculatingNurse;
+        int minNurseAnaesthetist = dto.minNurseAnaesthetist;
+        int minXRayTechnician = dto.minXRayTechnician;
+        int minMedicalActionAssistant = dto.minMedicalActionAssistant;
 
         return new OperationType(name, anaesthesiaTime, surgeryTime, cleaningTime, status, specialization, minDoctor, minAnesthetist,
             minInstrumentingNurse, minCirculatingNurse, minNurseAnaesthetist, minXRayTechnician, minMedicalActionAssistant);
