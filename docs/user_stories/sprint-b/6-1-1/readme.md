@@ -31,7 +31,15 @@ As specified by the **Acceptance Criteria**, the team should develop a Single Pa
 
 ## 4. Design
 
--
+The team decided that:
+* The UI will be done using the following tools:
+    * **Angular** as the web development framework, as it's considered a safe and reliable framework with support by our teachers.
+    * **Tailwind CSS** for the page's styling, as it's a sleak and simple tool that facilitates the page's development.
+* The page's general appearance should match the icon created to represent our business:
+
+    ![](../../../../HospitalApp/public/icon.png)
+
+* The UI should be in **Portuguese**.
 
 ## 5. Demonstration
 
