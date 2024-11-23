@@ -5,6 +5,9 @@ import { FormsModule, FormGroup, FormBuilder, Validators, ReactiveFormsModule } 
 import { Status } from './status.enum';
 import { Specialization } from './specialization.enum';
 import { Router } from '@angular/router';
+import { HttpParams } from '@angular/common/http';
+import { min } from 'rxjs';
+
 
 
 // Define the OperationType interface
@@ -14,14 +17,15 @@ interface OperationType {
     anaesthesiaTime: number;
     surgeryTime: number;
     cleaningTime: number;
-    status: Status;
-    specializations: Specialization;
     minDoctor: number;
     minAnaesthetist: number;
-    minInstrumentNurse: number;
     minNurseAnaesthetist: number;
-    minXRay: number;
-    minMedicalAssistant: number;
+    minInstrumentingNurse: number;
+    minCirculatingNurse: number;
+    minXRayTechnician: number;
+    minMedicalActionAssistant: number;
+    status: Status;
+    specialization: Specialization;
 }
 
 interface field {
@@ -56,48 +60,38 @@ export class OperationTypeComponent /*implements OnInit*/ {
     showModal: boolean = false;
     formError: string | null = null;
     isSubmiting: boolean = false;
+    showUpdateModal: boolean = false;
+    editId: string | null = null;
+    isCanceled: boolean = false;
+
     addForm: FormGroup;
+    editForm: FormGroup;
 
 
-    // Define editable and searchable attributes
-    editableAttributes = [
-        { key: 'name', label: 'Nome' },
-        { key: 'anaesthesiaTime', label: 'Tempo de Anestesia' },
-        { key: 'surgeryTime', label: 'Tempo de Cirurgia' },
-        { key: 'cleaningTime', label: 'Tempo de Limpeza' },
-        { key: 'status', label: 'Estado' },
-        { key: 'specializations', label: 'Especialização' },
-        { key: 'minDoctor', label: 'Mínimo de Médicos' },
-        { key: 'minAnaesthetist', label: 'Mínimo de Anestesistas' },
-        { key: 'minInstrumentNurse', label: 'Mínimo de Enfermeiros Instrumentistas' },
-        { key: 'minNurseAnaesthetist', label: 'Mínimo de Enfermeiros Anestesistas' },
-        { key: 'minXRay', label: 'Mínimo de Técnicos de Raio-X' },
-        { key: 'minMedicalAssistant', label: 'Mínimo de Assistentes Médicos' }
-    ];
-    searchableAttributes = [
-        { key: 'name', label: 'Nome' },
-        { key: 'anaesthesiaTime', label: 'Tempo de Anestesia' },
-        { key: 'surgeryTime', label: 'Tempo de Cirurgia' },
-        { key: 'cleaningTime', label: 'Tempo de Limpeza' },
-        { key: 'status', label: 'Estado' },
-        { key: 'specializations', label: 'Especialização' },
-        { key: 'minDoctor', label: 'Mínimo de Médicos' },
-        { key: 'minAnaesthetist', label: 'Mínimo de Anestesistas' },
-        { key: 'minInstrumentNurse', label: 'Mínimo de Enfermeiros Instrumentistas' },
-        { key: 'minNurseAnaesthetist', label: 'Mínimo de Enfermeiros Anestesistas' },
-        { key: 'minXRay', label: 'Mínimo de Técnicos de Raio-X' },
-        { key: 'minMedicalAssistant', label: 'Mínimo de Assistentes Médicos' }
-    ];
+
 
     constructor(private fb: FormBuilder, private operationTypeService: OperationTypeService, private router: Router) {
         this.addForm = this.fb.group({
-            name: [''],
+            name: ['', Validators.required],
+            anaesthesiaTime: ['', Validators.required],
+            surgeryTime: ['', Validators.required],
+            cleaningTime: ['', Validators.required],
+            specialization: [Validators.required],
+            minDoctor: ['',],
+            minAnaesthetist: [''],
+            minInstrumentingNurse: [''],
+            minCirculatingNurse: [''],
+            minNurseAnaesthetist: [''],
+            minXRayTechnician: [''],
+            minMedicalActionAssistant: ['']
+        });
+
+        this.editForm = this.fb.group({
+            name: ['', Validators.required],
             anaesthesiaTime: [''],
             surgeryTime: [''],
             cleaningTime: [''],
-            status: [''],
-            specialization: [Validators.required],
-            minDoctor: [''],
+            minDoctor: [],
             minAnaesthetist: [''],
             minInstrumentingNurse: [''],
             minCirculatingNurse: [''],
@@ -149,6 +143,42 @@ export class OperationTypeComponent /*implements OnInit*/ {
         }
     }
 
+    updateOperationType(id: string): void {
+
+        //replace teh blank form data with the data from the operation type
+
+        this.selectedItem = this.operationTypes.find((operationType) => operationType.id === id);
+        console.log('Selected item:', this.selectedItem);
+
+
+
+        if (!this.selectedItem) {
+            console.error('Operation type not found:', id);
+            return;
+        }
+
+        this.editForm.patchValue({
+            name: this.selectedItem.name,
+            anaesthesiaTime: this.selectedItem.anaesthesiaTime,
+            surgeryTime: this.selectedItem.surgeryTime,
+            cleaningTime: this.selectedItem.cleaningTime,
+            minDoctor: this.selectedItem.minDoctor,
+            minAnaesthetist: this.selectedItem.minAnaesthetist,
+            minInstrumentingNurse: this.selectedItem.minInstrumentingNurse,
+            minCirculatingNurse: this.selectedItem.minCirculatingNurse,
+            minNurseAnaesthetist: this.selectedItem.minNurseAnaesthetist,
+            minXRayTechnician: this.selectedItem.minXRayTechnician,
+            minMedicalActionAssistant: this.selectedItem.minMedicalActionAssistant
+        });
+
+        this.editId = this.selectedItem.id;
+        console.log(this.selectedItem.id);
+
+        this.showUpdateModal = true;
+        this.formError = null;
+
+    }
+
     cancelDelete(): void {
         this.confirmingDelete = false;
         this.typeToDelete = null;
@@ -162,8 +192,14 @@ export class OperationTypeComponent /*implements OnInit*/ {
 
     closeModal(): void {
         this.showModal = false;
+        this.isCanceled = true
         this.addForm.reset();
 
+    }
+    closeUpdate(): void {
+        this.showUpdateModal = false;
+        this.isCanceled = true
+        this.editForm.reset();
     }
 
     async onSubmit(): Promise<any> {
@@ -209,11 +245,72 @@ export class OperationTypeComponent /*implements OnInit*/ {
                     this.listOperationType();
                 } catch (error) {
                     this.formError = 'Failed to create operation type. Please check your input and try again.';
+                    alert("Ocorreu um erro ao criar o tipo de operação. Por favor, tente novamente mais tarde")
                 }
+            } else if(!this.isCanceled){
+                this.formError = 'Failed to create operation type. Please check your input and try again.';
+                alert("O formulário não é válido");
             }
             this.isSubmiting = false;
+            this.isCanceled = false;
+        }
+    }
+
+    async submitUpdate(): Promise<void> {
+
+        if (!this.isSubmiting && this.selectedItem) {
+            this.isSubmiting = true;
+            console.log('Form submitted:', this.editForm.value);
+            if (this.editForm.valid) {
+                console.log('Form is valid');
+                try {
+                    const {
+                        name,
+                        anaesthesiaTime,
+                        surgeryTime,
+                        cleaningTime,
+                        minDoctor,
+                        minAnaesthetist,
+                        minInstrumentingNurse,
+                        minNurseAnaesthetist,
+                        minCirculatingNurse,
+                        minXRayTechnician,
+                        minMedicalActionAssistant
+                    } = this.editForm.value;
+
+                    console.log(this.selectedItem?.id);
+
+                    const updatedOperationType = new HttpParams()
+                        .set('name', name)
+                        .set('anaesthesiaTime', anaesthesiaTime.toString())
+                        .set('surgeryTime', surgeryTime.toString())
+                        .set('cleaningTime', cleaningTime.toString())
+                        .set('minDoctor', minDoctor.toString())
+                        .set('minAnaesthetist', minAnaesthetist.toString())
+                        .set('minInstrumentingNurse', minInstrumentingNurse.toString())
+                        .set('minCirculatingNurse', minCirculatingNurse.toString())
+                        .set('minNurseAnaesthetist', minNurseAnaesthetist.toString())
+                        .set('minXRayTechnician', minXRayTechnician.toString())
+                        .set('minMedicalActionAssistant', minMedicalActionAssistant.toString());
+
+                      
+                        
+                    await this.operationTypeService.updateOperationType(this.selectedItem.id, updatedOperationType);
+
+                    this.closeUpdate();
+                    this.listOperationType();
+                } catch (error) {
+                    this.formError = 'Failed to update operation type. Please check your input and try again.';
+                    alert("Ocorreu um erro ao editar o tipo de operação. Por favor, tente novamente mais tarde")
+                }
+            } else if(!this.isCanceled) {
+                this.formError = 'Failed to update operation type. Please check your input and try again.';
+                alert("O formulário não é válido");
+            }
+            this.isSubmiting = false;
+            this.isCanceled = false;
+
         }
     }
 }
-
 
