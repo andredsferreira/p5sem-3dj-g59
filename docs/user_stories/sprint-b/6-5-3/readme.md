@@ -167,4 +167,4 @@ In other simple objects, it's only needed to add these 2 lines.
 
 ## 8. Demonstration
 
--
+![](images/demonstration/light.gif)

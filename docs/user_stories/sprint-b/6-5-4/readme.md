@@ -94,4 +94,4 @@ As stated in the **Design** section, the Camera controls were imported and modif
 
 ## 8. Demonstration
 
--
+![](images/demonstration/camera.gif)
