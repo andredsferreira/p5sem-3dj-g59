@@ -14,7 +14,8 @@ import { RegisterPatientComponent } from './auth/register-patient.component';
 import { OperationTypeComponent } from './operation-types/operation-type.component';
 
 export const routes: Routes = [
-  { path: '', component: MainPageComponent },
+  //{ path: '', component: MainPageComponent },
+  { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'privacy', component: PrivacypolicyComponent },
   { path: 'aboutus', component: AboutusComponent },
