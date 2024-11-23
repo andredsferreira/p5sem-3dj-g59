@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Domain.Appointments;
+using Backend.Domain.OperationRequests;
+using Backend.Domain.OperationTypes;
 using Backend.Domain.Shared;
 using Microsoft.IdentityModel.Tokens;
 
@@ -17,10 +19,16 @@ public class SurgeryRoomService {
 
     private readonly IAppointmentRepository _aprepo;
 
-    public SurgeryRoomService(IUnitOfWork unitOfWork, ISurgeryRoomRepository repository, IAppointmentRepository aprepo) {
+    private readonly IOperationRequestRepository _opreqrepo;
+
+    private readonly IOperationTypeRepository _optyperepo;
+
+    public SurgeryRoomService(IUnitOfWork unitOfWork, ISurgeryRoomRepository repository, IAppointmentRepository aprepo, IOperationRequestRepository opreqrepo, IOperationTypeRepository optyperepo) {
         _unitOfWork = unitOfWork;
         _repository = repository;
         _aprepo = aprepo;
+        _opreqrepo = opreqrepo;
+        _optyperepo = optyperepo;
     }
 
     public SurgeryRoomDTO GetRoomByNumber(RoomNumber Number){
@@ -41,12 +49,16 @@ public class SurgeryRoomService {
         return (await list).Select(room => room.ReturnDTO());
     }
     public async Task<bool> IsRoomOccupiedAsync(RoomNumber roomNumber, DateTime time){
-        var room = GetRoomByNumber(roomNumber) ?? throw new KeyNotFoundException("Room does not exist");
-        var appointments = (await _aprepo.GetAllAsync()).Where(a => a.SurgeryRoom.Equals(room));
+        var room = this._repository.GetByNumber(roomNumber) ?? throw new KeyNotFoundException("Room does not exist");
+        Console.WriteLine(room.Id);
+        var appointments = (await _aprepo.GetAllAsync()).Where(a => a.SurgeryRoomId.Equals(room.Id));
         if (appointments.IsNullOrEmpty()) return false;
-        foreach(Appointment ap in appointments)
-            if (time.CompareTo(ap.DateTime) > 0 && time.CompareTo(ap.EndDateTime()) < 0)
+        foreach(Appointment ap in appointments) {
+            var optype = await _optyperepo.GetByIdAsync((await _opreqrepo.GetByIdAsync(ap.OperationRequestId)).operationTypeId);
+            var opTime = optype.anaesthesiaTime.duration + optype.surgeryTime.duration + optype.cleaningTime.duration;
+            if (time.CompareTo(ap.DateTime) > 0 && time.CompareTo(ap.DateTime.AddMinutes(opTime)) < 0)
                 return true;
+        }
         return false;
     }
 }

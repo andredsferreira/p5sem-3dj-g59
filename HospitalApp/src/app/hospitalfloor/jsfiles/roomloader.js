@@ -134,11 +134,15 @@ export default class RoomLoader {
                 }
             }
         }
+        if(!this.description.leftSide){ 
+            const scale = new THREE.Vector3(1, 1, 1);
+            scale.x *= -1;
+            this.object.scale.multiply(scale);
+        }
     }
 
     toggleTableVisibility(isOccupied) {
-        if(!isOccupied) return;
-        console.log(isOccupied);
+        console.log("Is room " + this.description.roomNumber + " occupied? " + isOccupied);
         this.object.traverse((child) => {
             if (child.tableWithPersonObject) {
                 child.tableWithPersonObject.visible = isOccupied;

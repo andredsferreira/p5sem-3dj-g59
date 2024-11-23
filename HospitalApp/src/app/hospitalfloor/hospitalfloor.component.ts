@@ -228,8 +228,8 @@ export class HospitalFloorComponent implements OnInit {
         left = true;
         j++;
       } else {
-        x = RightSide[k].width+3.5;
-        z = RightSide[k].width;
+        x = RightSide[k].width-6.5;
+        z = RightSide[k].width-8;
         left = false;
         k++;
       }
@@ -273,7 +273,6 @@ export class HospitalFloorComponent implements OnInit {
     const minute = String(date.getMinutes()).padStart(2, '0');
     const time = `${year}${month}${day}${hour}${minute}`;
     this.roomLoaders!.forEach(async element => {
-      console.log(element.roomNumber);
       element.toggleTableVisibility((await this.service.isRoomOccupied(this.token, element.roomNumber, time)).body);
     });
   }

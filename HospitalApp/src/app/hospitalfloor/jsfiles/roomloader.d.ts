@@ -39,8 +39,9 @@ interface Vector3 {
     depth: number;
 }
 
-export default class Loader {
+export default class RoomLoader {
     roomNumber: number;
+    leftSide: boolean;
     scale: THREE.Vector3;
     map?: number[][];
     size?: MazeSize;

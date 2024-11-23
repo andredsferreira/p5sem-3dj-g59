@@ -5,7 +5,7 @@ using Backend.Domain.SurgeryRooms;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Backend.Infrastructure.OperationTypes;
+namespace Backend.Infrastructure.Appointments;
 internal class AppointmentEntityTypeConfiguration : IEntityTypeConfiguration<Appointment> {
     public void Configure(EntityTypeBuilder<Appointment> builder) {
         builder.ToTable("Appointment", SchemaNames.DDDSample1);

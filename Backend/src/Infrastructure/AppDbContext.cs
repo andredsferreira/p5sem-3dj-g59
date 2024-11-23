@@ -21,6 +21,7 @@ using Backend.Domain.SurgeryRooms;
 using Backend.Infrastructure.SurgeryRooms;
 using Backend.Domain.Slots;
 using Backend.Domain.Appointments;
+using Backend.Infrastructure.Appointments;
 
 namespace Backend.Infrastructure;
 
@@ -210,16 +211,16 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
         );
 
 
-        var operationTypeA = new OperationType(new OperationName("ACL reconstruction"));
-        var operationTypeB = new OperationType(new OperationName("Knee replacement"));
-        var operationTypeC = new OperationType(new OperationName("Shoulder replacement"));
-        var operationTypeD = new OperationType(new OperationName("Hip replacement"));
-        var operationTypeE = new OperationType(new OperationName("Meniscal inury treatment"));
-        var operationTypeF = new OperationType(new OperationName("Rotator cuff repair"));
-        var operationTypeG = new OperationType(new OperationName("Ankle ligaments repair"));
-        var operationTypeH = new OperationType(new OperationName("Lumbar disectomy"));
-        var operationTypeI = new OperationType(new OperationName("Trigger finger"));
-        var operationTypeJ = new OperationType(new OperationName("Carpal tunnel syndrome"));
+        var operationTypeA = new OperationType(new OperationName("ACL reconstruction"), new AnaesthesiaTime(45), new SurgeryTime(60), new CleaningTime(30));
+        var operationTypeB = new OperationType(new OperationName("Knee replacement"), new AnaesthesiaTime(45), new SurgeryTime(60), new CleaningTime(45));
+        var operationTypeC = new OperationType(new OperationName("Shoulder replacement"), new AnaesthesiaTime(45), new SurgeryTime(90), new CleaningTime(45));
+        var operationTypeD = new OperationType(new OperationName("Hip replacement"), new AnaesthesiaTime(45), new SurgeryTime(75), new CleaningTime(45));
+        var operationTypeE = new OperationType(new OperationName("Meniscal inury treatment"), new AnaesthesiaTime(45), new SurgeryTime(45), new CleaningTime(20));
+        var operationTypeF = new OperationType(new OperationName("Rotator cuff repair"), new AnaesthesiaTime(45), new SurgeryTime(80), new CleaningTime(30));
+        var operationTypeG = new OperationType(new OperationName("Ankle ligaments repair"), new AnaesthesiaTime(30), new SurgeryTime(45), new CleaningTime(20));
+        var operationTypeH = new OperationType(new OperationName("Lumbar disectomy"), new AnaesthesiaTime(20), new SurgeryTime(45), new CleaningTime(15));
+        var operationTypeI = new OperationType(new OperationName("Trigger finger"), new AnaesthesiaTime(15), new SurgeryTime(10), new CleaningTime(15));
+        var operationTypeJ = new OperationType(new OperationName("Carpal tunnel syndrome"), new AnaesthesiaTime(15), new SurgeryTime(10), new CleaningTime(15));
 
 
         modelBuilder.Entity<Patient>().HasData(
@@ -255,7 +256,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             operationTypeI,
             operationTypeJ);
 
-        SeedOperationRequest(modelBuilder,
+        var opreq1 = SeedOperationRequest(modelBuilder,
             staffDoctor1,
             patientA,
             operationTypeA,
@@ -263,7 +264,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new DateTime(2024, 12, 1),
             OperationRequestStatus.Pending);
 
-        SeedOperationRequest(modelBuilder,
+        var opreq2 = SeedOperationRequest(modelBuilder,
             staffDoctor1,
             patientB,
             operationTypeB,
@@ -391,13 +392,16 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new DateTime(2025, 4, 20),
             OperationRequestStatus.Pending);
 
-        //SeedSurgeryRoom(modelBuilder, new RoomNumber(200), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor"], [new Slot(DateOnly.Parse("2024-11-13"), TimeOnly.Parse("09:00"), TimeOnly.Parse("10:00"))]);  
-        SeedSurgeryRoom(modelBuilder, new RoomNumber(200), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor"], [new DaySlots(new DateOnly(2024,10,28),[new Slot(new TimeOnly(9,30),new TimeOnly(10,0))])]);  
+        var room1 = SeedSurgeryRoom(modelBuilder, new RoomNumber(200), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor"], [new DaySlots(new DateOnly(2024,10,28),[new Slot(new TimeOnly(9,30),new TimeOnly(10,0))])]);  
+        var room2 = SeedSurgeryRoom(modelBuilder, new RoomNumber(201), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor", "Table"], [new DaySlots(new DateOnly(2024,10,28),[new Slot(new TimeOnly(12,30),new TimeOnly(13,0))])]);  
+
+        SeedAppointment(modelBuilder, opreq1, room1, new DateTime(2024,10,28,10,30,0), AppointmentStatus.Scheduled);
+        SeedAppointment(modelBuilder, opreq2, room2, new DateTime(2024,10,28,18,30,0), AppointmentStatus.Scheduled);
 
         base.OnModelCreating(modelBuilder);
     }
 
-    private void SeedOperationRequest(ModelBuilder builder, Staff doctor, Patient patient, OperationType operationType, OperationRequestPriority priority, DateTime dateTime, OperationRequestStatus requestStatus) {
+    private OperationRequest SeedOperationRequest(ModelBuilder builder, Staff doctor, Patient patient, OperationType operationType, OperationRequestPriority priority, DateTime dateTime, OperationRequestStatus requestStatus) {
         var operationRequest = new OperationRequest {
             Id = new OperationRequestId(Guid.NewGuid()),
             staffId = doctor.Id,
@@ -409,15 +413,27 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
         };
 
         builder.Entity<OperationRequest>().HasData(operationRequest);
-
+        return operationRequest;
     }
 
-    private void SeedSurgeryRoom(ModelBuilder builder, RoomNumber Number, RoomType RoomType, RoomStatus RoomStatus, int Capacity, List<string> AssignedEquipment, List<DaySlots> MaintenanceSlots){
+    private SurgeryRoom SeedSurgeryRoom(ModelBuilder builder, RoomNumber Number, RoomType RoomType, RoomStatus RoomStatus, int Capacity, List<string> AssignedEquipment, List<DaySlots> MaintenanceSlots){
         var surgeryRoom = new SurgeryRoom(
             Number, RoomType, RoomStatus, Capacity,
             AssignedEquipment, MaintenanceSlots
         );
         builder.Entity<SurgeryRoom>().HasData(surgeryRoom);
+        return surgeryRoom;
+    }
+
+    private void SeedAppointment(ModelBuilder builder, OperationRequest request, SurgeryRoom room, DateTime dateTime, AppointmentStatus status){
+        var appointment = new Appointment{
+            Id = new AppointmentId(Guid.NewGuid()),
+            OperationRequestId = request.Id, 
+            SurgeryRoomId = room.Id, 
+            DateTime = dateTime, 
+            AppointmentStatus = status,
+        };
+        builder.Entity<Appointment>().HasData(appointment);
     }
 
     private void IdentityBootstrap(ModelBuilder builder) {
