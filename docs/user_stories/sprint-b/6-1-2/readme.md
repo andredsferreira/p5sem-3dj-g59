@@ -30,7 +30,10 @@ As specified by the **Acceptance Criteria**, the team should make it so a user o
 
 ## 4. Design
 
--
+The team decided that:
+* Each role should have its own page.
+* When you login, the website redirects you to your role's page.
+* If you try to access a page that you don't have the roles for, you will be told so and the content won't be displayed.
 
 ## 5. Demonstration
 
