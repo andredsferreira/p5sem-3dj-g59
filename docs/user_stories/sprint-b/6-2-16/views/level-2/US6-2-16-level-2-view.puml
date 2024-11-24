@@ -1,0 +1,50 @@
+' 
+' User Story: As a **Doctor**, I want to remove an operation requisition, so that the healthcare activities are provided as necessary.
+'
+' Acceptance Criteria:
+' 
+' - Doctors can **search for an operation** and mark it for deletion.
+' - Before deletion, the system prompts the doctor to confirm the action.
+' - Once deleted, all operation data is permanently removed from the system within a predefined time frame.
+' - The system logs the deletion for audit and GDPR compliance purposes.
+
+
+@startuml
+
+title US6.2.16 - Level 2 View
+
+actor Doctor as U
+participant "Frontend" as web
+participant "Backend" as api
+database "Database" as db
+
+U -> web : Marks a Operation for deletion
+activate U
+activate web
+web -> api : Checks if operation exists
+activate api
+alt if Operation doesn't exist 
+api --> web : Error message
+web --> U : Error message
+else
+web -> U : Prompts doctor to\nconfirm the action
+U -> web : Confirms action
+
+web -> api : Marks a previously chosen\nOperation for deletion
+
+api -> db : Deletes Operation within\npredefined timeframe
+activate db
+deactivate db
+api -> db : Logs deletion for audit\nand GDPR compliance purposes
+activate db 
+deactivate db
+api -> web : Return Confirmation
+deactivate api
+web -> U : Return Confirmation
+deactivate web
+deactivate U
+end
+
+
+
+@enduml
