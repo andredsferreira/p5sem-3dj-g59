@@ -42,8 +42,111 @@ The team decided that:
 
 ## 5. Implementation
 
--
+**patient.component.html**:
+
+```html
+<button
+    (click)="onDeleteProfileClick()"
+    class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition"
+    >
+    Eliminar Perfil
+    </button>
+  
+    <!-- Modal de confirmação -->
+    <div
+      *ngIf="showConfirmation"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+    >
+      <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+        <h2 class="text-lg font-semibold text-gray-800">Confirmação</h2>
+        <p class="text-gray-600 mt-4">
+          Tem certeza de que deseja eliminar o seu perfil? Esta ação não pode ser desfeita.
+        </p>
+        <div class="mt-6 flex justify-end space-x-4">
+          <button
+            (click)="cancelDelete()"
+            class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition"
+          >
+            Cancelar
+          </button>
+          <button
+            (click)="confirmDelete()"
+            class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+          >
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feedback Message -->
+<div *ngIf="showNotification" [class]="messageClass + ' fixed top-4 right-4 p-3 rounded shadow-lg'">
+    {{ messageText }}
+  </div>
+```
+
+**patient.component.ts**:
+```ts
+  onDeleteProfileClick(): void {
+    this.showConfirmation = true;
+  }
+  cancelDelete(): void {
+    this.showConfirmation = false;
+  }
+
+  async confirmDelete(): Promise<void> {
+    try {
+      const response = await this.service.deleteAccount(this.token);
+
+      this.showNotification = true;
+      if (response) {
+        this.messageText = "Um link de confirmação foi enviado para o seu email";
+        this.messageClass = 'bg-green-500 text-white';
+      }
+      
+    } catch (error) {
+      console.error("Erro ao eliminar conta:", error);
+      this.showNotification = true;
+      this.messageText = 'Erro ao eliminar conta. Tente novamente.';
+      this.messageClass = 'bg-red-500 text-white';
+    } finally {
+      this.showConfirmation = false;
+
+      setTimeout(() => {
+        this.showNotification = false;
+      }, 3000);
+    }
+  }
+```
+
+**patient-user-service.ts**:
+
+```ts
+  async deleteAccount(token: string | null): Promise<HttpResponse<any>> {
+    if (!token) throw new Error("Token is required");
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    const response = await lastValueFrom(this.http.delete<any>(`${this.apiPath}/Auth/DeleteProfile/`, { headers, observe: 'response' }));
+    return response;
+  }
+```
 
 ## 6. Demonstration
 
--
+This is the confirmation window:
+
+![](images/demonstration/confirmation.png)
+
+Success message example:
+
+![](images/demonstration/success.png)
+
+Email:
+
+![](../../sprint-a/us5/images/email-confirmation.png)
+
+Error message example:
+
+![](images/demonstration/error.png)
