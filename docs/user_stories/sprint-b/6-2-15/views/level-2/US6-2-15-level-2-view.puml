@@ -1,0 +1,46 @@
+' 
+' User Story: As a **Doctor**, I want to update an operation requisition, so that the Patient has access to the necessary healthcare.
+'
+' Acceptance Criteria:
+' 
+' - Doctors can **search for an operation** to edit.
+' - Editable fields include priority, date and time.
+' - The system logs all profile changes for auditing purposes.
+
+@startuml
+
+title US6.2.15 - Level 2 View
+
+actor Doctor as U
+participant "Frontend" as web
+participant "Backend" as api
+database "Database" as db
+
+U -> web : Edits the attributes of a previously\nchosen Operation
+activate U
+activate web
+web -> api : Edits the attributes of a previously\nchosen Operation
+activate api
+
+alt if the Operation doesn't exist
+api --> web : Error message
+web --> U : Error message
+else 
+
+api -> api : Validates changes
+api -> db : Save Operation
+activate db
+deactivate db
+alt changed data is sensitive\n
+end
+api -> api : Logs all Operation changes
+api -> web : Return Confirmation
+deactivate api
+web -> U : Return Confirmation
+deactivate web
+deactivate U
+end
+
+
+
+@enduml
