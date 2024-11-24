@@ -1,0 +1,18 @@
+@startuml
+
+
+title US21-Context View
+
+actor Admin as A
+participant "<<system>>\nHospital de Paranhos" as S
+
+A -> S : Edits Operation Type
+activate A
+activate S
+
+S -> S : Validate Operation Type Data
+S -> S : Log Operation Type Edit
+deactivate A
+
+
+@enduml

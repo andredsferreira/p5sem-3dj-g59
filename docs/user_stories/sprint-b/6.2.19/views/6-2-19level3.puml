@@ -1,0 +1,41 @@
+@startuml
+
+actor Admin as a
+participant "<<component>>\noperationtype.component.html" as html
+participant "<<component>>\noperationtype.component.ts" as ts
+participant "<<component>>\noperationtype.component.servcice.ts" as service
+participant "<<component>>\n<<C4 Container>>\nBackend" as backend
+
+activate a
+a -> html: select operation type
+activate html
+html --> a: operation type selected data
+deactivate html
+a -> html : edit operation type fields
+activate html
+html --> a: operation type fields edited data
+deactivate html
+a -> html : save operation type
+activate html
+html -> ts: save operation type
+activate ts
+ts -> ts : validate operation type data
+ts -> service: save operation type
+activate service
+service -> backend: save operation type
+activate backend
+backend --> service: operation type saved
+deactivate backend
+service --> ts: operation type saved
+deactivate service
+ts --> html: operation type saved
+deactivate ts
+html --> a: operation type saved
+deactivate html
+deactivate a
+
+
+
+
+
+@enduml
