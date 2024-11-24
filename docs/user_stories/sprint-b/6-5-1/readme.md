@@ -66,20 +66,152 @@ The team decided that:
 * The structure construction logic in [loader.js](../../../../HospitalApp/src/app/hospitalfloor/jsfiles/loader.js).
 * The JSON with the structures and models to be used is [config.json](../../../../HospitalApp/src/app/hospitalfloor/config.json).
 
-## 5. C4 Views
+## 5. Implementation
 
--
+The structure for the entire hospital is built using a **map** in the **config.json** file:
 
-## 6. Tests
+```json
+"map": [
+    [3, 2, 2, 3, 2, 2, 2, 3, 2, 2, 1],
+    [1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1],
+    [10, 0, 0, 8, 0, 0, 0, 9, 0, 0, 11],
+    [1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1],
+    [1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1],
+    [1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1],
+    [1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1],
+    [10, 0, 0, 8, 0, 0, 0, 9, 0, 0, 11],
+    [1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1],
+    [1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1],
+    [2, 2, 2, 2, 6, 7, 2, 2, 2, 2, 0]
+],
+```
 
-* Test if the structure is loaded
-* Test if the number of rooms in the visualization is the same as the number of rooms received from the *Web API*
-* Test if a human model is shown above the table of an occupied room
+And this is its constructor:
 
-## 7. Implementation
+```ts
+interface LoaderParameters {
+    map: number[][];
+    groundTextureUrl: string;
+    groundSize: Vector2;
+    wallTextureUrl: string;
+    wallSize: Vector3;
+    door: Fbx;
+}
+```
 
--
+And the structure for a room is also there:
 
-## 8. Demonstration
+```json
+"roomMap": [
+    [0,0,0,0,0],
+    [10,0,4,9,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,2,2,2,0]
+]
+```
 
--
+And this is its constructor:
+
+```ts
+interface LoaderParameters {
+    roomNumber: number;
+    leftSide: boolean;
+    map: number[][];
+    roomSize: Vector2;
+    wallTextureUrl: string;
+    wallSize: Vector3;
+    table: ObjMtl;
+    tableWithPerson: ObjMtl;
+    windowSize: Vector3;
+    table: ObjMtl;
+    tableWithPerson: ObjMtl;
+    door: Fbx;
+}
+```
+
+(The meaning behind each number can be found [here](../../../../HospitalApp/src/app/hospitalfloor/map_values.xlsx)).
+
+In order to get all rooms from the **Backend** API:
+
+**hospitalfloor.component.ts** (on method **ngOnInit**):
+
+```ts
+const response = await this.service.getRooms(this.token);
+this.rooms = response.body;
+```
+
+**hospitalfloor-service.ts**:
+
+```ts
+  async getRooms(token: string | null) : Promise<HttpResponse<RoomType[]>> {
+    if (!token) throw new Error("Token is required");
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const rooms = await lastValueFrom(
+        this.http.get<RoomType[]>(`${this.apiPath}/SurgeryRoom/All`,{ headers, observe: 'response' })
+      );
+    return rooms;
+  }
+```
+
+And in order to, for every room, check if it is occupied on a certain instant:
+
+**hospitalfloor.component.ts**:
+
+```ts
+  handleDateTimeSelection(): void {
+    const date = new Date(this.selectedDateTime);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hour = String(date.getHours()).padStart(2, '0');
+    const minute = String(date.getMinutes()).padStart(2, '0');
+    const time = `${year}${month}${day}${hour}${minute}`;
+    this.roomLoaders!.forEach(async element => {
+      element.toggleTableVisibility((await this.service.isRoomOccupied(this.token, element.roomNumber, time)).body);
+    });
+  }
+```
+
+**hospitalfloor-service.ts**:
+
+```ts
+  async isRoomOccupied(token: string | null, RoomNumber: number, date: string) : Promise<HttpResponse<boolean>> {
+    if (!token) throw new Error("Token is required");
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const rooms = await lastValueFrom(
+        this.http.get<boolean>(`${this.apiPath}/SurgeryRoom/Occupied/${RoomNumber}/${date}`,{ headers, observe: 'response' })
+      );
+    return rooms;
+  }
+```
+
+**roomloader.js**:
+
+```js
+toggleTableVisibility(isOccupied) {
+    console.log("Is room " + this.description.roomNumber + " occupied? " + isOccupied);
+    this.object.traverse((child) => {
+        if (child.tableWithPersonObject) {
+            child.tableWithPersonObject.visible = isOccupied;
+        }
+        if (child.name === 'table') {
+            child.visible = !isOccupied;
+        }
+    });
+}
+```
+
+## 6. Demonstration
+
+Here, you can see the structure with 2 rooms that, when a date/time is defined, load a human model if it's occupied during that instant.
+
+[demonstracao](images/demonstration/demonstration.mp4)
