@@ -40,7 +40,7 @@ The team decided that:
 
 ## 5. Implementation
 
-The implementation and the code explanation will be explained more in depth in its section on the [report](../6-4-1/report.pdf).  
+The implementation and the code explanation will be explained more in depth in its section on the [report](../6-4-6/report.pdf).  
 
 ## 6. Demonstration
 

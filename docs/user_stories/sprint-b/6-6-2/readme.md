@@ -55,4 +55,4 @@ The team decided that:
 
 This can be viewed in the final video:
 
-![](../6-6-1/report.mp4)
+[video report](https://www.youtube.com/watch?v=78T89Gyi8yM)
