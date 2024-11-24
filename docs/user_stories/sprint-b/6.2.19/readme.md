@@ -45,7 +45,17 @@ The team decided the following aspects:
 
 ## 5. C4 Views
 
--
+### Level 1
+
+![alt text](views/6-2-19level1.svg)
+
+### Level 2
+
+![alt text](views/6-2-19level2.svg)
+
+### Level 3
+
+![alt text](views/6-2-19level3.svg)
 
 ## 6. Tests
 
