@@ -45,8 +45,10 @@ Through the requisites and the open questions, the team can conclude that:
 
 ## 4. Design
 
--
+The team decided that: 
+* The two heuristics the team would develop would be the ones suggested in the official [TP Support ALGAV Sprint2 - Planning Surgeries - 4](https://moodle.isep.ipp.pt/pluginfile.php/424620/mod_resource/content/2/TP%20Support%20ALGAV%20Sprint2%20-%20Planning%20Surgeries%20-%204.pdf) (Page 6).
+* The comparison mention in the **Analysis** section should be done with a table.
 
 ## 5. Implementation and Demonstration
 
--
+These are specified in the [report](../6-3-1/report.pdf).
