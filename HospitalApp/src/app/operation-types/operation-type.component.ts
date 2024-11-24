@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OperationTypeService } from './operation-type.service';
-import { FormsModule, FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Status } from './status.enum';
 import { Specialization } from './specialization.enum';
 import { Router } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
-import { min } from 'rxjs';
+
+
 
 
 
@@ -24,8 +25,8 @@ interface OperationType {
     minCirculatingNurse: number;
     minXRayTechnician: number;
     minMedicalActionAssistant: number;
-    status: Status;
-    specialization: Specialization;
+    Status: Status;
+    Specialization: Specialization;
 }
 
 interface field {
@@ -63,6 +64,7 @@ export class OperationTypeComponent /*implements OnInit*/ {
     showUpdateModal: boolean = false;
     editId: string | null = null;
     isCanceled: boolean = false;
+
     nomeFilter: string = '';
     statusFilter: string = '';
     specializationFilter: string = '';
@@ -124,18 +126,23 @@ export class OperationTypeComponent /*implements OnInit*/ {
 
         try {
             this.operationTypes = await this.operationTypeService.listOperationTypes();
-            this.paginatedOperationTypes = this.operationTypes.slice(0, this.pageSize);
-
+            
             if(this.nomeFilter !== '') {
                 this.operationTypes = this.operationTypes.filter((operationType) => operationType.name.toLowerCase().includes(this.nomeFilter.toLowerCase()));
             }
-            if(this.statusFilter !== ''){
-                this.operationTypes = this.operationTypes.filter((operationType) => operationType.status === this.statusFilter);
-            }
             if(this.specializationFilter !== ''){
-                this.operationTypes = this.operationTypes.filter((operationType) => operationType.specialization === this.specializationFilter);
+                this.operationTypes = this.operationTypes.filter((operationType) => operationType.Specialization.toString() === this.filterForm.value.specialization);
+            }
+            if(this.statusFilter !== ''){
+                this.operationTypes = this.operationTypes.filter((operationType) => operationType.Status.toString() === this.filterForm.value.status);
             }
 
+           
+        
+            
+            
+
+            this.paginatedOperationTypes = this.operationTypes.slice(0, this.pageSize);
 
             this.notFound = this.operationTypes.length === 0;
             console.log('Operation Types:', this.operationTypes);
@@ -241,10 +248,16 @@ export class OperationTypeComponent /*implements OnInit*/ {
 
     }
     submitFilter(): void {
-        this.filtering = false;
+        
         this.nomeFilter = this.filterForm.value.name;
         this.statusFilter = this.filterForm.value.status;
         this.specializationFilter = this.filterForm.value.specialization;
+        
+        console.log(this.filterForm.value);
+        console.log(this.nomeFilter);
+        console.log(this.statusFilter);
+        
+        this.filtering = false;
         this.listOperationType();
     }
 
