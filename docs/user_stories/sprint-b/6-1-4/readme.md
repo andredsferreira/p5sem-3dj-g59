@@ -30,8 +30,9 @@ As specified by the **Acceptance Criteria**, the team should make it so, somehow
 
 ## 4. Design
 
--
+The team decided that:
+* The information used by the Planning module will come from the Frontend module, which in turn gets it from the Backend module, in order to simplify the Planning module's responsabilities.
 
 ## 5. Demonstration
 
--
+*Not applicable*
