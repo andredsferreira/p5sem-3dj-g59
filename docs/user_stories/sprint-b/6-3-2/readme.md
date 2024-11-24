@@ -38,4 +38,4 @@ The team decided that the results were going to be placed in a table.
 
 ## 5. Implementation and Demonstration
 
-These are specified in the [report](../6-3-1/report.pdf).
+These are specified in the [report](../6-3-1/Report.pdf).

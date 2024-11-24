@@ -51,4 +51,4 @@ The team decided that:
 
 ## 5. Implementation and Demonstration
 
-These are specified in the [report](../6-3-1/report.pdf).
+These are specified in the [report](../6-3-1/Report.pdf).
