@@ -63,9 +63,16 @@ export class OperationTypeComponent /*implements OnInit*/ {
     showUpdateModal: boolean = false;
     editId: string | null = null;
     isCanceled: boolean = false;
+    nomeFilter: string = '';
+    statusFilter: string = '';
+    specializationFilter: string = '';
 
     addForm: FormGroup;
     editForm: FormGroup;
+    filterForm: FormGroup;
+
+    filtering: boolean = false;
+    listing: boolean = false;
 
 
 
@@ -99,6 +106,12 @@ export class OperationTypeComponent /*implements OnInit*/ {
             minXRayTechnician: [''],
             minMedicalActionAssistant: ['']
         });
+
+        this.filterForm = this.fb.group({
+            name: [''],
+            status: [''],
+            specialization: ['']
+        });
     }
 
     backToAdmin(): void {
@@ -111,11 +124,25 @@ export class OperationTypeComponent /*implements OnInit*/ {
 
         try {
             this.operationTypes = await this.operationTypeService.listOperationTypes();
+            this.paginatedOperationTypes = this.operationTypes.slice(0, this.pageSize);
+
+            if(this.nomeFilter !== '') {
+                this.operationTypes = this.operationTypes.filter((operationType) => operationType.name.toLowerCase().includes(this.nomeFilter.toLowerCase()));
+            }
+            if(this.statusFilter !== ''){
+                this.operationTypes = this.operationTypes.filter((operationType) => operationType.status === this.statusFilter);
+            }
+            if(this.specializationFilter !== ''){
+                this.operationTypes = this.operationTypes.filter((operationType) => operationType.specialization === this.specializationFilter);
+            }
+
+
             this.notFound = this.operationTypes.length === 0;
             console.log('Operation Types:', this.operationTypes);
         } catch (error) {
             console.error('Error listing operation types:', error);
         }
+        this.listing = true;
     }
 
     async deleteOperationType(id: string): Promise<void> {
@@ -133,7 +160,7 @@ export class OperationTypeComponent /*implements OnInit*/ {
                 this.confirmingDelete = false;
                 this.typeToDelete = null;
                 console.log('Operation Type deleted');
-                this.listOperationType();
+                
             } catch (error) {
                 console.error('Failed to delete operation type:', error);
                 this.confirmingDelete = false;
@@ -141,6 +168,7 @@ export class OperationTypeComponent /*implements OnInit*/ {
             }
 
         }
+        this.listOperationType();
     }
 
     updateOperationType(id: string): void {
@@ -200,6 +228,24 @@ export class OperationTypeComponent /*implements OnInit*/ {
         this.showUpdateModal = false;
         this.isCanceled = true
         this.editForm.reset();
+    }
+
+    closeFilter(): void {
+        this.filtering = false;
+        this.filterForm.reset();
+    }
+
+    showFilter(): void {
+
+        this.filtering = true
+
+    }
+    submitFilter(): void {
+        this.filtering = false;
+        this.nomeFilter = this.filterForm.value.name;
+        this.statusFilter = this.filterForm.value.status;
+        this.specializationFilter = this.filterForm.value.specialization;
+        this.listOperationType();
     }
 
     async onSubmit(): Promise<any> {
