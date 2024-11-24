@@ -111,4 +111,6 @@ The **C4 Views** for this *US* can be viewed [here](views/readme.md).
 
 ## 8. Demonstration
 
--
+This is the confirmation window that appears when you select "Delete" on a Patient:
+
+![](images/data.png)
