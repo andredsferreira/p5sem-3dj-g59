@@ -34,8 +34,15 @@ Through the requisites and the open questions, the team can conclude that:
 
 ## 4. Design
 
--
+The team decided that: 
+* This part of the script shall be divided into the following sections.
+    * Introduction, Categories of data, Data and Processing.
+    * Finality.
+    * Data conservation time.
+    * Lawful Basis(s).
 
 ## 5. Implementation and Demonstration
 
--
+This can be viewed in the final video:
+
+![](report.mp4)
