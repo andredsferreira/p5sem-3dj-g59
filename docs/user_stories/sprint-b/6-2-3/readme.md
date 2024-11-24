@@ -35,7 +35,10 @@ This *US* is merely a *Frontend version* of another **US**, which contains the l
 
 ## 4. Design
 
--
+The team decided that:
+* The button to delete the account should be available when the patient logs in.
+* After pressing button, a confirmation window should appear.
+  * After confirming, the Backend functionality should be called and a notification should appear on the screen telling the user that an email was sent.
 
 ## 5. Implementation
 
