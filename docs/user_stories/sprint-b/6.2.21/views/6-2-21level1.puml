@@ -1,0 +1,15 @@
+@startuml
+
+actor Admin as A
+participant "<<system>>\nHealthcare System" as S
+
+A -> S : List/Search Operation Types
+activate A
+activate S
+
+S -> A : \n\n\nDisplays Operation Types
+deactivate A
+deactivate S
+
+@enduml
+

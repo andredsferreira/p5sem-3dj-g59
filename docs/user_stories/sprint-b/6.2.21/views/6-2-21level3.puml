@@ -1,0 +1,31 @@
+@startuml
+
+actor Admin as A
+participant "<<component>>\noperationtype.component.html" as html
+participant "<<component>>\noperationtype.component.ts" as ts
+participant "<<component>>\noperationtype.component.servcice.ts" as service
+participant "<<component>>\n<<C4 Container>>\nBackend" as backend
+
+activate A
+A -> html: request operation type list
+activate html
+html -> ts: request operation type list
+activate ts
+ts -> service: request operation type list
+activate service
+service -> backend: request operation type list
+activate backend
+backend --> service: operation type list
+deactivate backend
+service --> ts: operation type list
+deactivate service
+alt Filters are selected
+ts -> ts : filter operation type list
+end
+ts --> html: operation type list
+deactivate ts
+html --> A: operation type list
+deactivate html
+
+
+@enduml

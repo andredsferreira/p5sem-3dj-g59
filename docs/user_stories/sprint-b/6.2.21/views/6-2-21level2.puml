@@ -1,0 +1,36 @@
+@startuml
+
+
+actor Admin as A
+participant "Frontend" as web
+participant "Backend" as api
+database "Database" as db
+
+A -> web : List Operation Types
+activate A
+activate web
+
+web -> A : Displays Filters and Operation Types
+deactivate web
+
+A -> web : Selects Filters
+activate web
+
+web --> api : List Operation Types
+activate api
+
+api -> db : Get Operation Types
+activate db
+
+db --> api : Return Operation Types
+deactivate db
+
+api --> web : Return Operation Types
+deactivate api
+
+web --> A : Displays Operation Types
+deactivate web
+deactivate A
+
+
+@enduml
