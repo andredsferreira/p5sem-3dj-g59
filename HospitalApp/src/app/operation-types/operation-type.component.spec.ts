@@ -8,9 +8,6 @@ import { API_PATH } from '../config-path';
 import { Status } from './status.enum';
 import { Specialization } from './specialization.enum';
 import { HttpClient, HttpClientModule, HttpRequest, HttpResponse } from '@angular/common/http';
-import { mock } from 'node:test';
-import exp from 'constants';
-
 
 interface OperationType {
   id: string;
@@ -53,7 +50,7 @@ describe('OperationTypeComponent', () => {
   let mockOperationTypeService: jasmine.SpyObj<OperationTypeService>;
 
   beforeEach(async () => {
-    mockOperationTypeService = jasmine.createSpyObj('OperationTypeService', ['createOperationType', 'editOperationType', 'deleteOperationType', 'getOperationTypes']);
+    mockOperationTypeService = jasmine.createSpyObj('OperationTypeService', ['createOperationType', 'updateOperationType', 'deleteOperationType', 'getOperationTypes', ]);
     await TestBed.configureTestingModule({
 
       imports: [OperationTypeComponent, HttpClientTestingModule],
@@ -65,6 +62,9 @@ describe('OperationTypeComponent', () => {
 
     fixture = TestBed.createComponent(OperationTypeComponent);
     component = fixture.componentInstance;
+
+    component.operationTypes = [operationType];
+
     fixture.detectChanges();
   });
 
@@ -91,7 +91,7 @@ describe('OperationTypeComponent', () => {
         Specialization: Specialization.Prosthetics
       };
       let mockResponse: HttpResponse<OperationType> = new HttpResponse();
-      mockOperationTypeService.createOperationType().and.returnValue(Promise.resolve(mockResponse));
+      mockOperationTypeService.createOperationType.and.returnValue(Promise.resolve(mockResponse));
 
       component.createFields['name'].value = createAttributes.name;
       component.createFields['anaesthesiaTime'].value = createAttributes.anaesthesiaTime;
@@ -114,7 +114,7 @@ describe('OperationTypeComponent', () => {
   describe('Deletion', () => {
     it('should successfully delete an operation type', async () => {
       let mockResponse: HttpResponse<OperationType> = new HttpResponse();
-      mockOperationTypeService.deleteOperationType().and.returnValue(Promise.resolve(mockResponse));
+      mockOperationTypeService.deleteOperationType.and.returnValue(Promise.resolve(mockResponse));
       await component.deleteOperationType(operationType.id);
       expect(mockOperationTypeService.deleteOperationType).toHaveBeenCalled();
     });
@@ -139,7 +139,7 @@ describe('OperationTypeComponent', () => {
         Specialization: Specialization.Prosthetics
       };
       let mockResponse: HttpResponse<OperationType> = new HttpResponse();
-      mockOperationTypeService.updateOperationType().and.returnValue(Promise.resolve(mockResponse));
+      mockOperationTypeService.updateOperationType.and.returnValue(Promise.resolve(mockResponse));
 
       component.editingFields['name'].value = editAttributes.name;
       component.editingFields['anaesthesiaTime'].value = editAttributes.anaesthesiaTime;
@@ -152,11 +152,10 @@ describe('OperationTypeComponent', () => {
       component.editingFields['minCirculatingNurse'].value = editAttributes.minCirculatingNurse;
       component.editingFields['minXRayTechnician'].value = editAttributes.minXRayTechnician;
       component.editingFields['minMedicalActionAssistant'].value = editAttributes.minMedicalActionAssistant;
-      component.editingFields['Status'].value = editAttributes.Status;
-      component.editingFields['Specialization'].value = editAttributes.Specialization;
+      
 
       await component.onSubmit();
-      expect(mockOperationTypeService.updateOperationType().toHaveBeenCalled());
+      expect(mockOperationTypeService.updateOperationType).toHaveBeenCalled();
     });
   })
 });
