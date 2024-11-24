@@ -37,29 +37,80 @@ Through the requisites, we can conclude that:
 The team chose the following textures:
 
 **Ground Texture**
+
 ![](../../../../HospitalApp/public/ground.jfif)
 
 **Hospital Floor Texture**
+
 ![](../../../../HospitalApp/public/floor.png)
 
-**Inside Hospital Wall Texture**
+**Hospital Wall Texture**
+
 ![](../../../../HospitalApp/public/wall.jpg)
 
-**Hospital Icon Texture**
-![](../../../../HospitalApp/public/icon.png)
+## 5. Implementation
 
-## 5. C4 Views
+This is written in our **config.json** file.
 
--
+```json
+"groundTextureUrl": "./ground.jfif",
+"floorTextureUrl": "./floor.png",
+"wallTextureUrl": "./wall.jpg",
+```
 
-## 6. Tests
+Which, in turn, is called by:
+* Wall
+ ```js
+export default class Wall {
+    constructor(parameters) {
+        ...
 
-* Test if the textures are correctly mapped to the objects.
+        // Create a texture
+        const texture = new THREE.TextureLoader().load(this.textureUrl);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.ClampToEdgeWrapping;
+        texture.repeat.set(this.size.width, this.size.height);
+        texture.magFilter = THREE.LinearFilter;
+        texture.minFilter = THREE.LinearFilter;
 
-## 7. Implementation
+        ...
+        
+        const material = new THREE.MeshStandardMaterial({ map: texture });
+        this.object = new THREE.Mesh(geometry, material);
+        ...
+    }
+}
+ ```
 
--
+* Ground (with the Ground texture) / Floor (with the Floor texture)
+
+```js
+export default class Ground {
+    constructor(parameters) {
+        ...
+
+        const texture = new THREE.TextureLoader().load(this.textureUrl);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(this.size.width, this.size.height);
+        texture.magFilter = THREE.LinearFilter;
+        texture.minFilter = THREE.LinearMipmapLinearFilter;
+
+        ...
+        
+        const material = new THREE.MeshStandardMaterial({ map: texture, side:THREE.DoubleSide });
+        this.object = new THREE.Mesh(geometry, material);
+        ...
+    }
+}
+```
 
 ## 8. Demonstration
 
--
+This is how it looks in action:
+
+![](images/demonstration/show_textures.png)
