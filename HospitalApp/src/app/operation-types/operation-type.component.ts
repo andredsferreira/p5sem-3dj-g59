@@ -8,10 +8,13 @@ import { Router } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 
 
-
-
-
 // Define the OperationType interface
+
+interface Field {
+    selected: boolean;
+    value: string | number;
+  }
+
 interface OperationType {
     id: string;
     name: string;
@@ -27,11 +30,6 @@ interface OperationType {
     minMedicalActionAssistant: number;
     Status: Status;
     Specialization: Specialization;
-}
-
-interface field {
-    selected: boolean;
-    value: string;
 }
 
 @Component({
@@ -75,6 +73,9 @@ export class OperationTypeComponent /*implements OnInit*/ {
 
     filtering: boolean = false;
     listing: boolean = false;
+
+    createFields: { [key: string]: Field} = {};
+    editingFields: { [key: string]: Field} = {};
 
 
 
