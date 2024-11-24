@@ -1,0 +1,27 @@
+' 
+' User Story: As a **Doctor**, I want to list/search operation requisitions, so that I see the details, edit, and remove operation requisitions
+'
+' Acceptance Criteria:
+' 
+' - Doctors can **search operations** fro some value.
+' - The system displays search results in a list view with value entered.
+' - Doctors can **select an operation from the list** to edit or delete the patient record.
+
+@startuml
+
+title US6.2.17 - Level 1 View
+
+actor Doctor as U
+participant "<<system>>\nHospital de Paranhos" as web
+
+U -> web : Asks to list operations with certain value
+activate U
+activate web
+web -> web : Gets list of Operations from database
+web -> web : Filters list
+web --> U : Returns list
+deactivate web
+deactivate U
+
+
+@enduml

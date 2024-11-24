@@ -1,0 +1,44 @@
+' 
+' User Story: As a **Doctor**, I want to list/search operation requisitions, so that I see the details, edit, and remove operation requisitions
+'
+' Acceptance Criteria:
+' 
+' - Doctors can **search operations** fro some value.
+' - The system displays search results in a list view with value entered.
+' - Doctors can **select an operation from the list** to edit or delete the patient record.
+
+@startuml
+
+title US6.2.17 - Level 3 View - Frontend
+
+actor Doctor as U
+participant "«component»\doctor.component.html" as html
+participant "«component»\doctor.component.ts" as ts
+
+participant "«component»\n«C4 Container»\nBackend" as backend
+
+U -> html : Loads page
+activate U
+activate html
+activate ts
+
+html -> ts : onInitialize()
+ts --> html
+html --> U
+
+U -> html : Picks what attributes they\nwant to filter by and puts values there
+html -> ts
+ts -> ts : Verifies data validity
+ts --> html
+html --> U
+
+U -> html : Submits form
+html -> ts : listOperationRequests()
+ts -> backend: getOperationRequests()
+activate backend
+backend --> ts : Operation list
+deactivate backend
+ts --> html : Operation list
+html --> U : show Operation list
+
+@enduml
