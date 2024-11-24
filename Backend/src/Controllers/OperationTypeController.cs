@@ -19,18 +19,10 @@ namespace Backend.Controllers;
 [Authorize]
 public class OperationTypeController : ControllerBase {
 
-    private readonly IConfiguration Configuration;
 
-    private readonly AppDbContext Context;
-
-    private readonly UserManager<IdentityUser> UserManager;
-    
     private readonly AddOperationTypeService AddOperationTypeService;
 
-    public OperationTypeController(IConfiguration Configuration, AppDbContext Context, UserManager<IdentityUser> UserManager, AddOperationTypeService AddOperationTypeService) {
-        this.Configuration = Configuration;
-        this.Context = Context;
-        this.UserManager = UserManager;
+    public OperationTypeController(AddOperationTypeService AddOperationTypeService) {
         this.AddOperationTypeService = AddOperationTypeService;
     }
 
