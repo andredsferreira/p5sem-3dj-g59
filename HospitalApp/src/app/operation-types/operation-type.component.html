@@ -18,9 +18,9 @@
     
     <div class="buttons flex space-x-4 mb-4">
         <button (click)="listOperationType()"
-            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">List Operation Type</button>
+            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Listar Tipos de Operação</button>
         <button (click)="createOperationType()"
-            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Create Operation Type</button>
+            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Criar Tipos de Operação</button>
     </div>
 
         
@@ -31,10 +31,10 @@
     <ul class="space-y-4">
         <li *ngFor="let operationType of operationTypes" 
         class="staff-item p-4 w-full sm:w-[600px] mx-auto border border-gray-300 rounded-lg bg-white hover:bg-gray-50">
-            <div><strong>Operation Type: </strong>{{operationType.name}}</div>
-            <div><strong>Type ID: </strong>{{operationType.id}}</div>
-            <div><strong>Status: </strong>{{operationType.Status}}</div>
-            <div><strong>Specialization: </strong>{{operationType.Specialization}}</div>
+            <div><strong>Tipo de Operação: </strong>{{operationType.name}}</div>
+            <div><strong>ID: </strong>{{operationType.id}}</div>
+            <div><strong>Estado: </strong>{{operationType.Status}}</div>
+            <div><strong>Especialização: </strong>{{operationType.Specialization}}</div>
             <div class="mt-2 flex space-x-2">
                 <button (click)="updateOperationType(operationType.id)"
                     class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition">Update</button>
