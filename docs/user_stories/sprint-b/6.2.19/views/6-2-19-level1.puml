@@ -12,7 +12,10 @@ activate S
 
 S -> S : Validate Operation Type Data
 S -> S : Log Operation Type Edit
+S -> A : Return Confirmation
+deactivate S
 deactivate A
+
 
 
 @enduml
