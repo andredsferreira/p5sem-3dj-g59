@@ -34,8 +34,8 @@ Through the requisites and the open questions, the team can conclude that:
 
 ## 4. Design
 
--
+The team decided that the results were going to be placed in a table.
 
 ## 5. Implementation and Demonstration
 
--
+These are specified in the [report](../6-3-1/report.pdf).
