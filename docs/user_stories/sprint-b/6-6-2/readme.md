@@ -45,8 +45,14 @@ Through the open questions, the team can conclude that:
 
 ## 4. Design
 
--
+The team decided that: 
+* This section of the script should be divided by the following **steps**:
+    * How the system would detect a data breach.
+    * How the system would notify the affected party and the GDPR authority.
+    * How the team would document the findings and use them to better prepare themselves for any future incidents.
 
 ## 5. Implementation and Demonstration
 
--
+This can be viewed in the final video:
+
+![](../6-6-1/report.mp4)
