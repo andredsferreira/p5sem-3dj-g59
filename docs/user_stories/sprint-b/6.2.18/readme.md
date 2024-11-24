@@ -43,3 +43,12 @@ The team decided the following aspects:
 * After creating the Operation Type, the system should log the creation and make it available for scheduling immediately.
 
 ## 5. C4 Views
+
+### Level 1
+![alt text](views/6-2-18-level1.svg)
+
+### Level 2
+![alt text](views/6-2-18-level2.svg)
+
+### Level 3
+![alt text](views/6-2-18-level3.svg)
