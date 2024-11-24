@@ -43,6 +43,9 @@ export class LoginComponent {
                     case 'Doctor':
                         this.router.navigate(['/doctor']);
                         break;
+                    case 'Patient':
+                        this.router.navigate(['/patient']);
+                        break;    
                 }
                 console.log("Logged in successfully. Token saved.");
             } catch (error) {
