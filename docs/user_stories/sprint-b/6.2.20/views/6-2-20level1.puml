@@ -1,0 +1,15 @@
+@startuml
+
+actor Admin as A
+participant "<<system>>\nHospital de Paranhos" as S
+
+A -> S : Selectes Operation Type to Deactivate
+activate A
+activate S
+
+S -> S : Set Operation Type as Inactive
+S -> S : Log Operation Type Deactivation
+
+S -> A : Show Updated Operation Type Status
+
+@enduml
