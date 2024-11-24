@@ -9,6 +9,8 @@ import { OperationRequestService } from '../../operation-request/operation-reque
 import { RequestStatus } from '../../operation-request/request-status.enum';
 import { CommonModule } from '@angular/common';
 import { RequestPriority } from '../../operation-request/request-priority.enum';
+import { OperationTypeService } from '../../operation-types/operation-type.service';
+import { OperationTypeName } from '../../operation-types/operation-type-name.enum';
 
 @Component({
   selector: 'app-doctor',
@@ -22,6 +24,10 @@ export class DoctorComponent {
   operationRequests: any[] = [];
 
   filteredRequests: any[] = [];
+
+  operationTypes: any[] = []
+
+  operationTypeNames = Object.values(OperationTypeName)
 
   operationRequestForm: FormGroup;
 
@@ -47,10 +53,10 @@ export class DoctorComponent {
   confirmingDelete: boolean = false;
   requestIdToDelete: string | null = null;
 
-  constructor(private fb: FormBuilder, private ors: OperationRequestService) {
+  constructor(private fb: FormBuilder, private ors: OperationRequestService, private ots: OperationTypeService) {
     this.operationRequestForm = this.fb.group({
       patientId: ['', Validators.required],
-      operationTypeId: ['', Validators.required],
+      operationTypeName: ['', Validators.required],
       priority: [RequestPriority.Elective, Validators.required],
       dateTime: ['', Validators.required],
       requestStatus: [RequestStatus.Pending, Validators.required],
@@ -67,9 +73,9 @@ export class DoctorComponent {
     });
   }
 
-  // async ngOnInit(): Promise<void> {
-  //   await this.listOperationRequests();
-  // }
+  async ngOnInit(): Promise<void> {
+    this.operationTypes = await this.ots.listOperationTypes()
+  }
 
   async createOperationRequest(): Promise<void> {
     this.showModal = true;
@@ -81,11 +87,18 @@ export class DoctorComponent {
       try {
         const {
           patientId,
-          operationTypeId,
+          operationTypeName,
           priority,
           dateTime,
           requestStatus,
         } = this.operationRequestForm.value;
+        const operationType = this.operationTypes.find(
+          (type) => type.name === operationTypeName
+        );
+        if (!operationType) {
+          throw new Error('Invalid operation type selected.');
+        }
+        const operationTypeId = operationType.id;
         await this.ors.createOperationRequest(
           patientId,
           operationTypeId,

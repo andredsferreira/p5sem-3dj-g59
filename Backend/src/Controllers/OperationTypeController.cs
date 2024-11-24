@@ -27,10 +27,6 @@ public class OperationTypeController : ControllerBase {
     
     private readonly AddOperationTypeService AddOperationTypeService;
 
-    public OperationTypeController(AddOperationTypeService service) {
-        this.AddOperationTypeService = service;
-    }
-
     public OperationTypeController(IConfiguration Configuration, AppDbContext Context, UserManager<IdentityUser> UserManager, AddOperationTypeService AddOperationTypeService) {
         this.Configuration = Configuration;
         this.Context = Context;
@@ -56,7 +52,7 @@ public class OperationTypeController : ControllerBase {
     }
 
     [HttpGet("All")]
-    [Authorize(Roles = HospitalRoles.Admin)]
+    [Authorize(Roles = $"{HospitalRoles.Admin},{HospitalRoles.Doctor}")]
     public async Task<ActionResult<IEnumerable<OperationTypeDTO>>> DeactivateOperationType() {
         return await GetOperationTypes();
     }
