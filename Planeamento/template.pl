@@ -24,7 +24,7 @@ surgery(so4,45,75,45).
 surgery_id(so100001,so2).
 surgery_id(so100002,so3).
 surgery_id(so100003,so4).
-%surgery_id(so100004,so2).
+surgery_id(so100004,so2).
 %surgery_id(so100005,so4).
 %surgery_id(so100006,so2).
 %surgery_id(so100007,so3).
@@ -38,8 +38,8 @@ surgery_id(so100003,so4).
 assignment_surgery(so100001,d001).
 assignment_surgery(so100002,d002).
 assignment_surgery(so100003,d003).
-%assignment_surgery(so100004,d001).
-%assignment_surgery(so100004,d002).
+assignment_surgery(so100004,d001).
+assignment_surgery(so100004,d002).
 %assignment_surgery(so100005,d002).
 %assignment_surgery(so100005,d003).
 %assignment_surgery(so100006,d001).
@@ -270,15 +270,16 @@ select_best_interval([(Tin, _)|_], TSurgery, (Tin, TfinS)) :-
 
 run_schedule_heuristic(Room, Day) :-
     % Inicializar o escalonamento com a heurística
+    get_time(Ti),
     write('Running heuristic scheduling...'), nl,
-    statistics(runtime, [Start|_]), % Tempo de início
+
     schedule_heuristic_surgeries(Room, Day),
-    statistics(runtime, [End|_]), % Tempo de fim
-    Runtime is End - Start,
     write('Scheduling completed.'), nl,
     % Exibir os resultados
     display_schedule(Room, Day),
-    write('Total runtime (ms): '), write(Runtime), nl.
+    get_time(Tf),
+    T is Tf-Ti,
+    write('Tempo de geracao da solucao:'),write(T),nl.
 
 display_schedule(Room, Day) :-
     % Exibir agenda da sala de operação
