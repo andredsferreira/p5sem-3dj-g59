@@ -65,4 +65,4 @@ The team also decided that the **UI** should give to the user the option to choo
 
 ## 5. Implementation and Demonstration
 
-These are specified in the [report](report.pdf).
+These are specified in the [report](Report.pdf).
