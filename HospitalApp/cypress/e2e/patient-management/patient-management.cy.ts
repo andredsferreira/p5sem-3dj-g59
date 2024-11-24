@@ -1,4 +1,4 @@
-let token:string;
+let tokenPatientManagement:string;
 let MedicalRecordNumber:string;
 
 describe('login', () => {
@@ -10,9 +10,9 @@ describe('login', () => {
         cy.get('button[type="submit"]').click(); 
 
         cy.wait('@loginRequest').then((interception) => {
-            if (interception.response != undefined) token = interception.response.body.token;
-            cy.log('Token received:', token);
-            expect(token).to.exist;
+            if (interception.response != undefined) tokenPatientManagement = interception.response.body.token;
+            cy.log('Token received:', tokenPatientManagement);
+            expect(tokenPatientManagement).to.exist;
         });
 
         cy.url().should('include', '/admin');
@@ -23,13 +23,13 @@ describe('login', () => {
 })
 describe('patient', () => {
     before(() => {
-        if (!token) {
+        if (!tokenPatientManagement) {
             throw new Error('Token não encontrado');
         }
     });
 
     it('accesses patient page', () => {
-        localStorage.setItem("token", token)
+        localStorage.setItem("token", tokenPatientManagement)
         cy.visit("http://localhost:4200/patientmanagement");
 
         cy.get('input[ng-reflect-name="FullNameSelected"]').should('exist').check();
@@ -40,7 +40,7 @@ describe('patient', () => {
     });
 
     it('creates patient', () => {
-        localStorage.setItem("token", token)
+        localStorage.setItem("token", tokenPatientManagement)
 
         cy.visit('http://localhost:4200/patientmanagement');
 
@@ -78,7 +78,7 @@ describe('patient', () => {
         cy.contains('Test One'); //Found it!
     });
     it("edits patients email", () => {
-        localStorage.setItem("token", token);
+        localStorage.setItem("token", tokenPatientManagement);
         cy.visit('http://localhost:4200/patientmanagement');
 
         cy.get('input[ng-reflect-name="MedicalRecordNumberSelected"]').should('exist').check();
@@ -94,7 +94,7 @@ describe('patient', () => {
         cy.contains('diogofscunha2004@gmail.com'); //It was successfully edited
     })
     it("delete patient", () => {
-        localStorage.setItem("token", token);
+        localStorage.setItem("token", tokenPatientManagement);
         cy.visit('http://localhost:4200/patientmanagement');
 
         cy.get('input[ng-reflect-name="MedicalRecordNumberSelected"]').should('exist').check();
