@@ -1,0 +1,16 @@
+@startuml
+
+actor Admin as A
+participant "<<system>>\nHospital de Paranhos" as S
+
+A -> S : Creates Operation Type with its attributes
+activate A
+activate S
+
+S -> S : Validate operation Data
+
+S --> A : Operation Type created successfully
+
+deactivate A
+
+@enduml

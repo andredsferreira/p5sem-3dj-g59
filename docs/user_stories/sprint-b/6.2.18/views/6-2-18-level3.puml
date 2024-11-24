@@ -1,0 +1,33 @@
+@startuml
+
+actor Admin as admin
+participant "<<component>>\noperationtype.component.html" as html
+participant "<<component>>\noperationtype.component.ts" as ts
+participant "<<component>>\noperationtype.service.ts" as service
+participant "<<component>>\n<<C4 Container>\nBackend" as api
+
+activate admin
+admin -> html : Creates Operation Type with its attributes
+activate html
+html -> ts : Creates Operation Type with its attributes
+activate ts
+ts -> ts : Validate Operation Type attributes
+ts -> service : Creates Operation Type with its attributes
+activate service
+service -> api : Creates Operation Type with its attributes
+activate api
+api -> api : creates Operation Type with its attributes
+api --> service : Return Confirmation
+deactivate api
+service -> ts : Return Confirmation
+deactivate service
+ts -> ts : Refresh Operation Type List
+ts --> html : Return Confirmation
+deactivate ts
+html --> admin : Return Confirmation
+deactivate html
+deactivate admin
+
+
+
+@enduml
