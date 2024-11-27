@@ -1,1 +1,20 @@
+<!-- Navbar -->
+<nav class="relative container mx-auto p-3">
+    <!-- Flex Container -->
+    <div class="flex items-center justify-between">
+        <!-- Logo -->
+        <div class="pt-2" style="width: 8rem; height: 8rem">
+        <a href="">
+            <img src="icon.png" style="width: auto; height: auto" alt="" />
+        </a>
+        </div>
+        <!-- Menu Items -->
+        <div class="space-x-8">
+        <button (click)="privacy()" class="hover:text-darkGrayishBlue p-6">Política de Privacidade</button>
+        <button (click)="aboutus()" class="hover:text-darkGrayishBlue p-6">Sobre Nós</button>
+        <button (click)="contacts()" class="hover:text-darkGrayishBlue p-6">Contactos</button>
+        <button (click)="hospitalfloor()" class="hover:text-darkGrayishBlue p-6">Visualização 3D</button>
+        </div>
+    </div>
+    </nav>
 <router-outlet></router-outlet>
