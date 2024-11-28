@@ -14,6 +14,7 @@ import { RegisterPatientComponent } from './auth/register-patient.component';
 import { OperationTypeComponent } from './operation-types/operation-type.component';
 import { PatientComponent } from './patient/patient.component';
 import { PlanningComponent } from './planning/planning.component';
+import { StaffManagement } from './staff-management/staff-management.component';
 
 export const routes: Routes = [
   //{ path: '', component: MainPageComponent },
@@ -32,4 +33,5 @@ export const routes: Routes = [
   { path: 'hospitalfloor', component: HospitalFloorComponent },
   { path: 'patientmanagement', component: PatientManagementComponent },
   { path: 'operationtypemanagement', component: OperationTypeComponent},
+  { path: 'staffmanagement', component: StaffManagement}
 ];

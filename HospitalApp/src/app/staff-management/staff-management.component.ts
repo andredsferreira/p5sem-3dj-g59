@@ -11,13 +11,13 @@ import { Router } from '@angular/router';
 import { ConnectableObservable } from 'rxjs';
 
 @Component({
-  selector: 'app-admin',
+  selector: 'app-staff-management',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css'],
+  templateUrl: './staff-management.component.html',
+  styleUrls: ['./staff-management.component.css'],
 })
-export class AdminComponent {
+export class StaffManagement {
   staffList: any[] = [];
   filteredStaffs: any[] = [];
   
@@ -93,35 +93,8 @@ export class AdminComponent {
     }
   }
 
-  // metodo para mostrar as opções de operationType management
+  
 
-  staffManagement(): void {
-
-    console.log('Staff');
-    this.router.navigate(['/staffmanagement']);
-    
-  }
-
-  operationTypeManagement(): void {
-
-    console.log('Operation Type');
-    this.router.navigate(['/operationtypemanagement']);
-    
-  }
-
-  patientManagement(): void {
-
-    console.log('Patient');
-    this.router.navigate(['/patientmanagement']);
-    
-  }
-
-  scheduleOperations(): void {
-
-    console.log('Schedule');
-    this.router.navigate(['/scheduler']);
-    
-  }
 
   closeModal(): void {
     this.showModal = false;
@@ -215,4 +188,14 @@ export class AdminComponent {
       return value.includes(filterValue.toLowerCase());
     });
   }
+
+  backToAdmin(): void {
+
+    console.log('Admin');
+    this.router.navigate(['/admin']);
+  }
+
+
+
+  
 }
