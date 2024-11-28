@@ -1,20 +1,20 @@
 ' 
-' User Story: As a **Doctor**, I want to request an operation, so that the Patient has access to the necessary healthcare.
+' User Story: As a **staff**, I want to request an Staff, so that the Patient has access to the necessary healthcare.
 '
 ' Acceptance Criteria:
 ' 
-' - Doctors can input operation details such as **Patient ID**, **Operation type**, **Priority**, **Date**, **Time** and **Request Status**.
-' - A unique **Operation ID** is generated upon profile creation.
-' - The system validates that the Patient ID and Operation type are valid.
+' - staffs can input Staff details such as **Patient ID**, **Staff type**, **Priority**, **Date**, **Time** and **Request Status**.
+' - A unique **Staff ID** is generated upon profile creation.
+' - The system validates that the Patient ID and Staff type are valid.
 ' - The profile is stored securely in the system.
 
 @startuml
 
-title US 6-2-14 - Level 3 View
+title US 6-2-10 - Level 3 View
 
 actor Admin as U
-participant "«component»\doctor.component.html" as html
-participant "«component»\doctor.component.ts" as ts
+participant "«component»\staff.component.html" as html
+participant "«component»\staff.component.ts" as ts
 
 participant "«component»\n«C4 Container»\nBackend" as backend
 
@@ -23,21 +23,21 @@ activate U
 activate html
 activate ts
 
-html -> ts : operationType()
+html -> ts : staff()
 ts --> html
 html --> U
 
 U -> html : Fills out form
 html -> ts
-ts -> ts : Verifies operationType validity
+ts -> ts : Verifies staff validity
 ts --> html
 html --> U
 
 U -> html : Submits form
 html -> ts : onCreate()
-ts -> backend: createOperationRequest()
+ts -> backend: createStaff()
 activate backend
-backend --> ts : Operation object
+backend --> ts : Staff object
 deactivate backend
 ts --> html : success/error message
 html --> U : show success/error message

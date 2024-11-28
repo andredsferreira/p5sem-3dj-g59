@@ -1,33 +1,33 @@
 ' 
-' User Story: As a **Doctor**, I want to request an operation, so that the Patient has access to the necessary healthcare.
+' User Story: As a **Staff**, I want to request an Staff, so that the Patient has access to the necessary healthcare.
 '
 ' Acceptance Criteria:
 ' 
-' - Doctors can input operation details such as **Patient ID**, **Operation type**, **Priority**, **Date**, **Time** and **Request Status**.
-' - A unique **Operation ID** is generated upon profile creation.
-' - The system validates that the Patient ID and Operation type are valid.
+' - Staffs can input Staff details such as **Patient ID**, **Staff type**, **Priority**, **Date**, **Time** and **Request Status**.
+' - A unique **Staff ID** is generated upon profile creation.
+' - The system validates that the Patient ID and Staff type are valid.
 ' - The profile is stored securely in the system.
 
 @startuml
 
-title US 6-2-14 - Level 2 View
+title US 6-2-10 - Level 2 View
 
-actor Doctor as U
+actor Staff as U
 participant "Frontend" as web
 participant "Backend" as api
 database "Database" as db
 
-U -> web : Creates new Operation with its attributes
+U -> web : Creates new Staff with its attributes
 activate U
 activate web
-web -> api : Creates new Operation with its attributes
+web -> api : Creates new Staff with its attributes
 activate api
 
-api -> api : Validades Operation
-api -> db : Save Operation
+api -> api : Validades Staff
+api -> db : Save Staff
 activate db
 deactivate db
-api -> api : Logs Operation creation
+api -> api : Logs Staff creation
 api -> web : Return Confirmation
 deactivate api
 web -> U : Return Confirmation
