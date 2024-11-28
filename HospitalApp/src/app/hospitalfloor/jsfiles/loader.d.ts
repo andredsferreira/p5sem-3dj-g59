@@ -8,6 +8,9 @@ interface LoaderParameters {
     groundSize: Vector2;
     wallTextureUrl: string;
     wallSize: Vector3;
+    floorMetalness: number,
+    floorRoughness: number,
+    floorEnvMap: string,
     //windowSize: Vector3;
     //table: ObjMtl;
     //tableWithPerson: ObjMtl;

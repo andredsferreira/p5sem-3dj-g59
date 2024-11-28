@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import Wall from "./wall";
-import Window from "./window";
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
@@ -10,10 +9,9 @@ export default class RoomLoader {
         this.description = description;
         this.object = new THREE.Group();
         this.wall = new Wall({ textureUrl: this.description.wallTextureUrl, size: this.description.wallSize });
-        this.window = new Window({ textureUrl: this.description.wallTextureUrl, size: this.description.wallSize });
         this.roomNumber = this.description.roomNumber;
 
-        let wallObject, windowObject;
+        let wallObject;
 
         function loadFbx(description, objectDesc, i, j, { scale, translateY=0, scaleX = 0, rotateY = 0}){
             const fbxLoader = new FBXLoader();
@@ -90,39 +88,30 @@ export default class RoomLoader {
                         j - this.description.roomSize.height/2 + 0.5
                     );
                     this.object.add(wallObject);
-                } else if (this.description.map[j][i] == 10) {
-                    windowObject = this.window.object.clone();
-                    windowObject.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 2);
-                    windowObject.position.set(
-                        i - this.description.roomSize.width / 2 + 0.5, 
+                } if (this.description.map[j][i] == 1 || this.description.map[j][i] == 3) {
+                    wallObject = this.wall.object.clone();
+                    wallObject.rotateOnAxis(new THREE.Vector3(0,1,0), Math.PI/2);
+                    wallObject.position.set(
+                        i - this.description.roomSize.width/2+0.5, 
                         0.5, 
-                        j - this.description.roomSize.height / 2 + 1
-                    );
-                    this.object.add(windowObject);
+                        j - this.description.roomSize.height/2+1);
+                    this.object.add(wallObject);
                 } else {
                     switch (this.description.map[j][i]) {
-                        case 4: // Caso 4 (mesas visíveis)
-                            // Carregar ambos os objetos table e tablewithperson como promessas
+                        case 4: 
                             const tablePromise = loadObj.call(this, this.description, this.description.table, i, j, { scale: 0.2, translateY: -0.95 });
                             const tableWithPersonPromise = loadObj.call(this, this.description, this.description.tableWithPerson, i, j, { scale: 0.2, translateY: -0.95 });
 
-                            // Após o carregamento de ambos os objetos, vamos manipulá-los
                             Promise.all([tablePromise, tableWithPersonPromise]).then(([tableObject, tableWithPersonObject]) => {
-                                // Tornar a mesa com pessoa invisível por padrão
                                 tableWithPersonObject.visible = false;
 
-                                // Adicionar ambos ao objeto de sala
                                 this.object.add(tableObject);
                                 this.object.add(tableWithPersonObject);
 
-                                // Guardar as referências para futura manipulação de visibilidade
                                 tableObject.tableWithPersonObject = tableWithPersonObject;
                             }).catch((error) => {
                                 console.error("Erro ao carregar os objetos: ", error);
                             });
-                            break;
-                        case 5:
-                            // Caso 5, similar ao caso 4
                             break;
                         case 8:
                             loadFbx.call(this, this.description, this.description.door, i, j, { scale: 0.00155, translateY: -0.95, rotateY: Math.PI / 2 });

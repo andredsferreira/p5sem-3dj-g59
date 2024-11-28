@@ -10,8 +10,28 @@
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_json)).
 
+:- http_handler('/schedule', schedule_handler, []).
+
 % CriaÃ§Ã£o do servidor HTTP
 server(Port) :- http_server(http_dispatch, [port(Port)]).
+
+schedule_handler(Request) :-
+    % Define os cabeçalhos CORS
+    format('Content-type: application/json~n'),
+    format('Access-Control-Allow-Origin: *~n'),
+    format('Access-Control-Allow-Methods: GET, POST, OPTIONS~n'),
+    format('Access-Control-Allow-Headers: Content-Type~n'),
+    format('~n'),
+    (   member(method(options), Request) ->
+        true
+    ;   % Lê o corpo JSON do pedido, se houver
+        (   %http_read_json_dict(Request, Dict, [default([])])
+        %,   Name = Dict.get(name, "World") % Obtém o campo "name" ou usa "World" por defeito
+        %;   Name = "World"
+             obtain_better_sol(or1, 20241028, R, S, T)
+        ),
+        format('{"room-schedule": "~w",~n"staff-schedules": "~w",~n"final-time": ~w}', [R,S,T])
+    ).
 
 agenda_staff(d001,20241028,[(1080,1140,c01)]).
 agenda_staff(d002,20241028,[(850,900,m02)]).
@@ -234,15 +254,15 @@ insert_agenda_doctors((TinS,TfinS,OpCode),Day,[Doctor|LDoctors]):-
 
 
 obtain_better_sol(Room,Day,AgOpRoomBetter,LAgDoctorsBetter,TFinOp):-
-		get_time(Ti),
+		%get_time(Ti),
 		(obtain_better_sol1(Room,Day);true),
-		retract(better_sol(Day,Room,AgOpRoomBetter,LAgDoctorsBetter,TFinOp)),
+		retract(better_sol(Day,Room,AgOpRoomBetter,LAgDoctorsBetter,TFinOp)).
             %write('Final Result: AgOpRoomBetter='),write(AgOpRoomBetter),nl,
             %write('LAgDoctorsBetter='),write(LAgDoctorsBetter),nl,
             %write('TFinOp='),write(TFinOp),nl,
-		get_time(Tf),
-		T is Tf-Ti,
-		write('Tempo de geracao da solucao:'),write(T),nl.
+		%get_time(Tf),
+		%T is Tf-Ti,
+		%write('Tempo de geracao da solucao:'),write(T),nl.
 
 
 obtain_better_sol1(Room,Day):-
@@ -265,10 +285,10 @@ update_better_sol(Day,Room,Agenda,LOpCode):-
                 better_sol(Day,Room,_,_,FinTime),
                 reverse(Agenda,AgendaR),
                 evaluate_final_time(AgendaR,LOpCode,FinTime1),
-             write('Analysing for LOpCode='),write(LOpCode),nl,
-             write('now: FinTime1='),write(FinTime1),write(' FinTime='),write(FinTime),nl,
+             %write('Analysing for LOpCode='),write(LOpCode),nl,
+             %write('now: FinTime1='),write(FinTime1),write(' FinTime='),write(FinTime),nl,
                 FinTime1<FinTime,
-             write('best solution updated'),nl,
+             %write('best solution updated'),nl,
                 retract(better_sol(_,_,_,_,_)),
                 findall(Doctor,assignment_surgery(_,Doctor,_),LDoctors1),
                 remove_equals(LDoctors1,LDoctors),
@@ -343,13 +363,13 @@ heuristic_schedule_all(Room, Day) :-
     final_time(TFinal),
     get_time(Tf),
     T is Tf - Ti,
-    write('Escalonamento concluído. Tempo final da última operação: '), write(TFinal), nl, write('Tempo de execução: '), write(T), write('s'),nl.
+    write('Escalonamento concluï¿½do. Tempo final da ï¿½ltima operaï¿½ï¿½o: '), write(TFinal), nl, write('Tempo de execuï¿½ï¿½o: '), write(T), write('s'),nl.
 
 
 try_each_permutation(Room, Day, LOpCode) :-
     permutation(LOpCode, Permuted),
     \+attempt_schedule(Room, Day, Permuted), % Falhou? Impede novas tentativas.
-    !, % Corta futuras execuções de permutação.
+    !, % Corta futuras execuï¿½ï¿½es de permutaï¿½ï¿½o.
     fail. % Indica que todo o processo yey.
 
 try_each_permutation(Room, Day, LOpCode) :-
@@ -358,14 +378,14 @@ try_each_permutation(Room, Day, LOpCode) :-
 
 attempt_schedule(Room, Day, LOpCode) :-
     write('PermutedLOpCode='),write(LOpCode),nl,
-    % Limpar estado temporário antes de cada tentativa
+    % Limpar estado temporï¿½rio antes de cada tentativa
     retractall(agenda_staff1(_,_,_)),
     retractall(agenda_operation_room1(_,_,_)),
     retractall(availability(_,_,_)),
     findall(_,(agenda_staff(D,Day,Agenda),assertz(agenda_staff1(D,Day,Agenda))),_),
     agenda_operation_room(Room,Day,Agenda),assert(agenda_operation_room1(Room,Day,Agenda)),
     findall(_,(agenda_staff1(D,Day,L),free_agenda0(L,LFA),adapt_timetable(D,Day,LFA,LFA2),assertz(availability(D,Day,LFA2))),_),
-    % Tentar escalonar com a permutação atual
+    % Tentar escalonar com a permutaï¿½ï¿½o atual
     \+heuristic_schedule(Room, Day, LOpCode),fail.
 
 heuristic_schedule(_, _, []) :- fail,!.
@@ -377,7 +397,7 @@ heuristic_schedule(Room, Day, LOpCode) :-
     delete(LOpCode, OpCode, RemainingOpCodes),
     \+heuristic_schedule(Room, Day, RemainingOpCodes), fail.
 
-% Seleciona a próxima cirurgia a ser escalonada com base na disponibilidade inicial dos médicos
+% Seleciona a prï¿½xima cirurgia a ser escalonada com base na disponibilidade inicial dos mï¿½dicos
 select_next_surgery(Day, LOpCode, SelectedOpCode) :-
     findall((OpCode, EarliestTime), (
         member(OpCode, LOpCode),
@@ -392,7 +412,7 @@ select_next_surgery(Day, LOpCode, SelectedOpCode) :-
     sort(2, @=<, Options, SortedOptions), % Ordena pelas janelas de tempo mais cedo
     SortedOptions = [(SelectedOpCode, _) | _].
 
-% Encontra a primeira janela disponível suficiente para uma cirurgia
+% Encontra a primeira janela disponï¿½vel suficiente para uma cirurgia
 earliest_sufficient_interval(_, [], inf). % Nenhuma janela suficiente
 earliest_sufficient_interval(TotalTime, [(Tin, Tfin) | _], Tin) :-
     Tfin - Tin + 1 >= TotalTime, !. % Janela suficiente encontrada

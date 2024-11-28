@@ -109,7 +109,12 @@ export class AdminComponent {
     
   }
 
+  scheduleOperations(): void {
 
+    console.log('Schedule');
+    this.router.navigate(['/scheduler']);
+    
+  }
 
   closeModal(): void {
     this.showModal = false;

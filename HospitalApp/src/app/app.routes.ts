@@ -13,6 +13,7 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { RegisterPatientComponent } from './auth/register-patient.component';
 import { OperationTypeComponent } from './operation-types/operation-type.component';
 import { PatientComponent } from './patient/patient.component';
+import { PlanningComponent } from './planning/planning.component';
 
 export const routes: Routes = [
   //{ path: '', component: MainPageComponent },
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: 'aboutus', component: AboutusComponent },
   { path: 'contacts', component: ContactsComponent },
   { path : 'admin', component: AdminComponent },
+  { path : 'scheduler', component: PlanningComponent },
   { path : 'patient', component: PatientComponent },
   { path: 'userlist', component: UserListComponent },
   { path: 'doctor', component: DoctorComponent },

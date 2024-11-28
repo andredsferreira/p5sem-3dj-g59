@@ -1,0 +1,103 @@
+<div class="p-4">
+    <button
+      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+      (click)="openModal()"
+    >
+      Escalonar Operações
+    </button>
+  
+    <!-- Modal -->
+    <div
+      *ngIf="isModalOpen"
+      class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50"
+    >
+      <div class="bg-white rounded-lg p-6 w-1/2">
+        <h2 class="text-xl font-bold mb-4">Adicionar Operações</h2>
+  
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium">Staff</label>
+            <div class="flex gap-2 items-center">
+              <input
+                type="text"
+                [(ngModel)]="newStaffMember"
+                class="border border-gray-300 rounded px-2 py-1 flex-grow"
+                placeholder="Nome do staff"
+              />
+              <button
+                class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-700"
+                (click)="addStaff()"
+              >
+                Adicionar Staff
+              </button>
+            </div>
+            <div *ngFor="let staff of currentOperation.staffList" class="mt-2">
+              <span
+                class="inline-block bg-gray-200 text-gray-700 px-2 py-1 rounded"
+              >
+                {{ staff }}
+              </span>
+            </div>
+          </div>
+  
+          <div>
+            <label class="block text-sm font-medium">Tipo de Operação</label>
+            <select
+              [(ngModel)]="currentOperation.operationType"
+              class="border border-gray-300 rounded px-2 py-1 w-full"
+            >
+            <option *ngFor="let operationTypeName of operationTypes"
+                [value]="operationTypeName">
+                {{ operationTypeName }}
+            </option>
+            </select>
+          </div>
+        </div>
+  
+        <div class="mt-4 flex justify-between">
+          <button
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+            (click)="addOperation()"
+          >
+            Adicionar Operação
+          </button>
+          <button
+            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
+            (click)="confirmSchedule()"
+          >
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Output -->
+    <div class="mt-6" *ngIf="parsedRoomSchedule && parsedStaffSchedules">
+      <h3 class="text-lg font-bold">Output</h3>
+      <div class="mt-4 bg-gray-100 p-4 rounded">
+        <h4 class="font-bold">Room Schedule:</h4>
+        <ul>
+          <li *ngFor="let frame of parsedRoomSchedule.values">
+            <strong>{{ (frame.minute_i / 60) | number:'2.0-0' }}:{{ (frame.minute_i % 60) | number:'2.0-0' }}
+                - {{ (frame.minute_f / 60) | number:'2.0-0' }}:{{ (frame.minute_f % 60) | number:'2.0-0' }}
+            </strong>: {{ frame.operation }}
+          </li>
+        </ul>
+  
+        <h4 class="font-bold mt-4">Staff Schedules:</h4>
+        <div *ngFor="let staffSchedule of parsedStaffSchedules.staffs" class="mt-2">
+          <h5 class="text-sm font-semibold">{{ staffSchedule.staff }}</h5>
+          <ul>
+            <li *ngFor="let frame of staffSchedule.values">
+              <strong>{{ (frame.minute_i / 60) | number:'2.0-0' }}:{{ (frame.minute_i % 60) | number:'2.0-0' }}
+                - {{ (frame.minute_f / 60) | number:'2.0-0' }}:{{ (frame.minute_f % 60) | number:'2.0-0' }}
+            </strong>: {{ frame.operation }}
+            </li>
+          </ul>
+        </div>
+  
+        <h4 class="font-bold mt-4">Final Time:</h4>
+        <p>{{ output!['final-time'] }} minutes</p>
+      </div>
+    </div>
+  </div>  

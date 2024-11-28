@@ -110,13 +110,16 @@ export class HospitalFloorComponent implements OnInit {
       wallTextureUrl: configJson.wallTextureUrl,
       wallSize: { width: configJson.wallSize.width, height: configJson.wallSize.height, depth: configJson.wallSize.depth },
       door: { url: configJson.doorModel.url, fbx: configJson.doorModel.fbx },
+      floorRoughness: configJson.floorRoughness,
+      floorMetalness: configJson.floorMetalness,
+      floorEnvMap: configJson.floorEnvMap,
     });
     loaderInstance.object.translateY(configJson.wallSize.height / 4)
     this.scene.add(loaderInstance.object);
 
     this.createRoomLoaders(this.rooms,loaderInstance.vectorLeftList,loaderInstance.vectorRightList);
 
-    var floor = new Ground({ textureUrl: configJson.groundTextureUrl, size: configJson.groundSize })
+    var floor = new Ground({ textureUrl: configJson.groundTextureUrl, size: configJson.groundSize, metalness: configJson.groundMetalness, roughness: configJson.groundRoughness })
     floor.object.translateZ(-0.01);
     this.scene.add(floor.object);
 
@@ -223,13 +226,13 @@ export class HospitalFloorComponent implements OnInit {
     for(var i=0; i < RoomNumbers!.length; i++){
       var x,z,left;
       if (i%2==0) {
-        x = LeftSide[j].width-3.5;
-        z = LeftSide[j].height;
+        x = LeftSide[j].width-4.5;
+        z = LeftSide[j].height+0.5;
         left = true;
         j++;
       } else {
-        x = RightSide[k].width-6.5;
-        z = RightSide[k].width-8;
+        x = RightSide[k].width-5.5;
+        z = RightSide[k].width-7.5;
         left = false;
         k++;
       }
