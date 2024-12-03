@@ -17,93 +17,62 @@ describe('login', () => {
 
         cy.url().should('include', '/admin');
         
-        cy.contains('button', 'Gerir Pacientes').click();
-        cy.url().should('include', '/patientmanagement');
+        cy.contains('button', 'Gerir Staff').click();
+        cy.url().should('include', '/staffmanagement');
     })
 })
-describe('patient', () => {
+describe('staff', () => {
     before(() => {
         if (!tokenStaffManagement) {
             throw new Error('Token não encontrado');
         }
     });
 
-    it('accesses patient page', () => {
+    it('accesses staff page', () => {
         localStorage.setItem("token", tokenStaffManagement)
-        cy.visit("http://localhost:4200/patientmanagement");
+        cy.visit("http://localhost:4200/staffmanagement");
 
-        cy.get('input[ng-reflect-name="FullNameSelected"]').should('exist').check();
-        cy.get('input[ng-reflect-name="FullNameValue"]').should('exist').type('Test One');
+     });
 
-        cy.get('button[type="submit"]').click();
-        cy.contains('Não foi encontrado nenhum Paciente com essas configurações.').should('be.visible');
-    });
-
-    it('creates patient', () => {
+    it('creates staff', () => {
         localStorage.setItem("token", tokenStaffManagement)
+        cy.visit('http://localhost:4200/staffmanagement');
 
-        cy.visit('http://localhost:4200/patientmanagement');
+        cy.contains('button', 'Create Staff').click();
 
-        cy.contains('button', 'Criar um novo Paciente').click();
+        cy.get('input[formControlName="StaffRole"]').type('Medic');
+        cy.get('input[formControlName="IdentityUsername"]').type('IdentityUsername123321');
+        cy.get('input[formControlName="Email"]').type('email123123@hospital.com');
+        cy.get('input[formControlName="Phone"]').type('912345678');
+        cy.get('input[formControlName="Name"]').type('joaozinho');
+        cy.get('input[formControlName="LicenseNumber"]').type('joaozinho123123');
 
-        cy.get('input[ng-reflect-name="FullName"]').type('Test One');
-        cy.get('input[ng-reflect-name="Email"]').type('diogo10072004@gmail.com');
-        cy.get('input[ng-reflect-name="PhoneNumber"]').type('999888777');
-        cy.get('input[ng-reflect-name="DateOfBirth"]').type('2004-10-07');
-        cy.get('select[ng-reflect-name="Gender"]').select('Male');
-
-        cy.contains('button', 'Adicionar Alergia').click();
-        cy.get('input[placeholder="Insira uma alergia"]').type('Gatos');
-        cy.get('input[placeholder="Insira uma alergia"]').should('have.value', 'Gatos'); 
-
-        cy.contains('button', 'Salvar').click();
-        cy.contains(/Paciente \d+ criado com sucesso!/).invoke('text').then((text) => {
-            const match = text.match(/\d+/); // Procura o LicenseNumber na string
-            if (match) {
-                LicenseNumber = match[0];
-                console.log(LicenseNumber);
-                cy.log(`Número do paciente: ${LicenseNumber}`);
-                cy.wrap(LicenseNumber).as('MedicalRecordNumber');
-            } else {
-                throw new Error('Não foi possível extrair o número do paciente.');
-            }
-        });
-
-        cy.get('@MedicalRecordNumber').then((LicenseNumber) => {
-            cy.get('input[ng-reflect-name="MedicalRecordNumberSelected"]').should('exist').check();
-            cy.get('input[ng-reflect-name="MedicalRecordNumberValue"]').should('exist').type(String(LicenseNumber));
-        });
-
-        cy.get('button[type="submit"]').click();
-        cy.contains('Test One'); //Found it!
+        cy.contains("Submit").click();
     });
-    it("edits patients email", () => {
-        localStorage.setItem("token", tokenStaffManagement);
-        cy.visit('http://localhost:4200/patientmanagement');
+    it('edits staff', () => {
+        localStorage.setItem("token", tokenStaffManagement)
+        cy.visit("http://localhost:4200/staffmanagement");
 
-        cy.get('input[ng-reflect-name="MedicalRecordNumberSelected"]').should('exist').check();
-        cy.get('input[ng-reflect-name="MedicalRecordNumberValue"]').should('exist').type(String(LicenseNumber));
+        cy.contains('button', 'List Staffs').click();
+
+        cy.contains('button', 'Update').click();
+
+        cy.get('input[formControlName="email"]').clear().type('email123@hospital.com');
+        cy.get('input[formControlName="phone"]').clear().type('912345676');
+        cy.get('input[formControlName="FullName"]').clear().type('joaozinho Monteiro');
+        
         cy.get('button[type="submit"]').click();
-        cy.contains('Test One').click();
-        cy.contains('button', 'Editar').click();
-
-        cy.get('input[ng-reflect-name="EmailSelected"]').should('exist').check();
-        cy.get('input[ng-reflect-name="EmailValue"]').should('exist').clear().type('diogofscunha2004@gmail.com');
-        cy.contains('button','Salvar').click();
-        cy.contains(`Paciente ${LicenseNumber} editado com sucesso!`);
-        cy.contains('diogofscunha2004@gmail.com'); //It was successfully edited
-    })
-    it("delete patient", () => {
+    });
+    it("delete staff", () => {
         localStorage.setItem("token", tokenStaffManagement);
-        cy.visit('http://localhost:4200/patientmanagement');
+        cy.visit('http://localhost:4200/staffmanagement');
 
-        cy.get('input[ng-reflect-name="MedicalRecordNumberSelected"]').should('exist').check();
-        cy.get('input[ng-reflect-name="MedicalRecordNumberValue"]').should('exist').type(String(LicenseNumber));
-        cy.get('button[type="submit"]').click();
-        cy.contains('Test One').click();
-        cy.contains('button', 'Eliminar').click();
-        cy.contains('button','Sim').click();
-        cy.contains(`Paciente ${LicenseNumber} eliminado com sucesso!`);
-        cy.contains('Não foi encontrado nenhum Paciente com essas configurações.').should('be.visible'); //It was successfully deleted
+        cy.contains('button', 'List Staffs').click();
+
+        cy.contains('button', 'Delete').click();
+
+        cy.contains('button', 'Yes, Delete').click();
+
     })
+    
 });
