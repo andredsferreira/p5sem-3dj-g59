@@ -14,6 +14,10 @@ export class AppComponent {
   title = 'HospitalApp';
   constructor(private router: Router) {}
 
+  main(): void {
+    this.router.navigate(['/']);
+  }
+
   privacy(): void {
     this.router.navigate(['/privacy']);
   }

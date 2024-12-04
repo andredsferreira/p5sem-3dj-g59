@@ -6,6 +6,7 @@
     "tableModel":{"url":"./models/SurgeryTable/", "obj":"SurgeryTable.obj", "mtl":"SurgeryTable.mtl"},
     "tableWithPersonModel":{"url": "./models/SurgeryTableWithPerson/", "obj":"SurgeryTableWithPerson.obj", "mtl":"SurgeryTableWithPerson.mtl"},
     "doorModel":{"url":"./models/hospital-door/source/", "fbx": "untitled.fbx"},
+    "windowModel":{"url":"./models/window/", "fbx": "window.fbx"},
     "groundRoughness":1,
     "groundMetalness":0,
     "floorRoughness":0.5,
@@ -18,7 +19,7 @@
     "map": [
         [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
         [1, 10, 0, 0, 0, 0, 0, 0, 0, 11, 1],
-        [5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5],
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],

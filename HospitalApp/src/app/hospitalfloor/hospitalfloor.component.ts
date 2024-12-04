@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Ground from './jsfiles/ground';
@@ -18,7 +18,7 @@ import { RoomType } from './room';
   templateUrl: './hospitalfloor.component.html',
   styleUrl: './hospitalfloor.component.css'
 })
-export class HospitalFloorComponent implements OnInit {
+export class HospitalFloorComponent implements OnInit, OnDestroy {
 
   token!: string|null
   role: string = ""
@@ -42,6 +42,10 @@ export class HospitalFloorComponent implements OnInit {
   private directionalLight!: THREE.DirectionalLight;
 
   constructor(private auth: AuthService, private service: HospitalFloorService) { }
+
+  ngOnDestroy(): void {
+    this.renderer.dispose();
+  }
 
   async ngOnInit(): Promise<void> {
     this.token = localStorage.getItem('token');
