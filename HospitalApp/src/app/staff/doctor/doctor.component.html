@@ -37,14 +37,14 @@
         class="modal-content bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
         <form [formGroup]="operationRequestForm" (ngSubmit)="onSubmit()">
             <div class="form-group mb-4">
-                <label for="patientId"
-                    class="block text-sm font-semibold mb-2">Patient ID</label>
-                <input id="patientId" formControlName="patientId" type="text"
-                    placeholder="Enter Patient ID" required
+                <label for="medicalRecordNumber"
+                    class="block text-sm font-semibold mb-2">Medical record number</label>
+                <input id="medicalRecordNumber" formControlName="medicalRecordNumber" type="text"
+                    placeholder="Enter Medical record number" required
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
-                <div *ngIf="operationRequestForm.get('patientId')?.invalid && operationRequestForm.get('patientId')?.touched"
+                <div *ngIf="operationRequestForm.get('medicalRecordNumber')?.invalid && operationRequestForm.get('medicalRecordNumber')?.touched"
                     class="error text-red-500 text-sm mt-1">
-                    Patient ID is required.
+                    Medical Record Number is required
                 </div>
             </div>
             <div class="form-group mb-4">
@@ -195,7 +195,7 @@
             <div><strong>Operation ID:</strong> {{ request.operationRequestId }}
             </div>
             <br>
-            <div><strong>Doctor ID:</strong> {{ request.patientId }}</div>
+            <div><strong>Doctor ID:</strong> {{ request.medicalRecordNumber }}</div>
             <div><strong>Doctor Name:</strong> {{ request.doctorName }}</div>
             <br>
             <div><strong>Patient Name:</strong> {{ request.patientFullName }}

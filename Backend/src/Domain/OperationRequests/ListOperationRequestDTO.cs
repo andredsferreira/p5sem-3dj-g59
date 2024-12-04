@@ -12,7 +12,7 @@ public class ListOperationRequestDTO {
     public string doctorName {get; set;}
 
     [Required]
-    public Guid patientId { get; set; }
+    public string medicalRecordNumber { get; set; }
 
     [Required]
     public string patientFullName { get; set; }

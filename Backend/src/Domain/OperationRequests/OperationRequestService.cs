@@ -52,7 +52,7 @@ public class OperationRequestService {
             throw new StaffNotRegisteredException("Your are not registered in the system.");
         }
 
-        var fetchedPatient = await _patientRepository.GetByIdAsync(new PatientId(dto.patientId));
+        var fetchedPatient = _patientRepository.GetPatientByRecordNumber(new MedicalRecordNumber(dto.medicalRecordNumber));
         if (fetchedPatient == null) {
             throw new PatientNotFoundException("The patient you provided does not exist!");
         }
@@ -142,7 +142,7 @@ public class OperationRequestService {
             var listOperationRequestDTO = new ListOperationRequestDTO {
                 operationRequestId = or.Id.AsGuid(),
                 doctorName = orStaff.FullName.Full,
-                patientId = or.patientId.AsGuid(),
+                medicalRecordNumber = or.patient.MedicalRecordNumber.ToString(),
                 patientFullName = orPatient.FullName.Full,
                 operationTypeName = orType.name.name,
                 priority = or.priority.ToString(),

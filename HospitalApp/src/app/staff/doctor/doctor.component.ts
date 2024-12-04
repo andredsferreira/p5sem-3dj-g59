@@ -55,7 +55,7 @@ export class DoctorComponent {
 
   constructor(private fb: FormBuilder, private ors: OperationRequestService, private ots: OperationTypeService) {
     this.operationRequestForm = this.fb.group({
-      patientId: ['', Validators.required],
+      medicalRecordNumber: ['', Validators.required],
       operationTypeName: ['', Validators.required],
       priority: [RequestPriority.Elective, Validators.required],
       dateTime: ['', Validators.required],
@@ -86,7 +86,7 @@ export class DoctorComponent {
     if (this.operationRequestForm.valid) {
       try {
         const {
-          patientId,
+          medicalRecordNumber,
           operationTypeName,
           priority,
           dateTime,
@@ -100,7 +100,7 @@ export class DoctorComponent {
         }
         const operationTypeId = operationType.id;
         await this.ors.createOperationRequest(
-          patientId,
+          medicalRecordNumber,
           operationTypeId,
           priority,
           dateTime,
