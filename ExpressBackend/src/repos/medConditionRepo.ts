@@ -13,32 +13,32 @@ export default class MedConditionRepo implements IMedConditionRepo {
   private models: any;
 
   constructor(
-    @Inject('medConditionSchema') private MedConditionSchema : Model<IMedConditionPersistence & Document>,
-  ) {}
+    @Inject('medConditionSchema') private MedConditionSchema: Model<IMedConditionPersistence & Document>,
+  ) { }
 
-  private createBaseQuery (): any {
+  private createBaseQuery(): any {
     return {
       where: {},
     }
   }
 
   public async exists(MedCondition: MedCondition): Promise<boolean> {
-    
+
     const idX = MedCondition.id instanceof MedConditionId ? (<MedConditionId>MedCondition.id).toValue() : MedCondition.id;
 
-    const query = { domainId: idX}; 
-    const MedConditionDocument = await this.MedConditionSchema.findOne( query as FilterQuery<IMedConditionPersistence & Document>);
+    const query = { domainId: idX };
+    const MedConditionDocument = await this.MedConditionSchema.findOne(query as FilterQuery<IMedConditionPersistence & Document>);
 
     return !!MedConditionDocument === true;
   }
 
-  public async save (MedCondition: MedCondition): Promise<MedCondition> {
-    const query = { domainId: MedCondition.id.toString()}; 
+  public async save(MedCondition: MedCondition): Promise<MedCondition> {
+    const query = { domainId: MedCondition.id.toString() };
 
-    const MedConditionDocument = await this.MedConditionSchema.findOne( query );
+    const MedConditionDocument = await this.MedConditionSchema.findOne(query);
 
     try {
-      if (MedConditionDocument === null ) {
+      if (MedConditionDocument === null) {
         const rawMedCondition: any = MedConditionMap.toPersistence(MedCondition);
 
         const MedConditionCreated = await this.MedConditionSchema.create(rawMedCondition);
@@ -55,11 +55,11 @@ export default class MedConditionRepo implements IMedConditionRepo {
     }
   }
 
-  public async remove (MedConditionId: MedConditionId | string): Promise<MedCondition> {
+  public async remove(MedConditionId: MedConditionId | string): Promise<MedCondition> {
     const MedCondition = await this.findByDomainId(MedConditionId);
 
     try {
-      if (MedCondition === null ) return null;
+      if (MedCondition === null) return null;
       else {
 
         const rawMedCondition: any = MedConditionMap.toPersistence(MedCondition);
@@ -72,21 +72,21 @@ export default class MedConditionRepo implements IMedConditionRepo {
     }
   }
 
-  public async findByDomainId (MedConditionId: MedConditionId | string): Promise<MedCondition> {
-    const query = { domainId: MedConditionId};
-    const MedConditionRecord = await this.MedConditionSchema.findOne( query as FilterQuery<IMedConditionPersistence & Document> );
+  public async findByDomainId(MedConditionId: MedConditionId | string): Promise<MedCondition> {
+    const query = { domainId: MedConditionId };
+    const MedConditionRecord = await this.MedConditionSchema.findOne(query as FilterQuery<IMedConditionPersistence & Document>);
 
-    if( MedConditionRecord != null) {
+    if (MedConditionRecord != null) {
       return MedConditionMap.toDomain(MedConditionRecord);
     }
     else
       return null;
   }
-  public async findByCode (MedConditionCode: string): Promise<MedCondition> {
-    const query = { code: MedConditionCode};
-    const MedConditionRecord = await this.MedConditionSchema.findOne( query as FilterQuery<IMedConditionPersistence & Document> );
+  public async findByCode(MedConditionCode: string): Promise<MedCondition> {
+    const query = { code: MedConditionCode };
+    const MedConditionRecord = await this.MedConditionSchema.findOne(query as FilterQuery<IMedConditionPersistence & Document>);
 
-    if( MedConditionRecord != null) {
+    if (MedConditionRecord != null) {
       return MedConditionMap.toDomain(MedConditionRecord);
     }
     else
