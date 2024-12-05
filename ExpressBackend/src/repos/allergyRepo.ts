@@ -30,12 +30,11 @@ export default class AllergyRepo implements IAllergyRepo {
             allergyDoc.name = allergy.name
             allergyDoc.description = allergy.description
             await allergyDoc.save()
+
+            return allergy
         } catch (error) {
             throw error
         }
-
-
-        throw new Error('Method not implemented.');
     }
 
     findByName(name: string): Promise<Allergy> {

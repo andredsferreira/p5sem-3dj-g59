@@ -11,15 +11,22 @@ import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 export class AllergyMap extends Mapper<Allergy> {
 
     public static toDTO(allergy: Allergy): IAllergyDTO {
-        throw new Error("not implemented yet")
+        return { name: allergy.name, description: allergy.description }
     }
 
     public static toDomain(allergy: any | Model<IAllergyPersistence & Document>): Allergy {
-        throw new Error("not implemented yet")
+        const allergyOrError = Allergy.create(allergy, new UniqueEntityID(allergy.domainId))
+        allergyOrError.isFailure ? console.log(allergyOrError.error) : ""
+
+        return allergyOrError.isSuccess ? allergyOrError.getValue() : null
     }
 
     public static toPersistence(allergy: Allergy): any {
-        throw new Error("not implemented yet")
+        return {
+            domainId: allergy.id.toString(),
+            name: allergy.name,
+            description: allergy.description
+        }
     }
 
 }
