@@ -37,8 +37,17 @@ export default class AllergyRepo implements IAllergyRepo {
         }
     }
 
-    findByName(name: string): Promise<Allergy> {
-        throw new Error('Method not implemented.');
+    public async findByName(name: string): Promise<Allergy> {
+        const query = { domainId: this.allergySchema.diffIndexes.toString() }
+        const allergyRecord = await this.allergySchema.findOne(
+            query as FilterQuery<IAllergyPersistence & Document>
+        )
+
+        if (allergyRecord != null) {
+            return AllergyMap.toDomain(allergyRecord)
+        }
+
+        return null
     }
 
     exists(t: Allergy): Promise<boolean> {

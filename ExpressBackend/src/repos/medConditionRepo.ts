@@ -82,6 +82,7 @@ export default class MedConditionRepo implements IMedConditionRepo {
     else
       return null;
   }
+  
   public async findByCode(MedConditionCode: string): Promise<MedCondition> {
     const query = { code: MedConditionCode };
     const MedConditionRecord = await this.MedConditionSchema.findOne(query as FilterQuery<IMedConditionPersistence & Document>);
