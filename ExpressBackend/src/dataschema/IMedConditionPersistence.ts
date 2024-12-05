@@ -1,4 +1,3 @@
-
 export interface IMedConditionPersistence {
   domainId: string;
   code: string;
