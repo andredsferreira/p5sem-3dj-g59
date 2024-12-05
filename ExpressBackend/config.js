@@ -44,6 +44,10 @@ export default {
     role: {
       name: "RoleController",
       path: "../controllers/roleController"
+    },
+    medCondition: {
+      name: "MedConditionController",
+      path: "../controllers/medConditionController"
     }
   },
 
@@ -55,6 +59,10 @@ export default {
     user: {
       name: "UserRepo",
       path: "../repos/userRepo"
+    },
+    medCondition: {
+      name: "MedConditionRepo",
+      path: "../repos/medConditionRepo"
     }
   },
 
@@ -62,6 +70,10 @@ export default {
     role: {
       name: "RoleService",
       path: "../services/roleService"
+    },
+    medCondition: {
+      name: "MedConditionService",
+      path: "../services/medConditionService"
     }
   },
 };

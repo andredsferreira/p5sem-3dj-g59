@@ -41,10 +41,10 @@ describe('operationrequest', () => {
 
         cy.contains('button', 'Create Operation Request').click();
 
-        cy.get('input[formControlName="patientId"]').type('1705adf7-216b-42db-b17d-fa01d124194f');
+        cy.get('input[formControlName="medicalRecordNumber"]').type('202411000002');
         cy.get('select[formControlName="operationTypeName"]').select('Trigger finger');
         cy.get('select[formControlName="priority"]').select('Elective');
-        cy.get('input[formControlName="dateTime"]').type('2024-11-28T18:30');
+        cy.get('input[formControlName="dateTime"]').type('2025-02-10T18:30');
         cy.get('select[formControlName="requestStatus"]').select('Pending');
 
         cy.contains("Submit").click();
@@ -73,7 +73,7 @@ describe('operationrequest', () => {
 
         cy.contains("Emergency");
     });
-    it('edits operation request', () => {
+    it('removes operation request', () => {
         localStorage.setItem("token", tokenOperationRequest)
         cy.visit("http://localhost:4200/doctor");
 

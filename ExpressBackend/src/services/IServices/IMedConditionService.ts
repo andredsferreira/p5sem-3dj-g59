@@ -1,0 +1,10 @@
+import { Result } from "../../core/logic/Result";
+import IMedConditionDTO from "../../dto/IMedConditionDTO";
+
+export default interface IMedConditionService  {
+  createMedCondition(medConditionDTO: IMedConditionDTO): Promise<Result<IMedConditionDTO>>;
+  updateMedCondition(medConditionDTO: IMedConditionDTO): Promise<Result<IMedConditionDTO>>;
+  removeMedCondition(medConditionDTO: IMedConditionDTO): Promise<Result<IMedConditionDTO>>;
+
+  getMedCondition (medConditionId: string): Promise<Result<IMedConditionDTO>>;
+}
