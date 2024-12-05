@@ -13,43 +13,43 @@ interface MedConditionProps {
 }
 
 export class MedCondition extends AggregateRoot<MedConditionProps> {
-  get id (): UniqueEntityID {
+  get id(): UniqueEntityID {
     return this._id;
   }
 
-  get medConditionId (): MedConditionId {
+  get medConditionId(): MedConditionId {
     return new MedConditionId(this.medConditionId.toValue());
   }
 
-  get designation (): string {
+  get designation(): string {
     return this.props.designation;
   }
 
-  set designation ( value: string) {
+  set designation(value: string) {
     this.props.designation = value;
   }
-  
-  get code (): string {
+
+  get code(): string {
     return this.props.code;
   }
 
-  set code ( value: string) {
+  set code(value: string) {
     this.props.code = value;
   }
-  
-  get description (): string {
+
+  get description(): string {
     return this.props.description;
   }
 
-  set description ( value: string) {
+  set description(value: string) {
     this.props.description = value;
   }
 
-  private constructor (props: MedConditionProps, id?: UniqueEntityID) {
+  private constructor(props: MedConditionProps, id?: UniqueEntityID) {
     super(props, id);
   }
 
-  public static create (medConditionDTO: IMedConditionDTO, id?: UniqueEntityID): Result<MedCondition> {
+  public static create(medConditionDTO: IMedConditionDTO, id?: UniqueEntityID): Result<MedCondition> {
     const designation = medConditionDTO.designation;
     const code = medConditionDTO.code;
     const description = medConditionDTO.description;
@@ -58,7 +58,7 @@ export class MedCondition extends AggregateRoot<MedConditionProps> {
       return Result.fail<MedCondition>('Must provide a medical condition name') //TO CHANGE
     } else {
       const medCondition = new MedCondition({ code: code, designation: designation, description: description }, id);
-      return Result.ok<MedCondition>( medCondition )
+      return Result.ok<MedCondition>(medCondition)
     }
   }
 }

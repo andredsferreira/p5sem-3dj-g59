@@ -48,7 +48,6 @@ export default (app: Router) => {
       }
     },
   );
-
   route.post(
     '/signin',
     celebrate({

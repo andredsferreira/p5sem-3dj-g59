@@ -10,10 +10,10 @@ import { MedConditionMap } from "../mappers/MedConditionMap";
 @Service()
 export default class MedConditionService implements IMedConditionService {
   constructor(
-      @Inject(config.repos.medCondition.name) private MedConditionRepo : IMedConditionRepo
-  ) {}
+    @Inject(config.repos.medCondition.name) private MedConditionRepo: IMedConditionRepo
+  ) { }
 
-  public async getMedConditionByCode( MedConditionCode: string): Promise<Result<IMedConditionDTO>> {
+  public async getMedConditionByCode(MedConditionCode: string): Promise<Result<IMedConditionDTO>> {
     try {
       const MedCondition = await this.MedConditionRepo.findByCode(MedConditionCode);
 
@@ -21,19 +21,18 @@ export default class MedConditionService implements IMedConditionService {
         return Result.fail<IMedConditionDTO>("MedCondition not found");
       }
       else {
-        const MedConditionDTOResult = MedConditionMap.toDTO( MedCondition ) as IMedConditionDTO;
-        return Result.ok<IMedConditionDTO>( MedConditionDTOResult )
-        }
+        const MedConditionDTOResult = MedConditionMap.toDTO(MedCondition) as IMedConditionDTO;
+        return Result.ok<IMedConditionDTO>(MedConditionDTOResult)
+      }
     } catch (e) {
       throw e;
     }
   }
 
-
   public async createMedCondition(MedConditionDTO: IMedConditionDTO): Promise<Result<IMedConditionDTO>> {
     try {
 
-      const MedConditionOrError = await MedCondition.create( MedConditionDTO );
+      const MedConditionOrError = await MedCondition.create(MedConditionDTO);
 
       if (MedConditionOrError.isFailure) {
         return Result.fail<IMedConditionDTO>(MedConditionOrError.errorValue());
@@ -43,8 +42,8 @@ export default class MedConditionService implements IMedConditionService {
 
       await this.MedConditionRepo.save(MedConditionResult);
 
-      const MedConditionDTOResult = MedConditionMap.toDTO( MedConditionResult ) as IMedConditionDTO;
-      return Result.ok<IMedConditionDTO>( MedConditionDTOResult )
+      const MedConditionDTOResult = MedConditionMap.toDTO(MedConditionResult) as IMedConditionDTO;
+      return Result.ok<IMedConditionDTO>(MedConditionDTOResult)
     } catch (e) {
       throw e;
     }
@@ -62,9 +61,9 @@ export default class MedConditionService implements IMedConditionService {
         MedCondition.description = MedConditionDTO.description;
         await this.MedConditionRepo.save(MedCondition);
 
-        const MedConditionDTOResult = MedConditionMap.toDTO( MedCondition ) as IMedConditionDTO;
-        return Result.ok<IMedConditionDTO>( MedConditionDTOResult )
-        }
+        const MedConditionDTOResult = MedConditionMap.toDTO(MedCondition) as IMedConditionDTO;
+        return Result.ok<IMedConditionDTO>(MedConditionDTOResult)
+      }
     } catch (e) {
       throw e;
     }
@@ -80,9 +79,9 @@ export default class MedConditionService implements IMedConditionService {
       else {
         await this.MedConditionRepo.remove(MedCondition.code);
 
-        const MedConditionDTOResult = MedConditionMap.toDTO( MedCondition ) as IMedConditionDTO;
-        return Result.ok<IMedConditionDTO>( MedConditionDTOResult )
-        }
+        const MedConditionDTOResult = MedConditionMap.toDTO(MedCondition) as IMedConditionDTO;
+        return Result.ok<IMedConditionDTO>(MedConditionDTOResult)
+      }
     } catch (e) {
       throw e;
     }
