@@ -12,9 +12,8 @@ export class MedConditionMap extends Mapper<MedCondition> {
   
   public static toDTO( medCondition: MedCondition): IMedConditionDTO {
     return {
-      id: medCondition.id.toString(),
       code: medCondition.code,
-      name: medCondition.name,
+      designation: medCondition.designation,
       description: medCondition.description,
     } as IMedConditionDTO;
   }
@@ -34,7 +33,7 @@ export class MedConditionMap extends Mapper<MedCondition> {
     return {
       domainId: medCondition.id.toString(),
       code: medCondition.code,
-      name: medCondition.name,
+      designation: medCondition.designation,
       description: medCondition.description,
     }
   }

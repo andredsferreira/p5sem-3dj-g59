@@ -45,7 +45,7 @@ export default class MedConditionRepo implements IMedConditionRepo {
 
         return MedConditionMap.toDomain(MedConditionCreated);
       } else {
-        MedConditionDocument.name = MedCondition.name;
+        MedConditionDocument.designation = MedCondition.designation;
         await MedConditionDocument.save();
 
         return MedCondition;
@@ -74,6 +74,16 @@ export default class MedConditionRepo implements IMedConditionRepo {
 
   public async findByDomainId (MedConditionId: MedConditionId | string): Promise<MedCondition> {
     const query = { domainId: MedConditionId};
+    const MedConditionRecord = await this.MedConditionSchema.findOne( query as FilterQuery<IMedConditionPersistence & Document> );
+
+    if( MedConditionRecord != null) {
+      return MedConditionMap.toDomain(MedConditionRecord);
+    }
+    else
+      return null;
+  }
+  public async findByCode (MedConditionCode: string): Promise<MedCondition> {
+    const query = { code: MedConditionCode};
     const MedConditionRecord = await this.MedConditionSchema.findOne( query as FilterQuery<IMedConditionPersistence & Document> );
 
     if( MedConditionRecord != null) {

@@ -8,8 +8,8 @@ import IMedConditionDTO from "../dto/IMedConditionDTO";
 
 interface MedConditionProps {
   code: string;
-  name: string;
-  description?: string;
+  designation: string;
+  description: string;
 }
 
 export class MedCondition extends AggregateRoot<MedConditionProps> {
@@ -21,12 +21,12 @@ export class MedCondition extends AggregateRoot<MedConditionProps> {
     return new MedConditionId(this.medConditionId.toValue());
   }
 
-  get name (): string {
-    return this.props.name;
+  get designation (): string {
+    return this.props.designation;
   }
 
-  set name ( value: string) {
-    this.props.name = value;
+  set designation ( value: string) {
+    this.props.designation = value;
   }
   
   get code (): string {
@@ -50,14 +50,14 @@ export class MedCondition extends AggregateRoot<MedConditionProps> {
   }
 
   public static create (medConditionDTO: IMedConditionDTO, id?: UniqueEntityID): Result<MedCondition> {
-    const name = medConditionDTO.name;
+    const designation = medConditionDTO.designation;
     const code = medConditionDTO.code;
     const description = medConditionDTO.description;
 
-    if (!!name === false || name.length === 0) {
-      return Result.fail<MedCondition>('Must provide a medical condition name')
+    if (!!designation === false || designation.length === 0) {
+      return Result.fail<MedCondition>('Must provide a medical condition name') //TO CHANGE
     } else {
-      const medCondition = new MedCondition({ code: code, name: name, description: description }, id);
+      const medCondition = new MedCondition({ code: code, designation: designation, description: description }, id);
       return Result.ok<MedCondition>( medCondition )
     }
   }

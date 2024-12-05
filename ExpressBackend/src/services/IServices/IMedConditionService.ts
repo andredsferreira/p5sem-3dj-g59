@@ -6,5 +6,5 @@ export default interface IMedConditionService  {
   updateMedCondition(medConditionDTO: IMedConditionDTO): Promise<Result<IMedConditionDTO>>;
   removeMedCondition(medConditionDTO: IMedConditionDTO): Promise<Result<IMedConditionDTO>>;
 
-  getMedCondition (medConditionId: string): Promise<Result<IMedConditionDTO>>;
+  getMedConditionByCode (medConditionCode: string): Promise<Result<IMedConditionDTO>>;
 }

@@ -13,9 +13,9 @@ export default class MedConditionService implements IMedConditionService {
       @Inject(config.repos.medCondition.name) private MedConditionRepo : IMedConditionRepo
   ) {}
 
-  public async getMedCondition( MedConditionId: string): Promise<Result<IMedConditionDTO>> {
+  public async getMedConditionByCode( MedConditionCode: string): Promise<Result<IMedConditionDTO>> {
     try {
-      const MedCondition = await this.MedConditionRepo.findByDomainId(MedConditionId);
+      const MedCondition = await this.MedConditionRepo.findByCode(MedConditionCode);
 
       if (MedCondition === null) {
         return Result.fail<IMedConditionDTO>("MedCondition not found");
@@ -52,13 +52,14 @@ export default class MedConditionService implements IMedConditionService {
 
   public async updateMedCondition(MedConditionDTO: IMedConditionDTO): Promise<Result<IMedConditionDTO>> {
     try {
-      const MedCondition = await this.MedConditionRepo.findByDomainId(MedConditionDTO.id);
+      const MedCondition = await this.MedConditionRepo.findByCode(MedConditionDTO.code);
 
       if (MedCondition === null) {
         return Result.fail<IMedConditionDTO>("MedCondition not found");
       }
       else {
-        MedCondition.name = MedConditionDTO.name;
+        MedCondition.designation = MedConditionDTO.designation;
+        MedCondition.description = MedConditionDTO.description;
         await this.MedConditionRepo.save(MedCondition);
 
         const MedConditionDTOResult = MedConditionMap.toDTO( MedCondition ) as IMedConditionDTO;
@@ -71,13 +72,13 @@ export default class MedConditionService implements IMedConditionService {
 
   public async removeMedCondition(MedConditionDTO: IMedConditionDTO): Promise<Result<IMedConditionDTO>> {
     try {
-      const MedCondition = await this.MedConditionRepo.findByDomainId(MedConditionDTO.id);
+      const MedCondition = await this.MedConditionRepo.findByCode(MedConditionDTO.code);
 
       if (MedCondition === null) {
         return Result.fail<IMedConditionDTO>("MedCondition not found");
       }
       else {
-        await this.MedConditionRepo.remove(MedCondition.id);
+        await this.MedConditionRepo.remove(MedCondition.code);
 
         const MedConditionDTOResult = MedConditionMap.toDTO( MedCondition ) as IMedConditionDTO;
         return Result.ok<IMedConditionDTO>( MedConditionDTOResult )

@@ -5,7 +5,7 @@ const MedConditionSchema = new mongoose.Schema(
   {
     domainId: { type: String, unique: true },
     code: { type: String, unique: true},
-    name: { type: String, unique: true },
+    designation: { type: String, unique: true },
     description: { type: String, unique: false, required: false }
   },
   {
