@@ -44,7 +44,8 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
   constructor(private auth: AuthService, private service: HospitalFloorService) { }
 
   ngOnDestroy(): void {
-    this.renderer.dispose();
+    this.scene.clear();
+    //this.renderer.dispose();
   }
 
   async ngOnInit(): Promise<void> {
