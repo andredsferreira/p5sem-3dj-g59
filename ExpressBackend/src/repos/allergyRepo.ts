@@ -38,7 +38,7 @@ export default class AllergyRepo implements IAllergyRepo {
     }
 
     public async findByName(name: string): Promise<Allergy> {
-        const query = { domainId: this.allergySchema.diffIndexes.toString() }
+        const query = { name: name }
         const allergyRecord = await this.allergySchema.findOne(
             query as FilterQuery<IAllergyPersistence & Document>
         )

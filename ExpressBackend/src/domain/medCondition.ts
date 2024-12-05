@@ -13,6 +13,7 @@ interface MedConditionProps {
 }
 
 export class MedCondition extends AggregateRoot<MedConditionProps> {
+  
   get id(): UniqueEntityID {
     return this._id;
   }

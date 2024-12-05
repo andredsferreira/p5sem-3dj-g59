@@ -47,7 +47,9 @@ export class Allergy extends AggregateRoot<AllergyProps> {
             description: allergyDTO.description
         }
 
-        // TODO: Validate fields of allergy
+        if (!!allergyProps.name === false || allergyProps.name.length === 0) {
+            return Result.fail<Allergy>("allergy name empty")
+        }
 
         const allergy = new Allergy(allergyProps, id);
         return Result.ok<Allergy>(allergy)

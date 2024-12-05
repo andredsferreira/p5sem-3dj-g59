@@ -69,7 +69,7 @@ export default async ({ expressApp }) => {
 
   const allergyController = {
     name: config.controllers.allergy.name,
-    path: config.controllers.medCondition.path
+    path: config.controllers.allergy.path
   }
 
   const allergyRepo = {
@@ -93,7 +93,7 @@ export default async ({ expressApp }) => {
     controllers: [
       roleController,
       medConditionController,
-      allergyController
+      allergyController,
     ],
     repos: [
       roleRepo,

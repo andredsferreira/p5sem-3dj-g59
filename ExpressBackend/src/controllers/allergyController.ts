@@ -13,7 +13,6 @@ import IAllergyDTO from '../dto/IAllergyDTO';
 export default class AllergyController implements IAllergyController {
 
     constructor(@Inject(config.services.allergy.name) private AllergyServiceInstance: IAllergyService) {
-
     }
 
     public async createAllergy(req: Request, res: Response, next: NextFunction) {

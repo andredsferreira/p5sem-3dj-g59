@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { celebrate, Joi } from 'celebrate';
 
 import { Container } from 'typedi';
-import IMedConditionController from '../../controllers/IControllers/IMedConditionController'; 
+import IMedConditionController from '../../controllers/IControllers/IMedConditionController';
 
 import config from "../../../config";
 
@@ -12,7 +12,7 @@ export default (app: Router) => {
   app.use('/medConditions', route);
 
   const ctrl = Container.get(config.controllers.medCondition.name) as IMedConditionController;
-  
+
   route.get(`/:code`,
     celebrate({
       params: Joi.object({
@@ -29,7 +29,7 @@ export default (app: Router) => {
         description: Joi.string()
       })
     }),
-    (req, res, next) => ctrl.createMedCondition(req, res, next) );
+    (req, res, next) => ctrl.createMedCondition(req, res, next));
 
   route.put(`/:code`,
     celebrate({
