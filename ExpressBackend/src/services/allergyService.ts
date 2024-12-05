@@ -33,8 +33,18 @@ export default class AllergyService implements IAllergyService {
         }
     }
 
-    getAllergyByName(name: string): Promise<Result<IAllergyDTO>> {
-        throw new Error("Method not implemented.");
+    public async getAllergyByName(name: string): Promise<Result<IAllergyDTO>> {
+        try {
+            const allergy = await this.allergyRepo.findByName(name)
+            if (allergy === null) {
+                return Result.fail<IAllergyDTO>("allergy not found")
+            }
+
+            const allergyResultDTO = AllergyMap.toDTO(allergy) as IAllergyDTO
+            return Result.ok<IAllergyDTO>(allergyResultDTO)
+        } catch (err) {
+            throw err
+        }
     }
 
 }
