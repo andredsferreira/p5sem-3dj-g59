@@ -12,9 +12,6 @@ export default (app: Router) => {
 
     app.use("/allergies", route)
     const ctrl = Container.get(config.controllers.allergy.name) as IAllergyController
-    console.log("ALLERGIES CTRL")
-    console.log(config.controllers.allergy.name)
-    console.log(ctrl)
 
     route.post('',
         celebrate({
