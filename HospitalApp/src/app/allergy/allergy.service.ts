@@ -14,17 +14,14 @@ export class AllergyService {
   }
 
   async addAllergy(name: string, description: string): Promise<any> {
-
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`,
       'Content-Type': 'application/json'
     });
-
     const body = {
       name,
       description
     }
-
     try {
       const response = await lastValueFrom(
         this.http.post('https://localhost:4000/api/allergies', body, { headers })
@@ -34,16 +31,13 @@ export class AllergyService {
       console.error('Error creating allergy:', error);
       throw error;
     }
-
   }
 
   async getAllergyByName(name: string): Promise<any> {
-
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`,
       'Content-Type': 'application/json'
     });
-
     try {
       const url = `https://localhost:4000/api/allergies/${encodeURIComponent(name)}`;
       const response = await lastValueFrom(
@@ -54,8 +48,6 @@ export class AllergyService {
       console.error('Error fetching allergy:', error);
       throw error;
     }
-
   }
-
-
+  
 }
