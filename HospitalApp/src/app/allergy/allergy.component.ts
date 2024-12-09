@@ -1,28 +1,35 @@
 import { Component } from '@angular/core';
 import { AllergyService } from './allergy.service';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';  
 
 @Component({
   selector: 'app-allergy',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './allergy.component.html',
   styleUrl: './allergy.component.css'
 })
 export class AllergyComponent {
 
-  allergyName: string = ""
-  allergyDescription: string = ""
+  allergyForm: FormGroup
+  showCreateForm: boolean = false;
+
   errorMessage: string = ""
 
-  constructor(private allergyService: AllergyService) {
-
+  constructor(private allergyService: AllergyService, private fb: FormBuilder) {
+    this.allergyForm = this.fb.group({
+      allergyName: ["", Validators.required],
+      allergyDescription: ["", Validators.required]
+    })
   }
 
   async addAllergy() {
     try {
-      const response = await this.allergyService.addAllergy(this.allergyName, this.allergyDescription)
-      this.errorMessage = ""
-      alert("Allergy successfully added")
+      const response = await this.allergyService.addAllergy(
+        this.allergyForm.value.allergyName,
+        this.allergyForm.value.allergyDescription)
     } catch (error) {
       this.errorMessage = "Failed to add allergy"
       console.error(error)
@@ -31,12 +38,18 @@ export class AllergyComponent {
 
   async getAllergyByName(name: string) {
     try {
-      const response = await this.allergyService.getAllergyByName(this.allergyName)
+      const response = await this.allergyService.getAllergyByName(
+        this.allergyForm.value.allergyName
+      )
       this.errorMessage = ""
     } catch (error) {
       this.errorMessage = "Failed getting allergy"
       console.error(error)
     }
   }
-  
+
+  toggleCreateForm() {
+    this.showCreateForm = !this.showCreateForm;
+  }
+
 }

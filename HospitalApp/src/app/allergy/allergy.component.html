@@ -1,1 +1,61 @@
-<p>allergy works!</p>
+<div class="container">
+  <!-- Button to toggle create allergy form -->
+  <button (click)="toggleCreateForm()" class="btn btn-primary">
+    Create Allergy
+  </button>
+
+  <!-- Create Allergy Form Popup -->
+  <div *ngIf="showCreateForm" class="modal">
+    <div class="modal-content">
+      <h2>Create Allergy</h2>
+
+      <form [formGroup]="allergyForm" (ngSubmit)="addAllergy()">
+        <div class="form-group">
+          <label for="allergyName">Name</label>
+          <input
+            id="allergyName"
+            type="text"
+            formControlName="allergyName"
+            class="form-control"
+            placeholder="Enter allergy name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="allergyDescription">Description</label>
+          <textarea
+            id="allergyDescription"
+            formControlName="allergyDescription"
+            class="form-control"
+            placeholder="Enter allergy description"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-success" [disabled]="allergyForm.invalid">
+            Submit
+          </button>
+          <button (click)="toggleCreateForm()" type="button" class="btn btn-secondary">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Search Bar to view allergy details -->
+  <div class="search-container">
+    <input
+      type="text"
+      [(ngModel)]="allergyForm.value.allergyName"
+      (ngModelChange)="getAllergyByName(allergyForm.value.allergyName)"
+      class="form-control"
+      placeholder="Search allergy by name"
+    />
+  </div>
+
+  <!-- Error message display -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+</div>

@@ -15,6 +15,8 @@ import { OperationTypeComponent } from './operation-types/operation-type.compone
 import { PatientComponent } from './patient/patient.component';
 import { PlanningComponent } from './planning/planning.component';
 import { StaffManagement } from './staff-management/staff-management.component';
+import { path } from './app.config';
+import { AllergyComponent } from './allergy/allergy.component';
 
 export const routes: Routes = [
   //{ path: '', component: MainPageComponent },
@@ -23,15 +25,16 @@ export const routes: Routes = [
   { path: 'privacy', component: PrivacypolicyComponent },
   { path: 'aboutus', component: AboutusComponent },
   { path: 'contacts', component: ContactsComponent },
-  { path : 'admin', component: AdminComponent },
-  { path : 'scheduler', component: PlanningComponent },
-  { path : 'patient', component: PatientComponent },
+  { path: 'admin', component: AdminComponent },
+  { path: 'scheduler', component: PlanningComponent },
+  { path: 'patient', component: PatientComponent },
   { path: 'userlist', component: UserListComponent },
   { path: 'doctor', component: DoctorComponent },
+  { path: 'allergy', component: AllergyComponent },
   { path: 'registerpatient', component: RegisterPatientComponent },
   { path: 'cube', component: CubeComponent },
   { path: 'hospitalfloor', component: HospitalFloorComponent },
   { path: 'patientmanagement', component: PatientManagementComponent },
-  { path: 'operationtypemanagement', component: OperationTypeComponent},
-  { path: 'staffmanagement', component: StaffManagement}
+  { path: 'operationtypemanagement', component: OperationTypeComponent },
+  { path: 'staffmanagement', component: StaffManagement }
 ];
