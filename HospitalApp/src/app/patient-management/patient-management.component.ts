@@ -21,6 +21,7 @@ export class PatientManagementComponent implements OnInit {
   errorMessage: string | null = null;
   patients: Patient[] = [];
   selectedItem: Patient | null = null;
+  showPage = false;
   isCreating = false;
   isEditing = false;
   isInitialized = false;
@@ -74,6 +75,7 @@ export class PatientManagementComponent implements OnInit {
       this.errorMessage = 'No token found. Please log in first.';
       return;
     }
+    this.showPage = true;
     if (this.isInitialized) {
       this.loadPatients();
     }
