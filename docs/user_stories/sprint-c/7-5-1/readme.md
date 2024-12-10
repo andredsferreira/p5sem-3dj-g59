@@ -28,13 +28,15 @@ No open questions yet.
 ## 3. Analysis
 
 From the requisites, the team can conclude that:
-* The **left clicked** must be used to pick an object.
+* The **left click** must be used to pick an object.
 * This functionality activates when the chosen object is a room's table (hence the dependency on [**US 6.5.1**](../../sprint-b/6-5-1/readme.md))
 * There are no **Domain Concepts** in play here.
 
 ## 4. Design
 
--
+The team decided that:
+* A method called "**onMouseDown**" would contain the logic for this functionality.
+    * This method would be triggered with an ***eventListener*** connected to our mouse.
 
 ## 5. Implementation
 
