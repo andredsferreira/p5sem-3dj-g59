@@ -42,7 +42,12 @@ From the requisites, the team can conclude that:
 
 ## 4. Design
 
--
+The team decided that:
+* As mentioned in the **Open Questions**, the information will be displayed in the side bar:
+    * When no room is selected, the option is not there.
+    * When a room is selected, there will be an option telling the user that they can **press the "i" key** to show more information.
+        * There will be a button to unselect the room (this will also be possible to do via the "x" key). This will also reset the camera to a neutral state.
+    * When the information about a room is displayed and the pick another one, it is automatically hidden.
 
 ## 5. Implementation
 
