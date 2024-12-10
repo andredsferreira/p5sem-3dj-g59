@@ -16,6 +16,7 @@ This **US** is part of the **3D visualization module**.
 
 This **US** depends on:
 * [**US 6.5.1**](../../sprint-b/6-5-1/readme.md), since this functionality depends on the **3D Visualization Module**.
+* [**US 6.5.4**](../../sprint-b/6-5-4/readme.md). Explained in **Design** section.
 
 ### 2.3. Pre-Conditions
 
@@ -37,6 +38,7 @@ From the requisites, the team can conclude that:
 The team decided that:
 * A method called "**onMouseDown**" would contain the logic for this functionality.
     * This method would be triggered with an ***eventListener*** connected to our mouse.
+* When the camera moves, the focus point of its controls (like the **Orbit**) should also be the room's surgical table, hence the dependency on [**US 6.5.4**](../../sprint-b/6-5-4/readme.md).
 
 ## 5. Implementation
 

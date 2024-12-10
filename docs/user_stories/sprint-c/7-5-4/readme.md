@@ -33,7 +33,7 @@ From the requisites, the team can conclude that:
 
 ## 4. Design
 
--
+* A method called "**changeCameraPositionAndAngle**" would contain the logic for this functionality. This method will receive the camera's desired **position** and **target**.
 
 ## 5. Implementation
 
