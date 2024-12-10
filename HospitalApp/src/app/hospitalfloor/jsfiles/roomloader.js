@@ -6,10 +6,11 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 
 export default class RoomLoader {
     constructor(description) {
+        this.tableObjectNames = ["BeforeBed", "BeforeBed.001", "BeforeBed.002", "BeforeBed.003", "Support", "Base", "FinalBaseMesh"];
         this.description = description;
         this.object = new THREE.Group();
         this.wall = new Wall({ textureUrl: this.description.wallTextureUrl, size: this.description.wallSize });
-        this.roomNumber = this.description.roomNumber;
+        this.room = this.description.room;
 
         let wallObject;
 
@@ -109,6 +110,7 @@ export default class RoomLoader {
                                 this.object.add(tableWithPersonObject);
 
                                 tableObject.tableWithPersonObject = tableWithPersonObject;
+                                this.table = tableWithPersonObject;
                             }).catch((error) => {
                                 console.error("Erro ao carregar os objetos: ", error);
                             });
@@ -131,7 +133,7 @@ export default class RoomLoader {
     }
 
     toggleTableVisibility(isOccupied) {
-        console.log("Is room " + this.description.roomNumber + " occupied? " + isOccupied);
+        console.log("Is room " + this.description.room.Number + " occupied? " + isOccupied);
         this.object.traverse((child) => {
             if (child.tableWithPersonObject) {
                 child.tableWithPersonObject.visible = isOccupied;
@@ -141,5 +143,12 @@ export default class RoomLoader {
             }
         });
     }
+
+    isTable(object) {
+        const isMatch = this.tableObjectNames.some(element => {
+            return object.name === element;
+        });
+        return isMatch;
+    }    
 }
 

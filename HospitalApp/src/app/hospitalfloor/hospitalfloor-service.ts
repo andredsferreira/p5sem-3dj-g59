@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { API_PATH } from '../config-path';
-import { RoomType } from './room';
+import { Room } from './room';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ import { RoomType } from './room';
 export class HospitalFloorService {
   constructor(private http: HttpClient, @Inject(API_PATH) private apiPath:string) {}
 
-  async getRooms(token: string | null) : Promise<HttpResponse<RoomType[]>> {
+  async getRooms(token: string | null) : Promise<HttpResponse<Room[]>> {
     if (!token) throw new Error("Token is required");
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
@@ -18,8 +18,14 @@ export class HospitalFloorService {
     });
 
     const rooms = await lastValueFrom(
-        this.http.get<RoomType[]>(`${this.apiPath}/SurgeryRoom/All`,{ headers, observe: 'response' })
+        this.http.get<Room[]>(`${this.apiPath}/SurgeryRoom/All`,{ headers, observe: 'response' })
       );
+    rooms.body!.forEach(element => {
+      console.log("Number: " + element.Number);
+      console.log("Capacity: " +element.Capacity);
+      console.log("Equipment: "+element.Equipment);
+      console.log("Slots: "+element.MaintenanceSlots);
+    });
     return rooms;
   }
   async isRoomOccupied(token: string | null, RoomNumber: number, date: string) : Promise<HttpResponse<boolean>> {

@@ -1,4 +1,7 @@
-export interface RoomType {
+export interface Room {
     Number: number,
-    //Other attributes are not needed
+    RoomType: string,
+    Capacity: number,
+    Equipment: string,
+    MaintenanceSlots: string,
 }

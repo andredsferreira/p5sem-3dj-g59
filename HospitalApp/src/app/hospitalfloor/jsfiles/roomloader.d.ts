@@ -1,9 +1,11 @@
 import * as THREE from "three";
 import Wall from "./wall";
 import Ground from "./ground";
+import * as THREE from "three";
+import { Room } from "../room";
 
 interface LoaderParameters {
-    roomNumber: number;
+    room: Room;
     leftSide: boolean;
     map: number[][];
     roomSize: Vector2;
@@ -12,8 +14,6 @@ interface LoaderParameters {
     table: ObjMtl;
     tableWithPerson: ObjMtl;
     windowSize: Vector3;
-    table: ObjMtl;
-    tableWithPerson: ObjMtl;
     door: Fbx;
 }
 
@@ -40,14 +40,18 @@ interface Vector3 {
 }
 
 export default class RoomLoader {
-    roomNumber: number;
+    room: Room;
     leftSide: boolean;
     scale: THREE.Vector3;
     map?: number[][];
     size?: MazeSize;
     object: THREE.Group;
     loaded: boolean;
+    table: THREE.Object3D;
 
     constructor(parameters: LoaderParameters);
+    
     toggleTableVisibility(occupied: boolean|null);
+
+    isTable(object: THREE.Object3D): boolean;  
 }

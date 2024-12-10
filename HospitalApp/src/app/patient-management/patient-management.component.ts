@@ -72,8 +72,13 @@ export class PatientManagementComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.token = localStorage.getItem('token'); // Get token from local storage
 
-    if (this.authService.getRoleFromToken(this.token!) !== "Admin") {
-      this.errorMessage = 'No token found. Please log in first.';
+    if(!this.token){
+      this.errorMessage = 'No token found. Please log in first';
+      return;
+    }
+
+    if (this.authService.getRoleFromToken(this.token) !== "Admin") {
+      this.errorMessage = 'You do not have the right permissions for this functionality.';
       return;
     }
     this.showPage = true;

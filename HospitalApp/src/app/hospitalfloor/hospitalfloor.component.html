@@ -1,7 +1,7 @@
-<div class="flex h-screen">
+<div *ngIf="canRenderCanvas; else notAuthorized" class="flex h-screen">
     <!-- Canvas -->
     <div class="flex-1 relative">
-      <canvas *ngIf="canRenderCanvas" #myCanvas id="myCanvas" class="w-96"></canvas>
+      <canvas #myCanvas id="myCanvas" class="w-96"></canvas>
     </div>
   
     <!-- Control Panel -->
@@ -119,6 +119,34 @@
           </div>
         </div>
       </div>
+          <!-- Selected Room Info -->
+          <div
+          *ngIf="selectedRoom"
+          class="p-4 bg-gray-200 rounded-md shadow-md mt-6"
+          [class.opacity-50]="!showRoomInfo"
+        >
+          <div class="flex justify-between items-center">
+            <h3 class="text-lg font-semibold">Selecionou a sala {{ selectedRoom.Number }}.</h3>
+            <button
+              class="text-red-500 font-bold"
+              (click)="closeRoomInfo()"
+            >
+              X
+            </button>
+          </div>
+          <div *ngIf="showRoomInfo; else defaultshow" class="mt-4">
+            <p><strong>Detalhes:</strong></p>
+            <p>Número: {{ selectedRoom!.Number }}</p>
+            <p>Capacidade: {{ selectedRoom!.Capacity }}</p>
+            <!-- Add more details as needed -->
+          </div>
+          <ng-template #defaultshow>
+            <div class="mt-2 block text-gray-700">Pressione a tecla "i" para obter mais informações</div>
+          </ng-template>
+        </div>        
+      </div>
     </div>
-  </div>
+    <ng-template #notAuthorized>
+      <div class="text-center text-red-900"><strong>Você não tem as permissões necessárias para aceder a esta funcionalidade.</strong></div>
+    </ng-template>
   

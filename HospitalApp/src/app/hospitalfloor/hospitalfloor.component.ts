@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import * as THREE from "three";
+import * as GSAP from "gsap";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Ground from './jsfiles/ground';
 import configJson from './config.json';
@@ -9,7 +10,7 @@ import { AuthService } from '../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HospitalFloorService } from './hospitalfloor-service';
-import { RoomType } from './room';
+import { Room } from './room';
 
 @Component({
   standalone: true,
@@ -24,6 +25,9 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
   role: string = ""
   canRenderCanvas: boolean = false
 
+  raycaster = new THREE.Raycaster();
+  controls!: OrbitControls;
+
   showAmbientLightControls: boolean = false;
   showDirectionalLightControls: boolean = false;
   ambientIntensity: number = 0.5;
@@ -31,12 +35,16 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
   directionalIntensity: number = 3;
   directionalColor: string = "#ffffff";
   directionalLightPosition = { x: 5, y: 3, z: 5 };
+  
+  duration = 1.5;
 
   selectedDateTime: string = '';
 
   roomLoaders!: RoomLoader[]|null;
 
-  rooms!: RoomType[]|null;
+  rooms!: Room[]|null;
+  selectedRoom: Room | null = null;
+  showRoomInfo: boolean = false;
 
   private ambientLight!: THREE.AmbientLight;
   private directionalLight!: THREE.DirectionalLight;
@@ -65,6 +73,8 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
           this.render();
           this.selectedDateTime = this.getCurrentDateTime();
           this.handleDateTimeSelection();
+          document.addEventListener("mousedown", this.onMouseDown.bind(this));
+          document.addEventListener("keypress", this.iPressed.bind(this));
         } catch (error) {
           console.error("Error fetching rooms:", error);
         }
@@ -79,6 +89,7 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
   //* Stage Properties
   @Input() public cameraZ: number = 20;
   @Input() public cameraY: number = 10;
+  @Input() public cameraX: number = 0;
   @Input() public fieldOfView: number = 30;
   @Input('nearClipping') public nearClippingPane: number = 1;
   @Input('farClipping') public farClippingPane: number = 100;
@@ -174,15 +185,15 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
     //this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     //Camera
-    const controls = new OrbitControls(this.camera, this.renderer.domElement);
-    controls.mouseButtons = {
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.mouseButtons = {
       //LEFT will be defined in the next sprint
       MIDDLE: THREE.MOUSE.DOLLY,
       RIGHT: THREE.MOUSE.ROTATE
     };
-    controls.target.set(0, 0, 0);
-    controls.maxDistance = 40;
-    controls.minDistance = 5;
+    this.controls.target.set(0, 0, 0);
+    this.controls.maxDistance = 40;
+    this.controls.minDistance = 5;
     //controls.update();
   }
 
@@ -216,7 +227,6 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Methods to toggle visibility of control sections
   toggleAmbientLightControls(): void {
     this.showAmbientLightControls = !this.showAmbientLightControls;
   }
@@ -225,10 +235,9 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
     this.showDirectionalLightControls = !this.showDirectionalLightControls;
   }
 
-  createRoomLoaders(RoomNumbers: RoomType[]|null, LeftSide: THREE.Vector2[], RightSide: THREE.Vector2[]): void {
+  createRoomLoaders(Rooms: Room[]|null, LeftSide: THREE.Vector2[], RightSide: THREE.Vector2[]): void {
     var j=0,k=0;
-    console.log(RoomNumbers);
-    for(var i=0; i < RoomNumbers!.length; i++){
+    for(var i=0; i < Rooms!.length; i++){
       var x,z,left;
       if (i%2==0) {
         x = LeftSide[j].width-4.5;
@@ -241,8 +250,9 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
         left = false;
         k++;
       }
+      console.log(Rooms![i])
       var roomLoaderInstance = new RoomLoader({
-        roomNumber: RoomNumbers![i].Number,
+        room: Rooms![i],
         leftSide: left,
         map: configJson.roomMap,
         roomSize: configJson.roomSize,
@@ -281,8 +291,94 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
     const minute = String(date.getMinutes()).padStart(2, '0');
     const time = `${year}${month}${day}${hour}${minute}`;
     this.roomLoaders!.forEach(async element => {
-      element.toggleTableVisibility((await this.service.isRoomOccupied(this.token, element.roomNumber, time)).body);
+      console.log(element);
+      element.toggleTableVisibility((await this.service.isRoomOccupied(this.token, element.room.Number, time)).body);
     });
+  }
+
+  onMouseDown(event: MouseEvent): void {
+    if (event.button !== 0) return; // Only continues if it's a LEFT click
+
+    const coords = new THREE.Vector2(
+      (event.clientX / this.renderer.domElement.clientWidth) * 2 - 1,
+      -((event.clientY / this.renderer.domElement.clientHeight) * 2 - 1.5),
+    );
+  
+    this.raycaster.setFromCamera(coords, this.camera);
+  
+    const intersections = this.raycaster.intersectObjects(this.scene.children, true);
+    if (intersections.length > 0) {
+      const selectedObject = intersections[0].object;
+      
+      if (!(selectedObject instanceof THREE.Mesh)) return;
+      const parentRoomLoader = this.findParentRoomLoader(selectedObject);
+      if (!parentRoomLoader) return;
+      const isTable = parentRoomLoader.isTable(selectedObject);
+      console.log("Is it a table? " + isTable);
+
+      if (!isTable) return;
+      //const color = new THREE.Color(Math.random(), Math.random(), Math.random()); // Test the click
+      //selectedObject.material.color.set(color);
+      const pos = selectedObject.getWorldPosition(new THREE.Vector3());
+      console.log(`Camera Position X = ${pos.x}`); 
+      console.log(parentRoomLoader.room);
+      this.selectedRoom = parentRoomLoader.room;
+      this.showRoomInfo = false;
+
+      this.changeCameraPositionAndAngle(
+        new THREE.Vector3(pos.x, this.camera.position.y, this.camera.position.z),
+        new THREE.Vector3(pos.x, pos.y, pos.z),
+        this.duration,
+        "power2.inOut"
+      );
+    }
+  }  
+  
+  findParentRoomLoader(object: THREE.Object3D): RoomLoader | null {
+    if (!this.roomLoaders) return null;
+
+    for (const roomLoader of this.roomLoaders) {
+        let found = false;
+        roomLoader.object.traverse((child) => {
+            if (child === object) found = true;
+        });
+
+        if (found) return roomLoader;
+    }
+    return null;
+  }
+
+  iPressed(event: KeyboardEvent) {
+    console.log(event.key);
+    if(event.key === 'x') this.closeRoomInfo();
+    if(!this.selectedRoom || event.key !== 'i') return;
+    this.showRoomInfo = !this.showRoomInfo;
+  }
+
+  closeRoomInfo() {
+    this.selectedRoom = null;
+    this.showRoomInfo = false;
+
+    this.changeCameraPositionAndAngle(
+      new THREE.Vector3(this.cameraX, this.cameraY, this.cameraZ),
+      new THREE.Vector3(0,0,0),
+      this.duration,
+      "power1.inOut"
+    );
+  }
+
+  changeCameraPositionAndAngle(position: THREE.Vector3, target: THREE.Vector3, duration: number, ease: string){
+    GSAP.gsap.to(this.camera.position, {x: position.x, y: position.y, z: position.z, duration: duration, ease: ease, });
+    GSAP.gsap.to(this.controls.target, {x: target.x, y: target.y, z: target.z, duration: duration, });
+
+    const lookAtTarget = new THREE.Vector3();
+    lookAtTarget.copy(this.camera.getWorldDirection(new THREE.Vector3()).add(this.camera.position));
+    GSAP.gsap.to(lookAtTarget, {x: target.x, y: target.y, z: target.z, duration: duration, ease: ease,
+      onUpdate: () => {
+        this.camera.lookAt(lookAtTarget);
+      },
+    });
+    this.controls.update();
   }
 
 }
