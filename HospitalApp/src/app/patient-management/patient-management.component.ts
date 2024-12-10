@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PatientService } from './patient-service';
 import { FormsModule } from '@angular/forms';
 import { Patient, PatientSearchAttributes, PatientEditAttributes, PatientCreateAttributes } from './patient-types';
+import { AuthService } from '../auth/auth.service';
 
 interface Field {
   selected: boolean;
@@ -64,14 +65,14 @@ export class PatientManagementComponent implements OnInit {
   // Fields for editing selected item
   editingFields: { [key: string]: Field } = {};
 
-  constructor(private patientService: PatientService) {
+  constructor(private patientService: PatientService, private authService: AuthService) {
     this.resetFields();
   }
 
   async ngOnInit(): Promise<void> {
     this.token = localStorage.getItem('token'); // Get token from local storage
 
-    if (!this.token) {
+    if (this.authService.getRoleFromToken(this.token!) !== "Admin") {
       this.errorMessage = 'No token found. Please log in first.';
       return;
     }
