@@ -15,13 +15,11 @@ export class UserListComponent implements OnInit {
     constructor(private authService: AuthService) { }
 
     async ngOnInit(): Promise<void> {
-        const token = localStorage.getItem('token'); // Get token from local storage
-
+        const token = localStorage.getItem('token');
         if (!token) {
             this.errorMessage = 'No token found. Please log in first.';
             return;
         }
-
         try {
             this.users = await this.authService.getUsers(token);
         } catch (error) {

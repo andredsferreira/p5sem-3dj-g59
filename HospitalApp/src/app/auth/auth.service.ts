@@ -5,7 +5,10 @@ import * as jwt_decode from 'jwt-decode';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+
+  private readonly TOKEN_KEY = ""
+
+  constructor(private http: HttpClient) { }
 
   async login(username: string, password: string): Promise<string> {
     try {
@@ -16,6 +19,7 @@ export class AuthService {
         })
       );
       console.log('Token received:', response.token);
+      this.storeToken(response.token);
       return response.token;
     } catch (error) {
       console.error('Error fetching token:', error);
@@ -23,12 +27,12 @@ export class AuthService {
     }
   }
 
-  async registerPatient(
-    username: string,
-    email: string,
-    phone: string,
-    password: string
-  ): Promise<any> {
+  logout(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+    console.log('User logged out successfully.');
+  }
+
+  async registerPatient(username: string, email: string, phone: string, password: string): Promise<any> {
     try {
       const response: any = await lastValueFrom(
         this.http.post('https://localhost:5001/api/auth/registerpatient', {
@@ -47,7 +51,7 @@ export class AuthService {
   getRoleFromToken(token: string): string {
     try {
       const decodedToken: any = jwt_decode.jwtDecode(token);
-      console.log('Decoded role' + decodedToken.role);
+      console.log('Decoded role:', decodedToken.role);
       return decodedToken?.role;
     } catch (error) {
       console.error('Error decoding token:', error);
@@ -69,4 +73,28 @@ export class AuthService {
       throw error;
     }
   }
+
+  private storeToken(token: string): void {
+    localStorage.setItem(this.TOKEN_KEY, token);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  isTokenValid(): boolean {
+    const token = this.getToken();
+    if (!token) {
+      return false; 
+    }
+    try {
+      const decodedToken: any = jwt_decode.jwtDecode(token);
+      const currentTime = Math.floor(Date.now() / 1000); 
+      return decodedToken.exp && decodedToken.exp > currentTime;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return false; 
+    }
+  }
+
 }

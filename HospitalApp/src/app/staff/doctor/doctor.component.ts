@@ -20,7 +20,7 @@ import { OperationTypeName } from '../../operation-types/operation-type-name.enu
   styleUrls: ['./doctor.component.css'],
 })
 export class DoctorComponent {
-  
+
   operationRequests: any[] = [];
 
   filteredRequests: any[] = [];
