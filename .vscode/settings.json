@@ -13,6 +13,20 @@
             "database": "projeto5sem",
             "username": "root",
             "password": "42DctTV7IC0F"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "vsgate-s1.dei.isep.ipp.pt",
+            "port": 10694,
+            "driver": "MySQL",
+            "name": "IAM",
+            "database": "projeto5sem_iam",
+            "username": "root",
+            "password": "42DctTV7IC0F"
         }
     ]
 }
