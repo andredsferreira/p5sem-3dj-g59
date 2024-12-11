@@ -24,10 +24,11 @@ func CheckPasswordHash(p, h string) bool {
 	return err == nil
 }
 
-func GenerateJWT(u string) (string, error) {
+func GenerateJWT(u, r string) (string, error) {
 	t := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{
 			"username": u,
+			"role":     r,
 			"expire":   time.Now().Add(10 * time.Minute).Unix(),
 		})
 	ts, err := t.SignedString(HMACSecretKey)

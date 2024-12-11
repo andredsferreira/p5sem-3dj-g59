@@ -28,7 +28,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	if !service.CheckPasswordHash(p, u.Password) {
 		http.Error(w, "wrong password", http.StatusNotAcceptable)
 	}
-	t, err := service.GenerateJWT(u.Username)
+	t, err := service.GenerateJWT(u.Username, u.Role)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

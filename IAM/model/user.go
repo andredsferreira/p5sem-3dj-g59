@@ -10,6 +10,7 @@ type User struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 	Email    string `json:"email"`
+	Role     string `json:"role"`
 }
 
 func GetAllUsers() ([]User, error) {
@@ -36,12 +37,12 @@ func GetAllUsers() ([]User, error) {
 func GetUserByUsername(username string) (User, error) {
 	var u User
 	query := `
-		SELECT username, password, email
+		SELECT username, password, email, role
 		FROM users
 		WHERE username = ?
 	`
 	row := db.MySql.QueryRow(query, username)
-	if err := row.Scan(&u.Username, &u.Password, &u.Email); err != nil {
+	if err := row.Scan(&u.Username, &u.Password, &u.Email, &u.Role); err != nil {
 		if err == sql.ErrNoRows {
 			return u, err
 		}
@@ -50,12 +51,12 @@ func GetUserByUsername(username string) (User, error) {
 	return u, nil
 }
 
-func AddUser(username, password, email string) error {
+func AddUser(username, password, email, role string) error {
 	query := `
-        INSERT INTO users (username, password, email) 
-        VALUES (?, ?, ?)
+        INSERT INTO users (username, password, email, role) 
+        VALUES (?, ?, ?, ?)
     `
-	_, err := db.MySql.Exec(query, username, password, email)
+	_, err := db.MySql.Exec(query, username, password, email, role)
 	if err != nil {
 		return err
 	}
