@@ -13,7 +13,7 @@ interface MedConditionProps {
 }
 
 export class MedCondition extends AggregateRoot<MedConditionProps> {
-  
+
   get id(): UniqueEntityID {
     return this._id;
   }
@@ -22,16 +22,16 @@ export class MedCondition extends AggregateRoot<MedConditionProps> {
     return new MedConditionId(this.medConditionId.toValue());
   }
 
+  get code(): string {
+    return this.props.code;
+  }
+
   get designation(): string {
     return this.props.designation;
   }
 
   set designation(value: string) {
     this.props.designation = value;
-  }
-
-  get code(): string {
-    return this.props.code;
   }
 
   set code(value: string) {
