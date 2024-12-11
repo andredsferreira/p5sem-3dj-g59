@@ -11,7 +11,7 @@ import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 export class AllergyMap extends Mapper<Allergy> {
 
     public static toDTO(allergy: Allergy): IAllergyDTO {
-        return { name: allergy.name, description: allergy.description }
+        return { code: allergy.code, name: allergy.name, description: allergy.description }
     }
 
     public static toDomain(allergy: any | Model<IAllergyPersistence & Document>): Allergy {
@@ -24,6 +24,7 @@ export class AllergyMap extends Mapper<Allergy> {
     public static toPersistence(allergy: Allergy): any {
         return {
             domainId: allergy.id.toString(),
+            code: allergy.code,
             name: allergy.name,
             description: allergy.description
         }

@@ -1,4 +1,5 @@
 export default interface IAllergyDTO {
-    name: string;
-    description: string;
-  }
+  code: string
+  name: string
+  description: string
+}

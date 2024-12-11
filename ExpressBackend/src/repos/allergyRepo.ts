@@ -27,6 +27,7 @@ export default class AllergyRepo implements IAllergyRepo {
                 return AllergyMap.toDomain(allergyCreated)
             }
 
+            allergyDoc.code = allergy.code
             allergyDoc.name = allergy.name
             allergyDoc.description = allergy.description
             await allergyDoc.save()

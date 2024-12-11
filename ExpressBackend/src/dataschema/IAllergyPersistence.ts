@@ -1,5 +1,6 @@
 export interface IAllergyPersistence {
-    domainId: string;
-    name: string;
-    description?: string;
+    domainId: string
+    code: string
+    name: string
+    description?: string
 }

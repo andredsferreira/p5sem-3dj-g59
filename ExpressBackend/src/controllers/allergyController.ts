@@ -37,7 +37,6 @@ export default class AllergyController implements IAllergyController {
             if (allergyOrError.isFailure) {
                 return res.status(402).send()
             }
-
             const allergyDTO = allergyOrError.getValue()
             return res.json(allergyDTO).status(200)
         } catch (err) {

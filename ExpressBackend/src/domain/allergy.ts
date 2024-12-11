@@ -7,6 +7,7 @@ import { AllergyId } from "./allergyId";
 import IAllergyDTO from "../dto/IAllergyDTO";
 
 interface AllergyProps {
+    code: string,
     name: string,
     description: string
 }
@@ -21,12 +22,20 @@ export class Allergy extends AggregateRoot<AllergyProps> {
         return new AllergyId(this.allergyId.toValue())
     }
 
+    get code(): string {
+        return this.props.code
+    }
+    
     get name(): string {
         return this.props.name
     }
 
     get description(): string {
         return this.props.description
+    }
+
+    set code(value: string) {
+        this.props.code = value
     }
 
     set name(value: string) {
@@ -43,6 +52,7 @@ export class Allergy extends AggregateRoot<AllergyProps> {
 
     public static create(allergyDTO: IAllergyDTO, id?: UniqueEntityID): Result<Allergy> {
         const allergyProps = {
+            code: allergyDTO.code,
             name: allergyDTO.name,
             description: allergyDTO.description
         }
