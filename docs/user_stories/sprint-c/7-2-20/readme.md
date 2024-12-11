@@ -47,12 +47,14 @@ Through the requisites and open questions, the team concludes that:
 * A doctor must be able to add **family history** entries in a patient's **medical record**.
 * An entry must contain:
     * Relative
-    * Free text, in order to represent the various possibilities in this section.
+    * List of allergies / medical conditions (or a message simbolizing that there's no relevant medical history).
 * The team will need to create a new type in the backend representing the **Family history Entry** and add a list of these to the **Medical Record** type.
 
 ## 4. Design
 
--
+The team decided that:
+* There will be list of possible relatives (father, mother, etc.) instead of it being an open string.
+* After creation, the new entry will be registered and visible in the frontend.
 
 ## 5. C4 Views
 
