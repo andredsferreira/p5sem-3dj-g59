@@ -1,9 +1,7 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Backend.Domain.Auth;
-using Backend.Domain.OperationRequests;
-using Backend.Domain.Shared.Exceptions;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Domain.Specializations;
@@ -23,7 +21,7 @@ public class SpecializationController : ControllerBase{
         _specializationService = specializationService;
     }
 
-    [HttpPost]
+    [HttpPost("Add")]
     [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<IActionResult> CreateSpecialization([FromForm] SpecializationDTO dto){
         try{
