@@ -23,6 +23,7 @@ using Backend.Domain.Slots;
 using Backend.Domain.Appointments;
 using Backend.Infrastructure.Appointments;
 using Backend.Domain.Specializations;
+using Backend.Infrastructure.Specializations;
 
 namespace Backend.Infrastructure;
 
@@ -59,6 +60,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
         modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new AppointmentEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new DomainLogEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new SpecializationEntityTypeConfiguration());
 
         var patientA = new Patient(
             new MedicalRecordNumber("202410000001"),

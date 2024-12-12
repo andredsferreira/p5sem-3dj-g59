@@ -1,7 +1,6 @@
 using System;
 using Backend.Domain.Shared;
 using System.Text.Json.Serialization;
-using System.Collections.Generic;
 
 namespace Backend.Domain.Specializations;
 
