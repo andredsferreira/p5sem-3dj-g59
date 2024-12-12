@@ -15,6 +15,9 @@ interface LoaderParameters {
     //table: ObjMtl;
     //tableWithPerson: ObjMtl;
     door: Fbx;
+    desk: Fbx;
+    phone: Fbx;
+    receptionist: Fbx;
 }
 
 /*interface ObjMtl {

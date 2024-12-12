@@ -126,6 +126,9 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
       wallTextureUrl: configJson.wallTextureUrl,
       wallSize: { width: configJson.wallSize.width, height: configJson.wallSize.height, depth: configJson.wallSize.depth },
       door: { url: configJson.doorModel.url, fbx: configJson.doorModel.fbx },
+      desk: { url: configJson.deskModel.url, fbx: configJson.deskModel.fbx},
+      phone: { url: configJson.phoneModel.url, fbx: configJson.phoneModel.fbx},
+      receptionist: { url: configJson.receptionistModel.url, fbx: configJson.receptionistModel.fbx},
       floorRoughness: configJson.floorRoughness,
       floorMetalness: configJson.floorMetalness,
       floorEnvMap: configJson.floorEnvMap,
@@ -187,7 +190,7 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
     //Camera
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.mouseButtons = {
-      //LEFT will be defined in the next sprint
+      // LEFT is defined in method "onMouseDown"
       MIDDLE: THREE.MOUSE.DOLLY,
       RIGHT: THREE.MOUSE.ROTATE
     };
@@ -261,7 +264,10 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
         table: { url: configJson.tableModel.url, obj: configJson.tableModel.obj, mtl: configJson.tableModel.mtl },
         tableWithPerson: { url: configJson.tableWithPersonModel.url, obj: configJson.tableWithPersonModel.obj, mtl: configJson.tableWithPersonModel.mtl },
         door: { url: configJson.doorModel.url, fbx: configJson.doorModel.fbx },
-        windowSize: configJson.windowSize
+        bench: { url: configJson.benchModel.url, fbx: configJson.benchModel.fbx },
+        cart: { url: configJson.cartModel.url, fbx: configJson.cartModel.fbx },
+        oxygene: { url: configJson.oxygeneModel.url, fbx: configJson.oxygeneModel.fbx },
+        doctor: { url: configJson.doctorModel.url, fbx: configJson.doctorModel.fbx }
       });
       roomLoaderInstance.object.translateY(configJson.wallSize.height / 4)
       roomLoaderInstance.object.translateX(x);

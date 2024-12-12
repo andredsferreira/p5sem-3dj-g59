@@ -14,12 +14,12 @@ export default class RoomLoader {
 
         let wallObject;
 
-        function loadFbx(description, objectDesc, i, j, { scale, translateY=0, scaleX = 0, rotateY = 0}){
+        function loadFbx(description, objectDesc, i, j, { scale, translateY=0, translateZ=0, translateX=0, scaleX = 0, rotateY = 0}){
             const fbxLoader = new FBXLoader();
             fbxLoader.load(objectDesc.url + objectDesc.fbx, (obj) => {
                 obj.position.set(
                     i - description.roomSize.width / 2 + 1,
-                    translateY + 0.5,
+                    0.5,
                     j - description.roomSize.height / 2 + 0.5
                 );
                 obj.scale.set(scale,scale,scale);
@@ -34,6 +34,10 @@ export default class RoomLoader {
                     obj.translateZ(rotateOthers-0.6);
                     obj.translateX(rotateOthers);
                 }  
+
+                obj.translateZ(translateZ);
+                obj.translateY(translateY);
+                obj.translateX(translateX);
                 
                 obj.receiveShadow=true;
                 obj.castShadow=true;
@@ -115,8 +119,17 @@ export default class RoomLoader {
                                 console.error("Erro ao carregar os objetos: ", error);
                             });
                             break;
+                        case 5:
+                            loadFbx.call(this, this.description, this.description.bench, i, j, {scale: 0.00155, translateY: -0.8, rotateY: Math.PI / 2, translateX: -0.8, translateZ: -0.8, scaleX: -0.93});
+                            break;    
+                        case 6:
+                            loadFbx.call(this, this.description, this.description.cart, i, j, {scale: 0.0155, translateY: -1, translateX: -0.6, translateZ: 0.5});
+                            break;  
+                        case 7:
+                            loadFbx.call(this, this.description, this.description.oxygene, i, j, {scale: 0.00055, translateY: 0.2, rotateY: Math.PI, translateX: 1, translateZ: 0.5});
+                            break;
                         case 8:
-                            loadFbx.call(this, this.description, this.description.door, i, j, { scale: 0.00155, translateY: -0.95, rotateY: Math.PI / 2 });
+                            loadFbx.call(this, this.description, this.description.doctor, i, j, { scale: 0.6, translateY: -1, translateX: -0.6, translateZ: 0.4, rotateY: Math.PI / 2 });
                             break;
                         case 9:
                             loadFbx.call(this, this.description, this.description.door, i, j, { scale: 0.00155, translateY: -0.95, rotateY: -Math.PI / 2 });

@@ -18,14 +18,14 @@ export default class Loader {
 
         // Create a wall
         this.wall = new Wall({ textureUrl: this.description.wallTextureUrl, size: this.description.wallSize });
-        this.window = new Window({ textureUrl: this.description.wallTextureUrl, size: this.description.wallSize });
+        //this.window = new Window({ textureUrl: this.description.wallTextureUrl, size: this.description.wallSize });
 
         this.vectorLeftList = [];
         this.vectorRightList = [];
         // Build the maze
-        let wallObject, windowObject;
+        let wallObject/*, windowObject*/;
 
-        function loadFbx(description, objectDesc, i, j, { scale, translateY=0, scaleX = 0, rotateY = 0, translateX=0 }){
+        function loadFbx(description, objectDesc, i, j, { scale, translateY=0, translateZ=0, scaleX = 0, rotateY = 0, translateX=0 }){
             const fbxLoader = new FBXLoader();
             fbxLoader.load(objectDesc.url + objectDesc.fbx, (obj) => {
                 obj.position.set(
@@ -45,6 +45,7 @@ export default class Loader {
                     obj.translateZ(rotateOthers-0.6);
                     obj.translateX(rotateOthers);
                 }  
+                obj.translateZ(translateZ);
                 obj.translateY(translateY);
                 obj.translateX(translateX);
                 
@@ -59,6 +60,17 @@ export default class Loader {
                 this.object.add(obj);
             });
         }
+
+        //function loadWindow(i,j, wall, description){
+        //    wallObject = wall.object.clone();
+        //    wallObject.rotateOnAxis(new THREE.Vector3(0,1,0), Math.PI/2);
+        //    wallObject.position.set(
+        //        i - description.groundSize.width/2, 
+        //        0.5, 
+        //        j - description.groundSize.height/2 + 0.5);
+        //    loadFbx.call(this, description, description.window, i, j, {scale: 0.0005, rotateY: 1.55, translateX: -0.6, scaleX: 1.5});
+        //    //this.object.add(wallObject);
+        //}
 
         for (let i = 0; i <= this.description.groundSize.width; i++) { // In order to represent the eastmost walls, the map width is one column greater than the actual maze width
             for (let j = 0; j <= this.description.groundSize.height; j++) { // In order to represent the southmost walls, the map height is one row greater than the actual maze height
@@ -79,7 +91,7 @@ export default class Loader {
                         0.5, 
                         j - this.description.groundSize.height/2 + 0.5);
                     this.object.add(wallObject);
-                } else if (this.description.map[j][i] == 5) {
+                } /*else if (this.description.map[j][i] == 5) {
                     windowObject = this.window.object.clone();
                     windowObject.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 2);
                     windowObject.position.set(
@@ -88,8 +100,13 @@ export default class Loader {
                         j - this.description.groundSize.height / 2 +0.5
                     );
                     this.object.add(windowObject);
-                } else {
+                } */else {
                     switch (this.description.map[j][i]) {
+                        case 5:
+                            loadFbx.call(this, this.description, this.description.receptionist, i, j, { scale: 0.006, translateY: -1, translateX: -0.6, translateZ: 0.4 }); // Receptionist
+                            loadFbx.call(this, this.description, this.description.desk, i, j, {scale: 0.015, translateY: -0.95, translateX: -0.5, scaleX: -0.93}); // Desk
+                            loadFbx.call(this, this.description, this.description.phone, i, j, {scale: 0.00015, translateY: -0.35, translateZ: .25, scaleX: -0.93}); // Phone
+                            break;
                         case 6:
                             loadFbx.call(this, this.description, this.description.door, i, j, {scale: 0.00155, translateY: -0.95, translateX: -0.5, scaleX: -0.93});
                             break;

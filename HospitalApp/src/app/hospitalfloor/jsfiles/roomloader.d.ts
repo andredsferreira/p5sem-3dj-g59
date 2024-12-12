@@ -13,8 +13,11 @@ interface LoaderParameters {
     wallSize: Vector3;
     table: ObjMtl;
     tableWithPerson: ObjMtl;
-    windowSize: Vector3;
     door: Fbx;
+    bench: Fbx;
+    cart: Fbx;
+    oxygene: Fbx;
+    doctor: Fbx;
 }
 
 interface ObjMtl {
