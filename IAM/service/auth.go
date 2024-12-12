@@ -1,7 +1,9 @@
 package service
 
 import (
+	"database/sql"
 	"fmt"
+	"iam/model"
 	"net/http"
 	"time"
 
@@ -29,7 +31,7 @@ func GenerateJWT(u, r string) (string, error) {
 		jwt.MapClaims{
 			"username": u,
 			"role":     r,
-			"expire":   time.Now().Add(10 * time.Minute).Unix(),
+			"expire":   time.Now().Add(30 * time.Minute).Unix(),
 		})
 	ts, err := t.SignedString(HMACSecretKey)
 	if err != nil {
@@ -73,4 +75,20 @@ func GetUsernameFromCookie(c *http.Cookie) string {
 		return ""
 	}
 	return claims["username"].(string)
+}
+
+func GetRoleFromCookie(c *http.Cookie) string {
+	claims, err := GetClaimsFromJWT(c.Value)
+	if err != nil {
+		return ""
+	}
+	return claims["role"].(string)
+}
+
+func CheckAlreadyExistingUser(username string) bool {
+	_, err := model.GetUserByUsername(username)
+	if err != sql.ErrNoRows {
+		return true
+	}
+	return false
 }
