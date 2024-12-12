@@ -17,6 +17,7 @@ import { PlanningComponent } from './planning/planning.component';
 import { StaffManagement } from './staff-management/staff-management.component';
 import { path } from './app.config';
 import { AllergyComponent } from './allergy/allergy.component';
+import { SpecializationComponent } from './specialization/specialization.component';
 
 export const routes: Routes = [
   //{ path: '', component: MainPageComponent },
@@ -36,5 +37,6 @@ export const routes: Routes = [
   { path: 'hospitalfloor', component: HospitalFloorComponent },
   { path: 'patientmanagement', component: PatientManagementComponent },
   { path: 'operationtypemanagement', component: OperationTypeComponent },
-  { path: 'staffmanagement', component: StaffManagement }
+  { path: 'staffmanagement', component: StaffManagement },
+  {path: 'specializationmanagement', component: SpecializationComponent}
 ];

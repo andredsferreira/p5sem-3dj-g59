@@ -18,8 +18,7 @@ interface Specialization {
     selector: 'app-specialization',
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule],
-    templateUrl: './specialization.component.html',
-    styleUrls: ['./specialization.component.css']
+    templateUrl: './specialization.component.html'
 })
 export class SpecializationComponent {
 
