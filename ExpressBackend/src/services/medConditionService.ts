@@ -59,6 +59,7 @@ export default class MedConditionService implements IMedConditionService {
       else {
         MedCondition.designation = MedConditionDTO.designation;
         MedCondition.description = MedConditionDTO.description;
+        MedCondition.symptoms = MedConditionDTO.symptoms;
         await this.MedConditionRepo.save(MedCondition);
 
         const MedConditionDTOResult = MedConditionMap.toDTO(MedCondition) as IMedConditionDTO;

@@ -3,4 +3,5 @@ export interface IMedConditionPersistence {
   code: string;
   designation: string;
   description?: string;
+  symptoms: string[];
 }

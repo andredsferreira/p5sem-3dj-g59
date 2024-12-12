@@ -15,6 +15,7 @@ export class MedConditionMap extends Mapper<MedCondition> {
       code: medCondition.code,
       designation: medCondition.designation,
       description: medCondition.description,
+      symptoms: medCondition.symptoms
     } as IMedConditionDTO;
   }
 
@@ -35,6 +36,7 @@ export class MedConditionMap extends Mapper<MedCondition> {
       code: medCondition.code,
       designation: medCondition.designation,
       description: medCondition.description,
+      symptoms: medCondition.symptoms
     }
   }
 }

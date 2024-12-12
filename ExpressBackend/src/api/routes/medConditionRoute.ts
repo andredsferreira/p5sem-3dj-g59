@@ -26,19 +26,21 @@ export default (app: Router) => {
       body: Joi.object({
         designation: Joi.string().required(),
         code: Joi.string().required(),
-        description: Joi.string()
+        description: Joi.string(),
+        symptoms: Joi.array().items(Joi.string()).required()
       })
     }),
     (req, res, next) => ctrl.createMedCondition(req, res, next));
 
-  route.put(`/:code`,
+  route.put(`/:code`, //TODO: change to use patch
     celebrate({
       params: Joi.object({
         code: Joi.string().required()
       }),
       body: Joi.object({
         designation: Joi.string().required(),
-        description: Joi.string().required()
+        description: Joi.string().required(),
+        symptoms: Joi.array().items(Joi.string()).required()
       }),
     }),
     (req, res, next) => ctrl.updateMedCondition(req, res, next));

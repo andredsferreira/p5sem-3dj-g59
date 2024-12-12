@@ -20,7 +20,7 @@ export default class MedConditionController /* TODO extends BaseController */ im
       const MedConditionOrError = await this.MedConditionServiceInstance.getMedConditionByCode(req.params.code as string) as Result<IMedConditionDTO>;
 
       if (MedConditionOrError.isFailure) {
-        return res.status(402).send();
+        return res.status(404).send();
       }
 
       const MedConditionDTO = MedConditionOrError.getValue();
@@ -36,7 +36,7 @@ export default class MedConditionController /* TODO extends BaseController */ im
       const MedConditionOrError = await this.MedConditionServiceInstance.createMedCondition(req.body as IMedConditionDTO) as Result<IMedConditionDTO>;
         
       if (MedConditionOrError.isFailure) {
-        return res.status(402).send();
+        return res.status(404).send();
       }
 
       const MedConditionDTO = MedConditionOrError.getValue();
@@ -52,7 +52,8 @@ export default class MedConditionController /* TODO extends BaseController */ im
       const medConditionDTO: IMedConditionDTO = {
         code: req.params.code,
         designation: req.body.designation,
-        description: req.body.description
+        description: req.body.description,
+        symptoms: req.body.symptoms
       }
       const MedConditionOrError = await this.MedConditionServiceInstance.updateMedCondition(medConditionDTO) as Result<IMedConditionDTO>;
 
