@@ -25,7 +25,19 @@ public class SpecializationService{
     public SpecializationService() {
     }
 
-    // private virtual async Task
+    public virtual async Task<SpecializationDTO> CreateSpecializationDTO([FromForm] SpecializationDTO dto) {
+        
+        Specialization specialization = Specialization.FromDTO(dto);
+        
+        await _repository.AddAsync(specialization);
+        await _unitOfWork.CommitAsync();
+
+        return specialization.ToDTO();
+    }
+
+    public 
+
+
 
     
 }
