@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Backend.Domain.OperationRequests;
 using Backend.Domain.Shared;
+using Backend.Domain.Specializations;
 
 namespace Backend.Domain.OperationTypes;
 
@@ -35,7 +36,7 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
         this.surgeryTime = new SurgeryTime(0);
         this.cleaningTime = new CleaningTime(0);
         this.Status = Status.ACTIVE;
-        this.Specialization = Specialization.Prosthetics;
+        this.Specialization = new Specialization();
         this.MinDoctor = 1;
         this.MinAnesthetist = 1;
         this.MinInstrumentingNurse = 1;

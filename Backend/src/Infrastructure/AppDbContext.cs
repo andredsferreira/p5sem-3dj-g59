@@ -22,6 +22,7 @@ using Backend.Infrastructure.SurgeryRooms;
 using Backend.Domain.Slots;
 using Backend.Domain.Appointments;
 using Backend.Infrastructure.Appointments;
+using Backend.Domain.Specializations;
 
 namespace Backend.Infrastructure;
 
@@ -40,6 +41,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
     public virtual DbSet<Appointment> Appointments {get;set;}
 
     public virtual DbSet<DomainLog> DomainLogs { get; set; }
+    public virtual DbSet<Specialization> Specializations { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {
 
