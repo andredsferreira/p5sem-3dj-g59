@@ -20,9 +20,9 @@ import { ConnectableObservable } from 'rxjs';
 export class AdminComponent {
   staffList: any[] = [];
   filteredStaffs: any[] = [];
-  
-  staffForm: FormGroup; 
-  updateStaffForm: FormGroup; 
+
+  staffForm: FormGroup;
+  updateStaffForm: FormGroup;
   filterForm: FormGroup;
 
   formError: string | null = null;
@@ -74,7 +74,7 @@ export class AdminComponent {
           Name,
           LicenseNumber,
         } = this.staffForm.value;
-        
+
         await this.staffService.createStaff({
           StaffRole,
           IdentityUsername,
@@ -83,7 +83,7 @@ export class AdminComponent {
           Name,
           LicenseNumber,
         });
-        
+
         this.closeModal();
         this.listStaffs();
       } catch (error) {
@@ -99,28 +99,35 @@ export class AdminComponent {
 
     console.log('Staff');
     this.router.navigate(['/staffmanagement']);
-    
+
   }
 
   operationTypeManagement(): void {
 
     console.log('Operation Type');
     this.router.navigate(['/operationtypemanagement']);
-    
+
   }
 
   patientManagement(): void {
 
     console.log('Patient');
     this.router.navigate(['/patientmanagement']);
-    
+
   }
 
   scheduleOperations(): void {
 
     console.log('Schedule');
     this.router.navigate(['/scheduler']);
-    
+
+  }
+
+  specializationManagement(): void {
+
+    console.log('Specialization');
+    this.router.navigate(['/specializationmanagement']);
+
   }
 
   closeModal(): void {
@@ -133,10 +140,10 @@ export class AdminComponent {
     this.updateStaffForm.reset();
   }
 
-  async updateStaff(staff: any): Promise<void> {  
+  async updateStaff(staff: any): Promise<void> {
 
     this.selectedStaff = staff;
-    
+
     this.updateStaffForm.patchValue({
       email: staff.Email,
       phone: staff.Phone,
@@ -146,16 +153,16 @@ export class AdminComponent {
   }
 
   async onUpdateSubmit(): Promise<void> {
-    if (this.updateStaffForm.valid ) {
+    if (this.updateStaffForm.valid) {
       try {
         const { FullName, phone, email } = this.updateStaffForm.value;
-        
+
         await this.staffService.updateStaff(this.selectedStaff.LicenseNumber, {
           FullName,
           phone,
           email,
         });
-        
+
         this.updateSuccessMessage = `Staff with ID ${this.selectedStaff.LicenseNumber} was updated successfully.`;
         this.closeUpdateModal();
         this.listStaffs();
