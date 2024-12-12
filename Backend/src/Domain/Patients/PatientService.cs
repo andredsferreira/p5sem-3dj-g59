@@ -57,6 +57,14 @@ public class PatientService {
         return patient.returnDTO();
     }
 
+    public async Task<PatientDTO> GetPatientByUserEmail(MailAddress email) {
+        var patient = await this._repository.GetByUserEmail(email);
+        if (patient == null) {
+            return null;
+        }
+        return patient.returnDTO();
+    }
+
     public async virtual Task<PatientDTO> EditPatient(MedicalRecordNumber id, FilterPatientDTO dto) {
         var patient = this._repository.GetPatientByRecordNumber(id);
         if (patient == null) return null;

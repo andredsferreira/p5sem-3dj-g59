@@ -8,6 +8,8 @@ using Domain.Appointments;
 using System.Collections.Generic;
 using System.Linq;
 using Backend.Domain.Shared;
+using System.Net.Mail;
+using System;
 
 namespace Backend.Controllers;
 
@@ -53,7 +55,7 @@ public class PatientController : ControllerBase {
             return BadRequest(new { ex.Message });
         }
     }
-    
+
 #nullable disable
     [HttpPut("Edit/Self/{id}")]
     [Authorize(Roles = HospitalRoles.Patient)]
@@ -115,4 +117,19 @@ public class PatientController : ControllerBase {
         var pats = await _service.GetAll();
         return pats.ToList();
     }
+    
+    [HttpGet("{email}")]
+    public async Task<IActionResult> GetPatientByUserEmail(string email) {
+        try {
+            var mailAddress = new MailAddress(email);
+            var patient = await _service.GetPatientByUserEmail(mailAddress);
+            return patient != null
+                ? Ok(patient)
+                : NotFound("Patient not found");
+        }
+        catch (FormatException) {
+            return BadRequest("Invalid email format.");
+        }
+    }
+
 }

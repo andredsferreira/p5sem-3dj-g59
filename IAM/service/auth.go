@@ -11,7 +11,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var HMACSecretKey []byte = []byte("c058135f3d1ddfba6c62026751d04ae907200201ca4f24c4e908f5b103d1abc9")
+var HMACSecretKey []byte = []byte("KHPK6Ucf/zjvU4qW8/vkuuGLHeIo0l9ACJiTaAPLKbka")
 
 func HashPassword(p string) (string, error) {
 	b, err := bcrypt.GenerateFromPassword([]byte(p), 12)
@@ -87,8 +87,5 @@ func GetRoleFromCookie(c *http.Cookie) string {
 
 func CheckAlreadyExistingUser(username string) bool {
 	_, err := model.GetUserByUsername(username)
-	if err != sql.ErrNoRows {
-		return true
-	}
-	return false
+	return err != sql.ErrNoRows
 }

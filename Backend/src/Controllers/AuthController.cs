@@ -145,20 +145,20 @@ public class AuthController : ControllerBase {
         return Ok(new { token });
     }
 
-    [HttpDelete("DeleteProfile")]
-    [Authorize(Roles = HospitalRoles.Patient)]
-    public IActionResult DeletePatientProfile() {
-        MailAddress email = new(_httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Email)?.Value);
-        Patient pat = CheckCurrentUsersPatientProfile(email);
-        //Ok
-        SendAccountDeletionEmail(email, pat);
-        return Ok(pat.returnDTO());
-    }
-    private Patient CheckCurrentUsersPatientProfile(MailAddress email) {
-        Patient pat = _patientRepository.GetByUserEmail(email);
-        Console.WriteLine("Este é o patient: " + pat);
-        return pat;
-    }
+    // [HttpDelete("DeleteProfile")]
+    // [Authorize(Roles = HospitalRoles.Patient)]
+    // public IActionResult DeletePatientProfile() {
+    //     MailAddress email = new(_httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Email)?.Value);
+    //     Patient pat = CheckCurrentUsersPatientProfile(email);
+    //     //Ok
+    //     SendAccountDeletionEmail(email, pat);
+    //     return Ok(pat.returnDTO());
+    // }
+    // private Patient CheckCurrentUsersPatientProfile(MailAddress email) {
+    //     Patient pat = _patientRepository.GetByUserEmail(email);
+    //     Console.WriteLine("Este é o patient: " + pat);
+    //     return pat;
+    // }
     private void SendAccountDeletionEmail(MailAddress recipient, Patient pat) {
         string appDomain = Configuration.GetSection("Application:AppDomain").Value,
             confirmationLink = Configuration.GetSection("Application:EmailDeletionConfirmation").Value,
@@ -174,16 +174,16 @@ public class AuthController : ControllerBase {
         MessageSender.SendMessage(recipient.ToString(), "Account Deletion", emailBody);
     }
 
-    [HttpDelete("confirmation-deletion-email")]
-    [Authorize(Roles = HospitalRoles.Patient)]
-    public async Task<IActionResult> DeletePatientProfileAndRecordsAsync() {
-        string email = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Email)?.Value;
-        await UserManager.DeleteAsync(await UserManager.FindByEmailAsync(email));
-        var pat = _patientRepository.GetByUserEmail(new MailAddress(email));
-        _patientRepository.Remove(pat);
-        await _unitOfWork.CommitAsync();
-        return Ok(pat.returnDTO());
-    }
+    // [HttpDelete("confirmation-deletion-email")]
+    // [Authorize(Roles = HospitalRoles.Patient)]
+    // public async Task<IActionResult> DeletePatientProfileAndRecordsAsync() {
+    //     string email = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Email)?.Value;
+    //     await UserManager.DeleteAsync(await UserManager.FindByEmailAsync(email));
+    //     var pat = _patientRepository.GetByUserEmail(new MailAddress(email));
+    //     _patientRepository.Remove(pat);
+    //     await _unitOfWork.CommitAsync();
+    //     return Ok(pat.returnDTO());
+    // }
 
     private async Task<string> BuildToken(IdentityUser user) {
         var userRoles = await UserManager.GetRolesAsync(user);
