@@ -21,7 +21,9 @@ jobs:
       with:
         node-version: '18.19.0'
     - name: Install dependencies
-      run: npm install
+      run: |
+       npm install
+       npm install three
       working-directory: ./HospitalApp
     - name: Build
       run: npm run build
