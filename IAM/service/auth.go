@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"iam/model"
-	"net/http"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -69,16 +68,16 @@ func GetClaimsFromJWT(ts string) (jwt.MapClaims, error) {
 	return nil, fmt.Errorf("invalid jwt")
 }
 
-func GetUsernameFromCookie(c *http.Cookie) string {
-	claims, err := GetClaimsFromJWT(c.Value)
+func GetUsernameFromJWT(t string) string {
+	claims, err := GetClaimsFromJWT(t)
 	if err != nil {
 		return ""
 	}
 	return claims["username"].(string)
 }
 
-func GetRoleFromCookie(c *http.Cookie) string {
-	claims, err := GetClaimsFromJWT(c.Value)
+func GetRoleFromJWT(t string) string {
+	claims, err := GetClaimsFromJWT(t)
 	if err != nil {
 		return ""
 	}
@@ -88,4 +87,13 @@ func GetRoleFromCookie(c *http.Cookie) string {
 func CheckAlreadyExistingUser(username string) bool {
 	_, err := model.GetUserByUsername(username)
 	return err != sql.ErrNoRows
+}
+
+func IsValidRole(role string) bool {
+	switch model.Role(role) {
+	case model.Admin, model.Doctor, model.Nurse, model.Technician, model.Patient:
+		return true
+	default:
+		return false
+	}
 }

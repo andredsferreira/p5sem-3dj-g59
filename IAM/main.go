@@ -16,12 +16,13 @@ func init() {
 func main() {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Hello bro!")
 	})
 
 	mux.HandleFunc("POST /auth/login", handler.LoginHandler)
-	mux.HandleFunc("POST /auth/logout", handler.LogoutHandler)
+	mux.HandleFunc("POST /auth/register/backoffice", handler.RegisterBackofficeHandler)
+	mux.HandleFunc("POST /auth/register/patient", handler.RegisterPatientHandler)
 
 	server := &http.Server{
 		Addr:    ":8090",

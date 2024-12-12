@@ -37,6 +37,18 @@ public class Patient : Entity<PatientId>, IAggregateRoot {
 
     }
 
+    public Patient(MedicalRecordNumber MedicalRecordNumber, DateOnly DateOfBirth, MailAddress Email, PhoneNumber PhoneNumber, Gender Gender, FullName FullName, List<Allergy> Allergies, MailAddress userEmail) {
+        Id = new PatientId(Guid.NewGuid());
+        this.MedicalRecordNumber = MedicalRecordNumber;
+        this.DateOfBirth = DateOfBirth;
+        this.Email = Email;
+        this.PhoneNumber = PhoneNumber;
+        this.Gender = Gender;
+        this.FullName = FullName;
+        this.Allergies = Allergies;
+        this.UserEmail = userEmail;
+    }
+
     public Patient(MedicalRecordNumber MedicalRecordNumber, DateOnly DateOfBirth, MailAddress Email, PhoneNumber PhoneNumber, Gender Gender, FullName FullName, List<Allergy> Allergies) {
         Id = new PatientId(Guid.NewGuid());
         this.MedicalRecordNumber = MedicalRecordNumber;

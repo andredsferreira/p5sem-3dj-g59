@@ -39,7 +39,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
 
     public virtual DbSet<Staff> Staffs { get; set; }
 
-    public virtual DbSet<Appointment> Appointments {get;set;}
+    public virtual DbSet<Appointment> Appointments { get; set; }
 
     public virtual DbSet<DomainLog> DomainLogs { get; set; }
     public virtual DbSet<Specialization> Specializations { get; set; }
@@ -69,7 +69,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new PhoneNumber("910555111"),
             Gender.Male,
             new FullName("João Camião"),
-            new List<Allergy>());
+            new List<Allergy>(),
+            new MailAddress("patientA@hospital.com"));
 
         var patientB = new Patient(
             new MedicalRecordNumber("202410000002"),
@@ -78,7 +79,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new PhoneNumber("910555222"),
             Gender.Male,
             new FullName("Bruno Silva"),
-            new List<Allergy>());
+            new List<Allergy>(),
+            new MailAddress("patientB@hospital.com"));
 
         var patientC = new Patient(
             new MedicalRecordNumber("202410000003"),
@@ -87,7 +89,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new PhoneNumber("910555333"),
             Gender.Female,
             new FullName("Carla Ferreira"),
-            new List<Allergy>());
+            new List<Allergy>(),
+            new MailAddress("patientC@hospital.com"));
 
         var patientD = new Patient(
             new MedicalRecordNumber("202410000004"),
@@ -96,7 +99,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new PhoneNumber("910555334"),
             Gender.Male,
             new FullName("David Oliveira"),
-            new List<Allergy>());
+            new List<Allergy>(),
+            new MailAddress("patientD@hospital.com"));
 
         var patientE = new Patient(
             new MedicalRecordNumber("202410000005"),
@@ -105,7 +109,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new PhoneNumber("910555335"),
             Gender.Female,
             new FullName("Emma Sousa"),
-            new List<Allergy>());
+            new List<Allergy>(),
+            new MailAddress("patientE@hospital.com"));
 
         var patientF = new Patient(
             new MedicalRecordNumber("202410000006"),
@@ -114,7 +119,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new PhoneNumber("910555336"),
             Gender.Male,
             new FullName("Felipe Costa"),
-            new List<Allergy>());
+            new List<Allergy>(),
+            new MailAddress("patientF@hospital.com"));
 
         var patientG = new Patient(
             new MedicalRecordNumber("202410000007"),
@@ -123,7 +129,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new PhoneNumber("910555337"),
             Gender.Female,
             new FullName("Gabriela Santos"),
-            new List<Allergy>());
+            new List<Allergy>(),
+            new MailAddress("patientG@hospital.com"));
 
         var patientH = new Patient(
             new MedicalRecordNumber("202410000008"),
@@ -132,7 +139,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new PhoneNumber("910555338"),
             Gender.Male,
             new FullName("Henrique Almeida"),
-            new List<Allergy>());
+            new List<Allergy>(),
+            new MailAddress("patientH@hospital.com"));
 
         var patientI = new Patient(
             new MedicalRecordNumber("202410000009"),
@@ -141,7 +149,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new PhoneNumber("910555339"),
             Gender.Female,
             new FullName("Isabel Pereira"),
-            new List<Allergy>());
+            new List<Allergy>(),
+            new MailAddress("patientI@hospital.com"));
 
         var patientJ = new Patient(
             new MedicalRecordNumber("202410000010"),
@@ -150,7 +159,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new PhoneNumber("910555340"),
             Gender.Male,
             new FullName("João Lima"),
-            new List<Allergy>());
+            new List<Allergy>(),
+            new MailAddress("patientJ@hospital.com"));
 
         var patientK = new Patient(
             new MedicalRecordNumber("202410000011"),
@@ -159,7 +169,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new PhoneNumber("910555341"),
             Gender.Female,
             new FullName("Karina Martins"),
-            new List<Allergy>());
+            new List<Allergy>(),
+            new MailAddress("patientK@hospital.com"));
 
         var patientL = new Patient(
             new MedicalRecordNumber("202410000012"),
@@ -168,7 +179,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new PhoneNumber("910555342"),
             Gender.Male,
             new FullName("Lucas Rodrigues"),
-            new List<Allergy>());
+            new List<Allergy>(),
+            new MailAddress("patientL@hospital.com"));
 
         var patientM = new Patient(
             new MedicalRecordNumber("202410000013"),
@@ -177,7 +189,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new PhoneNumber("910555343"),
             Gender.Female,
             new FullName("Marta Silva"),
-            new List<Allergy>());
+            new List<Allergy>(),
+            new MailAddress("patientM@hospital.com"));
 
 
         var staffDoctor1 = new Staff(
@@ -208,10 +221,10 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
         var staffNurse = new Staff(
             HospitalRoles.Nurse,
             "nurse",
-            new MailAddress("nurse@hospital.com"),        
-            new PhoneNumber("910555567"),                   
-            new FullName("Nurse One"),                      
-            new LicenseNumber("n47ac10b-58cc-4372-a567-0e02b2c3d481")  
+            new MailAddress("nurse@hospital.com"),
+            new PhoneNumber("910555567"),
+            new FullName("Nurse One"),
+            new LicenseNumber("n47ac10b-58cc-4372-a567-0e02b2c3d481")
         );
 
 
@@ -396,11 +409,11 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new DateTime(2025, 4, 20),
             OperationRequestStatus.Pending);
 
-        var room1 = SeedSurgeryRoom(modelBuilder, new RoomNumber(200), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor"], [new DaySlots(new DateOnly(2024,10,28),[new Slot(new TimeOnly(9,30),new TimeOnly(10,0))])]);  
-        var room2 = SeedSurgeryRoom(modelBuilder, new RoomNumber(201), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor", "Table"], [new DaySlots(new DateOnly(2024,10,28),[new Slot(new TimeOnly(12,30),new TimeOnly(13,0))])]);  
+        var room1 = SeedSurgeryRoom(modelBuilder, new RoomNumber(200), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor"], [new DaySlots(new DateOnly(2024, 10, 28), [new Slot(new TimeOnly(9, 30), new TimeOnly(10, 0))])]);
+        var room2 = SeedSurgeryRoom(modelBuilder, new RoomNumber(201), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor", "Table"], [new DaySlots(new DateOnly(2024, 10, 28), [new Slot(new TimeOnly(12, 30), new TimeOnly(13, 0))])]);
 
-        SeedAppointment(modelBuilder, opreq1, room1, new DateTime(2024,10,28,10,30,0), AppointmentStatus.Scheduled);
-        SeedAppointment(modelBuilder, opreq2, room2, new DateTime(2024,10,28,18,30,0), AppointmentStatus.Scheduled);
+        SeedAppointment(modelBuilder, opreq1, room1, new DateTime(2024, 10, 28, 10, 30, 0), AppointmentStatus.Scheduled);
+        SeedAppointment(modelBuilder, opreq2, room2, new DateTime(2024, 10, 28, 18, 30, 0), AppointmentStatus.Scheduled);
 
         base.OnModelCreating(modelBuilder);
     }
@@ -420,7 +433,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
         return operationRequest;
     }
 
-    private SurgeryRoom SeedSurgeryRoom(ModelBuilder builder, RoomNumber Number, RoomType RoomType, RoomStatus RoomStatus, int Capacity, List<string> AssignedEquipment, List<DaySlots> MaintenanceSlots){
+    private SurgeryRoom SeedSurgeryRoom(ModelBuilder builder, RoomNumber Number, RoomType RoomType, RoomStatus RoomStatus, int Capacity, List<string> AssignedEquipment, List<DaySlots> MaintenanceSlots) {
         var surgeryRoom = new SurgeryRoom(
             Number, RoomType, RoomStatus, Capacity,
             AssignedEquipment, MaintenanceSlots
@@ -429,12 +442,12 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
         return surgeryRoom;
     }
 
-    private void SeedAppointment(ModelBuilder builder, OperationRequest request, SurgeryRoom room, DateTime dateTime, AppointmentStatus status){
-        var appointment = new Appointment{
+    private void SeedAppointment(ModelBuilder builder, OperationRequest request, SurgeryRoom room, DateTime dateTime, AppointmentStatus status) {
+        var appointment = new Appointment {
             Id = new AppointmentId(Guid.NewGuid()),
-            OperationRequestId = request.Id, 
-            SurgeryRoomId = room.Id, 
-            DateTime = dateTime, 
+            OperationRequestId = request.Id,
+            SurgeryRoomId = room.Id,
+            DateTime = dateTime,
             AppointmentStatus = status,
         };
         builder.Entity<Appointment>().HasData(appointment);
