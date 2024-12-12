@@ -2,7 +2,7 @@ import * as THREE from "three";
 import Wall from "./wall";
 import Window from "./window";
 import Ground from "./ground";
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 
 export default class Loader {
     constructor(description) {

@@ -2,7 +2,7 @@ import * as THREE from "three";
 import Wall from "./wall";
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 
 export default class RoomLoader {
     constructor(description) {
