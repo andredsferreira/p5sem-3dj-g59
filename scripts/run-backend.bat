@@ -1,1 +1,0 @@
-dotnet run --project ../Backend/src/Backend.csproj

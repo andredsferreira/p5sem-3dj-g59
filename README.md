@@ -45,29 +45,37 @@ Although the following scripts are available for you to run the various componen
 ### 5.1. Backend
 
 If you're using **Windows**, you can use the following files:
-* [**build-all.bat**](scripts/build-all.bat) to build the **Backend** module.
-* [**run-backend.bat**](scripts/run-backend.bat) to run the **Backend** module.
-* [**test-backend.bat**](scripts/test-backend.bat) to run the tests created for the project's **Backend**.
+* [**run.bat**](scripts/backend/run.bat) to run the **Backend** module.
+* [**test.bat**](scripts/backend/test.bat) to run the tests created for the project's **Backend**.
 
 If you're using **Linux**, you can use the following files:
-* [**build-all.sh**](scripts/build-all.sh) to build the **Backend** module.
-* [**run-backend.sh**](scripts/run-backend.sh) to run the **Backend** module.
-* [**test-backend.sh**](scripts/test-backend.sh) to run the tests created for the project's **Backend**.
+* [**run.sh**](scripts/backend/run.sh) to run the **Backend** module.
+* [**test.sh**](scripts/backend/test.sh) to run the tests created for the project's **Backend**.
 
 ### 5.2. Frontend
 
 If you're using **Windows**, you can use the following files:
-* [**run-frontend.bat**](scripts/run-frontend.bat) to run the **Frontend** module.
-* [**test-frontend.bat**](scripts/test-frontend.bat) to run the tests created for the project's **Frontend**.
+* [**run.bat**](scripts/frontend/run.bat) to run the **Frontend** module.
+* [**test.bat**](scripts/frontend/test.bat) to run the tests created for the project's **Frontend**.
+* [**test-e2e.bat**](scripts/frontend/test-e2e.bat) to run the end-to-end tests created for the project's **Frontend**.
 
 If you're using **Linux**, you can use the following files:
-* [**run-frontend.sh**](scripts/run-frontend.sh) to run the **Frontend** module.
-* [**test-frontend.sh**](scripts/test-frontend.sh) to run the tests created for the project's **Frontend**.
+* [**run.sh**](scripts/frontend/run.sh) to run the **Frontend** module.
+* [**test.sh**](scripts/frontend/test.sh) to run the tests created for the project's **Frontend**.
+* [**test-e2e.sh**](scripts/frontend/test-e2e.sh) to run the end-to-end tests created for the project's **Frontend**.
 
 ### 5.3. Planning
 
 If you're using **Windows**, you can use the following file:
-* [**run-planning.bat**](scripts/run-planning.bat) to run the **Planning** module.
+* [**run.bat**](scripts/planning/run.bat) to run the **Planning** module.
 
 If you're using **Linux**, you can use the following file:
-* [**run-planning.sh**](scripts/run-planning.sh) to run the **Planning** module.
+* [**run.sh**](scripts/planning/run.sh) to run the **Planning** module.
+
+### 5.4. Express Backend
+
+If you're using **Windows**, you can use the following file:
+* [**run.bat**](scripts/express-backend/run.bat) to run the **Express Backend** module.
+
+If you're using **Linux**, you can use the following file:
+* [**run.sh**](scripts/express-backend/run.sh) to run the **Express Backend** module.
