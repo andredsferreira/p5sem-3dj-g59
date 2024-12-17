@@ -32,6 +32,11 @@ export default async ({ expressApp }) => {
     schema: "../persistence/schemas/allergySchema"
   }
 
+  const medicalRecordSchema = {
+    name: "medicalRecordSchema",
+    schema: "../persistence/schemas/medicalRecordSchema"
+  }
+
   const roleController = {
     name: config.controllers.role.name,
     path: config.controllers.role.path
@@ -82,29 +87,48 @@ export default async ({ expressApp }) => {
     path: config.services.allergy.path
   }
 
+  const medicalRecordController = {
+    name: config.controllers.medicalRecord.name,
+    path: config.controllers.medicalRecord.path
+  }
+
+  const medicalRecordRepo = {
+    name: config.repos.medicalRecord.name,
+    path: config.repos.medicalRecord.path
+  }
+
+  const medicalRecordService = {
+    name: config.services.medicalRecord.name,
+    path: config.services.medicalRecord.path
+  }
+
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
       userSchema,
       roleSchema,
       medConditionSchema,
-      allergySchema
+      allergySchema,
+      medicalRecordSchema,
     ],
     controllers: [
       roleController,
       medConditionController,
       allergyController,
+      medicalRecordController,
     ],
     repos: [
       roleRepo,
       userRepo,
       medConditionRepo,
-      allergyRepo
+      allergyRepo,
+      medicalRecordRepo,
     ],
     services: [
       roleService,
       medConditionService,
-      allergyService
+      allergyService,
+      medicalRecordService,
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');

@@ -12,8 +12,6 @@ export default (app: Router) => {
   app.use('/roles', route);
 
   const ctrl = Container.get(config.controllers.role.name) as IRoleController;
-  console.log("ROLE CTRL")
-  console.log(ctrl)
 
   route.post('',
     celebrate({
