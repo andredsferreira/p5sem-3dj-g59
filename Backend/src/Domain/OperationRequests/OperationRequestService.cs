@@ -52,7 +52,7 @@ public class OperationRequestService {
             throw new StaffNotRegisteredException("Your are not registered in the system.");
         }
 
-        var fetchedPatient = _patientRepository.GetPatientByRecordNumber(new MedicalRecordNumber(dto.medicalRecordNumber));
+        var fetchedPatient = await _patientRepository.GetPatientByRecordNumber(new MedicalRecordNumber(dto.medicalRecordNumber));
         if (fetchedPatient == null) {
             throw new PatientNotFoundException("The patient you provided does not exist!");
         }

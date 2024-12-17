@@ -86,7 +86,7 @@ public class StaffServiceUnitTest {
     public async Task EditPatient_ReturnsNullWhenPatientDoesntExist() {
         // Setup mock to return Task with null when EditPatient is called
         _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
-            .Returns((Patient)null);
+            .ReturnsAsync((Patient)null);
 
         // Act
         var result = await _service.EditPatient(new MedicalRecordNumber("202410000004"), SeedFilterPatientDTO()); //Random MedicalRecordNumber
@@ -99,7 +99,7 @@ public class StaffServiceUnitTest {
         var patientDto = SeedPatientDTO1();
         // Setup mock to return Task with DTO when EditPatient is called
         _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
-            .Returns(Patient.createFromDTO(patientDto));
+            .ReturnsAsync(Patient.createFromDTO(patientDto));
 
         // Act
         var result = await _service.EditPatient(
@@ -119,7 +119,7 @@ public class StaffServiceUnitTest {
         var patientDto = SeedPatientDTO1();
         // Setup mock to return Task with DTO when EditPatient is called
         _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
-            .Returns(Patient.createFromDTO(patientDto));
+            .ReturnsAsync(Patient.createFromDTO(patientDto));
 
         // Act
         var result = await _service.EditPatient(
@@ -139,7 +139,7 @@ public class StaffServiceUnitTest {
     public async Task DeletePatient_ReturnsNullWhenPatientDoesntExist() {
         // Setup mock to return Task with null when DeletePatient is called
         _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
-            .Returns((Patient)null);
+            .ReturnsAsync((Patient)null);
 
         // Act
         var result = await _service.DeletePatient(new MedicalRecordNumber("202410000004")); //Random MedicalRecordNumber
@@ -152,7 +152,7 @@ public class StaffServiceUnitTest {
         var patientDto = SeedPatientDTO1();
         // Setup mock to return Task with DTO when DeletePatient is called
         _mockPatRepo.Setup(r => r.GetPatientByRecordNumber(It.IsAny<MedicalRecordNumber>()))
-            .Returns(Patient.createFromDTO(patientDto));
+            .ReturnsAsync(Patient.createFromDTO(patientDto));
 
         // Act
         var result = await _service.DeletePatient(new MedicalRecordNumber(patientDto.MedicalRecordNumber)); //Random MedicalRecordNumber

@@ -17,8 +17,10 @@ public class PatientRepository : BaseRepository<Patient, PatientId>, IPatientRep
         _context = context;
     }
 
-    public Patient GetPatientByRecordNumber(MedicalRecordNumber record) {
-        return _context.Patients.Where(p => p.MedicalRecordNumber.Equals(record)).SingleOrDefault();
+    public async Task<Patient> GetPatientByRecordNumber(MedicalRecordNumber record) {
+        return await _context.Patients
+        .Where(p => p.MedicalRecordNumber.Equals(record))
+        .SingleOrDefaultAsync();
     }
 
     public Patient GetByEmail(MailAddress email) {

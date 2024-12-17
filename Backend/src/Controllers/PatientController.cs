@@ -37,7 +37,7 @@ public class PatientController : ControllerBase {
     [HttpGet("Get/{id}")]
     [Authorize(Roles = $"{HospitalRoles.Admin},{HospitalRoles.Doctor}")]
     public ActionResult<PatientDTO> GetPatientById(string id) {
-        var cat = _service.GetPatientById(new MedicalRecordNumber(id));
+        var cat = _service.GetPatientByIdAsync(new MedicalRecordNumber(id));
         if (cat == null) return NotFound();
         return Ok(cat);
     }

@@ -51,8 +51,8 @@ public class PatientService {
         return new MedicalRecordNumber(stringBuilder.ToString());
     }
 
-    public PatientDTO GetPatientById(MedicalRecordNumber id) {
-        var patient = this._repository.GetPatientByRecordNumber(id);
+    public async Task<PatientDTO> GetPatientByIdAsync(MedicalRecordNumber id) {
+        var patient = await this._repository.GetPatientByRecordNumber(id);
         if (patient == null) return null;
         return patient.returnDTO();
     }
@@ -66,7 +66,7 @@ public class PatientService {
     }
 
     public async virtual Task<PatientDTO> EditPatient(MedicalRecordNumber id, FilterPatientDTO dto) {
-        var patient = this._repository.GetPatientByRecordNumber(id);
+        var patient = await this._repository.GetPatientByRecordNumber(id);
         if (patient == null) return null;
 
         bool warn = false;
@@ -108,8 +108,8 @@ public class PatientService {
         return patient.returnDTO();
     }
 
-    public Task<string> EditPatientSelf(MedicalRecordNumber id, FilterPatientDTO dto) {
-        var patient = this._repository.GetPatientByRecordNumber(id);
+    public async Task<string> EditPatientSelf(MedicalRecordNumber id, FilterPatientDTO dto) {
+        var patient = await this._repository.GetPatientByRecordNumber(id);
         if (patient == null) return null;
 
         string email = patient.Email.ToString();
@@ -138,11 +138,11 @@ public class PatientService {
         messageBuilder.Append(string.Format("If you confirm the changes click {0}.<br>", linkBuilder.ToString()));
         _messageSender.SendMessage(email, "Some of your data was altered", messageBuilder.ToString());
 
-        return Task.FromResult(linkBuilder.ToString());
+        return await Task.FromResult(linkBuilder.ToString());
     }
 
     public async Task<PatientDTO> ConfirmEdit(string id, string name, string email, string phone) {
-        var patient = this._repository.GetPatientByRecordNumber(new MedicalRecordNumber(id));
+        var patient = await this._repository.GetPatientByRecordNumber(new MedicalRecordNumber(id));
         if (patient == null) return null;
 
         patient.FullName = new FullName(name);
@@ -158,7 +158,7 @@ public class PatientService {
     }
 
     public virtual async Task<PatientDTO> DeletePatient(MedicalRecordNumber id) {
-        var patient = this._repository.GetPatientByRecordNumber(id);
+        var patient = await this._repository.GetPatientByRecordNumber(id);
         if (patient == null) return null;
 
         this._repository.Remove(patient);
