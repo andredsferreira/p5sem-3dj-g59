@@ -24,6 +24,7 @@ using Backend.Domain.Appointments;
 using Backend.Infrastructure.Appointments;
 using Backend.Domain.Specializations;
 using Backend.Infrastructure.Specializations;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Backend.Infrastructure;
 
@@ -409,6 +410,14 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             new DateTime(2025, 4, 20),
             OperationRequestStatus.Pending);
 
+        string id1 = Guid.NewGuid().ToString();
+        string id2 = Guid.NewGuid().ToString();
+        string id3 = Guid.NewGuid().ToString();
+
+        SeedSpecialization(modelBuilder, id1, "PRO", "Prosthethiscs", "Prosthetics");
+        SeedSpecialization(modelBuilder, id2, "ART", "Arthroscopy", "Arthroscopy");
+        SeedSpecialization(modelBuilder, id3, "SPN", "Spine", "Spine");
+
         var room1 = SeedSurgeryRoom(modelBuilder, new RoomNumber(200), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor"], [new DaySlots(new DateOnly(2024, 10, 28), [new Slot(new TimeOnly(9, 30), new TimeOnly(10, 0))])]);
         var room2 = SeedSurgeryRoom(modelBuilder, new RoomNumber(201), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor", "Table"], [new DaySlots(new DateOnly(2024, 10, 28), [new Slot(new TimeOnly(12, 30), new TimeOnly(13, 0))])]);
 
@@ -556,6 +565,22 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
                 UserId = userId
             }
         );
+    }
+
+    private void SeedSpecialization(ModelBuilder builder,string id ,string codeSpec, string designation, string description) {
+        var specialization = new Specialization(
+            new SpecializationID(id),
+            new CodeSpec(codeSpec),
+            new Designation(designation),
+            new Description(description)
+        );
+        builder.Entity<Specialization>().HasData(specialization);
+    }
+
+    private void SpecializationBootstrap(ModelBuilder builder){
+
+        
+
     }
 
 }
