@@ -43,7 +43,7 @@ The team decided that:
 
 ## 6. Tests
 
--
+* Test that the attributes are changed after the edit.
 
 ## 7. Implementation
 
