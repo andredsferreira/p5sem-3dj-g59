@@ -34,7 +34,8 @@ Through the requisites and open questions, the team concludes that:
 
 ## 4. Design
 
--
+The team decided that:
+* After accessing a patient's medical record, each **family history entry** should have an "Edit" button. That allows the user to edit the previously mentioned attributes (USABILITY).
 
 ## 5. C4 Views
 
