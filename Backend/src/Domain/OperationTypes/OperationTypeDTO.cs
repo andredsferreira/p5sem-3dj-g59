@@ -29,8 +29,8 @@ public class OperationTypeDTO {
     [FromForm (Name = "status")]
     public string Status { get; set; }
 
-    [FromForm (Name = "specialization")]
-    public string Specialization { get; set; }
+    [FromForm (Name = "specializationId")]
+    public string SpecializationId { get; set; }
 
     [FromForm (Name = "minDoctor")]
     public int minDoctor { get; set; }
@@ -88,7 +88,7 @@ public class OperationTypeDTO {
         this.surgeryTime = surgeryTime;
         this.cleaningTime = cleaningTime;
         this.Status = Status;
-        this.Specialization = Specialization;
+        this.SpecializationId = Specialization;
         this.minDoctor = MinDoctor;
         this.minAnaesthetist = MinAnesthetist;
         this.minInstrumentingNurse = MinInstrumentingNurse;
@@ -104,7 +104,7 @@ public class OperationTypeDTO {
         this.surgeryTime = surgeryTime;
         this.cleaningTime = cleaningTime;
         this.Status = Status;
-        this.Specialization = Specialization;
+        this.SpecializationId = Specialization;
         this.minDoctor = MinDoctor;
         this.minAnaesthetist = MinAnesthetist;
         this.minInstrumentingNurse = MinInstrumentingNurse;

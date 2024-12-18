@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Backend.Domain.OperationRequests;
 using Backend.Domain.Shared;
 using Backend.Domain.Specializations;
+using Backend.Infrastructure.Specializations;
 
 namespace Backend.Domain.OperationTypes;
 
@@ -46,12 +47,14 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
         this.MinMedicalActionAssistant = 1;
     }
 
-    public OperationType(OperationName name, AnaesthesiaTime anaesthesiaTime, SurgeryTime surgeryTime, CleaningTime cleaningTime) {
+    public OperationType(OperationName name, AnaesthesiaTime anaesthesiaTime, SurgeryTime surgeryTime, CleaningTime cleaningTime, Specialization specialization) {
         Id = new OperationTypeId(Guid.NewGuid());
         this.name = name;
         this.anaesthesiaTime = anaesthesiaTime;
         this.surgeryTime = surgeryTime;
         this.cleaningTime = cleaningTime;
+        this.Specialization = specialization;
+        this.Status = Status.ACTIVE;
     }
 
     public OperationType(OperationName name, AnaesthesiaTime anaesthesiaTime, SurgeryTime surgeryTime, CleaningTime cleaningTime, Status Status) {
@@ -79,13 +82,14 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
         this.MinXRayTechnician = minXRayTechnician;
         this.MinMedicalActionAssistant = minMedicalActionAssistant;
     }
-    public static OperationType createFromDTO(OperationTypeDTO dto) {
+    public static OperationType createFromDTO(OperationTypeDTO dto, ISpecializationRepository specializationRepository) {
         OperationName name = new OperationName(dto.name);
         AnaesthesiaTime anaesthesiaTime = new AnaesthesiaTime(dto.anaesthesiaTime);
         SurgeryTime surgeryTime = new SurgeryTime(dto.surgeryTime);
         CleaningTime cleaningTime = new CleaningTime(dto.cleaningTime);
         Status status = (Status)Enum.Parse(typeof(Status), dto.Status);
-        Specialization specialization = (Specialization)Enum.Parse(typeof(Specialization), dto.Specialization);
+        //get specialization from id
+        Specialization specialization = specializationRepository.GetByIdAsync(new SpecializationID(dto.SpecializationId)).Result;
         int minDoctor = dto.minDoctor;
         int minAnesthetist = dto.minAnaesthetist;
         int minInstrumentingNurse = dto.minInstrumentingNurse;
@@ -104,7 +108,7 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
     public OperationTypeDTO returnDTO() {
 
         return new OperationTypeDTO(Id.AsGuid(), name.ToString(), anaesthesiaTime.duration, surgeryTime.duration, cleaningTime.duration,
-            Status.ToString(), Specialization.ToString(), MinDoctor, MinAnesthetist, MinInstrumentingNurse, MinCirculatingNurse, MinNurseAnaesthetist,
+            Status.ToString(), Specialization.Id.AsString(), MinDoctor, MinAnesthetist, MinInstrumentingNurse, MinCirculatingNurse, MinNurseAnaesthetist,
             MinXRayTechnician, MinMedicalActionAssistant);
     }
 
