@@ -38,7 +38,8 @@ Through our requisites, the team concludes that:
 
 ## 4. Design
 
--
+The team decided that:
+* The patient's **medical record** will contain a tab for **family history** entries. That tab will contain the options mentioned in the **Analysis** section.
 
 ## 5. C4 Views
 
