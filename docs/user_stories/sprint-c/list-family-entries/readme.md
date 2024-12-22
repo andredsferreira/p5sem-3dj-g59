@@ -47,7 +47,8 @@ The team decided that:
 
 ## 6. Tests
 
--
+* Test if items are listed correctly.
+* Test if no items are displayed in case of none satisfying the search conditions.
 
 ## 7. Implementation
 
