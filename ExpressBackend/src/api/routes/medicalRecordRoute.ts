@@ -13,10 +13,10 @@ export default (app: Router) => {
 
   const ctrl = Container.get(config.controllers.medicalRecord.name) as IMedicalRecordController;
 
-  route.get(`/:medicalRecordNumber`,
+  route.get(`/:code`,
     celebrate({
       params: Joi.object({
-        medicalRecordNumber: Joi.string().required()
+        code: Joi.string().required()
       }),
     }),
     (req, res, next) => ctrl.getMedRecordByMedicalRecordNumber(req, res, next));

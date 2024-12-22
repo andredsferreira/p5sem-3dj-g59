@@ -15,9 +15,9 @@ import { OperationTypeComponent } from './operation-types/operation-type.compone
 import { PatientComponent } from './patient/patient.component';
 import { PlanningComponent } from './planning/planning.component';
 import { StaffManagement } from './staff-management/staff-management.component';
-import { path } from './app.config';
 import { AllergyComponent } from './allergy/allergy.component';
 import { SpecializationComponent } from './specialization/specialization.component';
+import { MedicalRecordComponent } from './medicalrecord/medicalrecord.component';
 
 export const routes: Routes = [
   //{ path: '', component: MainPageComponent },
@@ -38,5 +38,6 @@ export const routes: Routes = [
   { path: 'patientmanagement', component: PatientManagementComponent },
   { path: 'operationtypemanagement', component: OperationTypeComponent },
   { path: 'staffmanagement', component: StaffManagement },
-  {path: 'specializationmanagement', component: SpecializationComponent}
+  {path: 'specializationmanagement', component: SpecializationComponent},
+  { path: 'medicalrecord/:id', component: MedicalRecordComponent}
 ];

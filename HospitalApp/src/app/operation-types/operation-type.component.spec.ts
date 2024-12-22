@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OperationTypeComponent } from './operation-type.component';
 import { OperationTypeService } from './operation-type.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { path } from '../app.config';
-import { API_PATH } from '../config-path';
+import { backend_path } from '../app.config';
+import { BACKEND_API_PATH } from '../config-path';
 import { Status } from './status.enum';
 import { Specialization } from './specialization.enum';
 import { HttpClient, HttpClientModule, HttpRequest, HttpResponse } from '@angular/common/http';
@@ -56,7 +56,7 @@ describe('OperationTypeComponent', () => {
       imports: [OperationTypeComponent, HttpClientTestingModule],
       providers: [
         { provide: OperationTypeService, useValue: mockOperationTypeService },
-        { provide: API_PATH, useValue: path },
+        { provide: BACKEND_API_PATH, useValue: backend_path },
       ],
     }).compileComponents();
 

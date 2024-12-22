@@ -1,0 +1,7 @@
+{
+    "frontend":"http://localhost:4200",
+    "backend":"https://localhost:5001/api",
+    "expressbackend":"http://localhost:4000/api",
+    "planning":"http://localhost:2000",
+    "iam":"http://localhost:8090"
+}

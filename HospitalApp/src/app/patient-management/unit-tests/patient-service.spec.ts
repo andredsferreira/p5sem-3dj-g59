@@ -3,8 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { PatientService } from '../patient-service';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { path } from '../../app.config';
-import { API_PATH } from '../../config-path';
+import { backend_path } from '../../app.config';
+import { BACKEND_API_PATH } from '../../config-path';
 import { Patient, PatientCreateAttributes, PatientEditAttributes, PatientSearchAttributes } from '../patient-types';
 
 describe('PatientService', () => {
@@ -16,7 +16,7 @@ describe('PatientService', () => {
       imports: [HttpClientTestingModule],  // Use HttpClientTestingModule instead of HttpClientModule
       providers: [
         PatientService,
-        { provide: API_PATH, useValue: path }  // Provide a mock API_PATH
+        { provide: BACKEND_API_PATH, useValue: backend_path }  // Provide a mock API_PATH
       ]
     });
     service = TestBed.inject(PatientService);
@@ -45,7 +45,7 @@ describe('PatientService', () => {
       expect(patients.body).toEqual(mockResponse);
     });
 
-    const req = httpMock.expectOne(`${path}/Patient/Search`);
+    const req = httpMock.expectOne(`${backend_path}/Patient/Search`);
     expect(req.request.method).toBe('POST');
     expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
     expect(req.request.body).toEqual(at);
@@ -79,7 +79,7 @@ describe('PatientService', () => {
         expect(response.body).toEqual(mockPatient);
     });
   
-    const req = httpMock.expectOne(`${path}/Patient/Create`);
+    const req = httpMock.expectOne(`${backend_path}/Patient/Create`);
     expect(req.request.method).toBe('POST');
     expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
     req.flush(mockPatient);  // Use mockPatient instead of wrapping in HttpResponse
@@ -110,7 +110,7 @@ describe('PatientService', () => {
       expect(response.body).toEqual(mockPatient);
     });
   
-    const req = httpMock.expectOne(`${path}/Patient/Edit/${MedicalRecordNumber}`);
+    const req = httpMock.expectOne(`${backend_path}/Patient/Edit/${MedicalRecordNumber}`);
     expect(req.request.method).toBe('PATCH');
     expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
     req.flush(mockPatient);
@@ -136,7 +136,7 @@ describe('PatientService', () => {
       expect(response.body).toEqual(mockPatient);
     });
   
-    const req = httpMock.expectOne(`${path}/Patient/Delete/${MedicalRecordNumber}`);
+    const req = httpMock.expectOne(`${backend_path}/Patient/Delete/${MedicalRecordNumber}`);
     expect(req.request.method).toBe('DELETE');
     expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
     req.flush(mockPatient);

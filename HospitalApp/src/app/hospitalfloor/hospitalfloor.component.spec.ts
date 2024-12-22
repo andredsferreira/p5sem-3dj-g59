@@ -3,8 +3,8 @@ import { HospitalFloorComponent } from './hospitalfloor.component';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import * as THREE from 'three';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { API_PATH } from '../config-path';
-import { path } from '../app.config';
+import { BACKEND_API_PATH } from '../config-path';
+import { backend_path } from '../app.config';
 
 describe('HospitalFloorComponent', () => {
   let component: HospitalFloorComponent;
@@ -17,7 +17,7 @@ describe('HospitalFloorComponent', () => {
     await TestBed.configureTestingModule({
       imports: [HospitalFloorComponent, HttpClientTestingModule],
       providers: [
-        { provide: API_PATH, useValue: path }  // Provide a mock API_PATH
+        { provide: BACKEND_API_PATH, useValue: backend_path }  // Provide a mock API_PATH
       ]
     }).compileComponents();
 

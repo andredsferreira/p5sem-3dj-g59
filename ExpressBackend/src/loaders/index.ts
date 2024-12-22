@@ -37,6 +37,11 @@ export default async ({ expressApp }) => {
     schema: "../persistence/schemas/medicalRecordSchema"
   }
 
+  const familyHistoryEntrySchema = {
+    name: "familyHistoryEntrySchema",
+    schema: "../persistence/schemas/familyHistoryEntrySchema"
+  }
+
   const roleController = {
     name: config.controllers.role.name,
     path: config.controllers.role.path
@@ -102,6 +107,21 @@ export default async ({ expressApp }) => {
     path: config.services.medicalRecord.path
   }
 
+  const familyHistoryEntryController = {
+    name: config.controllers.familyHistoryEntry.name,
+    path: config.controllers.familyHistoryEntry.path
+  }
+
+  const familyHistoryEntryRepo = {
+    name: config.repos.familyHistoryEntry.name,
+    path: config.repos.familyHistoryEntry.path
+  }
+
+  const familyHistoryEntryService = {
+    name: config.services.familyHistoryEntry.name,
+    path: config.services.familyHistoryEntry.path
+  }
+
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
@@ -110,12 +130,14 @@ export default async ({ expressApp }) => {
       medConditionSchema,
       allergySchema,
       medicalRecordSchema,
+      familyHistoryEntrySchema,
     ],
     controllers: [
       roleController,
       medConditionController,
       allergyController,
       medicalRecordController,
+      familyHistoryEntryController,
     ],
     repos: [
       roleRepo,
@@ -123,12 +145,14 @@ export default async ({ expressApp }) => {
       medConditionRepo,
       allergyRepo,
       medicalRecordRepo,
+      familyHistoryEntryRepo,
     ],
     services: [
       roleService,
       medConditionService,
       allergyService,
       medicalRecordService,
+      familyHistoryEntryService,
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');

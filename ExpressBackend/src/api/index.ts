@@ -5,6 +5,7 @@ import role from './routes/roleRoute';
 import medCondition from './routes/medConditionRoute';
 import allergy from "./routes/allergyRoute";
 import medicalRecord from './routes/medicalRecordRoute';
+import familyHistoryEntry from './routes/familyHistoryEntryRoute';
 
 export default () => {
 	const app = Router();
@@ -15,6 +16,7 @@ export default () => {
 	medCondition(app);
 	allergy(app);
 	medicalRecord(app);
+	familyHistoryEntry(app);
 	
 	
 	return app

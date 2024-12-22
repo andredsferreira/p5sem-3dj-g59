@@ -2,14 +2,14 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { API_PATH } from '../config-path';
+import { BACKEND_API_PATH } from '../config-path';
 import { Patient, PatientCreateAttributes, PatientEditAttributes, PatientSearchAttributes } from './patient-types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PatientService {
-  constructor(private http: HttpClient, @Inject(API_PATH) private apiPath:string) {}
+  constructor(private http: HttpClient, @Inject(BACKEND_API_PATH) private apiPath:string) {}
 
   // Retrieve patients list
   async getPatients(token: string | null, searchableAttributes: PatientSearchAttributes) : Promise<HttpResponse<Patient[]>> {

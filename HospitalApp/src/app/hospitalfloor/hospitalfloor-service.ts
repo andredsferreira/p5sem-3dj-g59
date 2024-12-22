@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { API_PATH } from '../config-path';
+import { BACKEND_API_PATH } from '../config-path';
 import { Room } from './room';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HospitalFloorService {
-  constructor(private http: HttpClient, @Inject(API_PATH) private apiPath:string) {}
+  constructor(private http: HttpClient, @Inject(BACKEND_API_PATH) private apiPath:string) {}
 
   async getRooms(token: string | null) : Promise<HttpResponse<Room[]>> {
     if (!token) throw new Error("Token is required");

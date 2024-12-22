@@ -57,6 +57,10 @@ export default {
       name: "MedicalRecordController",
       path: "../controllers/medicalRecordController"
     },
+    familyHistoryEntry: {
+      name: "FamilyHistoryEntryController",
+      path: "../controllers/familyHistoryEntryController"
+    },
   },
 
   repos: {
@@ -80,6 +84,10 @@ export default {
       name: "MedicalRecordRepo",
       path: "../repos/medicalRecordRepo"
     },
+    familyHistoryEntry: {
+      name: "FamilyHistoryEntryRepo",
+      path: "../repos/familyHistoryEntryRepo"
+    },
   },
 
   services: {
@@ -98,6 +106,10 @@ export default {
     medicalRecord: {
       name: "MedicalRecordService",
       path: "../services/medicalRecordService"
+    },
+    familyHistoryEntry: {
+      name: "FamilyHistoryEntryService",
+      path: "../services/familyHistoryEntryService"
     },
   },
 };

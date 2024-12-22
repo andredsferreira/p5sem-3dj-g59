@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PatientManagementComponent } from '../patient-management.component';
 import { HttpClient, HttpClientModule, HttpRequest, HttpResponse } from '@angular/common/http';
-import { API_PATH } from '../../config-path';
-import { path } from '../../app.config';
+import { BACKEND_API_PATH } from '../../config-path';
+import { backend_path } from '../../app.config';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Patient, PatientCreateAttributes, PatientEditAttributes, PatientSearchAttributes } from '../patient-types';
 import { PatientService } from '../patient-service';
@@ -30,7 +30,7 @@ describe('PatientManagementComponent', () => {
       imports: [PatientManagementComponent, HttpClientTestingModule],
       providers: [
         { provide: PatientService, useValue: mockPatientService },
-        { provide: API_PATH, useValue: path },
+        { provide: BACKEND_API_PATH, useValue: backend_path },
       ],
     }).compileComponents();
 
