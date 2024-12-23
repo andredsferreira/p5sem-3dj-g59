@@ -7,6 +7,8 @@ export default interface IMedConditionRepo extends Repo<MedCondition> {
   findByDomainId (MedConditionId: MedConditionId | string): Promise<MedCondition>;
   findByCode (MedConditionId: MedConditionId | string): Promise<MedCondition>;
   remove(MedConditionCode: string): Promise<MedCondition>;
+
+  findByCondition(condition: string): Promise<MedCondition>;
     
   //findByIds (MedConditionsIds: MedConditionId[]): Promise<MedCondition[]>;
   //saveCollection (MedConditions: MedCondition[]): Promise<MedCondition[]>;

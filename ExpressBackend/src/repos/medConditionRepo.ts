@@ -93,4 +93,14 @@ export default class MedConditionRepo implements IMedConditionRepo {
     else
       return null;
   }
+
+  public async findByCondition(condition: string): Promise<MedCondition> {
+    const query = { designation: condition };
+    const MedConditionRecord = await this.MedConditionSchema.findOne(query as FilterQuery<IMedConditionPersistence & Document>);
+
+    if (MedConditionRecord != null) {
+      return MedConditionMap.toDomain(MedConditionRecord)
+    }
+    return null
+  }
 }
