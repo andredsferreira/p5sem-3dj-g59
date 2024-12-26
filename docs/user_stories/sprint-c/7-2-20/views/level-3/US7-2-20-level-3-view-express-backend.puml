@@ -1,0 +1,74 @@
+@startuml
+
+title US 7-2-20 - Level 3 View
+
+actor Doctor as U
+
+participant "«component»\n«C4 Container»\nFrontend" as frontend 
+
+participant "«component»\nfamilyHistoryEntryRoute.ts" as route
+participant "«component»\nfamilyHistoryEntryController.ts" as ctrl
+participant "«component»\nfamilyHistoryEntryService.ts" as service
+participant "«component»\nmedicalRecordRepo.ts" as medicalrecordrepo
+participant "«component»\nfamilyHistoryEntry.ts" as domain
+participant "«component»\nfamilyHistoryEntryRepo.ts" as repo
+
+database "«component»\nMongoDB" as db
+
+U -> frontend : Creates new family history entry with its\nattributes associated to a medical record
+activate U
+activate frontend
+
+frontend -> route : HTTP Post ${this.apiPath}/familyHistoryEntries
+activate route
+
+route -> ctrl : createFamilyHistoryEntry(req, res, next)
+activate ctrl
+
+ctrl -> service : createFamilyHistoryEntry(req.body\nas IFamilyHistoryEntryDTO)
+activate service
+
+service -> medicalrecordrepo : findByMedicalRecordNumber(medicalRecordNumber)
+activate medicalrecordrepo
+medicalrecordrepo -> db
+activate db
+db --> medicalrecordrepo : medical record
+deactivate db
+medicalRecordRepo --> service : medical record
+deactivate medicalrecordrepo
+
+service -> repo : findByMedicalRecordNumber(medicalRecordNumber)
+activate repo
+repo -> db
+activate db
+db --> repo : entry list
+deactivate db
+repo --> service : entry list
+deactivate repo
+
+service -> service : generate new\nentry number
+service -> domain : create(dto)
+activate domain
+domain --> service : new entry
+deactivate domain
+
+service -> repo : save(entry)
+activate repo
+repo -> db : save(entry)
+activate db
+db --> repo
+deactivate db
+repo --> service : entry
+deactivate repo
+
+service --> ctrl :  Result.ok<IFamilyHistoryEntryDTO>\n(familyHistoryEntryResultDTO)
+deactivate service
+ctrl --> route
+deactivate ctrl
+route --> frontend
+deactivate route
+frontend --> U : Success
+deactivate frontend
+
+
+@enduml
