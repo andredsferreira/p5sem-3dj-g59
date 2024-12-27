@@ -28,3 +28,4 @@ jobs:
       working-directory: ./ExpressBackend
     - name: Test
       run: npm run test
+      working-directory: ./ExpressBackend
