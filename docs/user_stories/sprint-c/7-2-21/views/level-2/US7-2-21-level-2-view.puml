@@ -1,0 +1,27 @@
+@startuml
+
+title US7-2-21 - Level 2 View
+
+actor Doctor as U
+participant "Frontend" as web
+participant "Express\nBackend" as api
+database "Mongo\nDatabase" as db
+
+U -> web : Edits an existing family history entry associated\nto a medical record, choosing what attributes to edit
+activate U
+activate web
+web -> api : Edits an existing family history entry associated\nto a medical record, choosing what attributes to edit
+activate api
+
+api -> db : Save edit
+activate db
+deactivate db
+api -> api : Logs entry edit
+api -> web : Return Confirmation
+deactivate api
+web -> U : Return Confirmation
+deactivate web
+deactivate U
+
+
+@enduml

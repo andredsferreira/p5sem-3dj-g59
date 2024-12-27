@@ -1,0 +1,57 @@
+@startuml
+
+title US 7-2-21 - Level 3 View
+
+actor Doctor as U
+
+participant "«component»\n«C4 Container»\nFrontend" as frontend 
+
+participant "«component»\nfamilyHistoryEntryRoute.ts" as route
+participant "«component»\nfamilyHistoryEntryController.ts" as ctrl
+participant "«component»\nfamilyHistoryEntryService.ts" as service
+participant "«component»\nfamilyHistoryEntryRepo.ts" as repo
+
+database "«component»\nMongoDB" as db
+
+U -> frontend : Edits an existing family history entry associated\nto a medical record, choosing what attributes to edit
+activate U
+activate frontend
+
+frontend -> route : HTTP Patch "${this.apiPath}/familyHistoryEntries/${entryNumber}"
+activate route
+
+route -> ctrl : editFamilyHistoryEntry(req, res, next)
+activate ctrl
+
+ctrl -> service : editFamilyHistoryEntry(req.params.entryNumber\nas string, req.body as IFamilyHistoryEntryOptionalDTO)
+activate service
+
+service -> repo : findByEntryNumber(entryNumber)
+activate repo
+repo -> db
+activate db
+db --> repo : entry
+deactivate db
+repo --> service : entry
+deactivate repo
+
+service -> repo : save(changedEntry)
+activate repo
+repo -> db : save(entry)
+activate db
+db --> repo
+deactivate db
+repo --> service : entry
+deactivate repo
+
+service --> ctrl :  Result.ok<IFamilyHistoryEntryDTO>\n(familyHistoryEntryResultDTO)
+deactivate service
+ctrl --> route
+deactivate ctrl
+route --> frontend
+deactivate route
+frontend --> U : Success
+deactivate frontend
+
+
+@enduml
