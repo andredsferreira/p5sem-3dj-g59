@@ -9,6 +9,7 @@ import { IFamilyHistoryEntryDTO, IFamilyHistoryEntryOptionalDTO } from '../../..
 import Container from 'typedi';
 import IMedicalRecordRepo from '../../../src/services/IRepos/IMedicalRecordRepo';
 import IFamilyHistoryEntryRepo from '../../../src/services/IRepos/IFamilyHistoryEntryRepo';
+import { FamilyHistoryEntryMap } from '../../../src/mappers/FamilyHistoryEntryMap';
 
 const timeout:number = 10000;
 
@@ -118,23 +119,44 @@ mocha.describe('familyEntry service', () => {
 
   //-------------------SEARCH------------------------------------------------------
 
-  mocha.it('search', async function() {
+  mocha.it('search get values', async function() {
     // Arrange
     this.timeout(timeout);
+
+    const entry = seedFamilyEntry();
 
     let medicalRecordRepoInstance:IMedicalRecordRepo = Container.get("MedicalRecordRepo");
 
     let familyHistoryRepoInstance:IFamilyHistoryEntryRepo = Container.get("FamilyHistoryRepo");
-    sinon.stub(familyHistoryRepoInstance, "search").returns(Promise.resolve([seedFamilyEntry()]));
+    sinon.stub(familyHistoryRepoInstance, "search").returns(Promise.resolve([entry]));
 
     // Act
     const serv = new FamilyHistoryEntryService(familyHistoryRepoInstance, medicalRecordRepoInstance);
-    const input = seedFamilyEntry();
-    (await serv.search(input.medicalRecordNumber, seedHistoryChange())).getValue();
+    const output = (await serv.search(entry.medicalRecordNumber, seedHistoryChange())).getValue();
   
     // Assert
     expect(serv).to.not.be.undefined;
-    // A filtragem é feita no Repo
+    expect(output).to.deep.include(FamilyHistoryEntryMap.toDTO(entry));
+  });
+
+  mocha.it('search doesnt get values', async function() {
+    // Arrange
+    this.timeout(timeout);
+
+    const entry = seedFamilyEntry();
+
+    let medicalRecordRepoInstance:IMedicalRecordRepo = Container.get("MedicalRecordRepo");
+
+    let familyHistoryRepoInstance:IFamilyHistoryEntryRepo = Container.get("FamilyHistoryRepo");
+    sinon.stub(familyHistoryRepoInstance, "search").returns(Promise.resolve([]));
+
+    // Act
+    const serv = new FamilyHistoryEntryService(familyHistoryRepoInstance, medicalRecordRepoInstance);
+    const output = (await serv.search(entry.medicalRecordNumber, seedHistoryChange())).errorValue();
+  
+    // Assert
+    expect(serv).to.not.be.undefined;
+    expect(output.toString()).to.be.eq("familyHistoryEntry not found");
   });
 
 });

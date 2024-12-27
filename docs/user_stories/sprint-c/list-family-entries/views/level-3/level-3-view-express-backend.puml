@@ -1,0 +1,48 @@
+@startuml
+
+title List/Search Family History Entries - Level 3 View
+
+actor Doctor as U
+
+participant "«component»\n«C4 Container»\nFrontend" as frontend 
+
+participant "«component»\nfamilyHistoryEntryRoute.ts" as route
+participant "«component»\nfamilyHistoryEntryController.ts" as ctrl
+participant "«component»\nfamilyHistoryEntryService.ts" as service
+participant "«component»\nfamilyHistoryEntryRepo.ts" as repo
+
+database "«component»\nMongoDB" as db
+
+U -> frontend : Picks attributes to search\nfamily history entries from\na medical record
+activate U
+activate frontend
+
+frontend -> route : HTTP Post\n"${this.apiPath}/familyHistoryEntries/search/${code}"
+activate route
+
+route -> ctrl : searchFamilyHistoryEntries(req, res, next)
+activate ctrl
+
+ctrl -> service : search(req.params.medicalRecordNumber\nas string, req.body as IFamilyHistoryEntryOptionalDTO)
+activate service
+
+service -> repo : search(medicalRecordNumber,\ndto.relative, dto.history)
+activate repo
+repo -> db
+activate db
+db --> repo : entry list
+deactivate db
+repo --> service : entry list
+deactivate repo
+
+service --> ctrl : Result.ok<IFamilyHistoryEntryDTO[]>\n(familyHistoryEntryResultDTO)
+deactivate service
+ctrl --> route
+deactivate ctrl
+route --> frontend
+deactivate route
+frontend --> U : entry list
+deactivate frontend
+
+
+@enduml

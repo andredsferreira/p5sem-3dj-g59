@@ -63,7 +63,7 @@ export default class FamilyHistoryEntryService implements IFamilyHistoryEntrySer
     public async search(medicalRecordNumber: string, dto: IFamilyHistoryEntryOptionalDTO): Promise<Result<IFamilyHistoryEntryDTO[]>> {
         try {
             const familyHistoryEntry = await this.familyHistoryEntryRepo.search(medicalRecordNumber, dto.relative, dto.history);
-            if (familyHistoryEntry === null) {
+            if (familyHistoryEntry === null || familyHistoryEntry.length == 0) {
                 return Result.fail<IFamilyHistoryEntryDTO[]>("familyHistoryEntry not found")
             }
 
@@ -71,7 +71,6 @@ export default class FamilyHistoryEntryService implements IFamilyHistoryEntrySer
             familyHistoryEntry.forEach(element => {
                 familyHistoryEntryResultDTO.push(FamilyHistoryEntryMap.toDTO(element));
             });
-            //const familyHistoryEntryResultDTO = FamilyHistoryEntryMap.toDTO(familyHistoryEntry);
             return Result.ok<IFamilyHistoryEntryDTO[]>(familyHistoryEntryResultDTO)
         } catch (err) {
             throw err

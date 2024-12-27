@@ -1,0 +1,15 @@
+@startuml
+
+title List/Search Family History Entries - Level 1 View
+
+actor Doctor as U
+participant "<<system>>\nHospital de Paranhos" as web
+
+U -> web : Picks attributes to search\nfamily history entries from\na medical record
+activate U
+activate web
+web -> U : Returns list
+deactivate web
+deactivate U
+
+@enduml

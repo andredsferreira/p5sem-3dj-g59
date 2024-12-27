@@ -82,7 +82,6 @@ export default class FamilyHistoryEntryRepo implements IFamilyHistoryEntryRepo {
                 returnValues.push(FamilyHistoryEntryMap.toDomain(element));
             });
             return returnValues
-            //return FamilyHistoryEntryMap.toDomain(familyHistoryEntryRecord)
         }
         return null
     }
