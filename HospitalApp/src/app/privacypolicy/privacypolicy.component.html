@@ -1,1 +1,54 @@
-<p>privacypolicy works!</p>
+<div class="max-w-4xl mx-auto mt-10">
+    <h1 class="text-2xl font-bold mb-4">Política de Privacidade</h1>
+  
+    <div *ngFor="let item of policyItems; let i = index" class="border-b hover:text-darkGrayishBlue">
+      <button
+        (click)="toggleTab(i)"
+        class="w-full flex justify-between items-center py-4 px-6 text-left focus:outline-none"
+      >
+        <span class="font-semibold">{{ item.title }}</span>
+        <span>
+          <!-- abrir/fechar -->
+          <svg
+            [ngClass]="{ 'rotate-180': activeIndex === i }"
+            class="h-5 w-5 transform transition-transform"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </span>
+      </button>
+  
+      <div *ngIf="activeIndex === i" class="px-6 pb-4 text-gray-700">
+        <div *ngFor="let content of item.contents">
+          
+          <ul *ngIf="content.type === 'text'" class="list-disc pl-6 mb-4 text-zinc-950">
+            <div>{{ content.content }}</div>
+          </ul>
+  
+          <table *ngIf="content.type === 'table'" class="w-full border border-collapse mb-4">
+            <thead>
+              <tr>
+                <th class="border border-zinc-950 px-4 py-2 bg-gray-100 text-left"><strong>{{content.row1name}}</strong></th>
+                <th class="border border-zinc-950 px-4 py-2 bg-gray-100 text-left"><strong>{{content.row2name}}</strong></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of content.rows">
+                <td class="border border-zinc-950 px-4 py-2 text-zinc-950"><strong>{{ row.category }}</strong></td>
+                <td class="border border-zinc-950 px-4 py-2 text-zinc-950">{{ row.examples }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>  
