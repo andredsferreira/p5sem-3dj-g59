@@ -34,7 +34,8 @@ Through the requisites, the team concluded that the details mentioned in the **A
 
 ## 4. Design
 
--
+The team decided that:
+* Since we're adding this on top of our already existing **Privacy Policy**, this information should also be organized with tabs.
 
 ## 5. Demonstration
 
