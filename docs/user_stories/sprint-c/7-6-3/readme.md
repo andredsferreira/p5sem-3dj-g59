@@ -37,7 +37,8 @@ We must comply with articles [13](https://gdpr-info.eu/art-13-gdpr/) and [14](ht
 
 ## 4. Design
 
--
+The team decided that:
+* Our **Privacy Policy** would be structured using tabs. This way, the information would be structured in a clean and organized way.
 
 ## 5. Demonstration
 
