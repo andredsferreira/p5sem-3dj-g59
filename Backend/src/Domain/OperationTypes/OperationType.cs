@@ -30,6 +30,15 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
     public int MinXRayTechnician { get; set; }
     public int MinMedicalActionAssistant { get; set; }
 
+    //TO REMOVE
+    public OperationType(OperationName name, AnaesthesiaTime anaesthesiaTime, SurgeryTime surgeryTime, CleaningTime cleaningTime){
+        Id = new OperationTypeId(Guid.NewGuid());
+        this.name = name;
+        this.anaesthesiaTime = anaesthesiaTime;
+        this.surgeryTime = surgeryTime;
+        this.cleaningTime = cleaningTime;
+    }
+
     public OperationType(OperationName name) {
         Id = new OperationTypeId(Guid.NewGuid());
         this.name = name;
