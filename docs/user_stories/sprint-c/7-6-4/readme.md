@@ -39,4 +39,4 @@ The team decided that:
 
 ## 5. Demonstration
 
--
+These are specified in the [report](../7-6-1/Report.pdf).

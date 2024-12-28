@@ -189,19 +189,39 @@ export class PrivacypolicyComponent {
       title: 'Quais são os seus direitos de proteção de dados e como pode exercê-los?',
       contents: [
         {
-          type: 'text',
-          content:
-            'insira texto aqui :)'
-        }
-      ]
-    },
-    {
-      title: 'Veja aqui a nossa política de privacidade completa',
-      contents: [
+          type: 'table',
+          row1name: 'Direitos',
+          row2name: 'Em que consistem',
+          rows: [
+            {
+              category: 'Direito de acesso à informação',
+              examples: 'Pode obter a confirmação de quais os seus dados pessoais são tratados por nós, assim como a respetiva informação acerca das finalidades do tratamento ou os seus prazos de conservação.'
+            },
+            {
+              category: 'Direito de retificação',
+              examples: 'Pode pedir a retificação ou alteração dos seus dados pessoais se estiverem incorretos ou incompletos.'
+            },
+            {
+              category: 'Direito de apagamento',
+              examples: 'Pode pedir o apagamento dos seus dados pessoais, desde que não se verifiquem imposições legais para a sua conservação.'
+            },
+            {
+              category: 'Direito à portabilidade',
+              examples: 'Pode receber os dados pessoais, como o seu histórico médico, duma forma estrutura em formato transferível para outras entidades digitais.'
+            },
+            {
+              category: 'Direito à oposição',
+              examples: 'Pode opor-se ou retirar o consentimento que deu anteriormente a um tratamento dos seus dados pessoais.'
+            }
+          ]
+        },
         {
           type: 'text',
-          content:
-            'insira texto aqui :)'
+          content: 'Para exercer qualquer um destes direitos, deve fazê-lo comunicando com o DPO anteriormente estabelecido (ver "Quem é o responsável pelo tratamento dos seus dados pessoais?").'
+        },
+        {
+          type: 'text',
+          content: 'Para exercer o Direito de apagamento ou o Direito à portabilidade, pode aceder ao seu perfil pessoal no website. Lá tem as opções necessárias para o fazer.'
         }
       ]
     },
