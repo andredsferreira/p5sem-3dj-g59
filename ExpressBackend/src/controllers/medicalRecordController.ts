@@ -46,4 +46,25 @@ export default class MedicalRecordController /* TODO extends BaseController */ i
       return next(e);
     }
   };
+
+  public async getHistory(req: Request, res: Response, next: NextFunction) {
+    try {
+      const zipOrError = await this.MedRecordServiceInstance.generateMedicalRecordZip(
+        req.params.code as string
+      ) as Result<string>;
+
+      if (zipOrError.isFailure) {
+        return res.status(402).send(zipOrError.errorValue());
+      }
+
+      const zipPath = zipOrError.getValue();
+
+      res.download(zipPath, 'medical_record.zip', () => {
+        this.MedRecordServiceInstance.cleanUp(zipPath);
+      });
+    }
+    catch (e) {
+      return next(e);
+    }
+  }
 }

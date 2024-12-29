@@ -18,12 +18,14 @@ export class MainPageComponent implements OnInit {
       let role = this.authService.getRoleFromToken(token);
       switch (role) {
           case 'Admin':
-              //this.router.navigate(['/userlist']);
               this.router.navigate(['/admin']);
               break;
           case 'Doctor':
               this.router.navigate(['/doctor']);
               break;
+          case 'Patient':
+              this.router.navigate(['/patient']);
+              break;    
       }
     }
   }

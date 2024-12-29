@@ -18,10 +18,11 @@ import { StaffManagement } from './staff-management/staff-management.component';
 import { AllergyComponent } from './allergy/allergy.component';
 import { SpecializationComponent } from './specialization/specialization.component';
 import { MedicalRecordComponent } from './medicalrecord/medicalrecord.component';
+import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
-  //{ path: '', component: MainPageComponent },
-  { path: '', component: LoginComponent },
+  { path: '', component: MainPageComponent },
+  { path: 'profile', component: ProfileComponent},
   { path: 'login', component: LoginComponent },
   { path: 'privacy', component: PrivacypolicyComponent },
   { path: 'aboutus', component: AboutusComponent },

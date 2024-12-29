@@ -28,4 +28,12 @@ export default (app: Router) => {
       })
     }),
     (req, res, next) => ctrl.createMedRecord(req, res, next));
+
+  route.get('/getHistory/:code',
+    celebrate({
+      params: Joi.object({
+        code: Joi.string().required()
+      }),
+    }),
+    (req, res, next) => ctrl.getHistory(req,res,next));
 };

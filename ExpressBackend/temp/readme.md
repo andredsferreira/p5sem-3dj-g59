@@ -1,0 +1,1 @@
+This folder is used for temporarily storing the medical record zip.

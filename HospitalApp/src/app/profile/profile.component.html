@@ -1,0 +1,37 @@
+<div class="p-8 flex items-center justify-center">
+    <div class="bg-white shadow-md rounded-lg p-6 max-w-sm w-full text-center">
+      <!-- Exibe a Role -->
+      <h2 class="text-lg text-gray-700 mb-2">Função: <strong>{{ role }}</strong></h2>
+  
+      <!-- Exibe o Username -->
+      <p class="text-2xl text-gray-900">Username: <strong>{{ name }}</strong></p>
+  
+      <!-- Botões para "Patient" -->
+      <div *ngIf="role === 'Admin'" class="mt-4 space-y-2">
+        <button 
+          (click)="downloadMedicalRecord()" 
+          class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded">
+          Transferir Histórico Médico
+        </button>
+        <button 
+          (click)="confirmDeletionRequest = true"
+          class="w-full bg-red-500 hover:bg-red-700 text-white font-medium py-2 px-4 rounded">
+          Solicitar a exclusão dos meus dados
+        </button>
+        <div *ngIf="confirmDeletionRequest">
+            <div class="bg-white p-4 rounded-lg shadow-lg max-w-sm w-full">
+            <p class="text-center">Quer mesmo eliminar fazer isto?</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                <button (click)="onDelete()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                Sim
+                </button>
+                <button (click)="confirmDeletionRequest = false" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
+                Não
+                </button>
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #login>teste</ng-template>

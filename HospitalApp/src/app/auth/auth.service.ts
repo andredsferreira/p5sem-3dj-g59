@@ -59,6 +59,28 @@ export class AuthService {
     }
   }
 
+  getUsernameFromToken(token: string): string {
+    try {
+      const decodedToken: any = jwt_decode.jwtDecode(token);
+      console.log('Decoded username:', decodedToken.username);
+      return decodedToken?.username;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return '';
+    }
+  }
+
+  getEmailFromToken(token: string): string {
+    try {
+      const decodedToken: any = jwt_decode.jwtDecode(token);
+      console.log('Decoded email:', decodedToken.email);
+      return decodedToken?.email;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return '';
+    }
+  }
+
   async getUsers(token: string): Promise<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
