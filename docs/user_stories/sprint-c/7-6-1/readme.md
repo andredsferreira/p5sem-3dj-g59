@@ -44,7 +44,9 @@ Through the open questions, the team concluded:
 
 ## 4. Design
 
--
+The team decided that:
+* The **medical record** should come in a **zip** with a *password*.
+   * This *password* should be chosen by the user when they request to download their **medical record**.
 
 ## 5. Implementation
 
