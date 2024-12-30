@@ -1,4 +1,3 @@
-
 <div class="login-container h-96 py-80 flex items-center justify-center bg-inherit">
     <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
         <h2 class="text-2xl font-semibold text-gray-700 text-center mb-4">Inicie sessão</h2>
@@ -38,6 +37,71 @@
 
         <div *ngIf="success" class="success-message mt-4">
             <p class="text-green-600 text-sm text-center">Login successful! Token saved.</p>
+        </div>
+
+        <!-- Janelinha "Registe-se" -->
+        <div class="register-box mt-6 p-4 border border-gray-300 rounded-lg bg-gray-50">
+            <p class="text-center text-gray-700 text-sm">É um paciente registado mas ainda não tem conta?</p>
+            <button
+                type="button"
+                (click)="isRegistering = true"
+                class="mt-2 w-full bg-green-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+            >
+                Registe-se
+            </button>
+        </div>
+        <div *ngIf="isRegistering" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+            <form [formGroup]="registForm" (ngSubmit)="onRegister()" class="space-y-4">
+                <div class="form-group">
+                    <label for="username" class="block text-sm font-medium text-gray-700">Username:</label>
+                    <input
+                        type="text"
+                        id="username"
+                        formControlName="username"
+                        required
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password:</label>
+                    <input
+                        type="password"
+                        id="password"
+                        formControlName="password"
+                        required
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="patientEmail" class="block text-sm font-medium text-gray-700">Email associado:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        formControlName="patientEmail"
+                        required
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber" class="block text-sm font-medium text-gray-700">Número de Telemóvel:</label>
+                    <input
+                        type="phoneNumber"
+                        id="phoneNumber"
+                        formControlName="phoneNumber"
+                        required
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
+                    />
+                </div>
+                <button
+                    type="submit"
+                    [disabled]="registForm.invalid"
+                    class="w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    Criar conta
+                </button>
+            </form>
+            </div>
         </div>
     </div>
 </div>

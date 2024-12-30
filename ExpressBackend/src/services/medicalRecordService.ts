@@ -54,7 +54,7 @@ export default class MedicalRecordService implements IMedicalRecordService {
     }
   }
 
-  public async generateMedicalRecordZip(medicalRecordNumber: string): Promise<Result<string>> {
+  public async generateMedicalRecordZip(medicalRecordNumber: string, password: string): Promise<Result<string>> {
     try {
       const familyHistoryEntries = await this.FamHistoryRepo.findByMedicalRecordNumber(medicalRecordNumber);
   
@@ -73,7 +73,7 @@ export default class MedicalRecordService implements IMedicalRecordService {
       const fileData = fs.readFileSync(jsonFilePath);
 
       const mz = new MiniZip.default();
-      mz.append('medical_record.json', fileData, { password: 'hello' });
+      mz.append('medical_record.json', fileData, { password: password });
       fs.writeFileSync(zipFilePath, mz.zip());
 
       fs.unlinkSync(jsonFilePath);

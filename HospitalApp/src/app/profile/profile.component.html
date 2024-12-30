@@ -7,12 +7,44 @@
       <p class="text-2xl text-gray-900">Username: <strong>{{ name }}</strong></p>
   
       <!-- Botões para "Patient" -->
-      <div *ngIf="role === 'Admin'" class="mt-4 space-y-2">
+      <div *ngIf="role === 'Patient'" class="mt-4 space-y-2">
         <button 
-          (click)="downloadMedicalRecord()" 
+          (click)="isSettingPassword = true" 
           class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded">
           Transferir Histórico Médico
         </button>
+        <div *ngIf="isSettingPassword" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+            <h2 class="text-lg font-semibold mb-4">Transferir Histórico Médico</h2>
+            <p class="text-center">Para proteger os seus dados, o seu histórico médico virá num ficheiro protegido por uma <strong>password</strong>.</p>
+            <p class="text-center">Defina a sua password aqui. <strong>Não se esqueça do que vai definir</strong>.</p>
+            <form [formGroup]="passwordForm" (ngSubmit)="downloadMedicalRecord()" class="space-y-4">
+              <div class="form-group">
+                <input
+                  type="password"
+                  id="password"
+                  formControlName="password"
+                  required
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
+                />
+                <!-- Mensagem de erro -->
+                <div *ngIf="passwordForm.get('password')?.invalid && passwordForm.get('password')?.touched" class="text-red-500 text-sm">
+                  A password é obrigatória.
+                </div>
+              </div>
+              <!-- Botões de ação para salvar ou cancelar -->
+              <div class="flex justify-end space-x-2 mt-4">
+                <button type="button" (click)="cancelPasswordSetting()" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">
+                  Cancelar
+                </button>
+                <button type="submit" [disabled]="passwordForm.invalid" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">
+                  Salvar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        
         <button 
           (click)="confirmDeletionRequest = true"
           class="w-full bg-red-500 hover:bg-red-700 text-white font-medium py-2 px-4 rounded">
@@ -32,6 +64,9 @@
             </div>
         </div>
       </div>
+      <div class="p-8 flex items-center justify-center">
+      <button (click)="logout()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Logout</button>
+      </div> 
     </div>
   </div>
   <ng-template #login>teste</ng-template>

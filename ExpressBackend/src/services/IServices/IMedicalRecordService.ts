@@ -6,7 +6,7 @@ export default interface IMedRecordService  {
 
   getMedRecordByMedicalRecordNumber (medRecordNumber: string): Promise<Result<IMedicalRecordDTO>>;
 
-  generateMedicalRecordZip(medicalRecordNumber: string): Promise<Result<string>>;
+  generateMedicalRecordZip(medicalRecordNumber: string, password: string): Promise<Result<string>>;
 
   cleanUp(filePath: string);
 }

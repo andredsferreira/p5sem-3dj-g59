@@ -50,7 +50,7 @@ export default class MedicalRecordController /* TODO extends BaseController */ i
   public async getHistory(req: Request, res: Response, next: NextFunction) {
     try {
       const zipOrError = await this.MedRecordServiceInstance.generateMedicalRecordZip(
-        req.params.code as string
+        req.params.code as string, req.body.password as string
       ) as Result<string>;
 
       if (zipOrError.isFailure) {

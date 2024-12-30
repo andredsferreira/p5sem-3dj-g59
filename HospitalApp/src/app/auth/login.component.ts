@@ -13,8 +13,10 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
     loginForm: FormGroup;
+    registForm: FormGroup;
     errorMessage: string | null = null;
     success: boolean = false
+    isRegistering: boolean = false;
 
     private authService = inject(AuthService);
     private router = inject(Router);
@@ -24,6 +26,12 @@ export class LoginComponent {
             username: ['', Validators.required],
             password: ['', Validators.required]
         });
+        this.registForm = this.fb.group({
+            username: ['', Validators.required],
+            password: ['', Validators.required],
+            patientEmail: ['', Validators.required],
+            phoneNumber: ['', Validators.required]
+        })
     }
 
     async onLogin() {
@@ -48,6 +56,24 @@ export class LoginComponent {
                         break;    
                 }
                 console.log("Logged in successfully. Token saved.");
+            } catch (error) {
+                this.errorMessage = "A autenticação falhou. Por favor verifique as credenciais e tente outra vez.";
+                console.error("Login error:", error);
+            }
+        } else {
+            this.errorMessage = "Por favor preencha todos os campos.";
+        }
+    }
+
+    async onRegister() {
+        this.errorMessage = null;
+        if(this.registForm.valid){
+            try{
+                const {username, password, patientEmail, phoneNumber} = this.registForm.value;
+                let token = await this.authService.registerPatient(username,patientEmail,phoneNumber,password);
+                localStorage.setItem('token', token);
+                this.success = true
+                this.router.navigate(['/patient']);
             } catch (error) {
                 this.errorMessage = "A autenticação falhou. Por favor verifique as credenciais e tente outra vez.";
                 console.error("Login error:", error);

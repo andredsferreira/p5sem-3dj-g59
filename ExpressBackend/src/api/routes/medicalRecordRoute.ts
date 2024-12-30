@@ -29,11 +29,14 @@ export default (app: Router) => {
     }),
     (req, res, next) => ctrl.createMedRecord(req, res, next));
 
-  route.get('/getHistory/:code',
+  route.post('/getHistory/:code',
     celebrate({
       params: Joi.object({
         code: Joi.string().required()
       }),
+      body: Joi.object({
+        password: Joi.string().required()
+      })
     }),
     (req, res, next) => ctrl.getHistory(req,res,next));
 };
