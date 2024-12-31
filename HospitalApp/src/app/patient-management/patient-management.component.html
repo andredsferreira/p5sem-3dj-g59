@@ -197,7 +197,7 @@
             (click)="onSelect(patient)"
           >
             <div>
-              <strong>{{ patient.MedicalRecordNumber }}</strong> <br />
+              <button (click)="openRecord(patient.MedicalRecordNumber)"><strong>{{ patient.MedicalRecordNumber }} ⓘ</strong></button> <br />
               <span><strong>Nome Completo:</strong> {{ patient.FullName }}</span> <br />
               <span><strong>Email:</strong> {{ patient.Email }}</span> <br />
               <span><strong>Data de Nascimento:</strong> {{ patient.DateOfBirth | date: 'dd/MM/yyyy' }}</span>

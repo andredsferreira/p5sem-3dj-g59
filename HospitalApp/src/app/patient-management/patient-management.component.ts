@@ -4,6 +4,7 @@ import { PatientService } from './patient-service';
 import { FormsModule } from '@angular/forms';
 import { Patient, PatientSearchAttributes, PatientEditAttributes, PatientCreateAttributes } from './patient-types';
 import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
 
 interface Field {
   selected: boolean;
@@ -65,7 +66,7 @@ export class PatientManagementComponent implements OnInit {
   // Fields for editing selected item
   editingFields: { [key: string]: Field } = {};
 
-  constructor(private patientService: PatientService, private authService: AuthService) {
+  constructor(private patientService: PatientService, private authService: AuthService, private router: Router) {
     this.resetFields();
   }
 
@@ -138,6 +139,10 @@ export class PatientManagementComponent implements OnInit {
   // Cancel delete confirmation
   cancelDelete() {
     this.confirmingDelete = false;
+  }
+
+  openRecord(mrn: string){
+    this.router.navigate([`/medicalrecord/${mrn}`]);
   }
 
   //------------------------------------------------Search-----------------------------------------------------------------
