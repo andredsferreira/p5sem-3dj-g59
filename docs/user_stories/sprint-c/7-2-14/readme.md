@@ -47,8 +47,36 @@ The team decided that the page transition should look like this:
 
 ## 5. Implementation
 
--
+**patient-management.component.html**:
+
+```html
+    <!-- List of patients -->
+    <ul class="space-y-2">
+        <li
+        *ngFor="let patient of paginatedPatients"
+        class="p-3 border rounded-lg cursor-pointer bg-white border-gray-300 hover:bg-gray-100 transition"
+        (click)="onSelect(patient)"
+        >
+        <div>
+            <button (click)="openRecord(patient.MedicalRecordNumber)"><strong>{{ patient.MedicalRecordNumber }} ⓘ</strong></button> <br />
+            <span><strong>Nome Completo:</strong> {{ patient.FullName }}</span> <br />
+            <span><strong>Email:</strong> {{ patient.Email }}</span> <br />
+            <span><strong>Data de Nascimento:</strong> {{ patient.DateOfBirth | date: 'dd/MM/yyyy' }}</span>
+        </div>
+        </li>
+    </ul>
+```
+
+**patient-management.component.ts**:
+
+```ts
+  openRecord(mrn: string){
+    this.router.navigate([`/medicalrecord/${mrn}`]);
+  }
+```
+
+Very simple implementation, just a redirect to the redirect to that patient's medical record page.
 
 ## 6. Demonstration
 
--
+![](./demonstration/demonstration.gif)
