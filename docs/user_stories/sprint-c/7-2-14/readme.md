@@ -41,7 +41,9 @@ Through the requisites and open questions, the team concludes that:
 
 ## 4. Design
 
--
+The team decided that the page transition should look like this:
+
+![](images/design.png)
 
 ## 5. Implementation
 
