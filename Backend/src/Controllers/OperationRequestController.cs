@@ -9,10 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers;
 
-[Route("api/[controller]")]
-[Authorize(Roles = HospitalRoles.Doctor)]
 [ApiController]
-
+[Route("api/[controller]")]
+[Authorize(Policy = "DoctorPolicy")]
 public class OperationRequestController : ControllerBase {
 
     private readonly OperationRequestService _service;
@@ -22,7 +21,6 @@ public class OperationRequestController : ControllerBase {
     }
 
     [HttpPost("create")]
-    [Authorize(Roles = HospitalRoles.Doctor)]
     public async Task<IActionResult> CreateOperationRequest([FromBody] CreateOperationRequestDTO dto) {
         try {
             var result = await _service.CreateOperationRequest(dto);
@@ -43,7 +41,6 @@ public class OperationRequestController : ControllerBase {
     }
 
     [HttpPut("update")]
-    [Authorize(Roles = HospitalRoles.Doctor)]
     public async Task<IActionResult> UpdateOperationRequest([FromBody] UpdateOperationRequestDTO dto) {
         try {
             var result = await _service.UpdateOperationRequest(dto);
@@ -58,7 +55,6 @@ public class OperationRequestController : ControllerBase {
     }
 
     [HttpDelete("delete")]
-    [Authorize(Roles = HospitalRoles.Doctor)]
     public async Task<IActionResult> DeleteOperationRequest(Guid id) {
         try {
             var result = await _service.DeleteOperationRequest(id);
@@ -75,7 +71,6 @@ public class OperationRequestController : ControllerBase {
     }
 
     [HttpGet("list")]
-    [Authorize(Roles = HospitalRoles.Doctor)]
     public async Task<IActionResult> ListOperationRequests() {
         var operationRequests = await _service.ListOperationRequests();
         return operationRequests.Any() ? Ok(operationRequests)

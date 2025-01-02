@@ -33,7 +33,7 @@ func GenerateJWT(u, r string) (string, error) {
 		jwt.MapClaims{
 			"username": u,
 			"role":     r,
-			"expire":   time.Now().Add(30 * time.Minute).Unix(),
+			"exp":   time.Now().Add(30 * time.Minute).Unix(),
 		})
 	ts, err := t.SignedString(HMACSecretKey)
 	if err != nil {

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241229182543_Initial")]
+    [Migration("20250102175305_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -56,19 +56,19 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("26be6a44-be6b-4645-929e-877389d2fdac"),
+                            Id = new Guid("2649aee7-7d75-428d-909a-4463c4d23cc7"),
                             AppointmentStatus = "Scheduled",
                             DateTime = "28/10/2024 10:30:00",
-                            OperationRequestId = new Guid("fde9564f-6325-4304-bf4e-56f5e79f5f10"),
-                            SurgeryRoomId = "e70c40e1-f1d9-427f-918f-bda7ed12447c"
+                            OperationRequestId = new Guid("cae569af-afe9-404d-9da1-76b84eecce7f"),
+                            SurgeryRoomId = "cff0b0a9-ef67-449f-a8cd-dbe352fc72b3"
                         },
                         new
                         {
-                            Id = new Guid("f133f267-93b5-4004-a4b2-9e4b41e6f90d"),
+                            Id = new Guid("311ec4fa-cae9-45e1-8b5f-a1ae24ae6019"),
                             AppointmentStatus = "Scheduled",
                             DateTime = "28/10/2024 18:30:00",
-                            OperationRequestId = new Guid("3e229425-bdfe-4f68-a1d2-8fcd95ce1e62"),
-                            SurgeryRoomId = "0ead0319-5a3e-4610-8944-2b812b803222"
+                            OperationRequestId = new Guid("48dd1dd2-e7ff-435c-b943-84e9eba68dfc"),
+                            SurgeryRoomId = "838b2a4c-bc7b-433e-9cd9-c948c2304510"
                         });
                 });
 
@@ -134,173 +134,173 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("fde9564f-6325-4304-bf4e-56f5e79f5f10"),
+                            Id = new Guid("cae569af-afe9-404d-9da1-76b84eecce7f"),
                             dateTime = new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("0529c64a-3ccd-4d59-8bb5-563c07064ec3"),
-                            patientId = "474193fe-6b54-4d9d-b4d2-db3bda005660",
+                            operationTypeId = new Guid("f0341388-9655-465e-ab81-879b176e3c66"),
+                            patientId = "68aff3df-5eb4-4c9b-8b9b-21d40994b9c3",
                             priority = "Elective",
                             requestStatus = "Pending",
-                            staffId = "f04b0e9b-f54c-4112-83b3-6fac7f168017"
+                            staffId = "9f2e2449-b161-43d8-bf7b-4a6f88fd45bc"
                         },
                         new
                         {
-                            Id = new Guid("3e229425-bdfe-4f68-a1d2-8fcd95ce1e62"),
+                            Id = new Guid("48dd1dd2-e7ff-435c-b943-84e9eba68dfc"),
                             dateTime = new DateTime(2024, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("8beac4ef-1a57-40df-8d42-200c155c3606"),
-                            patientId = "5f94b8f7-1a1b-4451-82ff-a1c9bc3d4b51",
+                            operationTypeId = new Guid("aece0fc2-d4c6-4032-b2a8-e57c7f199ab7"),
+                            patientId = "890fc03a-5365-4541-aca8-02cd4a5b48c2",
                             priority = "Urgent",
                             requestStatus = "Pending",
-                            staffId = "f04b0e9b-f54c-4112-83b3-6fac7f168017"
+                            staffId = "9f2e2449-b161-43d8-bf7b-4a6f88fd45bc"
                         },
                         new
                         {
-                            Id = new Guid("0b93cdf4-e67d-46b5-90f3-aa04bdd0b387"),
+                            Id = new Guid("ef53d7c2-00cf-4ef5-b311-09cd76222339"),
                             dateTime = new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("f6b16357-d72d-4e11-b48b-c6bfaac52fd8"),
-                            patientId = "50dfebcf-3578-48d1-b868-5427d851bb72",
+                            operationTypeId = new Guid("8dd68b42-a1ab-47b3-9922-a7d710d47158"),
+                            patientId = "d3a159c6-d82e-4862-bc11-536201f5ee2d",
                             priority = "Emergency",
                             requestStatus = "Pending",
-                            staffId = "f04b0e9b-f54c-4112-83b3-6fac7f168017"
+                            staffId = "9f2e2449-b161-43d8-bf7b-4a6f88fd45bc"
                         },
                         new
                         {
-                            Id = new Guid("2ff3b742-b9b2-405f-ba12-50f2afdedfc2"),
+                            Id = new Guid("e756311d-236f-4bd4-992d-cea4ee623db8"),
                             dateTime = new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("bad19991-3e1c-4424-bd46-b86d0e04a140"),
-                            patientId = "d8b6071f-580b-4cf3-aa59-803ca83f6dfe",
+                            operationTypeId = new Guid("00ef1f89-1dd4-4c24-b1cb-1039a5c72d31"),
+                            patientId = "6136c455-52f4-4f90-921c-5c2cb98c28ed",
                             priority = "Urgent",
                             requestStatus = "Pending",
-                            staffId = "f04b0e9b-f54c-4112-83b3-6fac7f168017"
+                            staffId = "9f2e2449-b161-43d8-bf7b-4a6f88fd45bc"
                         },
                         new
                         {
-                            Id = new Guid("3b25fd3b-8ea0-4ea1-9dda-f1ce15ddcea9"),
+                            Id = new Guid("6765e71e-a465-4e9a-85c5-099c7f6cde26"),
                             dateTime = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("0ec1ad77-7bde-4afb-a83c-498ba89ec9b8"),
-                            patientId = "1405015e-7294-49a3-bb5a-c8a8f09ecf06",
+                            operationTypeId = new Guid("547aefa3-7b4d-4b46-ac7b-6a9f59e01583"),
+                            patientId = "0b418a6e-10ac-473e-a68b-3e06a2f21d38",
                             priority = "Emergency",
                             requestStatus = "Pending",
-                            staffId = "f04b0e9b-f54c-4112-83b3-6fac7f168017"
+                            staffId = "9f2e2449-b161-43d8-bf7b-4a6f88fd45bc"
                         },
                         new
                         {
-                            Id = new Guid("733aba27-8938-4b08-a2af-65c26e2af8a4"),
+                            Id = new Guid("5fabaa99-0080-4d16-ae36-e7b5d819daf9"),
                             dateTime = new DateTime(2025, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("1266af33-ed44-4419-8879-652e2a0ff073"),
-                            patientId = "728f61fb-132e-408d-b1bd-bc7aa6fad1fd",
+                            operationTypeId = new Guid("be4fb15b-0fd5-4bec-adf6-0e9501f23637"),
+                            patientId = "db93a935-d3a1-458a-8c9e-98e44e76633a",
                             priority = "Elective",
                             requestStatus = "Pending",
-                            staffId = "f04b0e9b-f54c-4112-83b3-6fac7f168017"
+                            staffId = "9f2e2449-b161-43d8-bf7b-4a6f88fd45bc"
                         },
                         new
                         {
-                            Id = new Guid("23810870-7bf5-4785-b566-6b3a902efe95"),
+                            Id = new Guid("5dc1d731-fd8e-4085-88a5-46cbc088d65f"),
                             dateTime = new DateTime(2024, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("0ec1ad77-7bde-4afb-a83c-498ba89ec9b8"),
-                            patientId = "88acd096-79e8-415c-9ce9-0757c2597a84",
+                            operationTypeId = new Guid("547aefa3-7b4d-4b46-ac7b-6a9f59e01583"),
+                            patientId = "d45acb35-43c8-4f57-818d-b4f3d17e0bdc",
                             priority = "Elective",
                             requestStatus = "Pending",
-                            staffId = "1fcca6ea-560e-4b4f-95a9-c2eb9e6f747a"
+                            staffId = "5ffb9ab8-694d-448f-90b5-d2cb2d561eab"
                         },
                         new
                         {
-                            Id = new Guid("fa87cbac-2f0b-43d0-abe9-af05708e7b81"),
+                            Id = new Guid("49f5ac2c-2dc0-47f4-bd73-68c2737586ec"),
                             dateTime = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("65b662ff-eb3a-410f-be57-c6ddf1476de2"),
-                            patientId = "728f61fb-132e-408d-b1bd-bc7aa6fad1fd",
+                            operationTypeId = new Guid("19cf8f06-7506-4751-b0db-1682378ffe1b"),
+                            patientId = "db93a935-d3a1-458a-8c9e-98e44e76633a",
                             priority = "Urgent",
                             requestStatus = "Pending",
-                            staffId = "1fcca6ea-560e-4b4f-95a9-c2eb9e6f747a"
+                            staffId = "5ffb9ab8-694d-448f-90b5-d2cb2d561eab"
                         },
                         new
                         {
-                            Id = new Guid("90aba6e5-7840-482d-b82f-1d093f6d8449"),
+                            Id = new Guid("2fdc86c8-120a-4bb0-958f-a1694f77f510"),
                             dateTime = new DateTime(2025, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("1266af33-ed44-4419-8879-652e2a0ff073"),
-                            patientId = "a2fabed7-82ce-4e68-b207-fe91f9d33ec8",
+                            operationTypeId = new Guid("be4fb15b-0fd5-4bec-adf6-0e9501f23637"),
+                            patientId = "4c6eab25-6148-4e42-b192-6fe29355c401",
                             priority = "Emergency",
                             requestStatus = "Pending",
-                            staffId = "1fcca6ea-560e-4b4f-95a9-c2eb9e6f747a"
+                            staffId = "5ffb9ab8-694d-448f-90b5-d2cb2d561eab"
                         },
                         new
                         {
-                            Id = new Guid("036120f9-8e2c-4195-a436-39d0dac9922e"),
+                            Id = new Guid("19c03335-f7bd-405c-a409-33d60b2169f1"),
                             dateTime = new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("fe672ae2-2da1-4fbb-9d9c-d9cb80f230d8"),
-                            patientId = "ba953560-2def-4f6e-b87a-60f8fac08a79",
+                            operationTypeId = new Guid("e1c1f276-724d-4f34-8c3b-4de560fc346b"),
+                            patientId = "50e865c8-39cf-4b59-a50c-236a27dffd70",
                             priority = "Urgent",
                             requestStatus = "Pending",
-                            staffId = "1fcca6ea-560e-4b4f-95a9-c2eb9e6f747a"
+                            staffId = "5ffb9ab8-694d-448f-90b5-d2cb2d561eab"
                         },
                         new
                         {
-                            Id = new Guid("2857c76d-7c12-48a7-b010-bb640e643dd1"),
+                            Id = new Guid("1a944ac7-1fcc-42cf-9c1f-d6bff3de8ff7"),
                             dateTime = new DateTime(2025, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("0e359c70-6cf5-449c-9e73-c8745f867beb"),
-                            patientId = "9fc45861-7910-44d5-93c0-7893f4659e9b",
+                            operationTypeId = new Guid("47db2f8f-adff-4257-9df4-3a8debfcca10"),
+                            patientId = "40ab9b22-0d93-457b-b8b9-50e4b55651a6",
                             priority = "Emergency",
                             requestStatus = "Pending",
-                            staffId = "1fcca6ea-560e-4b4f-95a9-c2eb9e6f747a"
+                            staffId = "5ffb9ab8-694d-448f-90b5-d2cb2d561eab"
                         },
                         new
                         {
-                            Id = new Guid("1a27bb89-2f10-4458-9755-4bbd1fec4c9c"),
+                            Id = new Guid("eb9c4c9b-dbf7-4080-855b-d47775a144ab"),
                             dateTime = new DateTime(2024, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("0e359c70-6cf5-449c-9e73-c8745f867beb"),
-                            patientId = "9fc45861-7910-44d5-93c0-7893f4659e9b",
+                            operationTypeId = new Guid("47db2f8f-adff-4257-9df4-3a8debfcca10"),
+                            patientId = "40ab9b22-0d93-457b-b8b9-50e4b55651a6",
                             priority = "Elective",
                             requestStatus = "Pending",
-                            staffId = "124dbabe-c25e-4aef-81ee-bfe0160a73d4"
+                            staffId = "9618f55d-45fb-458a-88e5-e74f854b5491"
                         },
                         new
                         {
-                            Id = new Guid("23f7701f-6b2c-4c9d-88bd-5ff3ed0af70d"),
+                            Id = new Guid("4f7668dc-c233-407e-8531-e88e47a233ce"),
                             dateTime = new DateTime(2024, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("c6a49f17-8071-4db5-9d6a-deecfed61604"),
-                            patientId = "9405519c-d200-404e-af58-82da32c9f249",
+                            operationTypeId = new Guid("d7ea178a-0db9-435b-bbe9-c679fdb518e8"),
+                            patientId = "efe8c432-d3db-4cb5-8611-19e70128d018",
                             priority = "Urgent",
                             requestStatus = "Pending",
-                            staffId = "124dbabe-c25e-4aef-81ee-bfe0160a73d4"
+                            staffId = "9618f55d-45fb-458a-88e5-e74f854b5491"
                         },
                         new
                         {
-                            Id = new Guid("af350abc-7ce1-41c8-a297-e009667fc6d8"),
+                            Id = new Guid("a832894e-c8d0-43d1-9b12-f61d881ecd38"),
                             dateTime = new DateTime(2025, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("0529c64a-3ccd-4d59-8bb5-563c07064ec3"),
-                            patientId = "7c72d74c-f3dd-4c29-a332-1988018074fb",
+                            operationTypeId = new Guid("f0341388-9655-465e-ab81-879b176e3c66"),
+                            patientId = "616c9166-395e-428a-ac69-7c3c35e3fd7b",
                             priority = "Emergency",
                             requestStatus = "Pending",
-                            staffId = "124dbabe-c25e-4aef-81ee-bfe0160a73d4"
+                            staffId = "9618f55d-45fb-458a-88e5-e74f854b5491"
                         },
                         new
                         {
-                            Id = new Guid("30c8ba54-db23-4b77-bf44-2235402f5590"),
+                            Id = new Guid("48705119-475d-4d2a-9d6d-bb2f88de0820"),
                             dateTime = new DateTime(2025, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("8beac4ef-1a57-40df-8d42-200c155c3606"),
-                            patientId = "7fe6ebee-1d7e-45d1-8053-c77635b3c273",
+                            operationTypeId = new Guid("aece0fc2-d4c6-4032-b2a8-e57c7f199ab7"),
+                            patientId = "791c4458-b797-4557-a9fc-44f4a9607a57",
                             priority = "Urgent",
                             requestStatus = "Pending",
-                            staffId = "124dbabe-c25e-4aef-81ee-bfe0160a73d4"
+                            staffId = "9618f55d-45fb-458a-88e5-e74f854b5491"
                         },
                         new
                         {
-                            Id = new Guid("d81e1042-d599-48fe-8628-4a89a86b2e50"),
+                            Id = new Guid("08f42fef-d35b-4669-92b0-96471413415c"),
                             dateTime = new DateTime(2025, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("f6b16357-d72d-4e11-b48b-c6bfaac52fd8"),
-                            patientId = "1405015e-7294-49a3-bb5a-c8a8f09ecf06",
+                            operationTypeId = new Guid("8dd68b42-a1ab-47b3-9922-a7d710d47158"),
+                            patientId = "0b418a6e-10ac-473e-a68b-3e06a2f21d38",
                             priority = "Urgent",
                             requestStatus = "Pending",
-                            staffId = "124dbabe-c25e-4aef-81ee-bfe0160a73d4"
+                            staffId = "9618f55d-45fb-458a-88e5-e74f854b5491"
                         },
                         new
                         {
-                            Id = new Guid("dd7c6a34-6867-470d-9f17-678e5a3aa7bf"),
+                            Id = new Guid("a577f9ab-79cf-48b6-8399-3a5805be42bc"),
                             dateTime = new DateTime(2025, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            operationTypeId = new Guid("bad19991-3e1c-4424-bd46-b86d0e04a140"),
-                            patientId = "474193fe-6b54-4d9d-b4d2-db3bda005660",
+                            operationTypeId = new Guid("00ef1f89-1dd4-4c24-b1cb-1039a5c72d31"),
+                            patientId = "68aff3df-5eb4-4c9b-8b9b-21d40994b9c3",
                             priority = "Emergency",
                             requestStatus = "Pending",
-                            staffId = "124dbabe-c25e-4aef-81ee-bfe0160a73d4"
+                            staffId = "9618f55d-45fb-458a-88e5-e74f854b5491"
                         });
                 });
 
@@ -361,7 +361,7 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0529c64a-3ccd-4d59-8bb5-563c07064ec3"),
+                            Id = new Guid("f0341388-9655-465e-ab81-879b176e3c66"),
                             MinAnesthetist = 0,
                             MinCirculatingNurse = 0,
                             MinDoctor = 0,
@@ -377,7 +377,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8beac4ef-1a57-40df-8d42-200c155c3606"),
+                            Id = new Guid("aece0fc2-d4c6-4032-b2a8-e57c7f199ab7"),
                             MinAnesthetist = 0,
                             MinCirculatingNurse = 0,
                             MinDoctor = 0,
@@ -393,7 +393,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f6b16357-d72d-4e11-b48b-c6bfaac52fd8"),
+                            Id = new Guid("8dd68b42-a1ab-47b3-9922-a7d710d47158"),
                             MinAnesthetist = 0,
                             MinCirculatingNurse = 0,
                             MinDoctor = 0,
@@ -409,7 +409,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bad19991-3e1c-4424-bd46-b86d0e04a140"),
+                            Id = new Guid("00ef1f89-1dd4-4c24-b1cb-1039a5c72d31"),
                             MinAnesthetist = 0,
                             MinCirculatingNurse = 0,
                             MinDoctor = 0,
@@ -425,7 +425,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("0ec1ad77-7bde-4afb-a83c-498ba89ec9b8"),
+                            Id = new Guid("547aefa3-7b4d-4b46-ac7b-6a9f59e01583"),
                             MinAnesthetist = 0,
                             MinCirculatingNurse = 0,
                             MinDoctor = 0,
@@ -441,7 +441,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("65b662ff-eb3a-410f-be57-c6ddf1476de2"),
+                            Id = new Guid("19cf8f06-7506-4751-b0db-1682378ffe1b"),
                             MinAnesthetist = 0,
                             MinCirculatingNurse = 0,
                             MinDoctor = 0,
@@ -457,7 +457,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1266af33-ed44-4419-8879-652e2a0ff073"),
+                            Id = new Guid("be4fb15b-0fd5-4bec-adf6-0e9501f23637"),
                             MinAnesthetist = 0,
                             MinCirculatingNurse = 0,
                             MinDoctor = 0,
@@ -473,7 +473,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("fe672ae2-2da1-4fbb-9d9c-d9cb80f230d8"),
+                            Id = new Guid("e1c1f276-724d-4f34-8c3b-4de560fc346b"),
                             MinAnesthetist = 0,
                             MinCirculatingNurse = 0,
                             MinDoctor = 0,
@@ -489,7 +489,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("0e359c70-6cf5-449c-9e73-c8745f867beb"),
+                            Id = new Guid("47db2f8f-adff-4257-9df4-3a8debfcca10"),
                             MinAnesthetist = 0,
                             MinCirculatingNurse = 0,
                             MinDoctor = 0,
@@ -505,7 +505,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c6a49f17-8071-4db5-9d6a-deecfed61604"),
+                            Id = new Guid("d7ea178a-0db9-435b-bbe9-c679fdb518e8"),
                             MinAnesthetist = 0,
                             MinCirculatingNurse = 0,
                             MinDoctor = 0,
@@ -593,7 +593,7 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "474193fe-6b54-4d9d-b4d2-db3bda005660",
+                            Id = "68aff3df-5eb4-4c9b-8b9b-21d40994b9c3",
                             DateOfBirth = new DateOnly(2001, 10, 21),
                             Email = "patientA@hospital.com",
                             FullName = "João Camião",
@@ -604,7 +604,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "5f94b8f7-1a1b-4451-82ff-a1c9bc3d4b51",
+                            Id = "890fc03a-5365-4541-aca8-02cd4a5b48c2",
                             DateOfBirth = new DateOnly(1998, 5, 14),
                             Email = "patientB@hospital.com",
                             FullName = "Bruno Silva",
@@ -615,7 +615,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "50dfebcf-3578-48d1-b868-5427d851bb72",
+                            Id = "d3a159c6-d82e-4862-bc11-536201f5ee2d",
                             DateOfBirth = new DateOnly(1995, 12, 30),
                             Email = "patientC@hospital.com",
                             FullName = "Carla Ferreira",
@@ -626,7 +626,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "d8b6071f-580b-4cf3-aa59-803ca83f6dfe",
+                            Id = "6136c455-52f4-4f90-921c-5c2cb98c28ed",
                             DateOfBirth = new DateOnly(1988, 5, 14),
                             Email = "patientD@hospital.com",
                             FullName = "David Oliveira",
@@ -637,7 +637,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "88acd096-79e8-415c-9ce9-0757c2597a84",
+                            Id = "d45acb35-43c8-4f57-818d-b4f3d17e0bdc",
                             DateOfBirth = new DateOnly(1992, 8, 22),
                             Email = "patientE@hospital.com",
                             FullName = "Emma Sousa",
@@ -648,7 +648,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "728f61fb-132e-408d-b1bd-bc7aa6fad1fd",
+                            Id = "db93a935-d3a1-458a-8c9e-98e44e76633a",
                             DateOfBirth = new DateOnly(1985, 3, 10),
                             Email = "patientF@hospital.com",
                             FullName = "Felipe Costa",
@@ -659,7 +659,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "a2fabed7-82ce-4e68-b207-fe91f9d33ec8",
+                            Id = "4c6eab25-6148-4e42-b192-6fe29355c401",
                             DateOfBirth = new DateOnly(2000, 11, 2),
                             Email = "patientG@hospital.com",
                             FullName = "Gabriela Santos",
@@ -670,7 +670,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "ba953560-2def-4f6e-b87a-60f8fac08a79",
+                            Id = "50e865c8-39cf-4b59-a50c-236a27dffd70",
                             DateOfBirth = new DateOnly(1990, 7, 19),
                             Email = "patientH@hospital.com",
                             FullName = "Henrique Almeida",
@@ -681,7 +681,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "9fc45861-7910-44d5-93c0-7893f4659e9b",
+                            Id = "40ab9b22-0d93-457b-b8b9-50e4b55651a6",
                             DateOfBirth = new DateOnly(1994, 1, 15),
                             Email = "patientI@hospital.com",
                             FullName = "Isabel Pereira",
@@ -692,7 +692,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "9405519c-d200-404e-af58-82da32c9f249",
+                            Id = "efe8c432-d3db-4cb5-8611-19e70128d018",
                             DateOfBirth = new DateOnly(1982, 6, 8),
                             Email = "patientJ@hospital.com",
                             FullName = "João Lima",
@@ -703,7 +703,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "7c72d74c-f3dd-4c29-a332-1988018074fb",
+                            Id = "616c9166-395e-428a-ac69-7c3c35e3fd7b",
                             DateOfBirth = new DateOnly(1996, 9, 25),
                             Email = "patientK@hospital.com",
                             FullName = "Karina Martins",
@@ -714,7 +714,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "7fe6ebee-1d7e-45d1-8053-c77635b3c273",
+                            Id = "791c4458-b797-4557-a9fc-44f4a9607a57",
                             DateOfBirth = new DateOnly(1987, 4, 12),
                             Email = "patientL@hospital.com",
                             FullName = "Lucas Rodrigues",
@@ -725,7 +725,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "1405015e-7294-49a3-bb5a-c8a8f09ecf06",
+                            Id = "0b418a6e-10ac-473e-a68b-3e06a2f21d38",
                             DateOfBirth = new DateOnly(1993, 12, 5),
                             Email = "patientM@hospital.com",
                             FullName = "Marta Silva",
@@ -766,21 +766,21 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("639634a6-12e1-486e-b107-29dd6839ef9f"),
+                            Id = new Guid("2ba12613-98de-40f4-bdc0-40c5e1d24209"),
                             codeSpec = "PRO",
                             description = "Prosthetics",
                             designation = "Prosthethiscs"
                         },
                         new
                         {
-                            Id = new Guid("a6653cbe-f9fb-41c1-8ef3-5fb59489c6aa"),
+                            Id = new Guid("c969e14e-ad11-4c3a-88fc-b90351e74cef"),
                             codeSpec = "ART",
                             description = "Arthroscopy",
                             designation = "Arthroscopy"
                         },
                         new
                         {
-                            Id = new Guid("83b5f96e-f697-45a2-90aa-c81960f930c7"),
+                            Id = new Guid("7172b437-5a79-4953-9b51-180a0452ee47"),
                             codeSpec = "SPN",
                             description = "Spine",
                             designation = "Spine"
@@ -829,43 +829,43 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f04b0e9b-f54c-4112-83b3-6fac7f168017",
+                            Id = "9f2e2449-b161-43d8-bf7b-4a6f88fd45bc",
                             Email = "pedro@hospital.com",
                             FullName = "Pedro Carvalho Oliveira Monteiro",
                             IdentityUsername = "pedro",
                             LicenseNumber = "f47ac10b-08cc-4372-a507-0e02b2d3d479",
                             PhoneNumber = "910555111",
-                            StaffRole = "Doctor"
+                            StaffRole = "doctor"
                         },
                         new
                         {
-                            Id = "1fcca6ea-560e-4b4f-95a9-c2eb9e6f747a",
+                            Id = "5ffb9ab8-694d-448f-90b5-d2cb2d561eab",
                             Email = "andre@hospital.com",
                             FullName = "André de Sousa Ferreira",
                             IdentityUsername = "andre",
                             LicenseNumber = "f47ac10b-58cc-4372-a567-0e02b2c3d479",
                             PhoneNumber = "920555222",
-                            StaffRole = "Doctor"
+                            StaffRole = "doctor"
                         },
                         new
                         {
-                            Id = "124dbabe-c25e-4aef-81ee-bfe0160a73d4",
+                            Id = "9618f55d-45fb-458a-88e5-e74f854b5491",
                             Email = "tiago@hospital.com",
                             FullName = "Tiago Filipe Carvalho Nunes",
                             IdentityUsername = "tiago",
                             LicenseNumber = "f57ac10b-68cc-5372-a567-1e02b2c3d479",
                             PhoneNumber = "930555333",
-                            StaffRole = "Doctor"
+                            StaffRole = "doctor"
                         },
                         new
                         {
-                            Id = "b8e61a94-d7a2-4f5d-b75b-ea12858afa5c",
+                            Id = "cb31ca5f-0452-4c12-9803-7788f1a01355",
                             Email = "nurse@hospital.com",
                             FullName = "Nurse One",
                             IdentityUsername = "nurse",
                             LicenseNumber = "n47ac10b-58cc-4372-a567-0e02b2c3d481",
                             PhoneNumber = "910555567",
-                            StaffRole = "Nurse"
+                            StaffRole = "nurse"
                         });
                 });
 
@@ -906,7 +906,7 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e70c40e1-f1d9-427f-918f-bda7ed12447c",
+                            Id = "cff0b0a9-ef67-449f-a8cd-dbe352fc72b3",
                             AssignedEquipment = "[\"Scalpel\",\"Monitor\"]",
                             Capacity = 10,
                             MaintenanceSlots = "[\"28/10/2024=[09:30,10:00];\"]",
@@ -916,7 +916,7 @@ namespace Backend.Migrations
                         },
                         new
                         {
-                            Id = "0ead0319-5a3e-4610-8944-2b812b803222",
+                            Id = "838b2a4c-bc7b-433e-9cd9-c948c2304510",
                             AssignedEquipment = "[\"Scalpel\",\"Monitor\",\"Table\"]",
                             Capacity = 10,
                             MaintenanceSlots = "[\"28/10/2024=[12:30,13:00];\"]",
@@ -924,385 +924,6 @@ namespace Backend.Migrations
                             RoomStatus = "Available",
                             RoomType = "OperatingRoom"
                         });
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
-                    b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "638e2377-9757-472c-a498-1038e80b6ec1",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "d31d8ad6-2a97-4c27-8b1c-106c393cd810",
-                            Name = "Doctor",
-                            NormalizedName = "DOCTOR"
-                        },
-                        new
-                        {
-                            Id = "9b4c17cd-5d67-4a04-b66b-4c3d283309e1",
-                            Name = "Nurse",
-                            NormalizedName = "NURSE"
-                        },
-                        new
-                        {
-                            Id = "64c8e920-3960-46fa-8e8c-8b20203c59aa",
-                            Name = "Technician",
-                            NormalizedName = "TECHNICIAN"
-                        },
-                        new
-                        {
-                            Id = "34b9fa00-a5ce-416a-8686-ad4a93f78f16",
-                            Name = "Patient",
-                            NormalizedName = "PATIENT"
-                        });
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
-
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "da187419-b6c3-4be4-9221-c9123337ca99",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "ca9c820b-5a52-4f0a-990b-1fca597e11dd",
-                            Email = "admin@hospital.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@HOSPITAL.COM",
-                            NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEL5mhZUBoRa057n7F65O9pnnes8cFWEJnfzGlM82DIaU27fr/PalPG36otWSZJwOmg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "9b54ee2b-207c-497f-8ee6-2f345d80bd6c",
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
-                        },
-                        new
-                        {
-                            Id = "31771157-4697-4766-9f35-aa09c696c793",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "e73a58c7-58f7-44bc-9d38-ed098e75b84b",
-                            Email = "doctor@hospital.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "DOCTOR@HOSPITAL.COM",
-                            NormalizedUserName = "DOCTOR",
-                            PasswordHash = "AQAAAAIAAYagAAAAECawDOkoQV86fXvS//Se8dPegErJ2bwg1QeeaQOSHY2MJi4U1sla4ZkTmhEPCxGvkA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "a9bf14a4-0e7b-4e88-b3c8-aebfcacbc1b7",
-                            TwoFactorEnabled = false,
-                            UserName = "doctor"
-                        },
-                        new
-                        {
-                            Id = "eb64b6ff-2213-4a40-898a-7bdcf964859e",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "802b6aa6-6b5a-4a75-8991-14e5d33003fc",
-                            Email = "andre@hospital.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ANDRE@HOSPITAL.COM",
-                            NormalizedUserName = "ANDRE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFPtt1lIzztEaEBmX3K8svT3NyjBCcfrrOFv0I/mjp3tjDxjhKxeD5oa1w0R8fyJYg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "de224251-93b0-47bb-9d15-6328591e2047",
-                            TwoFactorEnabled = false,
-                            UserName = "andre"
-                        },
-                        new
-                        {
-                            Id = "cf6e441b-d007-4655-bcbc-ccbdc62a8852",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "b1edfb4c-e1d8-4e8c-82d9-a6164ab76afe",
-                            Email = "tiago@hospital.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "TIAGO@HOSPITAL.COM",
-                            NormalizedUserName = "TIAGO",
-                            PasswordHash = "AQAAAAIAAYagAAAAENJ8lVPVPOX5CHq3zwMGpkJRyQOWzDfPfPGTffpsop3USGQv0dpMmAHPra0+VzbCZA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "05351278-7192-4578-9dfc-38c7e8e18959",
-                            TwoFactorEnabled = false,
-                            UserName = "tiago"
-                        },
-                        new
-                        {
-                            Id = "a4e34928-0b86-4c39-9087-42f92865c19f",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "b2191e9d-3d18-40ca-a80b-d656746f2f85",
-                            Email = "nurse@hospital.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "NURSE@HOSPITAL.COM",
-                            NormalizedUserName = "NURSE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAqdyVpL7SjE8z9aHeZaUnA/ZEoaH1fwBEghUOxvsFg2zPL5Lq66DJOLMrWZn0WlPg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "5c192409-de2b-4d19-82e3-38eeb3aa5f44",
-                            TwoFactorEnabled = false,
-                            UserName = "nurse"
-                        },
-                        new
-                        {
-                            Id = "b0974e73-c88a-4c10-b2cb-2f96a45f27f9",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "bbad80ea-97d9-4947-9e4b-99ef4b2da4f3",
-                            Email = "technician@hospital.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "TECHNICIAN@HOSPITAL.COM",
-                            NormalizedUserName = "TECHNICIAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAENcXz8eKmfNWbo9V914TKUCxWexIIZ5/gGYzR9UTh7uBGqZyXuHcsTJ//SxcqnEIXA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "e8db0898-9af6-4eda-86d1-b914e5882c05",
-                            TwoFactorEnabled = false,
-                            UserName = "technician"
-                        },
-                        new
-                        {
-                            Id = "f3dbe6eb-aa9a-455d-b2b0-01b953a7a518",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "3f8ea0bb-f61d-4c96-b7cd-6195a5b2a94f",
-                            Email = "patient@hospital.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "PATIENT@HOSPITAL.COM",
-                            NormalizedUserName = "PATIENT",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAEZcmTNGQce15YxLPb54e7Yw2v2uBWbuhLR3xJck4lgvIO9YIEMw9EkbRTF2NmkYw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "94458972-9dac-4b4b-82db-14d831258a7c",
-                            TwoFactorEnabled = false,
-                            UserName = "patient"
-                        });
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserLogins", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "da187419-b6c3-4be4-9221-c9123337ca99",
-                            RoleId = "638e2377-9757-472c-a498-1038e80b6ec1"
-                        },
-                        new
-                        {
-                            UserId = "31771157-4697-4766-9f35-aa09c696c793",
-                            RoleId = "d31d8ad6-2a97-4c27-8b1c-106c393cd810"
-                        },
-                        new
-                        {
-                            UserId = "eb64b6ff-2213-4a40-898a-7bdcf964859e",
-                            RoleId = "d31d8ad6-2a97-4c27-8b1c-106c393cd810"
-                        },
-                        new
-                        {
-                            UserId = "cf6e441b-d007-4655-bcbc-ccbdc62a8852",
-                            RoleId = "d31d8ad6-2a97-4c27-8b1c-106c393cd810"
-                        },
-                        new
-                        {
-                            UserId = "a4e34928-0b86-4c39-9087-42f92865c19f",
-                            RoleId = "9b4c17cd-5d67-4a04-b66b-4c3d283309e1"
-                        },
-                        new
-                        {
-                            UserId = "b0974e73-c88a-4c10-b2cb-2f96a45f27f9",
-                            RoleId = "64c8e920-3960-46fa-8e8c-8b20203c59aa"
-                        },
-                        new
-                        {
-                            UserId = "f3dbe6eb-aa9a-455d-b2b0-01b953a7a518",
-                            RoleId = "34b9fa00-a5ce-416a-8686-ad4a93f78f16"
-                        });
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Domain.Appointments.Appointment", b =>
@@ -1366,57 +987,6 @@ namespace Backend.Migrations
                         .WithMany("Allergies")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Backend.Domain.OperationRequests.OperationRequest", b =>

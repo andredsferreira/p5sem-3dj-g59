@@ -11,12 +11,9 @@ using System.Collections.Generic;
 using Backend.Domain.Shared;
 using Backend.Domain.Staffs;
 using Backend.Domain.Auth;
-using System.Linq;
 using Backend.Domain.DomainLogs;
 using Backend.Infrastructure.DomainLogs;
 using System.Net.Mail;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Backend.Domain.SurgeryRooms;
 using Backend.Infrastructure.SurgeryRooms;
 using Backend.Domain.Slots;
@@ -24,11 +21,10 @@ using Backend.Domain.Appointments;
 using Backend.Infrastructure.Appointments;
 using Backend.Domain.Specializations;
 using Backend.Infrastructure.Specializations;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Backend.Infrastructure;
 
-public class AppDbContext : IdentityDbContext<IdentityUser> {
+public class AppDbContext : DbContext {
 
     public virtual DbSet<OperationRequest> OperationRequests { get; set; }
 
@@ -43,17 +39,14 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
     public virtual DbSet<Appointment> Appointments { get; set; }
 
     public virtual DbSet<DomainLog> DomainLogs { get; set; }
+
     public virtual DbSet<Specialization> Specializations { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {
 
     }
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
-
-        IdentityBootstrap(modelBuilder);
-
         modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new PatientEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new SurgeryRoomEntityTypeConfiguration());
@@ -462,111 +455,6 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
         builder.Entity<Appointment>().HasData(appointment);
     }
 
-    private void IdentityBootstrap(ModelBuilder builder) {
-
-        string adminRoleId = Guid.NewGuid().ToString();
-        string doctorRoleId = Guid.NewGuid().ToString();
-        string nurseRoleId = Guid.NewGuid().ToString();
-        string technicianRoleId = Guid.NewGuid().ToString();
-        string patientRoleId = Guid.NewGuid().ToString();
-
-        builder.Entity<IdentityRole>().HasData(
-            new IdentityRole {
-                Id = adminRoleId,
-                Name = HospitalRoles.Admin,
-                NormalizedName = HospitalRoles.Admin.ToUpper()
-            }, new IdentityRole {
-                Id = doctorRoleId,
-                Name = HospitalRoles.Doctor,
-                NormalizedName = HospitalRoles.Doctor.ToUpper()
-            }, new IdentityRole {
-                Id = nurseRoleId,
-                Name = HospitalRoles.Nurse,
-                NormalizedName = HospitalRoles.Nurse.ToUpper()
-            }, new IdentityRole {
-                Id = technicianRoleId,
-                Name = HospitalRoles.Technician,
-                NormalizedName = HospitalRoles.Technician.ToUpper()
-            }, new IdentityRole {
-                Id = patientRoleId,
-                Name = HospitalRoles.Patient,
-                NormalizedName = HospitalRoles.Patient.ToUpper()
-            }
-        );
-
-        SeedHospitalUser(
-            builder,
-            adminRoleId,
-            "admin",
-            "admin@hospital.com",
-            "adminpassword");
-
-        SeedHospitalUser(builder,
-            doctorRoleId,
-            "doctor",
-            "doctor@hospital.com",
-            "doctorpassword");
-
-        SeedHospitalUser(builder,
-            doctorRoleId,
-            "andre",
-            "andre@hospital.com",
-            "andrepassword");
-
-        SeedHospitalUser(builder,
-            doctorRoleId,
-            "tiago",
-            "tiago@hospital.com",
-            "tiagopassword");
-
-        SeedHospitalUser(builder,
-            nurseRoleId,
-            "nurse",
-            "nurse@hospital.com",
-            "nursepassword");
-
-        SeedHospitalUser(
-            builder,
-            technicianRoleId,
-            "technician",
-            "technician@hospital.com",
-            "technicianpassword");
-
-        SeedHospitalUser(
-            builder,
-            patientRoleId,
-            "patient",
-            "patient@hospital.com",
-            "patientpassword");
-
-    }
-
-    private void SeedHospitalUser(ModelBuilder builder, string roleId, string username, string email, string password) {
-
-        string userId = Guid.NewGuid().ToString();
-        var adminUser = new IdentityUser {
-            Id = userId,
-            UserName = username,
-            NormalizedUserName = username.ToUpper(),
-            Email = email,
-            NormalizedEmail = email.ToUpper(),
-            EmailConfirmed = true,
-            SecurityStamp = Guid.NewGuid().ToString()
-        };
-
-        var passwordHasher = new PasswordHasher<IdentityUser>();
-        adminUser.PasswordHash = passwordHasher.HashPassword(adminUser, password);
-
-        builder.Entity<IdentityUser>().HasData(adminUser);
-
-        builder.Entity<IdentityUserRole<string>>().HasData(
-            new IdentityUserRole<string> {
-                RoleId = roleId,
-                UserId = userId
-            }
-        );
-    }
-
     private void SeedSpecialization(ModelBuilder builder,string id ,string codeSpec, string designation, string description) {
         var specialization = new Specialization(
             new SpecializationID(id),
@@ -578,8 +466,6 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
     }
 
     private void SpecializationBootstrap(ModelBuilder builder){
-
-        
 
     }
 

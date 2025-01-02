@@ -28,14 +28,14 @@ public class PatientController : ControllerBase {
     }
 
     [HttpPost("Create")]
-    [Authorize(Roles = HospitalRoles.Admin)]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<ActionResult<PatientDTO>> CreatePatient(PatientDTO dto) {
         var cat = await _service.CreatePatient(dto);
         return CreatedAtAction(nameof(GetPatientById), new { id = cat.MedicalRecordNumber }, cat);
     }
 
     [HttpGet("Get/{id}")]
-    [Authorize(Roles = $"{HospitalRoles.Admin},{HospitalRoles.Doctor}")]
+    [Authorize(Policy = "AdminPolicy, DoctorPolicy")]
     public ActionResult<PatientDTO> GetPatientById(string id) {
         var cat = _service.GetPatientByIdAsync(new MedicalRecordNumber(id));
         if (cat == null) return NotFound();
@@ -43,7 +43,7 @@ public class PatientController : ControllerBase {
     }
 
     [HttpPatch("Edit/{id}")]
-    [Authorize(Roles = HospitalRoles.Admin)]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<ActionResult<PatientDTO>> EditPatient(string id, [FromBody] FilterPatientDTO dto) {
         try {
             var pat = await _service.EditPatient(new MedicalRecordNumber(id), dto);
@@ -57,7 +57,7 @@ public class PatientController : ControllerBase {
 
 #nullable disable
     [HttpPut("Edit/Self/{id}")]
-    [Authorize(Roles = HospitalRoles.Patient)]
+    [Authorize(Policy = "PatientPolicy")]
     public async Task<ActionResult<PatientDTO>> EditSelf(string id, [FromBody] FilterPatientDTO dto) {
         try {
             var pat = await _service.EditPatientSelf(new MedicalRecordNumber(id), dto);
@@ -71,7 +71,7 @@ public class PatientController : ControllerBase {
 #nullable restore
 
     [HttpPut("confirmEdit/id={id}&name={name}&email={email}&phone={phone}")]
-    [Authorize(Roles = HospitalRoles.Patient)]
+    [Authorize(Policy = "PatientPolicy")]
     public async Task<ActionResult<PatientDTO>> ConfirmEdit(string id, string name, string email, string phone) {
         try {
             var pat = await _service.ConfirmEdit(id, name, email, phone);
@@ -84,7 +84,7 @@ public class PatientController : ControllerBase {
     }
 
     [HttpDelete("Delete/{record}")]
-    [Authorize(Roles = HospitalRoles.Admin)]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<ActionResult<PatientDTO>> DeletePatient(string record) {
         try {
             var pat = await _service.DeletePatient(new MedicalRecordNumber(record));
@@ -97,7 +97,7 @@ public class PatientController : ControllerBase {
     }
 
     [HttpPost("Search")]
-    [Authorize(Roles = HospitalRoles.Admin)]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<ActionResult<IEnumerable<PatientDTO>>> SearchAndFilterPatients(FilterPatientDTO filterPatientDTO) {
         var patients = await _service.SearchPatients(filterPatientDTO);
         if (patients == null) return NotFound();
@@ -105,7 +105,7 @@ public class PatientController : ControllerBase {
     }
 
     [HttpGet("Appointments")]
-    [Authorize(Roles = HospitalRoles.Patient)]
+    [Authorize(Policy = "PatientPolicy")]
     public async Task<ActionResult<IEnumerable<AppointmentDTO>>> GetPatientAppointments(string patientEmail) {
         var appointments = await _service.GetPatientAppointments(patientEmail);
         return appointments.ToList();
@@ -116,7 +116,7 @@ public class PatientController : ControllerBase {
         var pats = await _service.GetAll();
         return pats.ToList();
     }
-    
+
     [HttpGet("{email}")]
     public async Task<IActionResult> GetPatientByUserEmail(string email) {
         try {

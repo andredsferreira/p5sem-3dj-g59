@@ -15,8 +15,6 @@ using Backend.Infrastructure.Staffs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Identity;
-using System;
 using Backend.Infrastructure.Shared.MessageSender;
 using Backend.Domain.DomainLogs;
 using Backend.Infrastructure.DomainLogs;
@@ -27,6 +25,9 @@ using Backend.Domain.SurgeryRooms;
 using Backend.Infrastructure.SurgeryRooms;
 using Backend.Domain.Appointments;
 using Backend.Infrastructure.Appointments;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Backend.Domain.Auth;
 
 namespace Backend;
 public class Startup {
@@ -38,15 +39,12 @@ public class Startup {
     public IConfiguration Configuration { get; }
 
     public void ConfigureServices(IServiceCollection services) {
-        // Variáveis para simplificar código
         var connectionString = Configuration.GetConnectionString("DefaultConnection");
         var mySqlVersion = MySqlServerVersion.AutoDetect(connectionString);
-        var jwtSettings = Configuration.GetSection("Jwt");
-        var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
-
-        services.AddHttpContextAccessor();
 
         ConfigureMyServices(services);
+
+        services.AddHttpContextAccessor();
 
         services.AddLogging();
 
@@ -79,38 +77,29 @@ public class Startup {
                             Id = "Bearer"
                         }
                 },
-                    new string[] {} // No specific scopes required
+                    new string[] {}
                 }
             });
 
         });
 
-        services.AddIdentity<IdentityUser, IdentityRole>(options => {
-            // TODO: Mudar a politica da password
-            options.Password.RequireDigit = false;
-            options.Password.RequireLowercase = true;
-            options.Password.RequireUppercase = false;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequiredLength = 6;
-        })
-        .AddEntityFrameworkStores<AppDbContext>()
-        .AddDefaultTokenProviders();
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options => {
+            options.TokenValidationParameters = new TokenValidationParameters {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("KHPK6Ucf/zjvU4qW8/vkuuGLHeIo0l9ACJiTaAPLKbka")),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+            };
+        });
 
-        services.AddAuthentication(options => {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).
-            AddJwtBearer(options => {
-                options.TokenValidationParameters = new TokenValidationParameters {
-                    ValidateIssuer = true,
-                    ValidIssuer = jwtSettings["Issuer"],
-                    ValidateAudience = true,
-                    ValidAudience = jwtSettings["Audience"],
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
+        services.AddAuthorization(options => {
+            options.AddPolicy("AdminPolicy", policy => policy.RequireRole(HospitalRoles.Admin));
+            options.AddPolicy("DoctorPolicy", policy => policy.RequireRole(HospitalRoles.Doctor));
+            options.AddPolicy("NursePolicy", policy => policy.RequireRole(HospitalRoles.Nurse));
+            options.AddPolicy("TechnicianPolicy", policy => policy.RequireRole(HospitalRoles.Technician));
+            options.AddPolicy("PatientPolicy", policy => policy.RequireRole(HospitalRoles.Patient));
+        });
 
         services.AddCors(options => {
             options.AddPolicy("AllowSpecificOrigin", builder => {
@@ -173,7 +162,6 @@ public class Startup {
         app.UseAuthentication();
 
         app.UseAuthorization();
-
 
         app.UseEndpoints(endpoints => {
             endpoints.MapControllers();

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Threading.Tasks;
 using Backend.Domain.Auth;
 using Backend.Domain.OperationTypes;
@@ -26,12 +28,8 @@ public class OperationRequestService {
 
     private readonly IOperationTypeRepository _operationTypeRepository;
 
-    public OperationRequestService() {
-        // For tests
-    }
-
-    public OperationRequestService(IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, IOperationRequestRepository operationRequestRepository, IPatientRepository patientRepository, IStaffRepository staffRepository, IOperationTypeRepository operationTypeRepository) {
-        _httpContextAccessor = httpContextAccessor;
+    public OperationRequestService(IHttpContextAccessor contextAccessor, IUnitOfWork unitOfWork, IOperationRequestRepository operationRequestRepository, IPatientRepository patientRepository, IStaffRepository staffRepository, IOperationTypeRepository operationTypeRepository) {
+        _httpContextAccessor = contextAccessor;
         _unitOfWork = unitOfWork;
         _operationRequestRepository = operationRequestRepository;
         _patientRepository = patientRepository;
@@ -41,8 +39,7 @@ public class OperationRequestService {
 
     public virtual async Task<Guid> CreateOperationRequest(CreateOperationRequestDTO dto) {
 
-        var fetchedUsername = _httpContextAccessor.HttpContext?.User?
-            .FindFirst(HospitalClaims.Username)?.Value;
+        var fetchedUsername = GetClaimFromJwt("username");
         if (fetchedUsername == null) {
             throw new EmptyUserNameException("Your accessing with an empty username");
         }
@@ -89,11 +86,11 @@ public class OperationRequestService {
             throw new OperationRequestNotFoundException("The operation request you are trying to update does not exist!");
         }
 
-        var loggedUsername = _httpContextAccessor.HttpContext?.User?
-            .FindFirst(HospitalClaims.Username)?.Value;
+        var fetchedUsername = GetClaimFromJwt("username");
         var operationRequestDoctor = await _staffRepository.GetByIdAsync(operationRequest.staffId);
+        
         var doctorUsername = operationRequestDoctor.IdentityUsername;
-        if (doctorUsername != loggedUsername) {
+        if (doctorUsername != fetchedUsername) {
             throw new InvalidOperationRequestException("The operation request you are trying to update is associated with another doctor");
         }
 
@@ -114,8 +111,8 @@ public class OperationRequestService {
             throw new OperationRequestNotFoundException("That operation request does not exist");
         }
 
-        var loggedUsername = _httpContextAccessor.HttpContext?.User?
-            .FindFirst(HospitalClaims.Username)?.Value;
+        var loggedUsername = GetClaimFromJwt("username");
+        
         var operationRequestDoctor = await _staffRepository.GetByIdAsync(operationRequest.staffId);
         var doctorUsername = operationRequestDoctor.IdentityUsername;
         if (doctorUsername != loggedUsername) {
@@ -155,6 +152,26 @@ public class OperationRequestService {
         await _unitOfWork.CommitAsync();
 
         return returnList;
+    }
+
+    private string GetClaimFromJwt(string claimType) {
+        var httpContext = _httpContextAccessor.HttpContext;
+        if (httpContext == null) {
+            throw new UnauthorizedAccessException("No HTTP context available.");
+        }
+        var authorizationHeader = httpContext.Request.Headers["Authorization"].FirstOrDefault();
+        if (authorizationHeader != null && authorizationHeader.StartsWith("Bearer ")) {
+            var token = authorizationHeader.Substring("Bearer ".Length).Trim();
+
+            var handler = new JwtSecurityTokenHandler();
+            if (handler.CanReadToken(token)) {
+                var jwtToken = handler.ReadJwtToken(token);
+                var claim = jwtToken.Claims.FirstOrDefault(c => c.Type == claimType);
+                return claim?.Value;
+            }
+        }
+
+        throw new UnauthorizedAccessException("Invalid or missing JWT.");
     }
 
 }

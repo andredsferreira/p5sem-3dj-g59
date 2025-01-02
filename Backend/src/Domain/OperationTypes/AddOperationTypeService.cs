@@ -12,6 +12,7 @@ namespace Backend.Domain.OperationTypes;
 public class AddOperationTypeService {
 
     private readonly IOperationTypeRepository _repository;
+    
     private readonly ISpecializationRepository _specializationRepository;
 
     private readonly IUnitOfWork _unitOfWork;

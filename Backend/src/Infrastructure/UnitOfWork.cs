@@ -6,20 +6,17 @@ public class UnitOfWork : IUnitOfWork {
 
     private readonly AppDbContext context;
 
-    private readonly AppDbContext identityContext;
 
-    public UnitOfWork(AppDbContext context, AppDbContext identityContext) {
+    public UnitOfWork(AppDbContext context) {
         this.context = context;
-        this.identityContext = identityContext;
     }
 
     public async Task<int> CommitAsync() {
         using (var transaction = await context.Database.BeginTransactionAsync()) {
             try {
                 var result1 = await context.SaveChangesAsync();
-                var result2 = await identityContext.SaveChangesAsync();
                 await transaction.CommitAsync();
-                return result1 + result2;
+                return result1;
             }
             catch {
                 await transaction.RollbackAsync();
