@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Backend.Controllers;
 using Backend.Domain.OperationRequests;
+using Backend.Domain.OperationTypes;
+using Backend.Domain.Patients;
+using Backend.Domain.Shared;
 using Backend.Domain.Shared.Exceptions;
+using Backend.Domain.Staffs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
@@ -12,10 +17,16 @@ namespace Backend.ControllerTests {
     public class OperationRequestControllerUnitTests {
 
         private readonly Mock<OperationRequestService> _mockService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IOperationRequestRepository _operationRequestRepository;
+        private readonly IPatientRepository _patientRepository;
+        private readonly IStaffRepository _staffRepository;
+        private readonly IOperationTypeRepository _operationTypeRepository;
         private readonly OperationRequestController _controller;
 
         public OperationRequestControllerUnitTests() {
-            _mockService = new Mock<OperationRequestService>();
+            _mockService = new Mock<OperationRequestService>(_httpContextAccessor, _unitOfWork, _operationRequestRepository, _patientRepository, _staffRepository, _operationTypeRepository);
             _controller = new OperationRequestController(_mockService.Object);
         }
 
