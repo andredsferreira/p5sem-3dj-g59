@@ -35,7 +35,10 @@ Through the requisites, the team concluded:
 
 ## 4. Design
 
--
+The team decided that:
+* A new callable predicate will be added to our existing prolog scheduler.
+* The new predicate will use the dynamic facts established by [**US 7.3.1.**](../7-3-1/readme.md).
+* The best resulting schedule will be the output.
 
 ## 5. Implementation
 
