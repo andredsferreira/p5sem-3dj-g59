@@ -25,13 +25,13 @@ public class PatientServiceUnitTest {
         _service = new PatientService(_mockUnit.Object, _mockPatRepo.Object, _mockLogRepo.Object, _mockMessageSender.Object);
     }
     private PatientDTO SeedPatientDTO1(){
-        return new PatientDTO(string.Format("{0}{1}000001", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-10"),"diogo10072004@gmail.com","987876765","Male","John One Two Doe", "Dogs, Cats");
+        return new PatientDTO(string.Format("{0}{1:D2}000001", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-10"),"diogo10072004@gmail.com","987876765","Male","John One Two Doe", "Dogs, Cats");
     }
     private PatientDTO SeedPatientDTO2(){
-        return new PatientDTO(string.Format("{0}{1}000002", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-14"),"teste2@gmail.com","922114411","Female","Jane One Two Doe", "Cats");
+        return new PatientDTO(string.Format("{0}{1:D2}000002", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-14"),"teste2@gmail.com","922114411","Female","Jane One Two Doe", "Cats");
     }
     private PatientDTO SeedPatientDTO3(){
-        return new PatientDTO(string.Format("{0}{1}000001", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-10"),"novo@gmail.com","912834756","Male","Joao One Two Doe", "Dogs");
+        return new PatientDTO(string.Format("{0}{1:D2}000001", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-10"),"novo@gmail.com","912834756","Male","Joao One Two Doe", "Dogs");
     }
     private PatientDTO SeedPatientDTOWithoutMedicalRecord(){
         return new PatientDTO("", DateOnly.Parse("2004-07-10"),"teste@gmail.com","987876765","Male","John One Two Doe", "Dogs, Cats");
@@ -55,7 +55,7 @@ public class PatientServiceUnitTest {
         // Act
         var result = await _service.CreatePatient(dto);
         // Assert
-        Assert.Equal(result.MedicalRecordNumber, string.Format("{0}{1}000003", DateTime.Today.Year, DateTime.Today.Month));
+        Assert.Equal(result.MedicalRecordNumber, string.Format("{0}{1:D2}000003", DateTime.Today.Year, DateTime.Today.Month));
         Assert.Equal(dto.DateOfBirth, result.DateOfBirth);
         Assert.Equal(dto.Email, result.Email);
         Assert.Equal(dto.PhoneNumber, result.PhoneNumber);
@@ -73,7 +73,7 @@ public class PatientServiceUnitTest {
         // Act
         var result = await _service.CreatePatient(dto);
         // Assert
-        Assert.Equal(result.MedicalRecordNumber, string.Format("{0}{1}000001", DateTime.Today.Year, DateTime.Today.Month));
+        Assert.Equal(result.MedicalRecordNumber, string.Format("{0}{1:D2}000001", DateTime.Today.Year, DateTime.Today.Month));
         Assert.Equal(dto.DateOfBirth, result.DateOfBirth);
         Assert.Equal(dto.Email, result.Email);
         Assert.Equal(dto.PhoneNumber, result.PhoneNumber);

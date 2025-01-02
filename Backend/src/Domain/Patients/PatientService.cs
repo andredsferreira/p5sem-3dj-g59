@@ -41,7 +41,7 @@ public class PatientService {
     }
     private async Task<MedicalRecordNumber> GenerateMedicalRecord() {
         StringBuilder stringBuilder = new(DateTime.Today.Year.ToString());
-        stringBuilder.Append(DateTime.Today.Month);
+        stringBuilder.Append(DateTime.Today.Month.ToString("D2"));
         var sequentialNumber = (await _repository.GetAllAsync())
             .Where(p => p.MedicalRecordNumber.Record.StartsWith(stringBuilder.ToString()))
             .Select(p => int.Parse(p.MedicalRecordNumber.Record.Substring(6, 6)))

@@ -43,13 +43,13 @@ public class PatientControllerIntegrationWIsolationTests
         return new Patient(new MedicalRecordNumber("202410000001"), DateOnly.Parse("2004-07-10"),new MailAddress("teste@gmail.com"),new PhoneNumber("987876765"),Gender.Male, new FullName("John One Two Doe"), [new Allergy("Dogs"), new Allergy("Cats")]);
     }
     private PatientDTO SeedPatientDTO1(){
-        return new PatientDTO(string.Format("{0}{1}000001", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-10"),"diogo10072004@gmail.com","987876765","Male","John One Two Doe", "Dogs, Cats");
+        return new PatientDTO(string.Format("{0}{1:D2}000001", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-10"),"diogo10072004@gmail.com","987876765","Male","John One Two Doe", "Dogs, Cats");
     }
     private PatientDTO SeedPatientDTO2(){
-        return new PatientDTO(string.Format("{0}{1}000002", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-14"),"teste2@gmail.com","922114411","Female","Jane One Two Doe", "Cats");
+        return new PatientDTO(string.Format("{0}{1:D2}000002", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-14"),"teste2@gmail.com","922114411","Female","Jane One Two Doe", "Cats");
     }
     private PatientDTO SeedPatientDTO3(){
-        return new PatientDTO(string.Format("{0}{1}000001", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-10"),"novo@gmail.com","912834756","Male","Joao One Two Doe", "Dogs");
+        return new PatientDTO(string.Format("{0}{1:D2}000001", DateTime.Today.Year, DateTime.Today.Month), DateOnly.Parse("2004-07-10"),"novo@gmail.com","912834756","Male","Joao One Two Doe", "Dogs");
     }
     private FilterPatientDTO SeedFilterPatientDTO(){
         return new FilterPatientDTO{Email = "novo@gmail.com"};
