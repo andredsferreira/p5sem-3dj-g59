@@ -6,7 +6,6 @@ import (
 	"iam/model"
 	"iam/service"
 	"net/http"
-	"strings"
 )
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
@@ -40,24 +39,8 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 func RegisterBackofficeHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	authHeader := r.Header.Get("Authorization")
-	if authHeader == "" {
-		http.Error(w, "authorization header is missing", http.StatusUnauthorized)
-		return
-	}
-	var token string
-	_, err := fmt.Sscanf(authHeader, "Bearer %s", &token)
-	if err != nil || token == "" {
-		http.Error(w, "invalid authorization header format", http.StatusUnauthorized)
-		return
-	}
-	role := service.GetRoleFromJWT(token)
-	if role != string(model.Admin) {
-		http.Error(w, "role is not admin", http.StatusUnauthorized)
-		return
-	}
 	var u model.User
-	err = json.NewDecoder(r.Body).Decode(&u)
+	err := json.NewDecoder(r.Body).Decode(&u)
 	if !service.IsValidRole(u.Role) {
 		http.Error(w, "invalid user role", http.StatusBadRequest)
 		return
@@ -97,17 +80,9 @@ func RegisterPatientHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "provide an email", http.StatusBadRequest)
 		return
 	}
-	patientEmail := patient.Email
-	apiUrl := fmt.Sprintf("http://localhost:5000/api/patient/%s",
-		strings.TrimSpace(patientEmail))
-	resp, err := http.Get(apiUrl)
+	err = service.CheckPatientRegisteredByAdmin(patient.Email)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		http.Error(w, "patient not registered by admin", http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	if service.CheckAlreadyExistingUser(patient.Username) {

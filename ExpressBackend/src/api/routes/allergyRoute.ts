@@ -32,4 +32,5 @@ export default (app: Router) => {
         (req, res, next) => ctrl.getAllergyByName(req, res, next)
     )
 
+
 }

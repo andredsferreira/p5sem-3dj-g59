@@ -2,8 +2,11 @@ package service
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"iam/model"
+	"net/http"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -96,4 +99,18 @@ func IsValidRole(role string) bool {
 	default:
 		return false
 	}
+}
+
+func CheckPatientRegisteredByAdmin(email string) error {
+	apiUrl := fmt.Sprintf("http://localhost:5000/api/patient/%s",
+		strings.TrimSpace(email))
+	resp, err := http.Get(apiUrl)
+	if err != nil {
+		return errors.New("error requesting backend API")
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return  errors.New("patient not registered by admin")
+	}
+	return nil
 }
