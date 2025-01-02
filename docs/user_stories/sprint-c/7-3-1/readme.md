@@ -1,4 +1,4 @@
-# US 7.6.1 - Assign surgeries to rooms
+# US 7.3.1 - Assign surgeries to rooms
 
 As an Admin, I want an automatic method to assign a set of operations (surgeries) to several operation rooms (assign is just to decide in whic operation room the surgery will be done)
 
@@ -49,10 +49,6 @@ The team decided that:
 * A new callable predicate will be added to our existing prolog scheduler.
 * This predicate will add the room-surgeries combinations (Room **or1** will have surgeries **s01**, **so4** and **so5**) to dynamic facts, so these can be used by the other scheduling methods.
 
-## 5. Implementation
+## 5. Implementation and Demonstration
 
--
-
-## 6. Demonstration
-
--
+These are specified in the [report](Report.pdf).
