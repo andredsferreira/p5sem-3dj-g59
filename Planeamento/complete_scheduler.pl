@@ -10,6 +10,8 @@
 :-dynamic population/1.
 :-dynamic prob_crossover/1.
 :-dynamic prob_mutation/1.
+:-dynamic surgeries_per_room/2.
+:-dynamic num_surgeries/1.
 
 :- use_module(library(http/http_server)).
 :- use_module(library(http/http_dispatch)).
@@ -43,8 +45,8 @@ agenda_staff(d002,20241028,[(850,900,m02)]).
 agenda_staff(d003,20241028,[(760,790,m01)]).
 agenda_staff(n001,20241028,[(750,790,m01)]).
 agenda_staff(n002,20241028,[(950,980,m02)]).
-agenda_staff(n003,20241028,[(1000,1050,m01)]).
-%agenda_staff(d004,20241028,[(850,900,m02),(940,980,c04)]).
+agenda_staff(n003,20241028,[]).
+agenda_staff(d004,20241028,[(950,980,c04)]).
 agenda_staff(d005,20241028,[(720,850,m01)]).
 agenda_staff(m001,20241028,[]).
 agenda_staff(m002,20241028,[]).
@@ -55,7 +57,7 @@ timetable(d003,20241028,(320,1320)).
 timetable(n001,20241028,(300,1200)).
 timetable(n002,20241028,(350,1250)).
 timetable(n003,20241028,(290,1440)).
-%timetable(d004,20241028,(420,1020)).
+timetable(d004,20241028,(420,1020)).
 timetable(d005,20241028,(300,1300)).
 timetable(m001,20241028,(250,1000)).
 timetable(m002,20241028,(390,1440)).
@@ -66,7 +68,7 @@ staff(d003,doctor,orthopaedist,[so2,so3,so4]).
 staff(n001,nurse,anaesthetist,[so2,so3,so4]).
 staff(n002,nurse,instrumenting,[so2,so3,so4]).
 staff(n003,nurse,circulating,[so2,so3,so4]).
-%staff(d004,doctor,orthopaedist,[so2,so3,so4]).
+staff(d004,doctor,orthopaedist,[so2,so3,so4]).
 staff(d005,doctor,anaesthetist,[so2,so3,so4]).
 staff(m001,assistant,medicalaction,[so2,so3,so4]).
 staff(m002,assistant,medicalaction,[so2,so3,so4]).
@@ -81,15 +83,15 @@ surgery_id(so100001,so2).
 surgery_id(so100002,so3).
 surgery_id(so100003,so4).
 surgery_id(so100004,so2).
-%surgery_id(so100005,so4).
-%surgery_id(so100006,so2).
-%surgery_id(so100007,so3).
-%surgery_id(so100008,so2).
-%surgery_id(so100009,so2).
-%surgery_id(so100010,so2).
-%surgery_id(so100011,so4).
-%surgery_id(so100012,so2).
-%surgery_id(so100013,so2).
+surgery_id(so100005,so4).
+surgery_id(so100006,so2).
+surgery_id(so100007,so3).
+surgery_id(so100008,so2).
+surgery_id(so100009,so2).
+surgery_id(so100010,so2).
+surgery_id(so100011,so4).
+surgery_id(so100012,so2).
+surgery_id(so100013,so2).
 
 assignment_surgery(so100001,d001,2).
 assignment_surgery(so100001,n001,1).
@@ -110,32 +112,58 @@ assignment_surgery(so100004,n001,1).
 assignment_surgery(so100004,n002,3).
 assignment_surgery(so100004,m002,3).
 
-%assignment_surgery(so100005,d002).
-%assignment_surgery(so100005,d003).
-%assignment_surgery(so100006,d001).
-%assignment_surgery(so100007,d003).
-%assignment_surgery(so100008,d004).
-%assignment_surgery(so100008,d003).
-%assignment_surgery(so100009,d002).
-%assignment_surgery(so100009,d004).
-%assignment_surgery(so100010,d003).
-%assignment_surgery(so100011,d001).
-%assignment_surgery(so100012,d001).
-%assignment_surgery(so100013,d004).
+assignment_surgery(so100005,d002,2).
+assignment_surgery(so100005,n001,1).
+assignment_surgery(so100005,n002,3).
+assignment_surgery(so100005,m001,3).
+
+assignment_surgery(so100006,d004,2).
+assignment_surgery(so100006,n002,1).
+assignment_surgery(so100006,m002,3).
+
+assignment_surgery(so100007,d002,2).
+assignment_surgery(so100007,n002,1).
+assignment_surgery(so100007,m002,3).
+
+assignment_surgery(so100008,d001,2).
+assignment_surgery(so100008,n001,1).
+assignment_surgery(so100008,m001,3).
+
+assignment_surgery(so100009,d002,2).
+assignment_surgery(so100009,n002,1).
+assignment_surgery(so100009,m002,3).
+
+assignment_surgery(so100010,d003,2).
+assignment_surgery(so100010,d005,1).
+assignment_surgery(so100010,m001,3).
+
+assignment_surgery(so100011,d004,2).
+assignment_surgery(so100011,n003,1).
+assignment_surgery(so100011,m001,3).
+
+assignment_surgery(so100012,d001,2).
+assignment_surgery(so100012,n001,1).
+assignment_surgery(so100012,m002,3).
+
+assignment_surgery(so100013,d002,2).
+assignment_surgery(so100013,n002,1).
+assignment_surgery(so100013,m002,3).
 
 % surgeries(NSurgeries).
-surgeries(4).
+surgeries(13).
 
 % agenda_operation_room(Room,Day,ListOfOccupiedTimes)
 agenda_operation_room(or1,20241028,[(520,579,so100000),(1000,1059,so099999)]).
 agenda_operation_room(or2,20241028,[(700,800,so200000)]).
-agenda_operation_room(or3,20241028,[(650,800,so300000),(950,1050,so088888)]).
+agenda_operation_room(or3,20241028,[(750,800,so300000)]).
+agenda_operation_room(or4,20241028,[(800,900,so300000),(950,1050,so088888)]).
 
 %------------------------SCHEDULE-SURGERIES-TO-ROOMS--------------------------
 
 associate_surgeries_to_rooms(Day):-
     retractall(total_surgery_time(_,_)),
     retractall(agenda_operation_room1(_,_,_)),
+    retractall(surgeries_per_room(_,_)),
     findall(_, (agenda_operation_room(R,D,Agenda), assertz(agenda_operation_room1(R,D,Agenda))), _),
     findall(SurgeryID, surgery_id(SurgeryID, _), LSurgeries),
     getTotalTimes(LSurgeries),
@@ -179,6 +207,14 @@ schedule_surgery(Surgery, Room, Day):-
     write("Occupation Rate for room "),write(Room),write(" = "),write(RoomOccupationRate),nl,
     RoomOccupationRate < 0.8,
     assertz(agenda_operation_room1(Room,Day,NewAgenda)),
+    
+    ( surgeries_per_room(Room, Operations) ->
+        retract(surgeries_per_room(Room, Operations))
+    ; 
+        Operations = [] % Inicialize como uma lista vazia caso não exista.
+    ),
+    assertz(surgeries_per_room(Room,[Surgery|Operations])),
+    %write("List of surgeries for room "), write(Room), write(" = "), write([Surgery|Operations]),nl,
     write("Scheduled "), write(Surgery), write(" (with duration="), write(Duration), write(") in room "), write(Room), nl,
     write("Updated room "), write(Room), write("'s agenda: "), write(NewAgenda), nl.
 
@@ -196,7 +232,8 @@ schedule_all_surgeries(Room,Day):-
     findall(_,(agenda_staff(D,Day,Agenda),assertz(agenda_staff1(D,Day,Agenda))),_),
     agenda_operation_room(Or,Date,Agenda),assert(agenda_operation_room1(Or,Date,Agenda)),
     findall(_,(agenda_staff1(D,Date,L),free_agenda0(L,LFA),adapt_timetable(D,Date,LFA,LFA2),assertz(availability(D,Date,LFA2))),_),
-    findall(OpCode,surgery_id(OpCode,_),LOpCode),
+    %findall(OpCode,surgeries_per_room(Room,OpCode),LOpCode),
+    surgeries_per_room(Room,LOpCode),
 
     availability_all_surgeries(LOpCode,Room,Day),!.
 
@@ -249,7 +286,9 @@ obtain_better_sol(Room,Day,AgOpRoomBetter,LAgDoctorsBetter,TFinOp):-
 
 obtain_better_sol1(Room,Day):-
     asserta(better_sol(Day,Room,_,_,1441)),
-    findall(OpCode,surgery_id(OpCode,_),LOC),!,
+    %findall(OpCode,surgery_id(OpCode,_),LOC),!,
+    surgeries_per_room(Room,LOC),!,
+    write("LOC="),write(LOC),nl,
     permutation(LOC,LOpCode),
     retractall(agenda_staff1(_,_,_)),
     retractall(agenda_operation_room1(_,_,_)),
@@ -306,7 +345,7 @@ initialize:-write('Number of new generations: '),read(NG),
 
 generate(Room,Day):-
     initialize,
-    generate_population(Pop),
+    generate_population(Pop,Room),
     write('Pop='),write(Pop),nl,
     evaluate_population(Pop,PopValue,Room,Day),
     write('PopValue='),write(PopValue),nl,
@@ -314,11 +353,13 @@ generate(Room,Day):-
     generations(NG),
     generate_generation(0,NG,PopOrd,Room,Day).
 
-generate_population(Pop):-
+generate_population(Pop,Room):-
     population(PopSize),
-    surgeries(NumT),
+    surgeries_per_room(Room,SurgeryList),
+    length(SurgeryList,NumT),
+    retractall(num_surgeries(_)),
+    assertz(num_surgeries(NumT)),
     write("NumT"), write(NumT),nl,
-    findall(Surgery,surgery_id(Surgery,_),SurgeryList),
     generate_population(PopSize,SurgeryList,NumT,Pop).
 
 generate_population(0,_,_,[]):-!.
@@ -409,7 +450,7 @@ generate_generation(N,G,Pop,Room,Day):-
 generate_crossover_points(P1,P2):- generate_crossover_points1(P1,P2).
 
 generate_crossover_points1(P1,P2):-
-	surgeries(N),
+	num_surgeries(N),
 	NTemp is N+1,
 	random(1,NTemp,P11),
 	random(1,NTemp,P21),
@@ -470,7 +511,7 @@ remove([_|R1],L,R2):-
 
 insert([],L,_,L):-!.
 insert([X|R],L,N,L2):-
-    surgeries(T),
+    num_surgeries(T),
     ((N>T,!,N1 is N mod T);N1 = N),
     insert1(X,N1,L,L1),
     N2 is N + 1,
@@ -484,7 +525,7 @@ insert1(X,N,[Y|L],[Y|L1]):-
 
 cross(Ind1,Ind2,P1,P2,NInd11):-
     sublist(Ind1,P1,P2,Sub1),
-    surgeries(NumT),
+    num_surgeries(NumT),
     R is NumT-P2,
     rotate_right(Ind2,R,Ind21),
     remove(Ind21,Sub1,Sub2),
