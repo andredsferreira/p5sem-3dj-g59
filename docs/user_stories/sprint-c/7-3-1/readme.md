@@ -45,7 +45,9 @@ Through the open questions, the team concluded:
 
 ## 4. Design
 
--
+The team decided that:
+* A new callable predicate will be added to our existing prolog scheduler.
+* This predicate will add the room-surgeries combinations (Room **or1** will have surgeries **s01**, **so4** and **so5**) to dynamic facts, so these can be used by the other scheduling methods.
 
 ## 5. Implementation
 
