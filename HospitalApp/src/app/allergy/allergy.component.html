@@ -1,41 +1,50 @@
-<div class="container">
-  <!-- Button to toggle create allergy form -->
-  <button (click)="toggleCreateForm()" class="btn btn-primary">
-    Create Allergy
-  </button>
+<div
+  class="allergy-container mx-auto max-w-4xl p-6 bg-white shadow-md rounded-md">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-lg font-semibold">Manage Allergies</h2>
+    <button (click)="toggleCreateForm()"
+      class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">
+      Create Allergy
+    </button>
+  </div>
 
-  <!-- Create Allergy Form Popup -->
-  <div *ngIf="showCreateForm" class="modal">
-    <div class="modal-content">
-      <h2>Create Allergy</h2>
-
+  <div *ngIf="showCreateForm"
+    class="modal fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div
+      class="modal-content bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+      <h2 class="text-lg font-semibold mb-4">Create Allergy</h2>
       <form [formGroup]="allergyForm" (ngSubmit)="addAllergy()">
-        <div class="form-group">
-          <label for="allergyName">Name</label>
-          <input
-            id="allergyName"
-            type="text"
-            formControlName="allergyName"
-            class="form-control"
-            placeholder="Enter allergy name"
-          />
+        <div class="form-group mb-4">
+          <label for="allergyCode"
+            class="block text-sm font-semibold mb-2">Code</label>
+          <input id="allergyCode" type="text" formControlName="allergyCode"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter allergy code" />
         </div>
 
-        <div class="form-group">
-          <label for="allergyDescription">Description</label>
-          <textarea
-            id="allergyDescription"
-            formControlName="allergyDescription"
-            class="form-control"
-            placeholder="Enter allergy description"
-          ></textarea>
+        <div class="form-group mb-4">
+          <label for="allergyName"
+            class="block text-sm font-semibold mb-2">Name</label>
+          <input id="allergyName" type="text" formControlName="allergyName"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter allergy name" />
         </div>
 
-        <div class="form-group">
-          <button type="submit" class="btn btn-success" [disabled]="allergyForm.invalid">
+        <div class="form-group mb-4">
+          <label for="allergyDescription"
+            class="block text-sm font-semibold mb-2">Description</label>
+          <textarea id="allergyDescription" formControlName="allergyDescription"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter allergy description"></textarea>
+        </div>
+
+        <div class="flex justify-end space-x-2 mt-4">
+          <button type="submit" [disabled]="allergyForm.invalid"
+            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
             Submit
           </button>
-          <button (click)="toggleCreateForm()" type="button" class="btn btn-secondary">
+          <button type="button" (click)="toggleCreateForm()"
+            class="px-4 py-2 bg-slate-300 text-black rounded hover:bg-slate-600 transition">
             Cancel
           </button>
         </div>
@@ -43,19 +52,38 @@
     </div>
   </div>
 
-  <!-- Search Bar to view allergy details -->
-  <div class="search-container">
-    <input
-      type="text"
-      [(ngModel)]="allergyForm.value.allergyName"
-      (ngModelChange)="getAllergyByName(allergyForm.value.allergyName)"
-      class="form-control"
-      placeholder="Search allergy by name"
-    />
+  <div class="search-container mb-6">
+    <div class="flex items-center space-x-4">
+      <input type="text" [(ngModel)]="searchName"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+        placeholder="Search allergy by name" />
+      <button (click)="getAllergyByName(searchName)"
+        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+        Search
+      </button>
+    </div>
   </div>
 
-  <!-- Error message display -->
-  <div *ngIf="errorMessage" class="alert alert-danger">
+  <div *ngIf="allergyResults.length > 0" class="results-container mt-6">
+    <h3 class="text-lg font-semibold mb-4">Search Results</h3>
+    <ul class="space-y-4">
+      <li *ngFor="let allergy of allergyResults"
+        class="p-4 border border-gray-300 rounded-md">
+        <h4 class="font-bold text-lg">{{ allergy.name }}</h4>
+        <p><strong>Code:</strong> {{ allergy.code }}</p>
+        <p><strong>Description:</strong> {{ allergy.description }}</p>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="!allergyResults.length && !errorMessage"
+    class="text-gray-500 mt-4">
+    No results found.
+  </div>
+
+  <div *ngIf="errorMessage"
+    class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mt-4">
     {{ errorMessage }}
   </div>
+
 </div>

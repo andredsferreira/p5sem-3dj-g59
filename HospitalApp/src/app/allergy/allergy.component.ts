@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AllergyService } from './allergy.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';  
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-allergy',
@@ -13,13 +13,18 @@ import { FormsModule } from '@angular/forms';
 })
 export class AllergyComponent {
 
-  allergyForm: FormGroup
+  allergyForm: FormGroup;
   showCreateForm: boolean = false;
 
-  errorMessage: string = ""
+  searchName: string = "";
+
+  allergyResults: any[] = [];
+
+  errorMessage: string = "";
 
   constructor(private allergyService: AllergyService, private fb: FormBuilder) {
     this.allergyForm = this.fb.group({
+      allergyCode: ["", Validators.required],
       allergyName: ["", Validators.required],
       allergyDescription: ["", Validators.required]
     })
@@ -28,6 +33,7 @@ export class AllergyComponent {
   async addAllergy() {
     try {
       const response = await this.allergyService.addAllergy(
+        this.allergyForm.value.allergyCode,
         this.allergyForm.value.allergyName,
         this.allergyForm.value.allergyDescription)
     } catch (error) {
@@ -38,10 +44,9 @@ export class AllergyComponent {
 
   async getAllergyByName(name: string) {
     try {
-      const response = await this.allergyService.getAllergyByName(
-        this.allergyForm.value.allergyName
-      )
+      const response = await this.allergyService.getAllergyByName(name)
       this.errorMessage = ""
+      this.allergyResults = Array.isArray(response) ? response : [response];
     } catch (error) {
       this.errorMessage = "Failed getting allergy"
       console.error(error)

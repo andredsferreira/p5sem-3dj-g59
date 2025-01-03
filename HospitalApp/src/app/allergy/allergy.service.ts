@@ -13,18 +13,19 @@ export class AllergyService {
 
   }
 
-  async addAllergy(name: string, description: string): Promise<any> {
+  async addAllergy(code: string, name: string, description: string): Promise<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`,
       'Content-Type': 'application/json'
     });
     const body = {
+      code,
       name,
       description
     }
     try {
       const response = await lastValueFrom(
-        this.http.post('https://localhost:4000/api/allergies', body, { headers })
+        this.http.post('http://localhost:4000/api/allergies', body, { headers })
       );
       return response;
     } catch (error) {
@@ -39,9 +40,9 @@ export class AllergyService {
       'Content-Type': 'application/json'
     });
     try {
-      const url = `https://localhost:4000/api/allergies/${encodeURIComponent(name)}`;
+      const url = `http://localhost:4000/api/allergies/${name}`;
       const response = await lastValueFrom(
-        this.http.get(url, { headers })
+        this.http.get<string>(url, { headers })
       );
       return response;
     } catch (error) {
