@@ -2,15 +2,176 @@
     <div class="max-w-4xl mx-auto mt-10">
         <h1 class="text-2xl font-bold mb-4">Registo <span class="font-extrabold">{{ record }}</span></h1>
 
-        <!-- Aba Histórico Médico Familiar -->
+
+        <!--Inicio-->
+        <!-- Aba Histórico Médico Familiar --> 
         <div class="border-b">
-            <button (click)="toggleTab(0)" 
+          <button (click)="toggleTab(0)" 
+              class="w-full flex justify-between items-center py-4 px-6 text-left focus:outline-none">
+              <h2 class="font-semibold hover:text-darkGrayishBlue">Condições Medicas</h2>
+              <span>
+                  <!-- abrir/fechar -->
+                  <svg
+                      [ngClass]="{ 'rotate-180': activeTabIndex === 0 }"
+                      class="h-5 w-5 transform transition-transform"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                  >
+                      <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 9l-7 7-7-7"
+                      />
+                  </svg>
+              </span>
+          </button>
+
+          <div *ngIf="activeTabIndex === 0" class="mt-2">
+              <div class="flex gap-4 mb-4">
+                  <button (click)="listMedicalConditionEntry()" class="px-4 py-2 bg-blue-500 text-white rounded">
+                      Pesquisar entradas
+                  </button>
+                  <button (click)="startCreateMedicalConditionEntry()" class="px-4 py-2 bg-blue-500 text-white rounded">
+                      Criar entrada
+                  </button>
+              </div>
+
+              <div *ngIf="isSearchingMedicalConditionEntries" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                  <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+                    <h2 class="text-lg font-semibold mb-4">Pesquisar entradas</h2>
+                    
+                    <form (ngSubmit)="submitSearchMedicalConditionEntry()">
+                      <div *ngFor="let attr of attributesMedicalConditionEntry" class="mb-4">
+                        <label class="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            [(ngModel)]="fieldsMedicalConditionEntry[attr.key].selected"
+                            name="{{attr.key}}Selected"
+                          />
+                          <span>{{ attr.label }}</span>
+                        </label>
+                
+                        <!-- Input for Searchable Fields -->
+                        <div>
+                          <input
+                            [(ngModel)]="fieldsMedicalConditionEntry[attr.key].value"
+                            name="{{attr.key}}Value"
+                            class="mt-1 px-3 py-2 border rounded w-full"
+                            placeholder="Insira o {{attr.label}}"
+                            [disabled]="!fieldsMedicalConditionEntry[attr.key].selected"
+                          />
+                        </div>
+                      </div>
+                
+                      <div class="flex justify-end space-x-2 mt-4">
+                        <button type="button" (click)="cancelSearchMedicalConditionEntry()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
+                          Cancelar
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                          Pesquisar
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+              <!-- Formulário de criação de paciente, visível apenas se isCreating for true -->
+              <div *ngIf="isCreatingMedicalConditionEntries" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+              <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+              <h2 class="text-lg font-semibold mb-4">Criar Nova Entrada</h2>
+
+              <!-- Loop para criar campos de entrada baseados nos atributos -->
+              <div *ngFor="let attr of attributesMedicalConditionEntry" class="space-y-2">
+                  <label [for]="attr.key" class="block font-medium">{{ attr.label }}:</label>
+                  
+                  <!-- Campo de texto padrão para Nome Completo -->
+                  <input
+                  [(ngModel)]="fieldsMedicalConditionEntry[attr.key].value"
+                  [name]="attr.key"
+                  required
+                  class="w-full px-3 py-2 border rounded"
+                  placeholder="Insira {{ attr.label }}"
+                  />
+              </div>
+              <!-- Botões de ação para salvar ou cancelar a criação do paciente -->
+              <div class="flex justify-end space-x-2 mt-4">
+                  <button type="button" (click)="cancelCreateMedicalConditionEntry()" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">
+                      Cancelar
+                  </button>
+                  <button type="button" (click)="onCreateMedicalConditionEntry()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">
+                  Salvar
+                  </button>
+              </div>
+              </div>
+              </div>
+
+              <div *ngIf="medicalConditionEntryResults!.length > 0" class="border p-4">
+                  <h3 class="font-bold mb-2">Resultados:</h3>
+                  <ul>
+                      <li *ngFor="let item of medicalConditionEntryResults" class="flex justify-between items-center">
+                          <span><strong>{{ item.condition }}</strong> - {{ item.year }}</span>
+                          <button (click)="onEditMedicalConditionEntry(item)" class="text-sm text-blue-500 underline">
+                              Editar
+                          </button>
+                      </li>
+                  </ul>
+              </div>
+              <div *ngIf="isEditingMedicalConditionEntries" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                  <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+                    <h2 class="text-lg font-semibold mb-4">Editar entrada {{selectedMedicalConditionEntry?.entryNumber}}</h2>
+                    
+                    <form (ngSubmit)="submitEditMedicalConditionEntry(selectedMedicalConditionEntry)">
+                      <div *ngFor="let attr of attributesMedicalConditionEntry" class="mb-4">
+                        <label class="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            [(ngModel)]="fieldsMedicalConditionEntry[attr.key].selected"
+                            name="{{attr.key}}Selected"
+                          />
+                          <span>{{ attr.label }}</span>
+                        </label>
+                
+                        <!-- Input for Editable Fields -->
+                        <div>
+                          <input
+                            [(ngModel)]="fieldsMedicalConditionEntry[attr.key].value"
+                            name="{{attr.key}}Value"
+                            class="mt-1 px-3 py-2 border rounded w-full"
+                            placeholder="Insira o {{attr.label}}"
+                            [disabled]="!fieldsMedicalConditionEntry[attr.key].selected"
+                          />
+                        </div>
+                      </div>
+                
+                      <div class="flex justify-end space-x-2 mt-4">
+                        <button type="button" (click)="cancelEditMedicalConditionEntry()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
+                          Cancelar
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                          Salvar
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+          </div>
+      </div>
+      <!--Fim-->
+
+
+        <!--Inicio-->
+        <!-- Aba Histórico Médico Familiar --> 
+        <div class="border-b">
+            <button (click)="toggleTab(1)" 
                 class="w-full flex justify-between items-center py-4 px-6 text-left focus:outline-none">
                 <h2 class="font-semibold hover:text-darkGrayishBlue">Histórico Médico Familiar</h2>
                 <span>
                     <!-- abrir/fechar -->
                     <svg
-                        [ngClass]="{ 'rotate-180': activeTabIndex === 0 }"
+                        [ngClass]="{ 'rotate-180': activeTabIndex === 1 }"
                         class="h-5 w-5 transform transition-transform"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -27,26 +188,26 @@
                 </span>
             </button>
 
-            <div *ngIf="activeTabIndex === 0" class="mt-2">
+            <div *ngIf="activeTabIndex === 1" class="mt-2">
                 <div class="flex gap-4 mb-4">
                     <button (click)="listFamilyHistory()" class="px-4 py-2 bg-blue-500 text-white rounded">
                         Pesquisar entradas
                     </button>
-                    <button (click)="startCreate()" class="px-4 py-2 bg-blue-500 text-white rounded">
+                    <button (click)="startCreateFamilyEntry()" class="px-4 py-2 bg-blue-500 text-white rounded">
                         Criar entrada
                     </button>
                 </div>
 
-                <div *ngIf="isSearching" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                <div *ngIf="isSearchingFamilyEntries" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
                     <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
                       <h2 class="text-lg font-semibold mb-4">Pesquisar entradas</h2>
                       
-                      <form (ngSubmit)="submitSearch()">
-                        <div *ngFor="let attr of attributes" class="mb-4">
+                      <form (ngSubmit)="submitSearchFamilyEntry()">
+                        <div *ngFor="let attr of attributesFamilyHistory" class="mb-4">
                           <label class="flex items-center space-x-2">
                             <input
                               type="checkbox"
-                              [(ngModel)]="fields[attr.key].selected"
+                              [(ngModel)]="fieldsFamilyEntry[attr.key].selected"
                               name="{{attr.key}}Selected"
                             />
                             <span>{{ attr.label }}</span>
@@ -55,21 +216,21 @@
                           <!-- Input for Searchable Fields -->
                           <div>
                             <input
-                              [(ngModel)]="fields[attr.key].value"
+                              [(ngModel)]="fieldsFamilyEntry[attr.key].value"
                               name="{{attr.key}}Value"
                               class="mt-1 px-3 py-2 border rounded w-full"
                               placeholder="Insira o {{attr.label}}"
-                              [disabled]="!fields[attr.key].selected"
+                              [disabled]="!fieldsFamilyEntry[attr.key].selected"
                             />
                           </div>
                         </div>
                   
                         <div class="flex justify-end space-x-2 mt-4">
-                          <button type="button" (click)="cancelSearch()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
+                          <button type="button" (click)="cancelSearchFamilyHistory()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
                             Cancelar
                           </button>
                           <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
-                            Salvar
+                            Pesquisar
                           </button>
                         </div>
                       </form>
@@ -77,17 +238,17 @@
                   </div>
 
                 <!-- Formulário de criação de paciente, visível apenas se isCreating for true -->
-                <div *ngIf="isCreating" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                <div *ngIf="isCreatingFamilyEntries" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
                 <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
                 <h2 class="text-lg font-semibold mb-4">Criar Nova Entrada</h2>
 
                 <!-- Loop para criar campos de entrada baseados nos atributos -->
-                <div *ngFor="let attr of attributes" class="space-y-2">
+                <div *ngFor="let attr of attributesFamilyHistory" class="space-y-2">
                     <label [for]="attr.key" class="block font-medium">{{ attr.label }}:</label>
                     
                     <!-- Campo de texto padrão para Nome Completo -->
                     <input
-                    [(ngModel)]="fields[attr.key].value"
+                    [(ngModel)]="fieldsFamilyEntry[attr.key].value"
                     [name]="attr.key"
                     required
                     class="w-full px-3 py-2 border rounded"
@@ -96,10 +257,10 @@
                 </div>
                 <!-- Botões de ação para salvar ou cancelar a criação do paciente -->
                 <div class="flex justify-end space-x-2 mt-4">
-                    <button type="button" (click)="cancelCreate()" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">
+                    <button type="button" (click)="cancelCreateFamilyEntry()" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">
                         Cancelar
                     </button>
-                    <button type="button" (click)="onCreate()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">
+                    <button type="button" (click)="onCreateFamilyEntry()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">
                     Salvar
                     </button>
                 </div>
@@ -111,22 +272,22 @@
                     <ul>
                         <li *ngFor="let item of familyHistoryResults" class="flex justify-between items-center">
                             <span><strong>{{ item.relative }}</strong> - {{ item.history }}</span>
-                            <button (click)="onEdit(item)" class="text-sm text-blue-500 underline">
+                            <button (click)="onEditFamilyEntry(item)" class="text-sm text-blue-500 underline">
                                 Editar
                             </button>
                         </li>
                     </ul>
                 </div>
-                <div *ngIf="isEditing" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                <div *ngIf="isEditingFamilyEntries" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
                     <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
-                      <h2 class="text-lg font-semibold mb-4">Editar entrada {{selectedItem?.entryNumber}}</h2>
+                      <h2 class="text-lg font-semibold mb-4">Editar entrada {{selectedFamilyEntry?.entryNumber}}</h2>
                       
-                      <form (ngSubmit)="submitEdit(selectedItem)">
-                        <div *ngFor="let attr of attributes" class="mb-4">
+                      <form (ngSubmit)="submitEditFamilyEntry(selectedFamilyEntry)">
+                        <div *ngFor="let attr of attributesFamilyHistory" class="mb-4">
                           <label class="flex items-center space-x-2">
                             <input
                               type="checkbox"
-                              [(ngModel)]="fields[attr.key].selected"
+                              [(ngModel)]="fieldsFamilyEntry[attr.key].selected"
                               name="{{attr.key}}Selected"
                             />
                             <span>{{ attr.label }}</span>
@@ -135,17 +296,17 @@
                           <!-- Input for Editable Fields -->
                           <div>
                             <input
-                              [(ngModel)]="fields[attr.key].value"
+                              [(ngModel)]="fieldsFamilyEntry[attr.key].value"
                               name="{{attr.key}}Value"
                               class="mt-1 px-3 py-2 border rounded w-full"
                               placeholder="Insira o {{attr.label}}"
-                              [disabled]="!fields[attr.key].selected"
+                              [disabled]="!fieldsFamilyEntry[attr.key].selected"
                             />
                           </div>
                         </div>
                   
                         <div class="flex justify-end space-x-2 mt-4">
-                          <button type="button" (click)="cancelEdit()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
+                          <button type="button" (click)="cancelEditMedicalConditionEntry()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
                             Cancelar
                           </button>
                           <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
@@ -157,6 +318,11 @@
                   </div>
             </div>
         </div>
+        <!--Fim-->
+    </div>
+      <!-- Feedback Message -->
+    <div *ngIf="showMessage" [class]="messageClass + ' fixed top-4 right-4 p-3 rounded shadow-lg'">
+      {{ messageText }}
     </div>
     </div>
 <ng-template #showError>

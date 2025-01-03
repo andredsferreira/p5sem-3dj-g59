@@ -4,9 +4,14 @@ import { MedicalRecordService } from './medicalrecord-service';
 import { AuthService } from '../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { FamilyHistoryEntry } from './entry-types';
+import { FamilyHistoryEntry, MedicalConditionEntry } from './entry-types';
 
-interface Field {
+interface FieldFamilyHistory {
+  selected: boolean;
+  value: string;
+}
+
+interface FieldMedicalConditionEntry {
   selected: boolean;
   value: string;
 }
@@ -26,21 +31,35 @@ export class MedicalRecordComponent implements OnInit {
   token: string | null = null;
   errorMessage: string | null = null;
   showPage = false;
-  selectedItem: FamilyHistoryEntry | null = null;
-  isSearching = false;
-  isCreating = false;
-  isEditing = false;
+  selectedFamilyEntry: FamilyHistoryEntry | null = null;
+  isSearchingFamilyEntries = false;
+  isCreatingFamilyEntries = false;
+  isEditingFamilyEntries = false;
+
+  selectedMedicalConditionEntry: MedicalConditionEntry | null = null;
+  isSearchingMedicalConditionEntries = false;
+  isCreatingMedicalConditionEntries = false;
+  isEditingMedicalConditionEntries = false;
+
+  showMessage = false;
+  messageText = '';
+  messageClass = '';
 
   activeTabIndex: number | null = null; // Índice da aba ativa
   showSearchMenus: { [key: string]: boolean } = { familyHistory: false, allergies: false };
   familyHistoryResults: FamilyHistoryEntry[] | null = [];
-  searchCriteria: { [key: string]: any } = { familyHistory: { date: '', condition: '' } };
+  medicalConditionEntryResults: MedicalConditionEntry[] | null = [];
 
-  attributes = [
+  attributesFamilyHistory = [
     { key: 'relative', label: 'Familiar' },
     { key: 'history', label: 'Detalhes' }
   ];
-  fields: { [key: string]: Field } = {};
+  attributesMedicalConditionEntry = [
+    { key: 'condition', label: 'Condição' },
+    { key: 'year', label: 'Ano diagnosticado' }
+  ];
+  fieldsFamilyEntry: { [key: string]: FieldFamilyHistory } = {};
+  fieldsMedicalConditionEntry: { [key: string]: FieldMedicalConditionEntry } = {};
 
   constructor(private route: ActivatedRoute, private medicalRecordService: MedicalRecordService, private authService: AuthService) {}
 
@@ -66,8 +85,11 @@ export class MedicalRecordComponent implements OnInit {
   
     this.validateRecord(this.record);
 
-    this.attributes.forEach((attr) => {
-      this.fields[attr.key] = { selected: false, value: '' };
+    this.attributesFamilyHistory.forEach((attr) => {
+      this.fieldsFamilyEntry[attr.key] = { selected: false, value: '' };
+    });
+    this.attributesMedicalConditionEntry.forEach((attr) => {
+      this.fieldsFamilyEntry[attr.key] = { selected: false, value: '' };
     });
   }
   
@@ -96,52 +118,105 @@ export class MedicalRecordComponent implements OnInit {
   }  
 
   resetFields() {
-    this.fields = this.attributes.reduce(
+    this.fieldsFamilyEntry = this.attributesFamilyHistory.reduce(
       (fields, attr) => {
         fields[attr.key] = { selected: false, value: '' };
         return fields;
       },
-      {} as { [key: string]: Field }
+      {} as { [key: string]: FieldFamilyHistory }
+    );
+    this.fieldsMedicalConditionEntry = this.attributesMedicalConditionEntry.reduce(
+      (fields, attr) => {
+        fields[attr.key] = { selected: false, value: '' };
+        return fields;
+      },
+      {} as { [key: string]: FieldMedicalConditionEntry }
     );
   }
 
-  startCreate() : void {
+  startCreateFamilyEntry() : void {
     this.resetFields();
-    this.isCreating = true;
+    this.isCreatingFamilyEntries = true;
   }
 
-  async onCreate() : Promise<void> {
+  startCreateMedicalConditionEntry() : void {
+    this.resetFields();
+    this.isCreatingMedicalConditionEntries = true;
+  }
+
+  async onCreateFamilyEntry() : Promise<void> {
     const createParams: {relative:string, history:string} = {relative: '',history: ''};
-    for (const [key, field] of Object.entries(this.fields)) {
+    for (const [key, field] of Object.entries(this.fieldsFamilyEntry)) {
       createParams[key as keyof {relative:string, history:string}] = field.value;
     }
     try{
       const response = await this.medicalRecordService.createFamilyEntry(this.token, this.record!, createParams);
-      //this.showMessage = true;
-      //if (response) {
-      //  this.messageText = `Paciente ${response.body?.MedicalRecordNumber} criado com sucesso!`;
-      //  this.messageClass = 'bg-green-500 text-white';
-      //}
+      this.showMessage = true;
+      if (response) {
+        this.messageText = `Entrada ${response.body?.entryNumber} criada com sucesso!`;
+        this.messageClass = 'bg-green-500 text-white';
+      }
       this.familyHistoryResults?.push(response.body!);
       
     } catch (error) {
-      console.error("Erro ao criar paciente:", error);
-      //this.showMessage = true;
-      //this.messageText = 'Erro ao criar paciente. Tente novamente.';
-      //this.messageClass = 'bg-red-500 text-white';
+      console.error("Erro ao criar entrada:", error);
+      this.showMessage = true;
+      this.messageText = 'Erro ao criar entrada. Tente novamente.';
+      this.messageClass = 'bg-red-500 text-white';
     } finally {
-      this.isCreating = false;
-      this.selectedItem = null;
+      this.isCreatingFamilyEntries = false;
+      this.selectedFamilyEntry = null;
       //await this.loadPatients();
 
-      //setTimeout(() => {
-      //  this.showMessage = false;
-      //}, 3000);
+      setTimeout(() => {
+        this.showMessage = false;
+      }, 3000);
+    }
+  }
+
+  async onCreateMedicalConditionEntry() : Promise<void> {
+    const createParams: {condition:string, year:string} = {condition: '',year: ''};
+    for (const [key, field] of Object.entries(this.fieldsMedicalConditionEntry)) {
+      createParams[key as keyof {condition:string, year:string}] = field.value;
+    }
+    if (createParams.year && isNaN(Number(createParams.year))) {
+      console.error("O ano tem de ser um numero");
+      this.showMessage = true;
+      this.messageText = 'O ano tem de ser um número.';
+      this.messageClass = 'bg-red-500 text-white';
+      return;
+    }
+    try{
+      const response = await this.medicalRecordService.createMedicalConditionEntry(this.token, this.record!, createParams);
+      this.showMessage = true;
+      if (response) {
+        this.messageText = `Entrada ${response.body?.entryNumber} criada com sucesso!`;
+        this.messageClass = 'bg-green-500 text-white';
+      }
+      this.medicalConditionEntryResults?.push(response.body!);
+      
+    } catch (error) {
+      console.error("Erro ao criar entrada:", error);
+      this.showMessage = true;
+      this.messageText = 'Erro ao criar entrada. Tente novamente.';
+      this.messageClass = 'bg-red-500 text-white';
+    } finally {
+      this.isCreatingMedicalConditionEntries = false;
+      this.selectedMedicalConditionEntry = null;
+      //await this.loadPatients();
+
+      setTimeout(() => {
+        this.showMessage = false;
+      }, 3000);
     }
   }
   
-  cancelCreate(){
-    this.isCreating = false;
+  cancelCreateFamilyEntry(){
+    this.isCreatingFamilyEntries = false;
+  }
+
+  cancelCreateMedicalConditionEntry(){
+    this.isCreatingMedicalConditionEntries = false;
   }
 
   toggleTab(index: number): void {
@@ -154,13 +229,18 @@ export class MedicalRecordComponent implements OnInit {
 
   listFamilyHistory(): void {
     this.resetFields();
-    this.isSearching = true;
+    this.isSearchingFamilyEntries = true;
   }
 
-  async submitSearch(): Promise<void> {
+  listMedicalConditionEntry(): void {
+    this.resetFields();
+    this.isSearchingMedicalConditionEntries = true;
+  }
+
+  async submitSearchFamilyEntry(): Promise<void> {
     const searchParams: {relative?:string, history?: string} = {};
 
-    for (const [key, field] of Object.entries(this.fields)) {
+    for (const [key, field] of Object.entries(this.fieldsFamilyEntry)) {
       if (field.selected) {
         searchParams[key as keyof {relative:string, history: string}] = field.value;
       }
@@ -171,52 +251,139 @@ export class MedicalRecordComponent implements OnInit {
       this.familyHistoryResults = result.body;
       console.log("listing successful")
     } catch (error) {
-      console.log("oops");
+      console.log(error);
+      this.familyHistoryResults = [];
+      this.showMessage = true;
+      this.messageText = 'Nenhuma entrada encontrada.';
+      this.messageClass = 'bg-red-500 text-white';
     } finally {
-      this.isSearching = false;
+      this.isSearchingFamilyEntries = false;
+      setTimeout(() => {
+        this.showMessage = false;
+      }, 3000);
     }
   }
 
-  cancelSearch() : void {
-    this.isSearching = false;
+  async submitSearchMedicalConditionEntry(): Promise<void> {
+    const searchParams: {condition?:string, year?: string} = {};
+
+    for (const [key, field] of Object.entries(this.fieldsMedicalConditionEntry)) {
+      if (field.selected) {
+        searchParams[key as keyof {condition:string, year: string}] = field.value;
+      }
+    }
+
+    if (searchParams.year && isNaN(Number(searchParams.year))) {
+      console.error("O ano tem de ser um numero");
+      this.showMessage = true;
+      this.messageText = 'O ano tem de ser um número.';
+      this.messageClass = 'bg-red-500 text-white';
+      return;
+    }
+
+    console.log(searchParams.condition);    console.log(searchParams.year);
+
+    try{
+      var result = await this.medicalRecordService.getMedicalConditionEntries(this.token, this.record!, searchParams);
+      this.medicalConditionEntryResults = result.body;
+      console.log("listing successful")
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.isSearchingMedicalConditionEntries = false;
+    }
   }
 
-  onEdit(entry: FamilyHistoryEntry): void {
+  cancelSearchFamilyHistory() : void {
+    this.isSearchingFamilyEntries = false;
+  }
+
+  cancelSearchMedicalConditionEntry() : void {
+    this.isSearchingMedicalConditionEntries = false;
+  }
+
+  onEditFamilyEntry(entry: FamilyHistoryEntry): void {
     this.resetFields();
-    this.selectedItem = { ...entry };
-    this.isEditing = true;
+    this.selectedFamilyEntry = { ...entry };
+    this.isEditingFamilyEntries = true;
     
-    this.attributes.forEach((attr) => {
+    this.attributesFamilyHistory.forEach((attr) => {
       const value = entry[attr.key as keyof FamilyHistoryEntry] || '';
-      this.fields[attr.key].value = value;
+      this.fieldsFamilyEntry[attr.key].value = value;
     });
   }
 
-  async submitEdit(entry: FamilyHistoryEntry | null): Promise<void> {
-    const searchParams: {relative?:string, history?: string} = {};
+  onEditMedicalConditionEntry(entry: MedicalConditionEntry): void {
+    this.resetFields();
+    this.selectedMedicalConditionEntry = { ...entry };
+    this.isEditingMedicalConditionEntries = true;
+    
+    this.attributesMedicalConditionEntry.forEach((attr) => {
+      const value = entry[attr.key as keyof MedicalConditionEntry] || '';
+      this.fieldsMedicalConditionEntry[attr.key].value = value;
+    });
+  }
 
-    for (const [key, field] of Object.entries(this.fields)) {
+  async submitEditFamilyEntry(entry: FamilyHistoryEntry | null): Promise<void> {
+    const editParams: {relative?:string, history?: string} = {};
+
+    for (const [key, field] of Object.entries(this.fieldsFamilyEntry)) {
       if (field.selected) {
-        searchParams[key as keyof {relative:string, history: string}] = field.value;
+        editParams[key as keyof {relative:string, history: string}] = field.value;
       }
     }
 
     try{
-      var result = await this.medicalRecordService.editFamilyHistoryEntry(this.token, entry!.entryNumber, searchParams);
+      var result = await this.medicalRecordService.editFamilyHistoryEntry(this.token, entry!.entryNumber, editParams);
       console.log("edit successful")
       const entryToChange = this.familyHistoryResults?.find(e => e.entryNumber === entry!.entryNumber);
-      if (searchParams.history) entryToChange!.history = searchParams.history; 
-      if (searchParams.relative) entryToChange!.relative = searchParams.relative; 
+      if (editParams.history) entryToChange!.history = editParams.history; 
+      if (editParams.relative) entryToChange!.relative = editParams.relative; 
     } catch (error) {
-      console.log("oops");
+      console.log(error);
     } finally {
-      this.isEditing = false;
+      this.isEditingFamilyEntries = false;
+      this.resetFields();
+    }
+  }
+
+  async submitEditMedicalConditionEntry(entry: MedicalConditionEntry | null): Promise<void> {
+    const editParams: {condition?:string, year?: string} = {};
+
+    for (const [key, field] of Object.entries(this.fieldsMedicalConditionEntry)) {
+      if (field.selected) {
+        editParams[key as keyof {condition:string, year: string}] = field.value;
+      }
+    }
+
+    if (editParams.year && isNaN(Number(editParams.year))) {
+      console.error("O ano tem de ser um numero");
+      this.showMessage = true;
+      this.messageText = 'O ano tem de ser um número.';
+      this.messageClass = 'bg-red-500 text-white';
+      return;
+    }
+
+    try{
+      var result = await this.medicalRecordService.editMedicalConditionEntry(this.token, entry!.entryNumber, editParams);
+      console.log("edit successful")
+      const entryToChange = this.medicalConditionEntryResults?.find(e => e.entryNumber === entry!.entryNumber);
+      if (editParams.condition) entryToChange!.condition = editParams.condition; 
+      if (editParams.year) entryToChange!.year = editParams.year; 
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.isEditingMedicalConditionEntries = false;
       this.resetFields();
     }
   }
 
   // Cancel edit operation
-  cancelEdit(): void {
-    this.isEditing = false;
+  cancelEditFamilyEntry(): void {
+    this.isEditingFamilyEntries = false;
+  }
+
+  cancelEditMedicalConditionEntry(): void {
+    this.isEditingMedicalConditionEntries = false;
   }
 }

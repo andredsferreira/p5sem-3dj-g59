@@ -15,3 +15,9 @@ export interface FamilyHistoryEntry {
     relative: string,
     history: string
 }
+
+export interface MedicalConditionEntry {
+  entryNumber: string,
+  condition: string,
+  year: string
+}
