@@ -1,0 +1,17 @@
+@startuml
+
+title US 7-2-6 - Level 1 View
+
+actor Doctor as U
+participant "<<system>>\nHospital de Paranhos" as web
+
+U -> web : Creates new medical condition entry with its\nattributes associated to a medical record
+activate U
+activate web
+web -> web : Validades medical record\n(see if it exists)
+web -> web : Logs entry creation
+web -> U : Return Confirmation
+deactivate web
+deactivate U
+
+@enduml

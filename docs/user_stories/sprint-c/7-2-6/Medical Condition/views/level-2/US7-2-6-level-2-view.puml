@@ -1,0 +1,31 @@
+@startuml
+
+title US7-2-6 - Level 2 View
+
+actor Doctor as U
+participant "Frontend" as web
+participant "Express\nBackend" as api
+database "Mongo\nDatabase" as db
+
+U -> web : Creates new medical condition entry with its\nattributes associated to a medical record
+activate U
+activate web
+web -> api : Creates new medical condition entry with its\nattributes associated to a medical record
+activate api
+
+api -> db : Validades medical record\n(see if it exists)
+activate db
+db --> api : Medical Record\n(if it exists)
+deactivate db
+api -> db : Save entry
+activate db
+deactivate db
+api -> api : Logs entry creation
+api -> web : Return Confirmation
+deactivate api
+web -> U : Return Confirmation
+deactivate web
+deactivate U
+
+
+@enduml
