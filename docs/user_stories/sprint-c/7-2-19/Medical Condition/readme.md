@@ -50,3 +50,8 @@ Through our requisites, the team concludes that:
 * A doctor must be able to edit a **medical condition** entry in a patient's **medical record**.
 * The doctor should be able to edit the **year** associated with it and its **condition**.
 
+## 4. Design
+
+The team decided that:
+* After accessing a patient's medical record, each **medical condition entry** should have an "Edit" button. That allows the user to edit the previously mentioned attributes (USABILITY).
+
