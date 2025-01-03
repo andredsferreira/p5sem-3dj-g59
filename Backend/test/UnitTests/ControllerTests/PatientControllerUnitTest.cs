@@ -19,7 +19,6 @@ public class PatientControllerUnitTests {
     private readonly IPatientRepository _repo;
     private readonly IDomainLogRepository _logrepo;
     private readonly IUnitOfWork _unit;
-    private readonly UserManager<IdentityUser> _manager;
     private readonly Mock<IMessageSenderService> _mockMessageSender;
     private readonly Mock<PatientService> _mockService;
     private readonly PatientController _controller;
@@ -27,7 +26,7 @@ public class PatientControllerUnitTests {
     public PatientControllerUnitTests() {
         _mockMessageSender = new Mock<IMessageSenderService>();
         _mockService = new Mock<PatientService>(_repo, _unit, _logrepo, _mockMessageSender.Object);
-        _controller = new PatientController(_mockService.Object, _manager);
+        _controller = new PatientController(_mockService.Object);
     }
 
     private PatientDTO SeedPatientDTO() {

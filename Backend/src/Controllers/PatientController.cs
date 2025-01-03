@@ -20,11 +20,9 @@ public class PatientController : ControllerBase {
     private readonly PatientService _service;
 
 
-    private readonly UserManager<IdentityUser> userManager;
 
-    public PatientController(PatientService service, UserManager<IdentityUser> userManager) {
+    public PatientController(PatientService service) {
         _service = service;
-        this.userManager = userManager;
     }
 
     [HttpPost("Create")]

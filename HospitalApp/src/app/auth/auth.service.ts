@@ -1,26 +1,35 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
+import { IAM_API_PATH } from '../config-path';
+
+export interface token {
+  token: string,
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
   private readonly TOKEN_KEY = ""
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, @Inject(IAM_API_PATH) private iamPath:string) { }
 
-  async login(username: string, password: string): Promise<string> {
+  async login(username: string, password: string): Promise<HttpResponse<token>> {
     try {
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
+      const body = {
+        Username: username,
+        Password: password,
+      }
       const response: any = await lastValueFrom(
-        this.http.post('https://localhost:5001/api/auth/login', {
-          Username: username,
-          Password: password,
-        })
+        this.http.post<token>(`${this.iamPath}/auth/login`, body, {headers, observe:'response'})
       );
-      console.log('Token received:', response.token);
-      this.storeToken(response.token);
-      return response.token;
+      console.log('Token received:', response.body.token);
+      this.storeToken(response.body.token);
+      return response;
     } catch (error) {
       console.error('Error fetching token:', error);
       throw error;
@@ -50,6 +59,10 @@ export class AuthService {
 
   getRoleFromToken(token: string): string {
     try {
+      if (typeof token !== 'string') {
+        console.error('Provided token is not a string:', token);
+        return typeof token;
+      }
       const decodedToken: any = jwt_decode.jwtDecode(token);
       console.log('Decoded role:', decodedToken.role);
       return decodedToken?.role;
