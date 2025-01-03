@@ -12,18 +12,60 @@
 :-dynamic prob_mutation/1.
 :-dynamic surgeries_per_room/2.
 :-dynamic num_surgeries/1.
+:-dynamic best_agenda/3.
 
 :- use_module(library(http/http_server)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_json)).
 
-:- http_handler('/schedule', schedule_handler, []).
+:- http_handler('/assign', assign_handler, []).
+:- http_handler('/schedule/best', schedule_best_handler, []).
+:- http_handler('/schedule/genetic', schedule_genetic_handler, []).
 
 % Criação do servidor HTTP
 server(Port) :- http_server(http_dispatch, [port(Port)]).
 
-schedule_handler(Request) :-
-    % Define os cabe�alhos CORS
+schedule_best_handler(Request) :-
+    format('Content-type: application/json~n'),
+    format('Access-Control-Allow-Origin: *~n'),
+    format('Access-Control-Allow-Methods: GET, POST, OPTIONS~n'),
+    format('Access-Control-Allow-Headers: Content-Type~n'),
+    format('~n'),
+    (   member(method(options), Request) ->
+        true
+    ;   % Le o corpo JSON do pedido, se houver
+        (   http_read_json_dict(Request, Dict, [default([])])
+        ,   RoomString = Dict.get(room)
+        ,   atom_string(Room, RoomString)
+        ,   Day = Dict.get(day)
+        ,   obtain_better_sol(Room, Day, R, S, T)
+        ),
+        format('{"room-schedule": "~w",~n"staff-schedules": "~w",~n"final-time": ~w}', [R,S,T])
+    ).
+    
+schedule_genetic_handler(Request) :-
+    format('Content-type: application/json~n'),
+    format('Access-Control-Allow-Origin: *~n'),
+    format('Access-Control-Allow-Methods: GET, POST, OPTIONS~n'),
+    format('Access-Control-Allow-Headers: Content-Type~n'),
+    format('~n'),
+    (   member(method(options), Request) ->
+        true
+    ;   % Le o corpo JSON do pedido, se houver
+        (   http_read_json_dict(Request, Dict, [default([])])
+        ,   RoomString = Dict.get(room)
+        ,   atom_string(Room, RoomString)
+        ,   Day = Dict.get(day)
+        ,   NG = Dict.get(num_generations)
+        ,   PS = Dict.get(population_size)
+        ,   P1 = Dict.get(crossover_chance)
+        ,   P2 = Dict.get(mutation_chance)
+        ,   generate(Room, Day, NG, PS, P1, P2, R, S, T)
+        ),
+        format('{"room-schedule": "~w",~n"staff-schedules": "~w",~n"final-time": ~w}', [R,S,T])
+    ).
+
+assign_handler(Request) :- 
     format('Content-type: application/json~n'),
     format('Access-Control-Allow-Origin: *~n'),
     format('Access-Control-Allow-Methods: GET, POST, OPTIONS~n'),
@@ -32,12 +74,11 @@ schedule_handler(Request) :-
     (   member(method(options), Request) ->
         true
     ;   % L� o corpo JSON do pedido, se houver
-        (   %http_read_json_dict(Request, Dict, [default([])])
-        %,   Name = Dict.get(name, "World") % Obt�m o campo "name" ou usa "World" por defeito
-        %;   Name = "World"
-             obtain_better_sol(or1, 20241028, R, S, T)
+        (   http_read_json_dict(Request, Dict, [default([])])
+        ,   Day = Dict.get(day)
+        ,   associate_surgeries_to_rooms(Day, O)
         ),
-        format('{"room-schedule": "~w",~n"staff-schedules": "~w",~n"final-time": ~w}', [R,S,T])
+        format('{"surgeries-per-room": "~w"}', [O])
     ).
 
 agenda_staff(d001,20241028,[(1080,1140,c01)]).
@@ -160,7 +201,7 @@ agenda_operation_room(or4,20241028,[(800,900,so300000),(950,1050,so088888)]).
 
 %------------------------SCHEDULE-SURGERIES-TO-ROOMS--------------------------
 
-associate_surgeries_to_rooms(Day):-
+associate_surgeries_to_rooms(Day,SurgeriesPerRoom):-
     retractall(total_surgery_time(_,_)),
     retractall(agenda_operation_room1(_,_,_)),
     retractall(surgeries_per_room(_,_)),
@@ -169,7 +210,8 @@ associate_surgeries_to_rooms(Day):-
     getTotalTimes(LSurgeries),
     sort_surgeries_by_time(SortedSurgeries),
     findall(Room, agenda_operation_room1(Room, Day, _), LRooms),
-    distribute_surgeries(SortedSurgeries, LRooms, Day).
+    distribute_surgeries(SortedSurgeries, LRooms, Day),
+    findall((R,S), surgeries_per_room(R, S), SurgeriesPerRoom).
 
 getTotalTimes([]):- !.
 getTotalTimes([Surgery|TSurgeries]):-
@@ -204,7 +246,7 @@ schedule_surgery(Surgery, Room, Day):-
     insert_agenda((TStart, TEnd, Surgery), OldAgenda, NewAgenda),
     total_room_occupation(NewAgenda, Occupation),
     RoomOccupationRate is Occupation / 1440,
-    write("Occupation Rate for room "),write(Room),write(" = "),write(RoomOccupationRate),nl,
+    %write("Occupation Rate for room "),write(Room),write(" = "),write(RoomOccupationRate),nl,
     RoomOccupationRate < 0.8,
     assertz(agenda_operation_room1(Room,Day,NewAgenda)),
     
@@ -213,10 +255,10 @@ schedule_surgery(Surgery, Room, Day):-
     ; 
         Operations = [] % Inicialize como uma lista vazia caso não exista.
     ),
-    assertz(surgeries_per_room(Room,[Surgery|Operations])),
+    assertz(surgeries_per_room(Room,[Surgery|Operations])).
     %write("List of surgeries for room "), write(Room), write(" = "), write([Surgery|Operations]),nl,
-    write("Scheduled "), write(Surgery), write(" (with duration="), write(Duration), write(") in room "), write(Room), nl,
-    write("Updated room "), write(Room), write("'s agenda: "), write(NewAgenda), nl.
+    %write("Scheduled "), write(Surgery), write(" (with duration="), write(Duration), write(") in room "), write(Room), nl,
+    %write("Updated room "), write(Room), write("'s agenda: "), write(NewAgenda), nl.
 
 total_room_occupation([],0).
 total_room_occupation([(Start,End,_)|T],Occupation):-
@@ -288,7 +330,7 @@ obtain_better_sol1(Room,Day):-
     asserta(better_sol(Day,Room,_,_,1441)),
     %findall(OpCode,surgery_id(OpCode,_),LOC),!,
     surgeries_per_room(Room,LOC),!,
-    write("LOC="),write(LOC),nl,
+    %write("LOC="),write(LOC),nl,
     permutation(LOC,LOpCode),
     retractall(agenda_staff1(_,_,_)),
     retractall(agenda_operation_room1(_,_,_)),
@@ -332,34 +374,36 @@ update_better_sol(Day,Room,Agenda,LOpCode):-
 % -------------------------------GENETIC-------------------------------------
 
 % parameters initialization
-initialize:-write('Number of new generations: '),read(NG), 			
+initialize(NG,PS,P1,P2):-
+    %write('Number of new generations: '),read(NG), 			
     (retract(generations(_));true), asserta(generations(NG)),
-	write('Population size: '),read(PS),
+	%write('Population size: '),read(PS),
 	(retract(population(_));true), asserta(population(PS)),
-	write('Probability of crossover (%):'), read(P1),
+	%write('Probability of crossover (%):'), read(P1),
 	PC is P1/100, 
 	(retract(prob_crossover(_));true), 	asserta(prob_crossover(PC)),
-	write('Probability of mutation (%):'), read(P2),
+	%write('Probability of mutation (%):'), read(P2),
 	PM is P2/100, 
 	(retract(prob_mutation(_));true), asserta(prob_mutation(PM)).
 
-generate(Room,Day):-
-    initialize,
+generate(Room,Day,NG,PS,P1,P2,AgendaRoom,AgendaDoctors,BestTime):-
+    initialize(NG,PS,P1,P2),
     generate_population(Pop,Room),
-    write('Pop='),write(Pop),nl,
-    evaluate_population(Pop,PopValue,Room,Day),
-    write('PopValue='),write(PopValue),nl,
+    %write('Pop='),write(Pop),nl,
+    evaluate_population(Pop,PopValue,Room,Day,inf),
+    %write('PopValue='),write(PopValue),nl,
     order_population(PopValue,PopOrd),
     generations(NG),
-    generate_generation(0,NG,PopOrd,Room,Day).
+    generate_generation(0,NG,PopOrd,Room,Day),
+    retract(better_sol(Day,Room,AgendaRoom,AgendaDoctors,BestTime)).
 
 generate_population(Pop,Room):-
     population(PopSize),
     surgeries_per_room(Room,SurgeryList),
     length(SurgeryList,NumT),
+    retractall(availability(_,_,_)),
     retractall(num_surgeries(_)),
     assertz(num_surgeries(NumT)),
-    write("NumT"), write(NumT),nl,
     generate_population(PopSize,SurgeryList,NumT,Pop).
 
 generate_population(0,_,_,[]):-!.
@@ -386,17 +430,40 @@ remove(1,[G|Rest],G,Rest).
 remove(N,[G1|Rest],G,[G1|Rest1]):- N1 is N-1,
             remove(N1,Rest,G,Rest1).
 
-evaluate_population([],[],_,_).
-evaluate_population([Ind|Rest],[Ind*V|Rest1],Room,Day):-
-    evaluate(Ind,V,Room,Day),
-    evaluate_population(Rest,Rest1,Room,Day).
+evaluate_population([], [], _, _, _).
+evaluate_population([Ind | Rest], [Ind*V | Rest1], Room, Day, BestV) :-
+    evaluate(Ind, V, Room, Day),
+    ( BestV = inf ->
+        findall(Doctor,assignment_surgery(_,Doctor,_),LDoctors1),
+        remove_equals(LDoctors1,LDoctors),
+        list_doctors_agenda(Day,LDoctors,LDAgendas),
+        agenda_operation_room1(Room, Day, Agenda),
+		asserta(better_sol(Day,Room,Agenda,LDAgendas,V)),
+        NewBestV = V
+    ; 
+    ( V < BestV ->
+        retract(better_sol(_,_,_,_,_)),
+        findall(Doctor,assignment_surgery(_,Doctor,_),LDoctors1),
+        remove_equals(LDoctors1,LDoctors),
+        list_doctors_agenda(Day,LDoctors,LDAgendas),
+        agenda_operation_room1(Room, Day, Agenda),
+		asserta(better_sol(Day,Room,Agenda,LDAgendas,V)),
+        NewBestV = V
+    ;
+        NewBestV = BestV
+    )),
+    evaluate_population(Rest, Rest1, Room, Day, NewBestV).
 
 evaluate(Seq,V,Room,Day):- 
-    retractall(agenda_operation_room1(Room,Day,_)),
-    agenda_operation_room(Room,Day,StartAgenda), assertz(agenda_operation_room1(Room,Day,StartAgenda)),
+    retractall(agenda_staff1(_,_,_)),
+    retractall(agenda_operation_room1(_,_,_)),
+    retractall(availability(_,_,_)),
+    findall(_,(agenda_staff(D,Day,Agenda),assertz(agenda_staff1(D,Day,Agenda))),_),
+    agenda_operation_room(Room,Day,Agenda),assert(agenda_operation_room1(Room,Day,Agenda)),
+    findall(_,(agenda_staff1(D,Day,L),free_agenda0(L,LFA),adapt_timetable(D,Day,LFA,LFA2),assertz(availability(D,Day,LFA2))),_),
     schedule_operations(Seq,Room,Day),
-    agenda_operation_room1(Room,Day,Agenda),
-    reverse(Agenda,AgendaR),
+    agenda_operation_room1(Room,Day,NewAgenda),
+    reverse(NewAgenda,AgendaR),
     evaluate_final_time(AgendaR,Seq,V).
 
 schedule_operations([],_,_).
@@ -404,15 +471,30 @@ schedule_operations([Surgery|TOp],Room,Day):-
     surgery_id(Surgery,Type),
     surgery(Type, TA,TS,TC),
     Duration is TA+TS+TC,
+    findall(Staff, assignment_surgery(Surgery, Staff, _), LStaff),
+    intersect_all_agendas(LStaff, Day, LA),
+
     agenda_operation_room1(Room, Day, Agenda),
     free_agenda0(Agenda, FAgRoom),
-    remove_unf_intervals(Duration, FAgRoom, LAPossibilities),
+    intersect_2_agendas(LA, FAgRoom, LIntADoctorsRoom),
+    remove_unf_intervals(Duration, LIntADoctorsRoom, LAPossibilities),
     schedule_first_interval(Duration, LAPossibilities, (TStart, _)),
 
-    TEnd is TStart + Duration,
-    retract(agenda_operation_room1(Room, Day, OldAgenda)),
-    insert_agenda((TStart, TEnd, Surgery), OldAgenda, NewAgenda),
-    assertz(agenda_operation_room1(Room,Day,NewAgenda)),
+    TEndAnaesthesia is TStart + TA,
+    TEndSurgery is TEndAnaesthesia + TS,
+    TEndCleaning is TEndSurgery + TC,
+    retract(agenda_operation_room1(Room, Day, Agenda)),
+    insert_agenda((TStart, TEndAnaesthesia, Surgery), Agenda, Agenda1),
+    insert_agenda((TEndAnaesthesia, TEndSurgery, Surgery), Agenda1, Agenda2),
+    insert_agenda((TEndSurgery, TEndCleaning, Surgery), Agenda2, Agenda3),
+    assertz(agenda_operation_room1(Room, Day, Agenda3)),
+
+    findall(Staff, assignment_surgery(Surgery, Staff, 1), LAStaff),
+    insert_agenda_doctors((TStart, TEndAnaesthesia, Surgery), Day, LAStaff),
+    findall(Staff, assignment_surgery(Surgery, Staff, 2), LSStaff),
+    insert_agenda_doctors((TEndAnaesthesia, TEndSurgery, Surgery), Day, LSStaff),
+    findall(Staff, assignment_surgery(Surgery, Staff, 3), LCStaff),
+    insert_agenda_doctors((TEndSurgery, TEndCleaning, Surgery), Day, LCStaff),
     schedule_operations(TOp,Room,Day).
 
 order_population(PopValue,PopValueOrd):-
@@ -432,15 +514,15 @@ bchange([X*VX,Y*VY|L1],[Y*VY|L2]):-
 
 bchange([X|L1],[X|L2]):-bchange(L1,L2).
     
-generate_generation(G,G,Pop,_,_):-!,
-	write('Generation '), write(G), write(':'), nl, write(Pop), nl.
+generate_generation(G,G,_,_,_):-!.
+	%write('Generation '), write(G), write(':'), nl, write(Pop), nl.
 generate_generation(N,G,Pop,Room,Day):-
-	write('Generation '), write(N), write(':'), nl, write(Pop), nl,
+	%write('Generation '), write(N), write(':'), nl, write(Pop), nl,
     Pop = [Best|_], % Extract the best element
-    write('Best Element: '), write(Best), nl, % Write the first element
+    %write('Best Element: '), write(Best), nl, % Write the first element
     crossover(Pop,NPop1),
 	mutation(NPop1,NPop),
-    evaluate_population(NPop,NPopValue,Room,Day),
+    evaluate_population(NPop,NPopValue,Room,Day,inf),
 	order_population(NPopValue,NPopOrd),
     change_if_not_present(Best, NPopOrd, NPopFinal), 
 	order_population(NPopFinal,NPopOrd2),
