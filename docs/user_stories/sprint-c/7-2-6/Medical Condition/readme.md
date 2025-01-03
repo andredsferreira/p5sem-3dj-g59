@@ -52,3 +52,8 @@ Through the requisites and open questions, the team concludes that:
     * Year diagnosticated.
 * The team will need to create a new type in the backend representing the **Medical Condition Entry** and add a list of these to the **Medical Record** type.
 
+## 4. Design
+
+The team decided that:
+* After creation, the new entry will be registered and visible in the frontend.
+
