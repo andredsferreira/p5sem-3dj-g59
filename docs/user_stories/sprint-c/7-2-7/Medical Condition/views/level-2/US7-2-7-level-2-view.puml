@@ -1,0 +1,27 @@
+@startuml
+
+title US 7-2-7 - Level 2 View
+
+actor Doctor as U
+participant "Frontend" as web
+participant "Express\nBackend" as api
+database "Mongo\nDatabase" as db
+
+U -> web : Picks attributes to search\nmedical condition entries from\na medical record
+activate U
+activate web
+web -> api : Picks attributes to search\nmedical condition entries from\na medical record
+activate api
+
+api -> db : Get list of medical\ncondition entries
+activate db
+db --> api : medical condition\nentry list
+deactivate db
+api -> web : Return List
+deactivate api
+web -> U : Return List
+deactivate web
+deactivate U
+
+
+@enduml

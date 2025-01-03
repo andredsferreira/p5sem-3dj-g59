@@ -1,0 +1,37 @@
+@startuml
+
+title US7-2-7 - Level 3 View - Frontend
+
+actor Doctor as U
+participant "«component»\nmedicalrecord.component.html" as html
+participant "«component»\nmedicalrecord.component.ts" as ts
+participant "«component»\nmedicalrecord-service.ts" as service
+
+participant "«component»\n«C4 Container»\nExpress\nBackend" as backend
+
+U -> html : Starts process
+activate U
+activate html
+activate ts
+
+html -> ts : listMedicalConditionEntry()
+ts --> html
+html --> U
+
+U -> html : Fills out form
+html --> U
+
+U -> html : Submits form with desired filters
+html -> ts : submitSearch()
+ts -> service: getMedicalConditionEntries(this.token,\nthis.record!, searchParams)
+activate service
+service -> backend : HTTP Post\n"${this.apiPath}/medicalConditionEntries/search/${code}"
+activate backend
+backend --> service : Entry list
+deactivate backend
+service --> ts : Entry list
+deactivate service
+ts --> html : Entry list
+html --> U : Entry list
+
+@enduml

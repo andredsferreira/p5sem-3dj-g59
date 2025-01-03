@@ -56,3 +56,42 @@ Through our requisites, the team concludes that:
 The team decided that:
 * The patient's **medical record** will contain a tab for **medical condition** entries. That tab will contain the options mentioned in the **Analysis** section.
 
+## 5. C4 Views
+
+The **C4 Views** for this *US* can be viewed [here](views/readme.md).
+
+## 6. Tests
+
+
+
+## 7. Implementation
+
+### 7.1. Backend section
+
+The only part that's important to point out is the **service**'s method:
+
+```ts
+    public async search(medicalRecordNumber: string, dto: IMedicalConditionEntryOptionalDTO): Promise<Result<IMedicalConditionEntryDTO[]>> {
+        try {
+            const medicalConditionEntry = await this.medicalConditionEntryRepo.search(medicalRecordNumber, dto.condition, dto.year);
+            if (medicalConditionEntry === null) {
+                return Result.fail<IMedicalConditionEntryDTO[]>("medicalConditionEntry not found")
+            }
+
+            var medicalConditionEntryResultDTO = [] as IMedicalConditionEntryDTO[];
+            medicalConditionEntry.forEach(element => {
+                medicalConditionEntryResultDTO.push(MedicalConditionEntryMap.toDTO(element));
+            });
+            //const medicalConditionEntryResultDTO = MedicalConditionEntryMap.toDTO(medicalConditionEntry);
+            return Result.ok<IMedicalConditionEntryDTO[]>(medicalConditionEntryResultDTO)
+        } catch (err) {
+            throw err
+        }
+    }
+```
+
+The filtering is done here using a query. If the user chose to filter by a year, it's added to the query (same to the description). The medical record number is obligatory, since we won't be searching for entries from multiple medical records at once.
+
+## 8. Demonstration
+
+![](demonstration/creation.png)

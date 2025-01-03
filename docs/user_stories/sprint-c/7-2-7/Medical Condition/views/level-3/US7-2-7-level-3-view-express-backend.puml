@@ -1,0 +1,48 @@
+@startuml
+
+title US7-2-7 - Level 3 View
+
+actor Doctor as U
+
+participant "«component»\n«C4 Container»\nFrontend" as frontend 
+
+participant "«component»\nmedicalConditionEntryRoute.ts" as route
+participant "«component»\nmedicalConditionEntryController.ts" as ctrl
+participant "«component»\nmedicalConditionEntryService.ts" as service
+participant "«component»\nmedicalConditionEntryRepo.ts" as repo
+
+database "«component»\nMongoDB" as db
+
+U -> frontend : Picks attributes to search\nmedical condition entries from\na medical record
+activate U
+activate frontend
+
+frontend -> route : HTTP Post\n"${this.apiPath}/medicalConditionEntries/search/${code}"
+activate route
+
+route -> ctrl : searchMedicalConditionEntries(req, res, next)
+activate ctrl
+
+ctrl -> service : search(req.params.medicalRecordNumber\nas string, req.body as IMedicalConditionEntryOptionalDTO)
+activate service
+
+service -> repo : search(medicalRecordNumber,\ndto.year, dto.condition)
+activate repo
+repo -> db
+activate db
+db --> repo : entry list
+deactivate db
+repo --> service : entry list
+deactivate repo
+
+service --> ctrl : Result.ok<IMedicalConditionEntryDTO[]>\n(medicalConditionEntryResultDTO)
+deactivate service
+ctrl --> route
+deactivate ctrl
+route --> frontend
+deactivate route
+frontend --> U : entry list
+deactivate frontend
+
+
+@enduml
