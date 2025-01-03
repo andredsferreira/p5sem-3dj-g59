@@ -78,7 +78,7 @@ export class PatientManagementComponent implements OnInit {
       return;
     }
 
-    if (this.authService.getRoleFromToken(this.token) !== "Admin") {
+    if (this.authService.getRoleFromToken(this.token).toLowerCase() !== "admin") {
       this.errorMessage = 'You do not have the right permissions for this functionality.';
       return;
     }

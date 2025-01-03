@@ -52,8 +52,8 @@ export class MedicalRecordComponent implements OnInit {
       return;
     }
   
-    const role = this.authService.getRoleFromToken(this.token);
-    if (role !== "Admin" && role !== "Doctor") {
+    const role = this.authService.getRoleFromToken(this.token).toLowerCase();
+    if (role !== "admin" && role !== "doctor") {
       this.errorMessage = 'Você não tem as permissões necessárias para aceder esta página.';
       return;
     }

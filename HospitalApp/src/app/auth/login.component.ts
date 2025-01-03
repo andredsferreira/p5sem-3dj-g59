@@ -39,19 +39,20 @@ export class LoginComponent {
         if (this.loginForm.valid) {
             try {
                 const { username, password } = this.loginForm.value;
-                let token = await this.authService.login(username, password);
-                localStorage.setItem('token', token);
+                let token = (await this.authService.login(username, password)).body!.token;
+                console.log("Token!!!!!", token);
+                localStorage.setItem('token', token!);
                 this.success = true
-                let role = this.authService.getRoleFromToken(token);
-                switch (role) {
-                    case 'Admin':
+                let role = this.authService.getRoleFromToken(token!);
+                switch (role.toLowerCase()) {
+                    case 'admin':
                         //this.router.navigate(['/userlist']);
                         this.router.navigate(['/admin']);
                         break;
-                    case 'Doctor':
+                    case 'doctor':
                         this.router.navigate(['/doctor']);
                         break;
-                    case 'Patient':
+                    case 'patient':
                         this.router.navigate(['/patient']);
                         break;    
                 }

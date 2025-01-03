@@ -19,7 +19,6 @@ public class PatientControllerIntegrationWIsolationTests
     private readonly Mock<IPatientRepository> _repo;
     private readonly Mock<IDomainLogRepository> _logrepo;
     private readonly Mock<IUnitOfWork> _unit;
-    private readonly Mock<UserManager<IdentityUser>> _manager;
     private readonly Mock<IMessageSenderService> _mockMessageSender;
     private readonly PatientService service;
     private readonly PatientController _controller;
@@ -29,14 +28,11 @@ public class PatientControllerIntegrationWIsolationTests
         _unit = new Mock<IUnitOfWork>();
         _repo = new Mock<IPatientRepository>();
         _logrepo = new Mock<IDomainLogRepository>();
-        _manager = new Mock<UserManager<IdentityUser>>(
-            Mock.Of<IUserStore<IdentityUser>>(),
-            null, null, null, null, null, null, null, null);
 
         _mockMessageSender = new Mock<IMessageSenderService>();
 
         service = new PatientService(_unit.Object, _repo.Object, _logrepo.Object, _mockMessageSender.Object);
-        _controller = new PatientController(service, _manager.Object);
+        _controller = new PatientController(service);
     }
 
     private Patient SeedPatient(){

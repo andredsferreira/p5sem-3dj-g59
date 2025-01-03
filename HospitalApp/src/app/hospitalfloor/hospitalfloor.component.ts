@@ -59,8 +59,8 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     this.token = localStorage.getItem('token');
     if (this.token) {
-      this.role = this.auth.getRoleFromToken(this.token);
-      this.canRenderCanvas = this.role !== 'Patient' && this.role !== "";
+      this.role = this.auth.getRoleFromToken(this.token).toLowerCase();
+      this.canRenderCanvas = this.role !== 'patient' && this.role !== "";
   
       if (this.canRenderCanvas) {
         try {
