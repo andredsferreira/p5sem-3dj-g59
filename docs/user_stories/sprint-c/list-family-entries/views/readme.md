@@ -1,4 +1,4 @@
-# US 6.2.6 C4 Views
+# List Family Entries Views
 ## Level 1
 ![](level-1/level-1-view.png)
 ## Level 2
