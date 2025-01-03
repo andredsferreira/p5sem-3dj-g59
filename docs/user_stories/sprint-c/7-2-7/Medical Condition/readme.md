@@ -51,3 +51,8 @@ Through our requisites, the team concludes that:
 * A doctor must be able to search for specific **medical condition entries** in a patient's **medical record**.
 * A doctor must be able to, after listing/searching, filter the results.
 
+## 4. Design
+
+The team decided that:
+* The patient's **medical record** will contain a tab for **medical condition** entries. That tab will contain the options mentioned in the **Analysis** section.
+
