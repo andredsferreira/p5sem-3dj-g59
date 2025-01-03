@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MedicalConditionComponent } from './medical-condition.component';
 import { HttpClientModule } from '@angular/common/http';
 
-describe('StaffManagement', () => {  
+describe('MedicalConditionComponent', () => {  
   let component: MedicalConditionComponent;
   let fixture: ComponentFixture<MedicalConditionComponent>;
 

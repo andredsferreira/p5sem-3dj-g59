@@ -14,7 +14,7 @@ import { ConnectableObservable } from 'rxjs';
   selector: 'app-staff-management',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './staff-management.component.html',
+  templateUrl: './medical-condition.component.html',
   styleUrls: ['./staff-management.component.css'],
 })
 export class MedicalConditionComponent {
