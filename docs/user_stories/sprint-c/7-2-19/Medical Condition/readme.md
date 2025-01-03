@@ -55,3 +55,45 @@ Through our requisites, the team concludes that:
 The team decided that:
 * After accessing a patient's medical record, each **medical condition entry** should have an "Edit" button. That allows the user to edit the previously mentioned attributes (USABILITY).
 
+## 5. C4 Views
+
+The **C4 Views** for this *US* can be viewed [here](views/readme.md).
+
+## 6. Tests
+
+
+
+## 7. Implementation
+
+### 7.1. Backend section
+
+The only part that's important to point out is the **service**'s method:
+
+```ts
+    public async editMedicalConditionEntry(entryNumber: string, dto: IMedicalConditionEntryOptionalDTO): Promise<Result<IMedicalConditionEntryDTO>> {
+        try {
+            const entry = await this.medicalConditionEntryRepo.findByEntryNumber(entryNumber);
+            if (entry === null) return Result.fail<IMedicalConditionEntryDTO>("medicalConditionEntry not found");
+
+            if (dto.condition) {
+                const condition = await this.medConditionRepo.findByCondition(dto.condition);
+                if (condition === null) return Result.fail<IMedicalConditionEntryDTO>("condition not found");
+                entry.condition = dto.condition;
+            }
+            if (dto.year) entry.year = dto.year;
+
+            await this.medicalConditionEntryRepo.save(entry);
+
+            const medicalConditionEntryResultDTO = MedicalConditionEntryMap.toDTO(entry) as IMedicalConditionEntryDTO
+            return Result.ok<IMedicalConditionEntryDTO>(medicalConditionEntryResultDTO)
+        } catch (err) {
+            throw err
+        }
+    }
+```
+
+The backend request for this functionality is a HTTP Patch.
+
+## 8. Demonstration
+
+![](demonstration/creation.png)

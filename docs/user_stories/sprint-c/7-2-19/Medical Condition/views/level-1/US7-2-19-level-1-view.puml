@@ -1,0 +1,16 @@
+@startuml
+
+title US 7-2-19 - Level 1 View
+
+actor Doctor as U
+participant "<<system>>\nHospital de Paranhos" as web
+
+U -> web : Edits an existing medical condition entry associated\nto a medical record, choosing what attributes to edit
+activate U
+activate web
+web -> web : Logs entry edit
+web -> U : Return Confirmation
+deactivate web
+deactivate U
+
+@enduml

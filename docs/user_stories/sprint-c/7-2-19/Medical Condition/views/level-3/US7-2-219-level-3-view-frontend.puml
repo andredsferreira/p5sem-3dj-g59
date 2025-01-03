@@ -1,0 +1,37 @@
+@startuml
+
+title US7-2-19 - Level 3 View - Frontend
+
+actor Doctor as U
+participant "«component»\nmedicalrecord.component.html" as html
+participant "«component»\nmedicalrecord.component.ts" as ts
+participant "«component»\nmedicalrecord-service.ts" as service
+
+participant "«component»\n«C4 Container»\nExpress\nBackend" as backend
+
+U -> html : Starts process
+activate U
+activate html
+activate ts
+
+html -> ts : onEdit(item)
+ts --> html
+html --> U
+
+U -> html : Fills out form
+html --> U
+
+U -> html : Submits form with desired changes
+html -> ts : submitEdit(selectedItem)
+ts -> service: editMedicalConditionEntry(this.token, entry!.entryNumber, editParams)
+activate service
+service -> backend : Http Patch "${this.apiPath}/medicalConditionEntries/${entryNumber}"
+activate backend
+backend --> service : Entry object
+deactivate backend
+service --> ts : Entry object
+deactivate service
+ts --> html : success/error message
+html --> U : show success/error message
+
+@enduml

@@ -1,0 +1,57 @@
+@startuml
+
+title US 7-2-19 - Level 3 View
+
+actor Doctor as U
+
+participant "«component»\n«C4 Container»\nFrontend" as frontend 
+
+participant "«component»\nmedicalConditionEntryRoute.ts" as route
+participant "«component»\nmedicalConditionEntryController.ts" as ctrl
+participant "«component»\nmedicalConditionEntryService.ts" as service
+participant "«component»\nmedicalConditionEntryRepo.ts" as repo
+
+database "«component»\nMongoDB" as db
+
+U -> frontend : Edits an existing medical condition entry associated\nto a medical record, choosing what attributes to edit
+activate U
+activate frontend
+
+frontend -> route : HTTP Patch "${this.apiPath}/medicalConditionEntries/${entryNumber}"
+activate route
+
+route -> ctrl : editMedicalConditionEntry(req, res, next)
+activate ctrl
+
+ctrl -> service : editMedicalConditionEntry(req.params.entryNumber\nas string, req.body as IMedicalConditionEntryOptionalDTO)
+activate service
+
+service -> repo : findByEntryNumber(entryNumber)
+activate repo
+repo -> db
+activate db
+db --> repo : entry
+deactivate db
+repo --> service : entry
+deactivate repo
+
+service -> repo : save(changedEntry)
+activate repo
+repo -> db : save(entry)
+activate db
+db --> repo
+deactivate db
+repo --> service : entry
+deactivate repo
+
+service --> ctrl :  Result.ok<IMedicalConditionEntryDTO>\n(medicalConditionEntryResultDTO)
+deactivate service
+ctrl --> route
+deactivate ctrl
+route --> frontend
+deactivate route
+frontend --> U : Success
+deactivate frontend
+
+
+@enduml
