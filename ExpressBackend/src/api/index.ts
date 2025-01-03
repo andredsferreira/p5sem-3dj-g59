@@ -6,6 +6,7 @@ import medCondition from './routes/medConditionRoute';
 import allergy from "./routes/allergyRoute";
 import medicalRecord from './routes/medicalRecordRoute';
 import familyHistoryEntry from './routes/familyHistoryEntryRoute';
+import medicalConditionEntry from './routes/medConditionEntryRoute';
 
 export default () => {
 	const app = Router();
@@ -17,6 +18,7 @@ export default () => {
 	allergy(app);
 	medicalRecord(app);
 	familyHistoryEntry(app);
+	medicalConditionEntry(app);
 	
 	
 	return app

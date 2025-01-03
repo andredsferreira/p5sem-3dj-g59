@@ -61,6 +61,10 @@ export default {
       name: "FamilyHistoryEntryController",
       path: "../controllers/familyHistoryEntryController"
     },
+    medicalConditionEntry: {
+      name: "MedicalConditionEntryController",
+      path: "../controllers/medicalConditionEntryController"
+    },
   },
 
   repos: {
@@ -88,6 +92,10 @@ export default {
       name: "FamilyHistoryEntryRepo",
       path: "../repos/familyHistoryEntryRepo"
     },
+    medicalConditionEntry: {
+      name: "MedicalConditionEntryRepo",
+      path: "../repos/medicalConditionEntryRepo"
+    },
   },
 
   services: {
@@ -110,6 +118,10 @@ export default {
     familyHistoryEntry: {
       name: "FamilyHistoryEntryService",
       path: "../services/familyHistoryEntryService"
+    },
+    medicalConditionEntry: {
+      name: "MedicalConditionEntryService",
+      path: "../services/medicalConditionEntryService"
     },
   },
 };
