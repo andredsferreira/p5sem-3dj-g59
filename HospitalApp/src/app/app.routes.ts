@@ -5,6 +5,8 @@ import { LoginComponent } from './auth/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { UserListComponent } from './auth/user-list.component';
 import { DoctorComponent } from './staff/doctor/doctor.component';
+import { MedicalConditionComponent } from './medical-condition/medical-condition.component';
+
 import { PrivacypolicyComponent } from './privacypolicy/privacypolicy.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { ContactsComponent } from './contacts/contacts.component';
@@ -40,5 +42,6 @@ export const routes: Routes = [
   { path: 'operationtypemanagement', component: OperationTypeComponent },
   { path: 'staffmanagement', component: StaffManagement },
   {path: 'specializationmanagement', component: SpecializationComponent},
-  { path: 'medicalrecord/:id', component: MedicalRecordComponent}
+  { path: 'medicalrecord/:id', component: MedicalRecordComponent},
+  { path: 'medicalcondition', component: MedicalConditionComponent }
 ];
