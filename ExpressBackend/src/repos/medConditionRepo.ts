@@ -46,6 +46,8 @@ export default class MedConditionRepo implements IMedConditionRepo {
         return MedConditionMap.toDomain(MedConditionCreated);
       } else {
         MedConditionDocument.designation = MedCondition.designation;
+        MedConditionDocument.description = MedCondition.description;
+        MedConditionDocument.symptoms = MedCondition.symptoms;
         await MedConditionDocument.save();
 
         return MedCondition;
