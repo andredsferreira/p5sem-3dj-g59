@@ -57,3 +57,53 @@ Through the requisites and open questions, the team concludes that:
 The team decided that:
 * After creation, the new entry will be registered and visible in the frontend.
 
+## 5. C4 Views
+
+The **C4 Views** for this *US* can be viewed [here](views/readme.md).
+
+## 6. Tests
+
+
+
+## 7. Implementation
+
+### 7.1. Backend section
+
+The only part that's important to point out is the **service**'s method:
+
+```ts
+    public async createMedicalConditionEntry(medicalConditionEntryDTO: IMedicalConditionEntryDTO): Promise<Result<IMedicalConditionEntryDTO>> {
+        try {
+            var medicalRecords = await this.medicalRecordRepo.findByMedicalRecordNumber(medicalConditionEntryDTO.medicalRecordNumber)
+            if( medicalRecords === null)
+                return Result.fail<IMedicalConditionEntryDTO>("Medical Record does not exist")
+
+            var medConditions = await this.medConditionRepo.findByCondition(medicalConditionEntryDTO.condition)
+            if( medConditions === null)
+                return Result.fail<IMedicalConditionEntryDTO>("Medical Condition does not exist")
+
+            const entryList = await this.medicalConditionEntryRepo.findByMedicalRecordNumber(medicalConditionEntryDTO.medicalRecordNumber);
+            medicalConditionEntryDTO.entryNumber = medicalConditionEntryDTO.medicalRecordNumber + String(entryList.length+1).padStart(3,'0');
+            
+            const medicalConditionEntryOrError = await MedicalConditionEntry.create(medicalConditionEntryDTO)
+            if (medicalConditionEntryOrError.isFailure) {
+                return Result.fail<IMedicalConditionEntryDTO>(medicalConditionEntryOrError.errorValue())
+            }
+
+            const medicalConditionEntryResult = medicalConditionEntryOrError.getValue()
+            await this.medicalConditionEntryRepo.save(medicalConditionEntryResult)
+
+            const medicalConditionEntryResultDTO = MedicalConditionEntryMap.toDTO(medicalConditionEntryResult) as IMedicalConditionEntryDTO
+            return Result.ok<IMedicalConditionEntryDTO>(medicalConditionEntryResultDTO)
+        } catch (err) {
+            throw err
+        }
+    }
+```
+
+* We verify if the **medical record** exists. Since **mongoDB** is a non-relational database (it doesn't have foreign keys), this validation **must** be done here.
+* We generate an **entry number**, a domain identifier for the **medical condition entry**.
+
+## 8. Demonstration
+
+![](demonstration/creation.png)
