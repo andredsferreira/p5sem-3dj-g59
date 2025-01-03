@@ -47,4 +47,30 @@ export default class AllergyService implements IAllergyService {
         }
     }
 
+    public async updateAllergy(originalName: string, allergyDTO: IAllergyDTO): Promise<Result<IAllergyDTO>> {
+        try {
+            const allergy = await this.allergyRepo.findByName(originalName)
+            if (allergy === null) {
+                return Result.fail<IAllergyDTO>("allergy not found")
+            }
+
+            if (allergyDTO.code) {
+                allergy.code = allergyDTO.code
+            }
+            if (allergyDTO.name) {
+                allergy.name = allergyDTO.name
+            }
+            if (allergyDTO.description) {
+                allergy.description = allergyDTO.description
+            }
+
+            await this.allergyRepo.save(allergy);
+
+            const allergyResultDTO = AllergyMap.toDTO(allergy) as IAllergyDTO
+            return Result.ok<IAllergyDTO>(allergyResultDTO)
+        } catch (err) {
+            throw err
+        }
+    }
+
 }

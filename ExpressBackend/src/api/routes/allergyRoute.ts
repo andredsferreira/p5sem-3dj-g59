@@ -32,5 +32,19 @@ export default (app: Router) => {
         (req, res, next) => ctrl.getAllergyByName(req, res, next)
     )
 
+    route.patch(`/:originalName`,
+        celebrate({
+            params: Joi.object({
+                originalName: Joi.string().required(),
+            }),
+            body: Joi.object({
+                code: Joi.string(),
+                name: Joi.string(),
+                description: Joi.string()
+            })
+        }),
+        (req, res, next) => ctrl.updateAllergy(req, res, next)
+    )
+
 
 }

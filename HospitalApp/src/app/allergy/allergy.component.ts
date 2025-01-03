@@ -36,7 +36,15 @@ export class AllergyComponent {
         this.allergyForm.value.allergyCode,
         this.allergyForm.value.allergyName,
         this.allergyForm.value.allergyDescription)
+
+      this.toggleCreateForm()
+      this.allergyForm.reset()
+      this.errorMessage = ""
+
+      console.log(response)
+
     } catch (error) {
+      this.toggleCreateForm();
       this.errorMessage = "Failed to add allergy"
       console.error(error)
     }
@@ -48,7 +56,7 @@ export class AllergyComponent {
       this.errorMessage = ""
       this.allergyResults = Array.isArray(response) ? response : [response];
     } catch (error) {
-      this.errorMessage = "Failed getting allergy"
+      this.errorMessage = "No allergy found"
       console.error(error)
     }
   }

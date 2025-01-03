@@ -44,4 +44,21 @@ export default class AllergyController implements IAllergyController {
         }
     }
 
+    public async updateAllergy(req: Request, res: Response, next: NextFunction) {
+        try {
+            const allergyOrError = await this.AllergyServiceInstance
+                .updateAllergy(req.params.originalName as string, req.body as IAllergyDTO) as Result<IAllergyDTO>
+
+            if (allergyOrError.isFailure) {
+                return res.status(402).send()
+            }
+            const allergyDTO = allergyOrError.getValue()
+            return res.json(allergyDTO).status(200)
+        } catch (err) {
+            return next(err)
+        }
+
+
+    }
+
 }

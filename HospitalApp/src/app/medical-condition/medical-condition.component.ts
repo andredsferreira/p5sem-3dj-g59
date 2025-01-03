@@ -15,7 +15,7 @@ import { ConnectableObservable } from 'rxjs';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './medical-condition.component.html',
-  styleUrls: ['./staff-management.component.css'],
+  // styleUrls: ['./staff-management.component.css'],
 })
 export class MedicalConditionComponent {
   staffList: any[] = [];
