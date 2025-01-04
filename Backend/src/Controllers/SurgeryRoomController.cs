@@ -46,8 +46,8 @@ public class SurgeryRoomController : ControllerBase {
     }
 
     [HttpGet("Occupied/{id}/{date}")]
-    public async Task<ActionResult<bool>> IsRoomOccupied(int id, string date){
-        bool result;
+    public async Task<ActionResult<OccupiedDTO>> IsRoomOccupied(int id, string date){
+        OccupiedDTO result;
         try{
             result = await _service.IsRoomOccupiedAsync(new RoomNumber(id), DateTime.ParseExact(date, "yyyyMMddHHmm", null));
         }

@@ -114,9 +114,11 @@ export default class Loader {
                             loadFbx.call(this, this.description, this.description.door, i, j, {scale: 0.00155, translateY: -0.95, translateX: 0.5, scaleX: 0.93});
                             break;
                         case 10:
+                            console.log("Left");
                             this.vectorLeftList.push(new THREE.Vector2(i,j));
                             break;
                         case 11:
+                            console.log("Right")
                             this.vectorRightList.push(new THREE.Vector2(i,j));
                             break;    
                     }

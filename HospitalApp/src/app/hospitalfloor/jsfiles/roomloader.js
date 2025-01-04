@@ -146,15 +146,37 @@ export default class RoomLoader {
     }
 
     toggleTableVisibility(isOccupied) {
-        console.log("Is room " + this.description.room.Number + " occupied? " + isOccupied);
+        if(isOccupied.Status == 1){
+            this.object.traverse((child) => {
+                if (child.tableWithPersonObject) {
+                    child.tableWithPersonObject.visible = true;
+                }
+                if (child.name === 'table') {
+                    child.visible = false;
+                }
+            });
+            this.Begin = isOccupied.Begin;
+            this.End = isOccupied.End;
+            this.Status = "Ocupada";
+            this.PatientName = isOccupied.PatientName;
+            this.PatientMRN = isOccupied.PatientMRN;
+            return;
+        }
+
         this.object.traverse((child) => {
             if (child.tableWithPersonObject) {
-                child.tableWithPersonObject.visible = isOccupied;
+                child.tableWithPersonObject.visible = false;
             }
             if (child.name === 'table') {
-                child.visible = !isOccupied;
+                child.visible = true;
             }
         });
+        this.Begin = null;
+        this.End = null;
+        this.PatientName = null;
+        this.PatientMRN = null;
+        if(isOccupied.Status == 0) this.Status = "Disponível";
+        else this.Status = "Em Manutenção";
     }
 
     isTable(object) {

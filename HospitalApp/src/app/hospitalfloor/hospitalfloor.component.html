@@ -126,7 +126,7 @@
           [class.opacity-50]="!showRoomInfo"
         >
           <div class="flex justify-between items-center">
-            <h3 class="text-lg font-semibold">Selecionou a sala {{ selectedRoom.Number }}.</h3>
+            <h3 class="text-lg font-semibold">Selecionou a sala {{ selectedRoom.room.Number }}.</h3>
             <button
               class="text-red-500 font-bold"
               (click)="closeRoomInfo()"
@@ -135,9 +135,12 @@
             </button>
           </div>
           <div *ngIf="showRoomInfo; else defaultshow" class="mt-4">
-            <p><strong>Detalhes:</strong></p>
-            <p>Número: {{ selectedRoom!.Number }}</p>
-            <p>Capacidade: {{ selectedRoom!.Capacity }}</p>
+            <p><strong>Número:</strong> {{ selectedRoom!.room.Number }}</p>
+            <p><strong>Estado:</strong> {{ selectedRoom!.Status }}</p>
+            <p *ngIf="selectedRoom!.Begin"> <strong>Início:</strong> {{ selectedRoom.Begin | date:'HH:mm' }}</p>
+            <p *ngIf="selectedRoom!.End"> <strong>Fim:</strong> {{ selectedRoom.End | date:'HH:mm' }}</p>
+            <p *ngIf="selectedRoom!.PatientMRN"> <strong>NRM do Paciente:</strong> {{ selectedRoom.PatientMRN }}</p>
+            <p *ngIf="selectedRoom!.PatientName"> <strong>Nome do Paciente:</strong> {{ selectedRoom.PatientName }}</p>
             <!-- Add more details as needed -->
           </div>
           <ng-template #defaultshow>

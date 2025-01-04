@@ -16,10 +16,17 @@ export class PlanningService {
   async scheduleSurgeries(): Promise<SchedulerResponse> {
 
     try {
+      const body = {
+        room:"or1",
+        day:20241028
+      }
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
       const response = await lastValueFrom(
-        this.http.post<SchedulerResponse>('http://localhost:2000/schedule', null)
+        this.http.post<SchedulerResponse>('http://localhost:2000/schedule/best', body, {headers, observe:'response'})
       );
-      return response;
+      return response.body!;
     } catch (error) {
       console.error('Error listing operation types:', error);
       throw error;

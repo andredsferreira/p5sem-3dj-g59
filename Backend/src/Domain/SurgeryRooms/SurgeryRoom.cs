@@ -40,5 +40,16 @@ public class SurgeryRoom : Entity<SurgeryRoomId>, IAggregateRoot {
         }
         return new SurgeryRoomDTO(Number.Number, RoomType, RoomStatus, Capacity, AssignedEquipment, slots);
     }
+    public bool IsInMaintenance(DateTime date){
+        TimeOnly instant = TimeOnly.FromDateTime(date);
+        foreach(DaySlots slots in MaintenanceSlots){
+            if(DateOnly.FromDateTime(date).Equals(slots.day)){
+                foreach(Slot s in slots.slots){
+                    if(instant.CompareTo(s.begin) > 0 && instant.CompareTo(s.end) < 0) return true;
+                }
+            }
+        }
+        return false;
+    }
 }
 

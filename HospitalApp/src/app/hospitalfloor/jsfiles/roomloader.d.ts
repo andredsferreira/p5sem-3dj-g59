@@ -2,7 +2,7 @@ import * as THREE from "three";
 import Wall from "./wall";
 import Ground from "./ground";
 import * as THREE from "three";
-import { Room } from "../room";
+import { Room, Occupied } from "../types";
 
 interface LoaderParameters {
     room: Room;
@@ -51,10 +51,15 @@ export default class RoomLoader {
     object: THREE.Group;
     loaded: boolean;
     table: THREE.Object3D;
+    Begin: Date|null;
+    End: Date|null;
+    Status: string;
+    PatientName: string|null;
+    PatientMRN: string|null;
 
     constructor(parameters: LoaderParameters);
     
-    toggleTableVisibility(occupied: boolean|null);
+    toggleTableVisibility(occupied: Occupied|null);
 
     isTable(object: THREE.Object3D): boolean;  
 }

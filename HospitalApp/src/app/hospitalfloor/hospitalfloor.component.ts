@@ -10,7 +10,7 @@ import { AuthService } from '../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HospitalFloorService } from './hospitalfloor-service';
-import { Room } from './room';
+import { Occupied, Room } from './types';
 
 @Component({
   standalone: true,
@@ -43,7 +43,7 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
   roomLoaders!: RoomLoader[]|null;
 
   rooms!: Room[]|null;
-  selectedRoom: Room | null = null;
+  selectedRoom: RoomLoader | null = null;
   showRoomInfo: boolean = false;
 
   private ambientLight!: THREE.AmbientLight;
@@ -66,6 +66,7 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
         try {
           const response = await this.service.getRooms(this.token);
           this.rooms = response.body;
+          console.log(response.body);
           this.roomLoaders = [];
   
           // Cria a cena assim que os dados estão prontos
@@ -253,7 +254,8 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
         left = false;
         k++;
       }
-      console.log(Rooms![i])
+      console.log(Rooms![i]);
+      console.log("x=",x," z=",z);
       var roomLoaderInstance = new RoomLoader({
         room: Rooms![i],
         leftSide: left,
@@ -328,7 +330,7 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
       const pos = selectedObject.getWorldPosition(new THREE.Vector3());
       console.log(`Camera Position X = ${pos.x}`); 
       console.log(parentRoomLoader.room);
-      this.selectedRoom = parentRoomLoader.room;
+      this.selectedRoom = parentRoomLoader;
       this.showRoomInfo = false;
 
       this.changeCameraPositionAndAngle(
