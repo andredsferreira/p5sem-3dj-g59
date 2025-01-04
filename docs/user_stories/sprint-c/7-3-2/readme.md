@@ -40,10 +40,6 @@ The team decided that:
 * The new predicate will use the dynamic facts established by [**US 7.3.1.**](../7-3-1/readme.md).
 * The best resulting schedule will be the output.
 
-## 5. Implementation
+## 5. Implementation and Demonstration
 
--
-
-## 6. Demonstration
-
--
+These are specified in the [report](Report.pdf).
