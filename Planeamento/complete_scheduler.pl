@@ -19,6 +19,7 @@
 :- use_module(library(http/http_json)).
 
 :- http_handler('/assign', assign_handler, []).
+:- http_handler('/decide', decide_scheduler_handler, []).
 :- http_handler('/schedule/best', schedule_best_handler, []).
 :- http_handler('/schedule/genetic', schedule_genetic_handler, []).
 
@@ -42,6 +43,24 @@ schedule_best_handler(Request) :-
         ),
         format('{"room-schedule": "~w",~n"staff-schedules": "~w",~n"final-time": ~w}', [R,S,T])
     ).
+
+decide_scheduler_handler(Request) :-
+    format('Content-type: application/json~n'),
+    format('Access-Control-Allow-Origin: *~n'),
+    format('Access-Control-Allow-Methods: GET, POST, OPTIONS~n'),
+    format('Access-Control-Allow-Headers: Content-Type~n'),
+    format('~n'),
+    (   member(method(options), Request) ->
+        true
+    ;   % Le o corpo JSON do pedido, se houver
+        (   http_read_json_dict(Request, Dict, [default([])])
+        ,   RoomString = Dict.get(room)
+        ,   atom_string(Room, RoomString)
+        ,   Time = Dict.get(timeToUse)
+        ,   what_method_to_use(Room, Time, M)
+        ),
+        format('{"method": "~w"}', [M])
+    ).    
     
 schedule_genetic_handler(Request) :-
     format('Content-type: application/json~n'),
