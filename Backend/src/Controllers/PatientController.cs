@@ -33,7 +33,7 @@ public class PatientController : ControllerBase {
     }
 
     [HttpGet("Get/{id}")]
-    [Authorize(Policy = "AdminPolicy, DoctorPolicy")]
+    [Authorize(Policy = "AdminPolicy")]
     public ActionResult<PatientDTO> GetPatientById(string id) {
         var cat = _service.GetPatientByIdAsync(new MedicalRecordNumber(id));
         if (cat == null) return NotFound();
