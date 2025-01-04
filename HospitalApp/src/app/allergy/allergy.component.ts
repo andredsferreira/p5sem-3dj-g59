@@ -12,22 +12,30 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './allergy.component.css'
 })
 export class AllergyComponent {
-
   allergyForm: FormGroup;
   showCreateForm: boolean = false;
 
-  searchName: string = "";
+  selectedAllergy: any = null;
+  updateForm: FormGroup;
+  showUpdateForm: boolean = false;
 
+  searchName: string = '';
   allergyResults: any[] = [];
 
-  errorMessage: string = "";
+  errorMessage: string = '';
+  successMessage: string = ''; // New success message
 
   constructor(private allergyService: AllergyService, private fb: FormBuilder) {
     this.allergyForm = this.fb.group({
-      allergyCode: ["", Validators.required],
-      allergyName: ["", Validators.required],
-      allergyDescription: ["", Validators.required]
-    })
+      allergyCode: ['', Validators.required],
+      allergyName: ['', Validators.required],
+      allergyDescription: ['', Validators.required],
+    });
+    this.updateForm = this.fb.group({
+      allergyCode: [''],
+      allergyName: [''],
+      allergyDescription: [''],
+    });
   }
 
   async addAllergy() {
@@ -35,29 +43,52 @@ export class AllergyComponent {
       const response = await this.allergyService.addAllergy(
         this.allergyForm.value.allergyCode,
         this.allergyForm.value.allergyName,
-        this.allergyForm.value.allergyDescription)
-
-      this.toggleCreateForm()
-      this.allergyForm.reset()
-      this.errorMessage = ""
-
-      console.log(response)
-
-    } catch (error) {
+        this.allergyForm.value.allergyDescription
+      );
       this.toggleCreateForm();
-      this.errorMessage = "Failed to add allergy"
-      console.error(error)
+      this.allergyForm.reset();
+      this.successMessage = 'Allergy added successfully!';
+      this.errorMessage = '';
+      console.log(response);
+
+      setTimeout(() => (this.successMessage = ''), 3000); // Clear success message after 3 seconds
+    } catch (error) {
+      this.errorMessage = 'Failed to add allergy';
+      console.error(error);
     }
   }
 
   async getAllergyByName(name: string) {
     try {
-      const response = await this.allergyService.getAllergyByName(name)
-      this.errorMessage = ""
+      this.allergyResults = []; // Clear previous list
+      const response = await this.allergyService.getAllergyByName(name);
+      this.errorMessage = '';
       this.allergyResults = Array.isArray(response) ? response : [response];
     } catch (error) {
-      this.errorMessage = "No allergy found"
-      console.error(error)
+      this.errorMessage = 'No allergy found';
+      console.error(error);
+    }
+  }
+
+  async updateAllergy() {
+    const { allergyCode, allergyName, allergyDescription } = this.updateForm.value;
+    try {
+      const response = await this.allergyService.updateAllergy(
+        this.selectedAllergy.name,
+        allergyCode,
+        allergyName,
+        allergyDescription
+      );
+      this.toggleUpdateForm();
+      this.getAllergyByName(this.searchName); // Refresh results
+      this.successMessage = 'Allergy updated successfully!';
+      this.errorMessage = '';
+      console.log(response);
+
+      setTimeout(() => (this.successMessage = ''), 3000); // Clear success message after 3 seconds
+    } catch (error) {
+      this.errorMessage = 'Failed to update allergy';
+      console.error(error);
     }
   }
 
@@ -65,4 +96,15 @@ export class AllergyComponent {
     this.showCreateForm = !this.showCreateForm;
   }
 
+  toggleUpdateForm(allergy?: any) {
+    this.showUpdateForm = !this.showUpdateForm;
+    if (allergy) {
+      this.selectedAllergy = allergy;
+      this.updateForm.setValue({
+        allergyCode: allergy.code,
+        allergyName: allergy.name,
+        allergyDescription: allergy.description,
+      });
+    }
+  }
 }

@@ -54,13 +54,13 @@ export default class AllergyService implements IAllergyService {
                 return Result.fail<IAllergyDTO>("allergy not found")
             }
 
-            if (allergyDTO.code) {
+            if (allergyDTO.code && allergyDTO.code != "") {
                 allergy.code = allergyDTO.code
             }
-            if (allergyDTO.name) {
+            if (allergyDTO.name && allergyDTO.name != "") {
                 allergy.name = allergyDTO.name
             }
-            if (allergyDTO.description) {
+            if (allergyDTO.description && allergyDTO.description != "") {
                 allergy.description = allergyDTO.description
             }
 
