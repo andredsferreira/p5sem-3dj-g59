@@ -33,8 +33,8 @@ public class SurgeryRoomController : ControllerBase {
 
     [HttpGet("Get/{id}")]
     [Authorize(Roles = HospitalRoles.Admin)]
-    public ActionResult<PatientDTO> GetRoomByNumber(int id) {
-        var cat = _service.GetRoomByNumber(new RoomNumber(id));
+    public async Task<ActionResult<SurgeryRoomDTO>> GetRoomByNumber(int id) {
+        var cat = await _service.GetRoomByNumber(new RoomNumber(id));
         if (cat == null) return NotFound();
         return Ok(cat);
     }

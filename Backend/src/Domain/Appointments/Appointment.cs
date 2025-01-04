@@ -15,16 +15,6 @@ public class Appointment : Entity<AppointmentId>, IAggregateRoot {
     public DateTime DateTime { get; set; }
     public AppointmentStatus AppointmentStatus { get; set; }
 
-    // public static Appointment CreateFromDTO(AppointmentDTO dto) {
-    //     return new Appointment(OperationRequest.CreateFromDTO(dto.OperationRequestDTO),
-    //                             SurgeryRoom.CreateFromDTO(dto.SurgeryRoomDTO),
-    //                             dto.DateTime,
-    //                             dto.AppointmentStatus);
-    // }
-
-    public static AppointmentDTO returnDTO(Appointment appointment) {
-        throw new NotImplementedException();
-    }
     public DateTime EndDateTime(){
         Console.WriteLine("DateTime = " + DateTime);
         return DateTime.AddMinutes(OperationRequest.operationType.anaesthesiaTime.duration

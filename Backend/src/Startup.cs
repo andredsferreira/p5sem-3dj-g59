@@ -135,7 +135,9 @@ public class Startup {
         services.AddTransient<IOperationTypeRepository, OperationTypeRepository>();
         services.AddTransient<AddOperationTypeService>();
 
+        // Appointment
         services.AddTransient<IAppointmentRepository, AppointmentRepository>();
+        services.AddTransient<AppointmentService>();
 
         services.AddTransient<IDomainLogRepository, DomainLogRepository>();
         services.AddTransient<IMessageSenderService, EmailSenderService>();

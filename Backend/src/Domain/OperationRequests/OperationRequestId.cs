@@ -15,6 +15,9 @@ public class OperationRequestId : EntityId {
 
     }
 
+    public OperationRequestId(object value) : base(value) {
+    }
+
     override
     protected object createFromString(string text) {
         return new Guid(text);

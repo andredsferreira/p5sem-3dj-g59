@@ -15,7 +15,7 @@ public class DaySlots {
             s[0] = date
             s[1] = list of slots
         */
-        day = DateOnly.Parse(ds[0]);
+        day = DateOnly.ParseExact(ds[0], "dd/MM/yyyy");
         string[] slotStrings = ds[1].Split(";"); // The last string from this will be empty
         List<Slot> slots = [];
         for (int i = 0; i < slotStrings.Length-1; i++)

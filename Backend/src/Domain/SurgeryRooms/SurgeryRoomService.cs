@@ -31,8 +31,8 @@ public class SurgeryRoomService {
         _optyperepo = optyperepo;
     }
 
-    public SurgeryRoomDTO GetRoomByNumber(RoomNumber Number){
-        var room = this._repository.GetByNumber(Number);
+    public async Task<SurgeryRoomDTO> GetRoomByNumber(RoomNumber Number){
+        var room = await this._repository.GetByNumber(Number);
         if (room == null) return null;
         return room.ReturnDTO();
     }
