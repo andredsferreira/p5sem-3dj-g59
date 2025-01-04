@@ -46,7 +46,6 @@ export class LoginComponent {
                 let role = this.authService.getRoleFromToken(token!);
                 switch (role.toLowerCase()) {
                     case 'admin':
-                        //this.router.navigate(['/userlist']);
                         this.router.navigate(['/admin']);
                         break;
                     case 'doctor':

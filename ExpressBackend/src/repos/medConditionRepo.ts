@@ -16,6 +16,18 @@ export default class MedConditionRepo implements IMedConditionRepo {
     @Inject('medConditionSchema') private MedConditionSchema: Model<IMedConditionPersistence & Document>,
   ) { }
 
+  
+  public async findAll(): Promise<MedCondition[]> {
+    try {
+      const conditions = await this.MedConditionSchema.find(); // Faz a busca de todos os documentos na coleção
+      return conditions.map(condition => MedConditionMap.toDomain(condition)); // Mapeia os resultados para o modelo de domínio
+    } catch (err) {
+      throw new Error("Erro ao buscar todas as condições médicas: " + err.message);
+    }
+  }
+  
+  
+
   private createBaseQuery(): any {
     return {
       where: {},

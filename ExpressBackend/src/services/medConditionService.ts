@@ -13,6 +13,16 @@ export default class MedConditionService implements IMedConditionService {
     @Inject(config.repos.medCondition.name) private MedConditionRepo: IMedConditionRepo
   ) { }
 
+
+  async getAllMedConditions(): Promise<Result<IMedConditionDTO[]>> {
+    try {
+      const conditions = await this.MedConditionRepo.findAll();  // Exemplo de como buscar as condições médicas
+      return Result.ok(conditions);  // Retorna um resultado de sucesso com o array de condições
+    } catch (error) {
+      return Result.fail('Failed to retrieve medical conditions');
+    }
+  }
+
   public async getMedConditionByCode(MedConditionCode: string): Promise<Result<IMedConditionDTO>> {
     try {
       const MedCondition = await this.MedConditionRepo.findByCode(MedConditionCode);

@@ -13,6 +13,7 @@ export default (app: Router) => {
 
   const ctrl = Container.get(config.controllers.medCondition.name) as IMedConditionController;
 
+  // Rota para pegar uma condição médica pelo código
   route.get(`/:code`,
     celebrate({
       params: Joi.object({
@@ -21,6 +22,11 @@ export default (app: Router) => {
     }),
     (req, res, next) => ctrl.getMedConditionByCode(req, res, next));
 
+  // Rota para pegar todas as condições médicas
+  route.get('',
+    (req, res, next) => ctrl.getAllMedConditions(req, res, next));
+
+  // Rota para criar uma nova condição médica
   route.post('',
     celebrate({
       body: Joi.object({
@@ -32,6 +38,7 @@ export default (app: Router) => {
     }),
     (req, res, next) => ctrl.createMedCondition(req, res, next));
 
+  // Rota para atualizar uma condição médica
   route.patch(`/:code`,
     celebrate({
       params: Joi.object({
@@ -42,6 +49,6 @@ export default (app: Router) => {
         description: Joi.string().optional(),
         symptoms: Joi.array().items(Joi.string()).optional()
       }),
-      }),
-      (req, res, next) => ctrl.updateMedCondition(req, res, next));
+    }),
+    (req, res, next) => ctrl.updateMedCondition(req, res, next));
 };

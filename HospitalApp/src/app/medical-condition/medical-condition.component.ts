@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
+  FormArray,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { StaffService } from '../staff/services/StaffService';
+import { MedicalConditionService } from './medical-condition-service';
 import { Router } from '@angular/router';
 import { ConnectableObservable } from 'rxjs';
 
@@ -15,14 +16,14 @@ import { ConnectableObservable } from 'rxjs';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './medical-condition.component.html',
-  // styleUrls: ['./staff-management.component.css'],
+  styleUrls: ['./medical-condition.component.css'],
 })
 export class MedicalConditionComponent {
   staffList: any[] = [];
   filteredStaffs: any[] = [];
-  
-  staffForm: FormGroup; 
-  updateStaffForm: FormGroup; 
+
+  staffForm: FormGroup;
+  updateStaffForm: FormGroup;
   filterForm: FormGroup;
 
   formError: string | null = null;
@@ -34,18 +35,17 @@ export class MedicalConditionComponent {
   confirmingDelete: boolean = false;
   staffIdToDelete: string | null = null;
 
-  constructor(private fb: FormBuilder, private staffService: StaffService, private router: Router) {
-    // Formulário de criação de Staff
-    this.staffForm = this.fb.group({
-      StaffRole: ['', Validators.required],
-      IdentityUsername: ['', Validators.required],
-      Email: ['', [Validators.required, Validators.email]],
-      Phone: ['', Validators.required],
-      Name: ['', Validators.required],
-      LicenseNumber: ['', Validators.required],
+  constructor(private fb: FormBuilder, private medicalConditionService: MedicalConditionService, private router: Router) {
+    // Formulário de criação de condition
+    this.staffForm = this.fb.group({      
+      code: ['', Validators.required],
+      designation: ['', Validators.required],
+      description: ['', Validators.required],
+      symptoms: this.fb.array([], Validators.required), 
+
     });
 
-    // Formulário de atualização de Staff
+    // Formulário de atualização de condition
     this.updateStaffForm = this.fb.group({
       FullName: ['', Validators.required],
       phone: ['', Validators.required],
@@ -58,6 +58,23 @@ export class MedicalConditionComponent {
     });
   }
 
+  // Getter para o FormArray
+  get symptoms() {
+    return this.staffForm.get('symptoms') as FormArray;
+  }
+
+  // Adicionar novo sintoma ao FormArray
+  addSymptom() {
+    this.symptoms.push(this.fb.control('', Validators.required));
+  }
+
+  // Remover sintoma do FormArray pelo índice
+  removeSymptom(index: number) {
+    this.symptoms.removeAt(index);
+  }
+
+  
+
   async createStaff(): Promise<void> {
     this.showModal = true;
     this.formError = null;
@@ -67,28 +84,24 @@ export class MedicalConditionComponent {
     if (this.staffForm.valid) {
       try {
         const {
-          StaffRole,
-          IdentityUsername,
-          Email,
-          Phone,
-          Name,
-          LicenseNumber,
+          code,
+          designation,
+          description,
+          symptoms,
         } = this.staffForm.value;
         
-        await this.staffService.createStaff({
-          StaffRole,
-          IdentityUsername,
-          Email,
-          Phone,
-          Name,
-          LicenseNumber,
+        await this.medicalConditionService.createStaff({
+          code,
+          designation,
+          description,
+          symptoms,
         });
         
         this.closeModal();
         this.listStaffs();
       } catch (error) {
         this.formError =
-          'Failed to create staff. Please check your input and try again.';
+          'Failed to create condition. Please check your input and try again.';
       }
     }
   }
@@ -123,7 +136,7 @@ export class MedicalConditionComponent {
       try {
         const { FullName, phone, email } = this.updateStaffForm.value;
         
-        await this.staffService.updateStaff(this.selectedStaff.LicenseNumber, {
+        await this.medicalConditionService.updateStaff(this.selectedStaff.LicenseNumber, {
           FullName,
           phone,
           email,
@@ -142,36 +155,10 @@ export class MedicalConditionComponent {
     }
   }
 
-  deleteStaff(staffId: string): void {
-    console.log('Deleting staff:', staffId);
-    this.staffIdToDelete = staffId;
-    this.confirmingDelete = true;
-  }
-
-  async confirmDelete(): Promise<void> {
-    console.log('Deleting staff:', this.staffIdToDelete);
-    if (this.staffIdToDelete) {
-      try {
-        await this.staffService.deleteStaff(this.staffIdToDelete);
-        this.confirmingDelete = false;
-        this.staffIdToDelete = null;
-        this.listStaffs();
-      } catch (error) {
-        console.error('Failed to delete staff:', error);
-        this.confirmingDelete = false;
-        this.staffIdToDelete = null;
-      }
-    }
-  }
-
-  cancelDelete(): void {
-    this.confirmingDelete = false;
-    this.staffIdToDelete = null;
-  }
 
   async listStaffs(): Promise<void> {
     try {
-      this.staffList = await this.staffService.getStaffs();
+      this.staffList = await this.medicalConditionService.getStaffs();
       this.filteredStaffs = [...this.staffList];
       this.notFound = this.filteredStaffs.length === 0;
       console.log('Fetched Staffs:', this.staffList);

@@ -68,4 +68,23 @@ export default class MedConditionController /* TODO extends BaseController */ im
       return next(e);
     }
   };
+
+  public async getAllMedConditions(req: Request, res: Response, next: NextFunction) {
+    try {
+      const allMedConditionsOrError = await this.MedConditionServiceInstance.getAllMedConditions() as Result<IMedConditionDTO[]>;
+  
+      if (allMedConditionsOrError.isFailure) {
+        return res.status(404).send();
+      }
+  
+      const allMedConditionsDTO = allMedConditionsOrError.getValue();
+      return res.status(200).json(allMedConditionsDTO);
+    } catch (e) {
+      return next(e);
+    }
+  }
+  
+
+
+
 }
