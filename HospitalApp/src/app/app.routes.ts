@@ -21,12 +21,12 @@ import { AllergyComponent } from './allergy/allergy.component';
 import { SpecializationComponent } from './specialization/specialization.component';
 import { MedicalRecordComponent } from './medicalrecord/medicalrecord.component';
 import { ProfileComponent } from './profile/profile.component';
-import { AppointmentManagementComponent } from './appointment-management/appointment-management.component';
+//import { AppointmentManagementComponent } from './appointment-management/appointment-management.component';
 import { OpReqManagementComponent } from './op-req-management/op-req-management.component';
 
 export const routes: Routes = [
   { path: '', component: MainPageComponent },
-  { path: 'appointments', component: AppointmentManagementComponent },
+  //{ path: 'appointments', component: AppointmentManagementComponent },
   { path: 'operation-requests', component: OpReqManagementComponent },
   { path: 'profile', component: ProfileComponent},
   { path: 'login', component: LoginComponent },
