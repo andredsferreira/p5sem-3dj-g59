@@ -33,7 +33,8 @@ Through the requisites, the team concluded:
 
 ## 4. Design
 
--
+The team decided that:
+* We need to develop a method that will receive a room and a time (in seconds). After that, through the number of surgeries assigned to that room (done by [US 7.3.1](../7-3-1/readme.md)), it will calculate the most appropriate method to be used (generate all & select better; heuristic; Genetic Algorithm) and return that suggestion to the user.
 
 ## 5. Implementation
 
