@@ -265,6 +265,26 @@ total_room_occupation([(Start,End,_)|T],Occupation):-
     total_room_occupation(T,TOccupation),
     Occupation is TOccupation + End - Start.
 
+%-------------------------------------DECIDE-METHOD--------------------------------------------------------
+
+calculate_f(X, F) :-
+    F is (2.29 * 10**(-7) * exp(2 * (X+3))).
+    % Function that represents the obtain best equation. (X = nº of surgeries, Y = nº of seconds needed)
+
+what_method_to_use(Room, Time, Method) :-
+    surgeries_per_room(Room, Surgeries),
+    length(Surgeries, X),
+    calculate_f(X, F),
+    (Time > F -> 
+        Method = obtain_better_sol % Use the "obtain_better_sol" predicate
+    ; Time < 0.2 * X -> 
+        Method = heuristic % Must use heuristic, since user has little time
+    ; 
+        P is ceil(Time * 10) // X,
+        G is P // 2,
+        format(atom(Method), 'generate (Population = ~w, Generations = ~w)', [P, G])
+    ).
+
 %--------------------------------------OBTAIN-BEST---------------------------------------------------------
 
 schedule_all_surgeries(Room,Day):-
