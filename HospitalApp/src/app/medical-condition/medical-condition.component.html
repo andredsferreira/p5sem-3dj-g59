@@ -44,44 +44,47 @@
             </div>
 
             <div class="form-group mb-4">
-                <label for="symptoms" class="block text-sm font-semibold mb-2">Symptoms</label>
-                
+                <label class="block text-sm font-semibold mb-2">Symptoms</label>
+            
                 <!-- Loop para os itens no FormArray -->
                 <div formArrayName="symptoms">
-                  <div *ngFor="let symptom of symptoms.controls; let i = index" class="flex items-center mb-2">
-                    <input
-                      [formControlName]="i"
-                      type="text"
-                      placeholder="Enter symptom"
-                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                    />
-                    <button
-                      type="button"
-                      class="ml-2 px-3 py-1 text-sm bg-red-500 text-white rounded-md"
-                      (click)="removeSymptom(i)"
-                    >
-                      Remove
-                    </button>
-                  </div>
+                    <div *ngFor="let symptom of symptoms.controls; let i = index" class="flex items-center mb-2">
+                        <label [for]="'symptom-' + i" class="block text-sm font-semibold mb-2">Symptom {{ i + 1 }}</label>
+                        <input
+                            [id]="'symptom-' + i"
+                            [formControlName]="i"
+                            type="text"
+                            placeholder="Enter symptom"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                        />
+                        <button
+                            type="button"
+                            class="ml-2 px-3 py-1 text-sm bg-red-500 text-white rounded-md"
+                            (click)="removeSymptom(i)"
+                        >
+                            Remove
+                        </button>
+                    </div>
                 </div>
-              
+            
                 <!-- Botão para adicionar um novo sintoma -->
                 <button
-                  type="button"
-                  class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md"
-                  (click)="addSymptom()"
+                    type="button"
+                    class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md"
+                    (click)="addSymptom()"
                 >
-                  Add Symptom
+                    Add Symptom
                 </button>
-              
+            
                 <!-- Mensagem de erro -->
                 <div
-                  *ngIf="staffForm.get('symptoms')?.invalid && staffForm.get('symptoms')?.touched"
-                  class="error text-red-500 text-sm mt-1"
+                    *ngIf="updateStaffForm.get('symptoms')?.invalid && updateStaffForm.get('symptoms')?.touched"
+                    class="error text-red-500 text-sm mt-1"
                 >
-                  At least one symptom is required.
+                    At least one symptom is required.
                 </div>
-              </div>
+            </div>
+            
               
 
             
@@ -103,22 +106,25 @@
 <!-- List -->
 <div *ngIf="staffList.length > 0" class="staff-list mt-4 mx-auto max-w-4xl px-4">
     <ul class="space-y-4">
-        <li *ngFor="let staff of staffList"
+        <li *ngFor="let condition of staffList"
             class="staff-item p-4 w-full sm:w-[600px] mx-auto border border-gray-300 rounded-lg bg-white hover:bg-gray-50">
-            <div><strong>Staff Role:</strong> {{ staff.StaffRole }}</div>
-            <!-- <div><strong>Username:</strong> {{ staff.IdentityUsername }}</div> -->
-            <div><strong>Email:</strong> {{ staff.Email }}</div>
-            <div><strong>Phone:</strong> {{ staff.Phone }}</div>
-            <div><strong>Name:</strong> {{ staff.Name }}</div>
-            <div><strong>License Number:</strong> {{ staff.LicenseNumber }}</div>
+            <ul>
+                <div><strong>Code:</strong> {{ condition.props.code }}</div>
+                <div><strong>Designation:</strong> {{ condition.props.designation }}</div>
+                <div><strong>Description:</strong> {{ condition.props.description }}</div>
+                <div><strong>Symptoms:</strong> {{ condition.props.symptoms.join(', ') }}</div>
+            </ul>
+            
             <div class="mt-2 flex space-x-2">
-                <button (click)="updateStaff(staff)"
+                <button (click)="updateStaff(condition)"
                     class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition">Update</button>
-               
             </div>
         </li>
     </ul>
 </div>
+
+
+
 
 <!-- Update form -->
 <div *ngIf="showUpdateModal" class="modal fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
@@ -127,34 +133,71 @@
 
 
             <div class="form-group mb-4">
-                <label for="email" class="block text-sm font-semibold mb-2">Email</label>
-                <input id="email" formControlName="email" type="email" placeholder="Enter Email" required
+                <label for="update-designation" class="block text-sm font-semibold mb-2">Designation</label>
+                <input id="update-designation" formControlName="designation" type="text" placeholder="Enter designation" required
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                <div *ngIf="updateStaffForm.get('designation')?.invalid && updateStaffForm.get('designation')?.touched"
+                  class="error text-red-500 text-sm mt-1">
+                  A valid designation is required.
+                </div>
+              </div>
+              
+
+
+            <div class="form-group mb-4">
+                <label for="update-description" class="block text-sm font-semibold mb-2">description</label>
+                <input id="update-description" formControlName="description" type="description" placeholder="Enter description" required
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
-                <div *ngIf="updateStaffForm.get('email')?.invalid && updateStaffForm.get('email')?.touched"
+                <div *ngIf="updateStaffForm.get('description')?.invalid && updateStaffForm.get('description')?.touched"
                     class="error text-red-500 text-sm mt-1">
-                    A valid email is required.
+                    A valid description is required.
                 </div>
             </div>
 
+
+
             <div class="form-group mb-4">
-                <label for="phone" class="block text-sm font-semibold mb-2">Phone</label>
-                <input id="phone" formControlName="phone" type="text" placeholder="Enter Phone Number" required
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
-                <div *ngIf="updateStaffForm.get('phone')?.invalid && updateStaffForm.get('phone')?.touched"
-                    class="error text-red-500 text-sm mt-1">
-                    Phone is required.
+                <label class="block text-sm font-semibold mb-2">Symptoms</label>
+            
+                <!-- Loop para os itens no FormArray -->
+                <div formArrayName="symptoms">
+    <div *ngFor="let symptom of updateSymptoms.controls; let i = index" class="flex items-center mb-2">
+        <label [for]="'update-symptom-' + i" class="block text-sm font-semibold mb-2">Symptom {{ i + 1 }}</label>
+        <input
+            [id]="'update-symptom-' + i"
+            [formControlName]="i"
+            type="text"
+            placeholder="Enter symptom"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+            type="button"
+            class="ml-2 px-3 py-1 text-sm bg-red-500 text-white rounded-md"
+            (click)="removeUpdateSymptom(i)"
+        >
+            Remove
+        </button>
+    </div>
+</div>
+<button
+    type="button"
+    class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md"
+    (click)="addUpdateSymptom()"
+>
+    Add Symptom
+</button>
+
+            
+                <!-- Mensagem de erro -->
+                <div
+                    *ngIf="updateStaffForm.get('symptoms')?.invalid && updateStaffForm.get('symptoms')?.touched"
+                    class="error text-red-500 text-sm mt-1"
+                >
+                    At least one symptom is required.
                 </div>
             </div>
 
-            <div class="form-group mb-4">
-                <label for="FullName" class="block text-sm font-semibold mb-2">Name</label>
-                <input id="FullName" formControlName="FullName" type="text" placeholder="Enter Name" required
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
-                <div *ngIf="updateStaffForm.get('FullName')?.invalid && updateStaffForm.get('FullName')?.touched"
-                    class="error text-red-500 text-sm mt-1">
-                    Name is required.
-                </div>
-            </div>
+            
 
             
 

@@ -37,32 +37,32 @@ export class MedicalConditionService {
   }
 
   // Método para atualizar um condition
-  async updateStaff(id: string, staff: {
-    FullName: string,
-    phone: string,
-    email: string
+  async updateStaff(id: string, condition: {
+    designation: string,
+    description: string,
+    symptoms: Array<string>
   }): Promise<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`,
       'Content-Type': 'application/json'
     });
 
-    const body = { FullName: staff.FullName, phone: staff.phone, email: staff.email };
+    const body = { designation: condition.designation , description: condition.description, symptoms: condition.symptoms,};
     console.log(JSON.stringify(body));
 
     try {
       const response = await lastValueFrom(
-        this.http.put(`https://localhost:5001/api/staff/edit/${id}`, body, { headers })
+        this.http.patch(`http://localhost:4000/api/medConditions/${id}`, body, { headers })
       );
       return response;
     } catch (error) {
-      console.error('Error updating staff:', error);
+      console.error('Error updating condition:', error);
       throw error;
     }
   }
 
 
-  // Método para buscar todos os Staffs
+  // Método para buscar todos os conditions
   async getStaffs(): Promise<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`
@@ -70,11 +70,11 @@ export class MedicalConditionService {
     
     try {
       const response = await lastValueFrom(
-        this.http.get('https://localhost:5001/api/staff/all', { headers })
+        this.http.get('http://localhost:4000/api/medConditions', { headers })
       );
       return response;
     } catch (error) {
-      console.error('Error fetching staffs:', error);
+      console.error('Error fetching conditions:', error);
       throw error;
     }
   }

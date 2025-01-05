@@ -24,7 +24,6 @@ export class MedicalConditionComponent {
 
   staffForm: FormGroup;
   updateStaffForm: FormGroup;
-  filterForm: FormGroup;
 
   formError: string | null = null;
   showModal: boolean = false;
@@ -47,15 +46,13 @@ export class MedicalConditionComponent {
 
     // Formulário de atualização de condition
     this.updateStaffForm = this.fb.group({
-      FullName: ['', Validators.required],
-      phone: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      designation: ['', Validators.required],  
+      description: ['', Validators.required],
+      symptoms: this.fb.array([], Validators.required),
     });
+    
 
-    this.filterForm = this.fb.group({
-      filterCriteria: ['FullName', Validators.required],
-      filterValue: ['', Validators.required],
-    });
+    
   }
 
   // Getter para o FormArray
@@ -72,6 +69,22 @@ export class MedicalConditionComponent {
   removeSymptom(index: number) {
     this.symptoms.removeAt(index);
   }
+
+  // Getter para o FormArray no updateStaffForm
+  get updateSymptoms() {
+    return this.updateStaffForm.get('symptoms') as FormArray;
+  }
+
+
+  addUpdateSymptom() {
+    this.updateSymptoms.push(this.fb.control('', Validators.required));
+  }
+  
+  removeUpdateSymptom(index: number) {
+    this.updateSymptoms.removeAt(index);
+  }
+  
+
 
   
 
@@ -119,67 +132,89 @@ export class MedicalConditionComponent {
     this.updateStaffForm.reset();
   }
 
-  async updateStaff(staff: any): Promise<void> {  
-
-    this.selectedStaff = staff;
-    
+  async updateStaff(condition: any): Promise<void> {
+    if (!condition) {
+      console.error('Condition is undefined');
+      return;
+    }
+  
+    this.selectedStaff = condition.props;
+  
+    // Verificar se symptoms existe e é um array
+    if (!Array.isArray(condition.symptoms)) {
+      console.error('Condition symptoms is not an array or is undefined');
+      this.updateSymptoms.clear();
+    } else {
+      this.updateSymptoms.clear();
+      condition.symptoms.forEach((symptom: string) => {
+        this.updateSymptoms.push(this.fb.control(symptom, Validators.required));
+      });
+    }
+  
+    // Preencher o formulário com os dados da condition
     this.updateStaffForm.patchValue({
-      email: staff.Email,
-      phone: staff.Phone,
-      FullName: staff.Name,
+      designation: condition.designation || '',  // Adicionar designation
+      description: condition.description || '',
     });
+  
     this.showUpdateModal = true;
   }
+  
+  
+  
 
   async onUpdateSubmit(): Promise<void> {
-    if (this.updateStaffForm.valid ) {
+    if (this.updateStaffForm.valid) {
       try {
-        const { FullName, phone, email } = this.updateStaffForm.value;
+        const { designation, description, symptoms } = this.updateStaffForm.value;
         
-        await this.medicalConditionService.updateStaff(this.selectedStaff.LicenseNumber, {
-          FullName,
-          phone,
-          email,
+        // Enviar o designation também na atualização
+        await this.medicalConditionService.updateStaff(this.selectedStaff.code, {
+          designation,
+          description,
+          symptoms,
         });
         
-        this.updateSuccessMessage = `Staff with ID ${this.selectedStaff.LicenseNumber} was updated successfully.`;
+        this.updateSuccessMessage = `Condition with Code ${this.selectedStaff.code} was updated successfully.`;
         this.closeUpdateModal();
         this.listStaffs();
-
+  
         setTimeout(() => {
           this.updateSuccessMessage = null;
         }, 3000);
       } catch (error) {
-        console.error('Failed to update staff:', error);
+        console.error('Failed to update condition:', error);
       }
     }
   }
+  
 
 
   async listStaffs(): Promise<void> {
     try {
       this.staffList = await this.medicalConditionService.getStaffs();
+  
+      // Garantir que cada staff tem a estrutura esperada
+      this.staffList = this.staffList.map((staff: any) => ({
+        ...staff,
+        symptoms: staff.symptoms || [], // Garantir que symptoms é sempre um array
+      }));
+  
       this.filteredStaffs = [...this.staffList];
       this.notFound = this.filteredStaffs.length === 0;
-      console.log('Fetched Staffs:', this.staffList);
+      console.log('Fetched conditions:', this.staffList);
     } catch (error) {
-      console.error('Error fetching staffs:', error);
+      console.error('Error fetching conditions:', error);
     }
   }
+  
 
-  filterStaffs(): void {
-    const { filterCriteria, filterValue } = this.filterForm.value;
 
-    this.filteredStaffs = this.staffList.filter((staff) => {
-      const value = staff[filterCriteria]?.toString().toLowerCase();
-      return value.includes(filterValue.toLowerCase());
-    });
-  }
 
   backToAdmin(): void {
 
     console.log('Admin');
-    this.router.navigate(['/admin']);
+    this.router.navigate(['/doctor']);
   }
 
 
