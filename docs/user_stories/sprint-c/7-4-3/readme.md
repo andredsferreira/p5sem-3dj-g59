@@ -31,8 +31,11 @@ Through analysis of the requisites, we can conclude that the team needs to imple
 
 ## 4. Design
 
-- 
+The team decided that:
+* The system would do a backup of our **Mongo** database's state, as the **MySQL** database's state is already saved in our system.
+
+The decisions made and their justification will be explained more in depth in its section on the [report](report.pdf).    
 
 ## 5. Implementation
 
--
+The implementation and the code explanation will be explained more in depth in its section on the [report](report.pdf).  
