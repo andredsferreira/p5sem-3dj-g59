@@ -37,8 +37,26 @@ From the requisites, the team can conclude that:
 
 ## 5. Implementation
 
--
+We used **GSAP** for the camera's animation.
+
+* **hospitalfloor.component.ts**
+
+```ts
+  changeCameraPositionAndAngle(position: THREE.Vector3, target: THREE.Vector3, duration: number, ease: string){
+    GSAP.gsap.to(this.camera.position, {x: position.x, y: position.y, z: position.z, duration: duration, ease: ease, });
+    GSAP.gsap.to(this.controls.target, {x: target.x, y: target.y, z: target.z, duration: duration, });
+
+    const lookAtTarget = new THREE.Vector3();
+    lookAtTarget.copy(this.camera.getWorldDirection(new THREE.Vector3()).add(this.camera.position));
+    GSAP.gsap.to(lookAtTarget, {x: target.x, y: target.y, z: target.z, duration: duration, ease: ease,
+      onUpdate: () => {
+        this.camera.lookAt(lookAtTarget);
+      },
+    });
+    this.controls.update();
+  }
+```
 
 ## 6. Demonstration
 
--
+![](../7-5-1/images/demonstration/demonstration.gif)

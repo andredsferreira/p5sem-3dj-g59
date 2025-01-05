@@ -51,8 +51,76 @@ The team decided that:
 
 ## 5. Implementation
 
--
+* **hospitalfloor.component.ts**
+
+```ts
+  async ngOnInit(): Promise<void> {
+    ...
+    document.addEventListener("keypress", this.iPressed.bind(this));
+    ...
+  }
+```
+
+```ts
+  iPressed(event: KeyboardEvent) {
+    console.log(event.key);
+    if(event.key === 'x') this.closeRoomInfo();
+    if(!this.selectedRoom || event.key !== 'i') return;
+    this.showRoomInfo = !this.showRoomInfo;
+  }
+```
+
+This information is obtained when we get all rooms from the backend. It is obtained through this object...
+
+```ts
+export interface Occupied {
+    RoomNumber: number,
+    Begin?: Date,
+    End?: Date,
+    Status: number,
+    PatientName?: string,
+    PatientMRN?: string,
+}
+```
+
+...and displayed like this in **roomloader.js**:
+
+```js
+    toggleTableVisibility(isOccupied) {
+        if(isOccupied.Status == 1){
+            this.object.traverse((child) => {
+                if (child.tableWithPersonObject) {
+                    child.tableWithPersonObject.visible = true;
+                }
+                if (child.name === 'table') {
+                    child.visible = false;
+                }
+            });
+            this.Begin = isOccupied.Begin;
+            this.End = isOccupied.End;
+            this.Status = "Ocupada";
+            this.PatientName = isOccupied.PatientName;
+            this.PatientMRN = isOccupied.PatientMRN;
+            return;
+        }
+
+        this.object.traverse((child) => {
+            if (child.tableWithPersonObject) {
+                child.tableWithPersonObject.visible = false;
+            }
+            if (child.name === 'table') {
+                child.visible = true;
+            }
+        });
+        this.Begin = null;
+        this.End = null;
+        this.PatientName = null;
+        this.PatientMRN = null;
+        if(isOccupied.Status == 0) this.Status = "Disponível";
+        else this.Status = "Em Manutenção";
+    }
+```
 
 ## 6. Demonstration
 
--
+![](../7-5-1/images/demonstration/demonstration.gif)
