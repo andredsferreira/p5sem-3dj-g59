@@ -138,11 +138,6 @@ export class OperationTypeComponent /*implements OnInit*/ {
                 this.operationTypes = this.operationTypes.filter((operationType) => operationType.Status.toString() === this.filterForm.value.status);
             }
 
-           
-        
-            
-            
-
             this.paginatedOperationTypes = this.operationTypes.slice(0, this.pageSize);
 
             this.notFound = this.operationTypes.length === 0;

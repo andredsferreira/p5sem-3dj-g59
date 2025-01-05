@@ -20,11 +20,10 @@ export class SpecializationService {
             'Content-Type': 'application/x-www-form-urlencoded'
         });
         const body = new HttpParams()
-            .set('code', code)
-            .set('designation', designation)
+            .set('codeSpec', code)
+            .set('Designation', designation)
             .set('description', description);
             
-
         console.log(body);
 
         try {
@@ -39,6 +38,24 @@ export class SpecializationService {
         }
     
     }
+
+    async getSpecialization(): Promise<any> {
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${this.token}`
+        });
+
+        try {
+            const response = await lastValueFrom(
+                this.http.get('https://localhost:5001/api/specialization/GetAll', { headers })
+            );
+            return response;
+        } catch (error) {
+            console.error('Error getting specialization:', error);
+            throw error;
+        }
+    }
+
+    editSpecialization(): void{}
 
 
 }

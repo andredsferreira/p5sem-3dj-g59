@@ -8,7 +8,7 @@ import { HttpParams } from '@angular/common/http';
 
 interface Specialization {
 
-    code: string;
+    codeSpec: string;
     designation: string;
     description: string;
 
@@ -23,18 +23,29 @@ interface Specialization {
 export class SpecializationComponent {
 
     addForm: FormGroup;
+    editForm: FormGroup;
 
     isSubmiting: boolean = false;
     showModal: boolean = false;
     isCanceled: boolean = false;
 
+    showEditModal: boolean = false;
+
+    listing: boolean = false;
+
+    specializations: any[] = [];
 
     formError: string | null = null;
 
     constructor(private specializationService: SpecializationService, private formBuilder: FormBuilder, private router: Router) {
         this.addForm = this.formBuilder.group({
-            code: ['', Validators.required],
-            designation: ['', Validators.required],
+            codeSpec: ['', Validators.required],
+            Designation: ['', Validators.required],
+            description: ['', Validators.required]
+        });
+        this.editForm = this.formBuilder.group({
+            codeSpec: ['', Validators.required],
+            Designation: ['', Validators.required],
             description: ['', Validators.required]
         });
     }
@@ -49,12 +60,14 @@ export class SpecializationComponent {
             if (this.addForm.valid) {
                 try {
                     const {
-                        code,
-                        designation,
+                        codeSpec,
+                        Designation,
                         description
                     } = this.addForm.value;
 
-                    await this.specializationService.createSpecialization(code, designation, description);
+                    console.log(this.addForm.value);
+
+                    await this.specializationService.createSpecialization(codeSpec, Designation, description);
                 } catch (error) {
                     console.error('Error creating specialization:', error);
                     this.formError = 'Failed to create specialization';
@@ -70,6 +83,24 @@ export class SpecializationComponent {
 
     }
 
+    async listSpecializations(): Promise<any> {
+    
+        this.listing = true;
+        try {
+            const response = await this.specializationService.getSpecialization();
+            console.log(response);
+            this.listing = false;
+            return response;
+        } catch (error) {
+            console.error('Error getting specialization:', error);
+            this.listing = false;
+            throw error;
+        }
+        
+    }
+
+    
+
     createSpecialization(): void {
         this.showModal = true;
         this.formError = null;
@@ -80,6 +111,13 @@ export class SpecializationComponent {
         this.isCanceled = true;
         this.addForm.reset();
     }
+
+    editSpecialization(): void {
+        this.showEditModal = true;
+        this.isCanceled = false;
+        this.editForm.reset();
+    }
+
 
 
 }
