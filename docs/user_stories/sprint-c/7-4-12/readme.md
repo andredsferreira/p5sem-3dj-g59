@@ -36,8 +36,10 @@ Through the open question, the team can conclude that:
 
 ## 4. Design
 
--
+The team decided that:
+* This should be done to **Mongo**'s backups, hence the dependency on [**US 7.4.3**](../7-4-3/readme.md).
+* As this should be on-demand, a script will be developed for this.
 
 ## 5. Implementation
 
--
+The explanation will be explained more in depth in its section on the [report](../7-4-3/report.pdf).  
