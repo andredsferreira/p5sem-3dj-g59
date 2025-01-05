@@ -125,6 +125,8 @@ export class HospitalFloorComponent implements OnInit, OnDestroy {
       map: configJson.map, groundTextureUrl: configJson.floorTextureUrl,
       groundSize: { width: configJson.floorSize.width, height: configJson.floorSize.height },
       wallTextureUrl: configJson.wallTextureUrl,
+      wallWithIconTextureUrl: configJson.wallWithLogoTextureUrl,
+      bannerTextureUrl: configJson.bannerTextureUrl,
       wallSize: { width: configJson.wallSize.width, height: configJson.wallSize.height, depth: configJson.wallSize.depth },
       door: { url: configJson.doorModel.url, fbx: configJson.doorModel.fbx },
       desk: { url: configJson.deskModel.url, fbx: configJson.deskModel.fbx},

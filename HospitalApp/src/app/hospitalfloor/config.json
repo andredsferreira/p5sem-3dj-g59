@@ -2,6 +2,8 @@
     "groundTextureUrl": "./ground.jfif",
     "floorTextureUrl": "./floor2.png",
     "wallTextureUrl": "./wall.jpg",
+    "wallWithLogoTextureUrl":"./wallWithIcon.jpg",
+    "bannerTextureUrl":"./banner.png",
     "floorEnvMap":"./cloud.jpg",
     "tableModel":{"url":"./models/SurgeryTable/", "obj":"SurgeryTable.obj", "mtl":"SurgeryTable.mtl"},
     "tableWithPersonModel":{"url": "./models/SurgeryTableWithPerson/", "obj":"SurgeryTableWithPerson.obj", "mtl":"SurgeryTableWithPerson.mtl"},
@@ -23,7 +25,7 @@
     "wallSize": {"width": 1.01, "height": 2, "depth": 0.1},
     "windowSize": {"width": 0.3, "height": 0.5, "depth": 0.01},
     "map": [
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+        [3, 2, 2, 2, 2, 4, 2, 2, 2, 2, 1],
         [1, 10, 0, 0, 0, 5, 0, 0, 0, 11, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],

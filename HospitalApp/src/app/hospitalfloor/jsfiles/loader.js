@@ -91,7 +91,14 @@ export default class Loader {
                         0.5, 
                         j - this.description.groundSize.height/2 + 0.5);
                     this.object.add(wallObject);
-                } /*else if (this.description.map[j][i] == 5) {
+                } else if (this.description.map[j][i] == 4) {
+                    wallObject = (new Wall({ textureUrl: this.description.wallWithIconTextureUrl, size: this.description.wallSize })).object;
+                    wallObject.position.set(
+                        i - this.description.groundSize.width/2 + 0.5, 
+                        0.5, 
+                        j - this.description.groundSize.height/2);
+                    this.object.add(wallObject);
+                }/*else if (this.description.map[j][i] == 5) {
                     windowObject = this.window.object.clone();
                     windowObject.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 2);
                     windowObject.position.set(
@@ -108,6 +115,7 @@ export default class Loader {
                             loadFbx.call(this, this.description, this.description.phone, i, j, {scale: 0.00015, translateY: -0.35, translateZ: .25, scaleX: -0.93}); // Phone
                             break;
                         case 6:
+                            this.buildBanner(i,j);
                             loadFbx.call(this, this.description, this.description.door, i, j, {scale: 0.00155, translateY: -0.95, translateX: -0.5, scaleX: -0.93});
                             break;
                         case 7:
@@ -125,6 +133,26 @@ export default class Loader {
                 }
             }
         }
+    }
+    buildBanner(i,j){
+        const texture = new THREE.TextureLoader().load(this.description.bannerTextureUrl);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        
+        texture.wrapS = THREE.ClampToEdgeWrapping;
+
+        const geometry = new THREE.BoxGeometry(this.description.wallSize.width*2, this.description.wallSize.height/2, this.description.wallSize.depth/5);
+        
+        const material = new THREE.MeshStandardMaterial({ map: texture });
+        this.banner = new THREE.Mesh(geometry, material);
+        
+        this.banner.castShadow = true;
+        this.banner.receiveShadow = true;
+
+        this.banner.position.set(
+            i - this.description.groundSize.width/2 + 1, 
+            1.95, 
+            j - this.description.groundSize.height/2);
+        this.object.add(this.banner);
     }
         
 }

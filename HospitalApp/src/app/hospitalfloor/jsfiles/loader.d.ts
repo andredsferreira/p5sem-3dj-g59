@@ -7,6 +7,8 @@ interface LoaderParameters {
     groundTextureUrl: string;
     groundSize: Vector2;
     wallTextureUrl: string;
+    wallWithIconTextureUrl: string;
+    bannerTextureUrl: string;
     wallSize: Vector3;
     floorMetalness: number,
     floorRoughness: number,

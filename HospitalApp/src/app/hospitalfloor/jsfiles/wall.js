@@ -18,7 +18,7 @@ export default class Wall {
         texture.colorSpace = THREE.SRGBColorSpace;
         
         texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.ClampToEdgeWrapping;
+        //texture.wrapT = THREE.ClampToEdgeWrapping;
         texture.repeat.set(this.size.width, this.size.height);
         texture.magFilter = THREE.LinearFilter;
         texture.minFilter = THREE.LinearFilter;
