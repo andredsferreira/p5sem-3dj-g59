@@ -20,12 +20,10 @@ namespace Backend.Controllers;
 public class StaffController : ControllerBase {
 
     private readonly StaffService _service;
-    private readonly UserManager<IdentityUser> userManager;
 
 
-    public StaffController(StaffService service,UserManager<IdentityUser> userManager) {
+    public StaffController(StaffService service) {
         _service = service;
-        this.userManager= userManager;
     }
 
 
