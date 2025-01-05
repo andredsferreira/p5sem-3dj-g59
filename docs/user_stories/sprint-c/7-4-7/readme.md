@@ -30,8 +30,14 @@ Through analysis of the requisites, we can conclude that the team needs to devel
 
 ## 4. Design
 
--   
+The team decided that this explanation would be divided into the following sections:
+1. What we need to do
+2. Considering risks and impacts
+3. Priorities in recovery
+4. Necessary resources
+5. Considering results
+6. Continuous improvement
 
 ## 5. Implementation
 
--
+The explanation will be explained more in depth in its section on the [report](report.pdf).  
