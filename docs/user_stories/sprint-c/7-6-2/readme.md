@@ -36,7 +36,7 @@ Through the open questions, the team concluded:
 
 ## 4. Design
 
--
+The team decided that, to comply with what was asked, a new button would be added to the Patient Profile's menu.
 
 ## 5. Demonstration
 
