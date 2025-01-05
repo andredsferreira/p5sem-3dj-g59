@@ -83,10 +83,14 @@ public class OperationTypeController : ControllerBase {
         return result != null ? Ok(result) : BadRequest("Could not find operation type");
     }
 
-    [HttpGet("GetSpecialization/{specialization}")]
+    /*[HttpGet("GetSpecialization/{specialization}")]
+    [Authorize(Roles = HospitalRoles.Admin)]
     public async Task<ActionResult<IEnumerable<OperationTypeDTO>>> GetOperationTypeBySpecialization(string specialization) {
 
         var result = await AddOperationTypeService.GetBySpecialization(specialization);
         return result != null ? Ok(result) : BadRequest("Could not find operation type");
-    }
+    }*/
+
+
+
 }
