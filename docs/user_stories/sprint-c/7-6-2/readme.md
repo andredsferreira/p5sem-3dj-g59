@@ -40,4 +40,4 @@ The team decided that, to comply with what was asked, a new button would be adde
 
 ## 5. Demonstration
 
--
+![](demonstration/7_6_2.png)
