@@ -1,126 +1,98 @@
-/*using Microsoft.AspNetCore.Mvc;
+using System.Net.Mail;
 using System.Threading.Tasks;
-using Backend.Domain.Patients;
 using Backend.Controllers;
-using Microsoft.AspNetCore.Identity;
+using Backend.Domain.DomainLogs;
+using Backend.Domain.Shared;
+using Backend.Domain.Staffs;
+using Backend.Infrastructure.Shared.MessageSender;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
-using System;
-using Backend.Domain.Shared;
-using Backend.Infrastructure.Shared.MessageSender;
-using Backend.Domain.DomainLogs;
-using Microsoft.AspNetCore.Http.HttpResults;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Backend.UnitTests.ControllerTests;
 
 public class StaffControllerIntegrationWIsolationTests
 {
-    private readonly IPatientRepository _repo;
-    private readonly IDomainLogRepository _logrepo;
-    private readonly IUnitOfWork _unit;
-    private readonly UserManager<IdentityUser> _manager;
+    private readonly Mock<IStaffRepository> _repo;
+    private readonly Mock<IUnitOfWork> _unit;
+    private readonly StaffService service;
+    private readonly StaffController _controller;
     private readonly Mock<IMessageSenderService> _mockMessageSender;
-    private readonly PatientService service;
-    private readonly PatientController _controller;
+    private readonly Mock<IDomainLogRepository> _logrepo;
 
     public StaffControllerIntegrationWIsolationTests()
     {
+        // Criação dos mocks
+        _unit = new Mock<IUnitOfWork>();
+        _repo = new Mock<IStaffRepository>();
         _mockMessageSender = new Mock<IMessageSenderService>();
-        service = new PatientService(_unit, _repo, _logrepo, _mockMessageSender.Object);
-        _controller = new PatientController(service, _manager);
+        _logrepo = new Mock<IDomainLogRepository>();
+
+        // Instanciação do serviço e controlador
+        service = new StaffService(_unit.Object, _repo.Object, _logrepo.Object, _mockMessageSender.Object);
+        _controller = new StaffController(service);
     }
 
-    private PatientDTO SeedPatientDTO(){
-        return new PatientDTO("202410000001", DateOnly.Parse("2004-07-10"),"teste@gmail.com","987876765","Male","John One Two Doe", "Dogs, Cats");
+    private StaffDTO SeedStaffDTO()
+    {
+        return new StaffDTO("Doctor", "johndoe", "johndoe@example.com", "987654321", "John Doe", "LN12345");
     }
-    private FilterPatientDTO SeedFilterPatientDTO(){
-        return new FilterPatientDTO{Email = "novo@gmail.com"};
+
+    private FilterStaffDTO SeedFilterStaffDTO()
+    {
+        return new FilterStaffDTO { Email = "johndoe@example.com" };
+    }
+
+    private Staff SeedStaff()
+    {
+        return new Staff("Doctor", "johndoe", new MailAddress("johndoe@example.com"), new PhoneNumber("987654321"), new FullName("John Doe"), new LicenseNumber("LN12345"));
     }
 
     [Fact]
-    public async Task CreatePatient_ReturnsCreatedAtAction_WithPatientDTO() {
+    public async Task CreateStaff_ReturnsCreatedAtAction_WithStaffDTO()
+    {
         // Arrange
-        var patientDto = SeedPatientDTO();
+        var staffDto = SeedStaffDTO();
+        var existingStaff = SeedStaff();
+
+        _repo.Setup(repo => repo.GetByIdentityUsername(It.IsAny<string>())).Returns((Staff)null);
+        _repo.Setup(repo => repo.AddAsync(It.IsAny<Staff>())).ReturnsAsync(existingStaff);
+        _unit.Setup(u => u.CommitAsync()).ReturnsAsync(1);
 
         // Act
-        var result = await _controller.CreatePatient(patientDto);
+        var result = await _controller.CreateStaff(staffDto);
 
         // Assert
         var actionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
-        var returnValue = Assert.IsType<PatientDTO>(actionResult.Value);
-        Assert.Equal(patientDto, returnValue);
+        var returnValue = Assert.IsType<StaffDTO>(actionResult.Value);
+
+        Assert.Equal(staffDto.Email, returnValue.Email);
     }
 
     [Fact]
-    public async Task EditPatient_ReturnsNotFoundWhenGettingNull() {
-
-        // Act
-        var result = await _controller.EditPatient("202410000004", SeedFilterPatientDTO()); //Random MedicalRecordNumber
-
-        // Assert
-        Assert.IsType<NotFoundResult>(result.Result);
-    }
-
-    [Fact]
-    public async Task EditPatient_ReturnsOkAndDTOWhenGettingDTO() {
+    public async Task EditStaff_ReturnsNotFoundWhenStaffDoesNotExist()
+    {
         // Arrange
-        var patientDto = SeedPatientDTO();
+        var staffDto = SeedFilterStaffDTO();
+        _repo.Setup(r => r.GetByIdentityUsername(It.IsAny<string>())).Returns((Staff)null);
 
         // Act
-        var result = await _controller.EditPatient(patientDto.MedicalRecordNumber, SeedFilterPatientDTO());
-
-        // Assert
-        var actionResult = Assert.IsType<OkObjectResult>(result.Result);
-        Assert.IsType<PatientDTO>(actionResult.Value);
-
-        //DTO Content change is not tested here since that logic is in the Service
-    }
-
-    [Fact]
-    public async Task DeletePatient_ReturnsNotFoundWhenGettingNull() {
-
-        // Act
-        var result = await _controller.DeletePatient("202410000004"); //Random MedicalRecordNumber
+        var result = await _controller.EditStaff("johndoe", staffDto);
 
         // Assert
         Assert.IsType<NotFoundResult>(result.Result);
     }
 
+   
+
     [Fact]
-    public async Task DeletePatient_ReturnsOkAndDTOWhenGettingDTO() {
+    public async Task DeleteStaff_ReturnsNotFoundWhenStaffDoesNotExist()
+    {
         // Arrange
-        var patientDto = SeedPatientDTO();
+        _repo.Setup(r => r.GetByIdentityUsername(It.IsAny<string>())).Returns((Staff)null);
 
         // Act
-        var result = await _controller.DeletePatient(patientDto.MedicalRecordNumber);
+        var result = await _controller.DeleteStaff("johndoe");
 
         // Assert
-        var actionResult = Assert.IsType<OkObjectResult>(result.Result);
-        var returnValue = Assert.IsType<PatientDTO>(actionResult.Value);
-
-        Assert.Equal(patientDto, returnValue);
+        Assert.IsType<NotFoundObjectResult>(result.Result);
     }
-
-    [Fact]
-    public async Task SearchPatient_ReturnsOkAndListDTOWhenGettingList() {
-
-        // Act
-        var result = await _controller.SearchAndFilterPatients(SeedFilterPatientDTO());
-
-        // Assert
-        var actionResult = Assert.IsType<OkObjectResult>(result.Result);
-        Assert.IsType<List<PatientDTO>>(actionResult.Value);
-    }
-
-    [Fact]
-    public async Task SearchPatient_ReturnsNotFoundWhenGettingNull() {
-
-        // Act
-        var result = await _controller.SearchAndFilterPatients(SeedFilterPatientDTO());
-
-        // Assert
-        Assert.IsType<NotFoundResult>(result.Result);
-    }
-}*/
+}
