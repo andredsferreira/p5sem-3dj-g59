@@ -37,5 +37,22 @@ public class SpecializationService{
     public virtual async Task<SpecializationDTO> GetSpecializationDTO() {
         var specializations = await _repository.GetAllAsync();
         return specializations.Select(s => s.ToDTO()).FirstOrDefault();
+    }
+
+    public virtual async Task<SpecializationDTO> editSpecialization(SpecializationDTO dto, string id){
+        var specialization = this._repository.GetByIdAsync(new SpecializationID(id)).Result;
+        
+        if(specialization == null)
+            throw new Exception("Specialization not found.");
+
+        
+        specialization.description = new Description(dto.description);
+        specialization.designation = new Designation(dto.designation);
+        specialization.codeSpec = new CodeSpec(dto.codeSpec);
+
+        _repository.Update(specialization);
+        await _unitOfWork.CommitAsync();
+
+        return specialization.ToDTO(); 
     }    
 }

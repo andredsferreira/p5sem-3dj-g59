@@ -42,6 +42,15 @@ public class SpecializationController : ControllerBase{
         }
     }
 
+    [HttpPatch("Edit")]
+    public async Task<IActionResult> editSpecialization([FromForm] SpecializationDTO dto, string id){
+        
+        var result = await specializationService.editSpecialization(dto, id);
+        return result != null ? Ok(result) : BadRequest("Could not update operation type");
+
+
+    }
+
 
     
 
