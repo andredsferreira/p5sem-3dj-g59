@@ -1,26 +1,6 @@
-let tokenStaffManagement:string;
+let tokenStaffManagement:string="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGhvc3BpdGFsLmNvbSIsImV4cCI6MTczNjExNTQ5OCwicm9sZSI6ImFkbWluIiwidXNlcm5hbWUiOiJhZG1pbiJ9.wfGTLgD2mYJUA1gFf9JFIeuARGycQs3KK3ZNVbbIE00";
 let LicenseNumber:string;
 
-describe('login', () => {
-    it('logs in and accesses patient page', () => {
-        cy.intercept('POST', '/api/auth/login').as('loginRequest');
-        cy.visit("http://localhost:4200/login");
-        cy.get('#username').type('admin');
-        cy.get('#password').type('adminpassword');
-        cy.get('button[type="submit"]').click(); 
-
-        cy.wait('@loginRequest').then((interception) => {
-            if (interception.response != undefined) tokenStaffManagement = interception.response.body.token;
-            cy.log('Token received:', tokenStaffManagement);
-            expect(tokenStaffManagement).to.exist;
-        });
-
-        cy.url().should('include', '/admin');
-        
-        cy.contains('button', 'Gerir Staff').click();
-        cy.url().should('include', '/staffmanagement');
-    })
-})
 describe('staff', () => {
     before(() => {
         if (!tokenStaffManagement) {

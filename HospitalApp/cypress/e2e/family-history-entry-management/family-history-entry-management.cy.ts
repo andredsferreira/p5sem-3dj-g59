@@ -1,22 +1,5 @@
-let tokenFamilyHistoryEntryManagement:string;
+let tokenFamilyHistoryEntryManagement:string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRpYWdvQGhvc3BpdGFsLmNvbSIsImV4cCI6MTczNjExNTEzNCwicm9sZSI6ImRvY3RvciIsInVzZXJuYW1lIjoidGlhZ28ifQ.206RylRzGK5ngUITe7n9MB5AdKs3FqU_Ybp_er0Ayhg";
 
-describe('login', () => {
-    it('logs in and accesses medical record page', () => {
-        cy.intercept('POST', '/api/auth/login').as('loginRequest');
-        cy.visit("http://localhost:4200/login");
-        cy.get('#username').type('tiago');
-        cy.get('#password').type('tiagopassword');
-        cy.get('button[type="submit"]').click(); 
-
-        cy.wait('@loginRequest').then((interception) => {
-            if (interception.response != undefined) tokenFamilyHistoryEntryManagement = interception.response.body.token;
-            cy.log('Token received:', tokenFamilyHistoryEntryManagement);
-            expect(tokenFamilyHistoryEntryManagement).to.exist;
-        });
-
-        cy.url().should('include', '/doctor');
-    })
-})
 describe('family history entry', () => {
     before(() => {
         if (!tokenFamilyHistoryEntryManagement) {

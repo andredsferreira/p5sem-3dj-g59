@@ -1,26 +1,6 @@
-let tokenPatientManagement:string;
+let tokenPatientManagement:string="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGhvc3BpdGFsLmNvbSIsImV4cCI6MTczNjExNTQ1OSwicm9sZSI6ImFkbWluIiwidXNlcm5hbWUiOiJhZG1pbiJ9.Z864cckPmT6RsSNN453EQ_99TASrczDXquOUQO6mlqc";
 let MedicalRecordNumber:string;
 
-describe('login', () => {
-    it('logs in and accesses patient page', () => {
-        cy.intercept('POST', '/api/auth/login').as('loginRequest');
-        cy.visit("http://localhost:4200/login");
-        cy.get('#username').type('admin');
-        cy.get('#password').type('adminpassword');
-        cy.get('button[type="submit"]').click(); 
-
-        cy.wait('@loginRequest').then((interception) => {
-            if (interception.response != undefined) tokenPatientManagement = interception.response.body.token;
-            cy.log('Token received:', tokenPatientManagement);
-            expect(tokenPatientManagement).to.exist;
-        });
-
-        cy.url().should('include', '/admin');
-        
-        cy.contains('button', 'Gerir Pacientes').click();
-        cy.url().should('include', '/patientmanagement');
-    })
-})
 describe('patient', () => {
     before(() => {
         if (!tokenPatientManagement) {

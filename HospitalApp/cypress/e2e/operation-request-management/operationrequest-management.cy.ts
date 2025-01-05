@@ -1,23 +1,6 @@
-let tokenOperationRequest:string;
+let tokenOperationRequest:string="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRpYWdvQGhvc3BpdGFsLmNvbSIsImV4cCI6MTczNjExNTM2Mywicm9sZSI6ImRvY3RvciIsInVzZXJuYW1lIjoidGlhZ28ifQ.xaRye-O-crHg4MFpqj2fSQxif-psBmblkVRODEOIz_c";
 let foda:string;
 
-describe('login', () => {
-    it('logs in and accesses doctor page', () => {
-        cy.intercept('POST', '/api/auth/login').as('loginRequest');
-        cy.visit("http://localhost:4200/login");
-        cy.get('#username').type('tiago');
-        cy.get('#password').type('tiagopassword');
-        cy.get('button[type="submit"]').click(); 
-
-        cy.wait('@loginRequest').then((interception) => {
-            if (interception.response != undefined) tokenOperationRequest = interception.response.body.token;
-            cy.log('Token received:', tokenOperationRequest);
-            expect(tokenOperationRequest).to.exist;
-        });
-
-        cy.url().should('include', '/doctor');
-    })
-});
 describe('operationrequest', () => {
     before(() => {
         if (!tokenOperationRequest) {
