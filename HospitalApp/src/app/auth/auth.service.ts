@@ -43,13 +43,16 @@ export class AuthService {
 
   async registerPatient(username: string, email: string, phone: string, password: string): Promise<any> {
     try {
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
       const response: any = await lastValueFrom(
-        this.http.post('https://localhost:5001/api/auth/registerpatient', {
+        this.http.post(`${this.iamPath}/auth/register/patient`, {
           Username: username,
           Email: email,
           Phone: phone,
           Password: password,
-        })
+        }, {headers, observe: 'response'})
       );
       return response;
     } catch (error) {
@@ -100,7 +103,7 @@ export class AuthService {
     });
     try {
       const users = await lastValueFrom(
-        this.http.get('https://localhost:5001/api/auth/users', { headers })
+        this.http.get(`${this.iamPath}/auth/users`, { headers })
       );
       return users;
     } catch (error) {

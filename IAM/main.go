@@ -23,7 +23,9 @@ func main() {
 	mux.HandleFunc("POST /auth/login", handler.LoginHandler)
 	mux.HandleFunc("OPTIONS /auth/login", handler.LoginHandler)
 	mux.HandleFunc("POST /auth/register/backoffice", handler.RegisterBackofficeHandler)
+	mux.HandleFunc("OPTIONS /auth/register/backoffice", handler.RegisterBackofficeHandler)
 	mux.HandleFunc("POST /auth/register/patient", handler.RegisterPatientHandler)
+	mux.HandleFunc("OPTIONS /auth/register/patient", handler.RegisterPatientHandler)
 
 	server := &http.Server{
 		Addr:    ":8090",

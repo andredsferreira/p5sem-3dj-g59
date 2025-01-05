@@ -36,7 +36,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "wrong password", http.StatusNotAcceptable)
 		return
 	}
-	t, err := service.GenerateJWT(u.Username, u.Role)
+	t, err := service.GenerateJWT(u.Username, u.Role, u.Email)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -46,7 +46,13 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func RegisterBackofficeHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:4200")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
 	var u model.User
 	err := json.NewDecoder(r.Body).Decode(&u)
 	if !service.IsValidRole(u.Role) {
@@ -72,7 +78,13 @@ func RegisterBackofficeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func RegisterPatientHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:4200")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
 	var patient struct {
 		Username string `json:"username"`
 		Password string `json:"password"`

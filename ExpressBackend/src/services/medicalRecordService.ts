@@ -12,12 +12,14 @@ import * as path from 'path';
 import IFamilyHistoryEntryRepo from './IRepos/IFamilyHistoryEntryRepo';
 import { forEach } from 'lodash';
 import * as MiniZip from 'minizip-asm.js'
+import IMedicalConditionEntryRepo from './IRepos/IMedicalConditionEntryRepo';
 
 @Service()
 export default class MedicalRecordService implements IMedicalRecordService {
   constructor(
     @Inject(config.repos.medicalRecord.name) private MedRecordRepo: IMedicalRecordRepo,
-    @Inject(config.repos.familyHistoryEntry.name) private FamHistoryRepo: IFamilyHistoryEntryRepo
+    @Inject(config.repos.familyHistoryEntry.name) private FamHistoryRepo: IFamilyHistoryEntryRepo,
+    @Inject(config.repos.medicalConditionEntry.name) private MedCondRepo: IMedicalConditionEntryRepo
   ) { }
 
   public async getMedRecordByMedicalRecordNumber(MedRecordCode: string): Promise<Result<IMedicalRecordDTO>> {
@@ -57,12 +59,17 @@ export default class MedicalRecordService implements IMedicalRecordService {
   public async generateMedicalRecordZip(medicalRecordNumber: string, password: string): Promise<Result<string>> {
     try {
       const familyHistoryEntries = await this.FamHistoryRepo.findByMedicalRecordNumber(medicalRecordNumber);
+      const medicalConditionEntries = await this.MedCondRepo.findByMedicalRecordNumber(medicalRecordNumber);
   
       const jsonData = {
         medicalRecordNumber: medicalRecordNumber,
         familyHistoryEntries: familyHistoryEntries.map(({ relative, history }) => ({
           relative,
           history,
+        })),
+        medicalConditionEntries: medicalConditionEntries.map(({ condition, year }) => ({
+          condition,
+          year,
         })),
       };
 

@@ -28,12 +28,13 @@ func CheckPasswordHash(p, h string) bool {
 	return err == nil
 }
 
-func GenerateJWT(u, r string) (string, error) {
+func GenerateJWT(u, r, e string) (string, error) {
 	t := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{
 			"username": u,
 			"role":     r,
-			"exp":   time.Now().Add(30 * time.Minute).Unix(),
+			"email":    e,
+			"exp":      time.Now().Add(30 * time.Minute).Unix(),
 		})
 	ts, err := t.SignedString(HMACSecretKey)
 	if err != nil {
@@ -110,7 +111,7 @@ func CheckPatientRegisteredByAdmin(email string) error {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return  errors.New("patient not registered by admin")
+		return errors.New("patient not registered by admin")
 	}
 	return nil
 }
