@@ -1,6 +1,6 @@
 export interface Operation {
+    name: string;
     staffList: string[];
-    operationType: string;
 }
 
 export interface Frame {
@@ -26,4 +26,14 @@ export interface Frame {
     'room-schedule': string;
     'staff-schedules': string;
     'final-time': number;
+  }
+  export interface AssignmentOutput {
+    "surgeries-per-room":string
+  }
+  export interface DecideOutput {
+    "method":string;
+  }
+  export interface Assignment {
+    room: string,
+    surgeries: string[]
   }
