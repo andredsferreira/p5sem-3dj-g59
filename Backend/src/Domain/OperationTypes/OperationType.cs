@@ -21,7 +21,8 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
     
     public Status Status { get; set; }
 
-    public Specialization Specialization { get; set; }
+    public SpecializationID SpecializationID { get; set; }
+    public Specialization Specialization {get; set;}
     public int MinDoctor { get; set; }
     public int MinAnesthetist { get; set; }
     public int MinInstrumentingNurse { get; set; }
@@ -46,7 +47,7 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
         this.surgeryTime = new SurgeryTime(0);
         this.cleaningTime = new CleaningTime(0);
         this.Status = Status.ACTIVE;
-        this.Specialization = new Specialization();
+        this.SpecializationID = new SpecializationID("");
         this.MinDoctor = 1;
         this.MinAnesthetist = 1;
         this.MinInstrumentingNurse = 1;
@@ -56,13 +57,13 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
         this.MinMedicalActionAssistant = 1;
     }
 
-    public OperationType(OperationName name, AnaesthesiaTime anaesthesiaTime, SurgeryTime surgeryTime, CleaningTime cleaningTime, Specialization specialization) {
+    public OperationType(OperationName name, AnaesthesiaTime anaesthesiaTime, SurgeryTime surgeryTime, CleaningTime cleaningTime, SpecializationID specializationID) {
         Id = new OperationTypeId(Guid.NewGuid());
         this.name = name;
         this.anaesthesiaTime = anaesthesiaTime;
         this.surgeryTime = surgeryTime;
         this.cleaningTime = cleaningTime;
-        this.Specialization = specialization;
+        this.SpecializationID = specializationID;
         this.Status = Status.ACTIVE;
     }
 
@@ -75,14 +76,14 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
         this.Status = Status;
     }
 
-    public OperationType(OperationName name, AnaesthesiaTime anaesthesiaTime, SurgeryTime surgeryTime, CleaningTime cleaningTime, Status Status, Specialization specialization, int minDoctor, int minAnesthetist, int minInstrumentingNurse, int minCirculatingNurse, int minNurseAnaesthetist, int minXRayTechnician, int minMedicalActionAssistant) {
+    public OperationType(OperationName name, AnaesthesiaTime anaesthesiaTime, SurgeryTime surgeryTime, CleaningTime cleaningTime, Status Status, SpecializationID specializationID, int minDoctor, int minAnesthetist, int minInstrumentingNurse, int minCirculatingNurse, int minNurseAnaesthetist, int minXRayTechnician, int minMedicalActionAssistant) {
         Id = new OperationTypeId(Guid.NewGuid());
         this.name = name;
         this.anaesthesiaTime = anaesthesiaTime;
         this.surgeryTime = surgeryTime;
         this.cleaningTime = cleaningTime;
         this.Status = Status;
-        this.Specialization = specialization;
+        this.SpecializationID = specializationID;
         this.MinDoctor = minDoctor;
         this.MinAnesthetist = minAnesthetist;
         this.MinInstrumentingNurse = minInstrumentingNurse;
@@ -97,8 +98,7 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
         SurgeryTime surgeryTime = new SurgeryTime(dto.surgeryTime);
         CleaningTime cleaningTime = new CleaningTime(dto.cleaningTime);
         Status status = (Status)Enum.Parse(typeof(Status), dto.Status);
-        //get specialization from id
-        Specialization specialization = specializationRepository.GetByIdAsync(new SpecializationID(dto.SpecializationId)).Result;
+        SpecializationID specializationID = new SpecializationID(dto.SpecializationId); 
         int minDoctor = dto.minDoctor;
         int minAnesthetist = dto.minAnaesthetist;
         int minInstrumentingNurse = dto.minInstrumentingNurse;
@@ -107,7 +107,7 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
         int minXRayTechnician = dto.minXRayTechnician;
         int minMedicalActionAssistant = dto.minMedicalActionAssistant;
 
-        return new OperationType(name, anaesthesiaTime, surgeryTime, cleaningTime, status, specialization, minDoctor, minAnesthetist,
+        return new OperationType(name, anaesthesiaTime, surgeryTime, cleaningTime, status, specializationID, minDoctor, minAnesthetist,
             minInstrumentingNurse, minCirculatingNurse, minNurseAnaesthetist, minXRayTechnician, minMedicalActionAssistant);
 
     }
@@ -117,7 +117,7 @@ public class OperationType : Entity<OperationTypeId>, IAggregateRoot {
     public OperationTypeDTO returnDTO() {
 
         return new OperationTypeDTO(Id.AsGuid(), name.ToString(), anaesthesiaTime.duration, surgeryTime.duration, cleaningTime.duration,
-            Status.ToString(), Specialization.Id.AsString(), MinDoctor, MinAnesthetist, MinInstrumentingNurse, MinCirculatingNurse, MinNurseAnaesthetist,
+            Status.ToString(), SpecializationID.AsString(), MinDoctor, MinAnesthetist, MinInstrumentingNurse, MinCirculatingNurse, MinNurseAnaesthetist,
             MinXRayTechnician, MinMedicalActionAssistant);
     }
 

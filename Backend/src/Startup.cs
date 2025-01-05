@@ -28,6 +28,8 @@ using Backend.Infrastructure.Appointments;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Backend.Domain.Auth;
+using Backend.Domain.Specializations;
+using Backend.Infrastructure.Specializations;
 
 namespace Backend;
 public class Startup {
@@ -134,6 +136,10 @@ public class Startup {
         // Operation type
         services.AddTransient<IOperationTypeRepository, OperationTypeRepository>();
         services.AddTransient<AddOperationTypeService>();
+
+        //Specialization
+        services.AddTransient<ISpecializationRepository, SpecializationRepository>();
+        services.AddTransient<SpecializationService>();
 
         // Appointment
         services.AddTransient<IAppointmentRepository, AppointmentRepository>();

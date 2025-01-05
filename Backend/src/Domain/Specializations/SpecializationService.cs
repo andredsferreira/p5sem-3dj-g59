@@ -33,5 +33,9 @@ public class SpecializationService{
         await _unitOfWork.CommitAsync();
 
         return specialization.ToDTO();
+    }
+    public virtual async Task<SpecializationDTO> GetSpecializationDTO() {
+        var specializations = await _repository.GetAllAsync();
+        return specializations.Select(s => s.ToDTO()).FirstOrDefault();
     }    
 }

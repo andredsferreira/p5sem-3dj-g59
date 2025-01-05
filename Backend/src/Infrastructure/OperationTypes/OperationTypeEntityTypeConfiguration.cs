@@ -1,5 +1,7 @@
 using System;
+using System.Security.Cryptography.X509Certificates;
 using Backend.Domain.OperationTypes;
+using Backend.Domain.Specializations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -29,6 +31,14 @@ internal class OperationTypeEntityTypeConfiguration : IEntityTypeConfiguration<O
 
         builder.Property(x => x.Status)
             .HasConversion(x => x.ToString(), x => (Status)Enum.Parse(typeof(Status), x));
+
+        /*builder.HasOne<Specialization>(x => x.Specialization)
+            .WithMany(y => y.OperationTypes)
+            .HasForeignKey(y => y.SpecializationId)
+            .IsRequired();*/
+        
+        
+
 
     }
 }
