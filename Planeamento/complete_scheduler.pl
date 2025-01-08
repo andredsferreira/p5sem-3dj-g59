@@ -412,6 +412,10 @@ update_better_sol(Day,Room,Agenda,LOpCode):-
 
 % -------------------------------GENETIC-------------------------------------
 
+
+
+
+
 % parameters initialization
 initialize(NG,PS,P1,P2):-
     %write('Number of new generations: '),read(NG), 			
@@ -425,6 +429,12 @@ initialize(NG,PS,P1,P2):-
 	PM is P2/100, 
 	(retract(prob_mutation(_));true), asserta(prob_mutation(PM)).
 
+
+
+
+
+% --- MAIN 
+
 generate(Room,Day,NG,PS,P1,P2,AgendaRoom,AgendaDoctors,BestTime):-
     initialize(NG,PS,P1,P2),
     generate_population(Pop,Room),
@@ -435,6 +445,13 @@ generate(Room,Day,NG,PS,P1,P2,AgendaRoom,AgendaDoctors,BestTime):-
     generations(NG),
     generate_generation(0,NG,PopOrd,Room,Day),
     retract(better_sol(Day,Room,AgendaRoom,AgendaDoctors,BestTime)).
+
+
+
+
+
+
+% --- Generate population
 
 generate_population(Pop,Room):-
     population(PopSize),
@@ -453,11 +470,10 @@ generate_population(PopSize,SurgeryList,NumT,[Ind|Rest]):-
     not(member(Ind,Rest)).
 generate_population(PopSize,SurgeryList,NumT,L):-
     generate_population(PopSize,SurgeryList,NumT,L).
-    
 
+% --- Generate individual (auxiliar de generate_population)
 
 generate_individual([G],1,[G]):-!.
-
 generate_individual(SurgeryList,NumT,[G|Rest]):-
     NumTemp is NumT + 1, % to use with random
     random(1,NumTemp,N),
@@ -466,8 +482,14 @@ generate_individual(SurgeryList,NumT,[G|Rest]):-
     generate_individual(NewList,NumT1,Rest).
 
 remove(1,[G|Rest],G,Rest).
-remove(N,[G1|Rest],G,[G1|Rest1]):- N1 is N-1,
-            remove(N1,Rest,G,Rest1).
+remove(N,[G1|Rest],G,[G1|Rest1]):- N1 is N-1,remove(N1,Rest,G,Rest1).
+
+
+
+
+
+
+% --- Fitness calculation (avaliar)
 
 evaluate_population([], [], _, _, _).
 evaluate_population([Ind | Rest], [Ind*V | Rest1], Room, Day, BestV) :-
@@ -504,6 +526,7 @@ evaluate(Seq,V,Room,Day):-
     agenda_operation_room1(Room,Day,NewAgenda),
     reverse(NewAgenda,AgendaR),
     evaluate_final_time(AgendaR,Seq,V).
+
 
 schedule_operations([],_,_).
 schedule_operations([Surgery|TOp],Room,Day):-
@@ -546,13 +569,18 @@ bsort([X|Xs],Ys):-
 
 
 bchange([X],[X]):-!.
-
 bchange([X*VX,Y*VY|L1],[Y*VY|L2]):-
     VX>VY,!,
     bchange([X*VX|L1],L2).
 
 bchange([X|L1],[X|L2]):-bchange(L1,L2).
-    
+
+
+
+
+
+% --- Gerar nova populacao depois de fazer o crossover, mutacao e avaliacao dos novos individuos
+
 generate_generation(G,G,_,_,_):-!.
 	%write('Generation '), write(G), write(':'), nl, write(Pop), nl.
 generate_generation(N,G,Pop,Room,Day):-
@@ -569,7 +597,6 @@ generate_generation(N,G,Pop,Room,Day):-
 	generate_generation(N1,G,NPopOrd2,Room,Day).
 
 generate_crossover_points(P1,P2):- generate_crossover_points1(P1,P2).
-
 generate_crossover_points1(P1,P2):-
 	num_surgeries(N),
 	NTemp is N+1,
@@ -577,9 +604,13 @@ generate_crossover_points1(P1,P2):-
 	random(1,NTemp,P21),
 	P11\==P21,!,
 	((P11<P21,!,P1=P11,P2=P21);P1=P21,P2=P11).
-generate_crossover_points1(P1,P2):-
-	generate_crossover_points1(P1,P2).
+generate_crossover_points1(P1,P2):- generate_crossover_points1(P1,P2).
 
+
+
+
+
+% --- Crossover
 
 crossover([ ],[ ]).
 crossover([Ind*_],[Ind]).
@@ -662,6 +693,12 @@ removeh([h|R1],R2):-!,
 
 removeh([X|R1],[X|R2]):-
     removeh(R1,R2).
+
+
+
+
+
+% --- Mutação
 
 mutation([],[]).
 mutation([Ind|Rest],[NInd|Rest1]):-

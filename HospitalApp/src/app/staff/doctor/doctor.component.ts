@@ -39,6 +39,10 @@ export class DoctorComponent implements OnInit {
     this.router.navigate([`/operation-requests`]);
   }
 
+  openAllergies(){
+    this.router.navigate(['/allergy'])
+  }
+
   openAppointments(){
     this.router.navigate([`/appointments`]);
   }

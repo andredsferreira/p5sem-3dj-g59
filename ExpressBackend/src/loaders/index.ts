@@ -33,6 +33,11 @@ export default async ({ expressApp }) => {
     schema: "../persistence/schemas/allergySchema"
   }
 
+  const allergyEntrySchema = {
+    name: "allergyEntrySchema",
+    schema: "../persistence/schemas/allergyEntrySchema"
+  }
+
   const medicalRecordSchema = {
     name: "medicalRecordSchema",
     schema: "../persistence/schemas/medicalRecordSchema"
@@ -98,6 +103,22 @@ export default async ({ expressApp }) => {
     path: config.services.allergy.path
   }
 
+  const allergyEntryController = {
+    name: config.controllers.allergyEntry.name,
+    path: config.controllers.allergyEntry.path
+  }
+
+  const allergyEntryRepo = {
+    name: config.repos.allergyEntry.name,
+    path: config.repos.allergyEntry.path
+  }
+
+  const allergyEntryService = {
+    name: config.services.allergyEntry.name,
+    path: config.services.allergyEntry.path
+  }
+
+
   const medicalRecordController = {
     name: config.controllers.medicalRecord.name,
     path: config.controllers.medicalRecord.path
@@ -149,6 +170,7 @@ export default async ({ expressApp }) => {
       roleSchema,
       medConditionSchema,
       allergySchema,
+      allergyEntrySchema,
       medicalRecordSchema,
       familyHistoryEntrySchema,
       medicalConditionEntrySchema,
@@ -157,6 +179,7 @@ export default async ({ expressApp }) => {
       roleController,
       medConditionController,
       allergyController,
+      allergyEntryController,
       medicalRecordController,
       familyHistoryEntryController,
       medicalConditionEntryController,
@@ -166,6 +189,7 @@ export default async ({ expressApp }) => {
       userRepo,
       medConditionRepo,
       allergyRepo,
+      allergyEntryRepo,
       medicalRecordRepo,
       familyHistoryEntryRepo,
       medicalConditionEntryRepo,
@@ -174,6 +198,7 @@ export default async ({ expressApp }) => {
       roleService,
       medConditionService,
       allergyService,
+      allergyEntryService,
       medicalRecordService,
       familyHistoryEntryService,
       medicalConditionEntryService,
