@@ -4,8 +4,10 @@ export default interface IAllergyEntryService {
 
     createAllergyEntry(allergyEntryDTO: IAllergyEntryDTO): Promise<Result<IAllergyEntryDTO>>;
 
-    getAllergyEntryByNumber(number: string): Promise<Result<IAllergyEntryDTO>>;
+    getAllergyEntryByMedicalRecordNumber(medicalRecordNumber: string): Promise<Result<IAllergyEntryDTO[]>>
 
-    updateAllergyEntry(number: string, allergyEntryDTO: IAllergyEntryDTO): Promise<Result<IAllergyEntryDTO>>;
+    search(medicalRecordNumber: string, dto: IAllergyEntryOptionalDTO): Promise<Result<IAllergyEntryDTO[]>> 
+
+    editAllergyEntry(entryNumber: string, dto: IAllergyEntryOptionalDTO): Promise<Result<IAllergyEntryDTO>>
 
 }

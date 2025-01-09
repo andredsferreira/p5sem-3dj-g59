@@ -4,3 +4,7 @@ interface IAllergyEntryDTO {
     allergy: string,
     description: string,
 }
+interface IAllergyEntryOptionalDTO {
+    allergy: string | null,
+    description: string|null
+}

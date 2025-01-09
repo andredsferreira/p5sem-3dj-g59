@@ -17,20 +17,32 @@ export default (app: Router) => {
     route.post('',
         celebrate({
             body: Joi.object({
-                code: Joi.string().required(),
-                name: Joi.string().required(),
+                medicalRecordNumber: Joi.string().required(),
+                allergy: Joi.string().required(),
                 description: Joi.string()
             })
         }),
         (req, res, next) => ctrl.createAllergyEntry(req, res, next))
 
-    route.get(`/:entryNumber`,
+    route.get(`/:medicalRecordNumber`,
         celebrate({
             params: Joi.object({
-                entryNumber: Joi.string().required()
+                medicalRecordNumber: Joi.string().required()
             }),
         }),
-        (req, res, next) => ctrl.getAllergyEntryByNumber(req, res, next)
+        (req, res, next) => ctrl.getAllergyEntryByMedicalRecordNumber(req, res, next)
+    )
+    route.post(`/search/:medicalRecordNumber`, //Get by MRN and filter after
+        celebrate({
+            params: Joi.object({
+                medicalRecordNumber: Joi.string().required()
+            }),
+            body: Joi.object({
+                condition: Joi.string(),
+                year: Joi.number()
+            })
+        }),
+        (req, res, next) => ctrl.searchAllergyEntries(req, res, next)
     )
 
     route.patch(`/:entryNumber`,

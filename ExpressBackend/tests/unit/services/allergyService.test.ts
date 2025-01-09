@@ -4,7 +4,7 @@ import "reflect-metadata";
 import { expect } from 'chai';
 import AllergyService from '../../../src/services/allergyService';
 import { Allergy } from '../../../src/domain/allergy';
-import { IAllergyDTO } from '../../../src/dto/IAllergyDTO';
+import IAllergyDTO from '../../../src/dto/IAllergyDTO';
 import Container from 'typedi';
 import IAllergyRepo from '../../../src/services/IRepos/IAllergyRepo';
 import { AllergyMap } from '../../../src/mappers/AllergyMap';

@@ -31,14 +31,28 @@ export default class AllergyEntryController implements IAllergyEntryController {
         }
     }
 
-    public async getAllergyEntryByNumber(req: Request, res: Response, next: NextFunction) {
+    public async searchAllergyEntries(req: Request, res: Response, next: NextFunction){
         try {
-            const allergyOrError = await this.AllergyEntryServiceInstance
-                .getAllergyEntryByNumber(req.params.entryNumber as string) as Result<IAllergyEntryDTO>
-            if (allergyOrError.isFailure) {
+            const allergyEntryOrError = await this.AllergyEntryServiceInstance
+                .search(req.params.medicalRecordNumber as string, req.body as IAllergyEntryOptionalDTO) as Result<IAllergyEntryDTO[]>
+            if (allergyEntryOrError.isFailure) {
                 return res.status(402).send()
             }
-            const allergyEntryDTO = allergyOrError.getValue()
+            const allergyEntryDTO = allergyEntryOrError.getValue()
+            return res.json(allergyEntryDTO).status(200)
+        } catch (err) {
+            return next(err)
+        }
+    }
+
+    public async getAllergyEntryByMedicalRecordNumber(req: Request, res: Response, next: NextFunction) {
+        try {
+            const allergyEntryOrError = await this.AllergyEntryServiceInstance
+                .getAllergyEntryByMedicalRecordNumber(req.params.medicalRecordNumber as string) as Result<IAllergyEntryDTO[]>
+            if (allergyEntryOrError.isFailure) {
+                return res.status(402).send()
+            }
+            const allergyEntryDTO = allergyEntryOrError.getValue()
             return res.json(allergyEntryDTO).status(200)
         } catch (err) {
             return next(err)
@@ -48,7 +62,7 @@ export default class AllergyEntryController implements IAllergyEntryController {
     public async updateAllergyEntry(req: Request, res: Response, next: NextFunction) {
         try {
             const allergyOrError = await this.AllergyEntryServiceInstance
-                .updateAllergyEntry(req.params.entryNumber as string, req.body as IAllergyEntryDTO) as Result<IAllergyEntryDTO>
+                .editAllergyEntry(req.params.entryNumber as string, req.body as IAllergyEntryDTO) as Result<IAllergyEntryDTO>
 
             if (allergyOrError.isFailure) {
                 return res.status(402).send()
