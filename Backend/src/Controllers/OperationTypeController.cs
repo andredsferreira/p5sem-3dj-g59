@@ -14,7 +14,7 @@ namespace Backend.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Policy = "AdminPolicy, DoctorPolicy")]
+//[Authorize(Policy = "AdminPolicy, DoctorPolicy")]
 public class OperationTypeController : ControllerBase {
 
 

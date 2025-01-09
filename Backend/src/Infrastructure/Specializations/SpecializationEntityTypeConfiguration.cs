@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Backend.Infrastructure.Specializations;
-
+ /*
 internal class SpecializationEntityTypeConfiguration : IEntityTypeConfiguration<Specialization> {
     public void Configure(EntityTypeBuilder<Specialization> builder) {
 
@@ -12,7 +12,7 @@ internal class SpecializationEntityTypeConfiguration : IEntityTypeConfiguration<
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
-            .HasConversion(x => x.AsGuid(), x => new SpecializationID(x));
+            .HasConversion(x => x.AsGuid(), x => new SpecializationId(x));
 
         builder.Property(x => x.codeSpec).IsRequired()
             .HasConversion(x => x.ToString(), x => new CodeSpec(x));
@@ -31,4 +31,4 @@ internal class SpecializationEntityTypeConfiguration : IEntityTypeConfiguration<
         
         
     }
-}
+}*/

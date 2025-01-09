@@ -1,8 +1,8 @@
 using System;
 using Backend.Domain.Shared;
 namespace Backend.Domain.Specializations;
-
-public class Specialization : Entity<SpecializationID>, IAggregateRoot
+/*
+public class Specialization : Entity<SpecializationId>, IAggregateRoot
 {
 
     public CodeSpec codeSpec { get; set; }
@@ -15,14 +15,7 @@ public class Specialization : Entity<SpecializationID>, IAggregateRoot
 
     public Specialization(CodeSpec codeSpec, Designation designation, Description description)
     {
-        this.codeSpec = codeSpec;
-        this.designation = designation;
-        this.description = description;
-    }
-
-    public Specialization(SpecializationID id, CodeSpec codeSpec, Designation designation, Description description)
-    {
-        this.Id = id;
+        Id = new SpecializationId(Guid.NewGuid());
         this.codeSpec = codeSpec;
         this.designation = designation;
         this.description = description;
@@ -37,5 +30,15 @@ public class Specialization : Entity<SpecializationID>, IAggregateRoot
     {
         return new Specialization(new CodeSpec(specializationDTO.codeSpec), new Designation(specializationDTO.designation), new Description(specializationDTO.description));
     }
+
+}
+*/
+
+public enum Specialization{
+
+    Prosthethics,
+    Arthroscopy,
+    Spine
+
 
 }

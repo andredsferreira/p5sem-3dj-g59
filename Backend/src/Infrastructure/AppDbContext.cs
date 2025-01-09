@@ -39,9 +39,9 @@ public class AppDbContext : DbContext {
     public virtual DbSet<Appointment> Appointments { get; set; }
 
     public virtual DbSet<DomainLog> DomainLogs { get; set; }
-
+/*
     public virtual DbSet<Specialization> Specializations { get; set; }
-
+*/
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {
 
     }
@@ -54,7 +54,7 @@ public class AppDbContext : DbContext {
         modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new AppointmentEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new DomainLogEntityTypeConfiguration());
-        modelBuilder.ApplyConfiguration(new SpecializationEntityTypeConfiguration());
+        //modelBuilder.ApplyConfiguration(new SpecializationEntityTypeConfiguration());
 
         var patientA = new Patient(
             new MedicalRecordNumber("202410000001"),
@@ -406,11 +406,11 @@ public class AppDbContext : DbContext {
         string id1 = Guid.NewGuid().ToString();
         string id2 = Guid.NewGuid().ToString();
         string id3 = Guid.NewGuid().ToString();
-
-        SeedSpecialization(modelBuilder, id1, "PRO", "Prosthethiscs", "Prosthetics");
-        SeedSpecialization(modelBuilder, id2, "ART", "Arthroscopy", "Arthroscopy");
-        SeedSpecialization(modelBuilder, id3, "SPN", "Spine", "Spine");
-
+    /*
+        SeedSpecialization(modelBuilder, "PRO", "Prosthethiscs", "Prosthetics");
+        SeedSpecialization(modelBuilder, "ART", "Arthroscopy", "Arthroscopy");
+        SeedSpecialization(modelBuilder, "SPN", "Spine", "Spine");
+*/
         var room1 = SeedSurgeryRoom(modelBuilder, new RoomNumber(200), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor"], [new DaySlots(new DateOnly(2024, 10, 28), [new Slot(new TimeOnly(9, 30), new TimeOnly(10, 0))])]);
         var room2 = SeedSurgeryRoom(modelBuilder, new RoomNumber(201), RoomType.OperatingRoom, RoomStatus.Available, 10, ["Scalpel", "Monitor", "Table"], [new DaySlots(new DateOnly(2024, 10, 28), [new Slot(new TimeOnly(12, 30), new TimeOnly(13, 0))])]);
 
@@ -455,15 +455,15 @@ public class AppDbContext : DbContext {
         builder.Entity<Appointment>().HasData(appointment);
     }
 
-    private void SeedSpecialization(ModelBuilder builder,string id ,string codeSpec, string designation, string description) {
+/*
+    private void SeedSpecialization(ModelBuilder builder, string codeSpec, string designation, string description) {
         var specialization = new Specialization(
-            new SpecializationID(id),
             new CodeSpec(codeSpec),
             new Designation(designation),
             new Description(description)
         );
         builder.Entity<Specialization>().HasData(specialization);
-    }
+    }*/
 
     private void SpecializationBootstrap(ModelBuilder builder){
 

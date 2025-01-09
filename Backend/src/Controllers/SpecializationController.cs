@@ -9,7 +9,7 @@ using Backend.Domain.Specializations;
 
 
 namespace Backend.Controllers;
-
+/*
 [ApiController]
 [Route("api/[controller]")]
 
@@ -54,4 +54,4 @@ public class SpecializationController : ControllerBase{
 
     
 
-}
+}*/

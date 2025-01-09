@@ -137,10 +137,10 @@ public class Startup {
         services.AddTransient<IOperationTypeRepository, OperationTypeRepository>();
         services.AddTransient<AddOperationTypeService>();
 
-        //Specialization
+        /*Specialization
         services.AddTransient<ISpecializationRepository, SpecializationRepository>();
         services.AddTransient<SpecializationService>();
-
+        */
         // Appointment
         services.AddTransient<IAppointmentRepository, AppointmentRepository>();
         services.AddTransient<AppointmentService>();

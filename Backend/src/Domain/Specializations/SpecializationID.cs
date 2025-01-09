@@ -4,12 +4,12 @@ using System.Text.Json.Serialization;
 
 namespace Backend.Domain.Specializations;
 
-public class SpecializationID : EntityId {
+public class SpecializationId : EntityId {
 
     [JsonConstructor]
-    public SpecializationID(Guid value) : base(value) { }
+    public SpecializationId(Guid value) : base(value) { }
 
-    public SpecializationID(object value) : base(value) { }
+    public SpecializationId(object value) : base(value) { }
 
     override
         protected Object createFromString(String text) {

@@ -13,18 +13,18 @@ public class AddOperationTypeService {
 
     private readonly IOperationTypeRepository _repository;
     
-    private readonly ISpecializationRepository _specializationRepository;
+    //private readonly ISpecializationRepository _specializationRepository;
 
     private readonly IUnitOfWork _unitOfWork;
 
     private readonly IDomainLogRepository _logRepository;
 
 
-    public AddOperationTypeService(IOperationTypeRepository repository, IUnitOfWork unitOfWork, IDomainLogRepository logRepository, ISpecializationRepository specializationRepository) {
+    public AddOperationTypeService(IOperationTypeRepository repository, IUnitOfWork unitOfWork, IDomainLogRepository logRepository/*, ISpecializationRepository specializationRepository */ ) {
         _repository = repository;
         _unitOfWork = unitOfWork;
         _logRepository = logRepository;
-        _specializationRepository = specializationRepository;
+        //_specializationRepository = specializationRepository;
     }
 
     public AddOperationTypeService() {
@@ -32,7 +32,7 @@ public class AddOperationTypeService {
 
     public virtual async Task<OperationTypeDTO> CreateOperationType([FromForm] OperationTypeDTO dto) {
         
-        OperationType operationType = OperationType.createFromDTO(dto, _specializationRepository);
+        OperationType operationType = OperationType.createFromDTO(dto/*, _specializationRepository*/);
         
         await _repository.AddAsync(operationType);
         await _unitOfWork.CommitAsync();

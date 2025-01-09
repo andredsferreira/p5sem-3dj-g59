@@ -9,7 +9,7 @@ using Backend.Domain.DomainLogs;
 namespace Backend.Domain.Specializations;
 
 public class SpecializationService{
-
+/*
     private readonly ISpecializationRepository _repository;
 
     private readonly IUnitOfWork _unitOfWork;
@@ -24,7 +24,7 @@ public class SpecializationService{
 
     public SpecializationService() {
     }
-
+/*
     public virtual async Task<SpecializationDTO> CreateSpecializationDTO([FromForm] SpecializationDTO dto) {
         
         Specialization specialization = Specialization.FromDTO(dto);
@@ -40,7 +40,7 @@ public class SpecializationService{
     }
 
     public virtual async Task<SpecializationDTO> editSpecialization(SpecializationDTO dto, string id){
-        var specialization = this._repository.GetByIdAsync(new SpecializationID(id)).Result;
+        var specialization = this._repository.GetByIdAsync(new SpecializationId(id)).Result;
         
         if(specialization == null)
             throw new Exception("Specialization not found.");
@@ -55,4 +55,5 @@ public class SpecializationService{
 
         return specialization.ToDTO(); 
     }    
+*/
 }
