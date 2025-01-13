@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { lastValueFrom } from 'rxjs';
+import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
 import { IAM_API_PATH } from '../config-path';
 
@@ -14,6 +14,9 @@ export class AuthService {
   private readonly TOKEN_KEY = ""
 
   constructor(private http: HttpClient, @Inject(IAM_API_PATH) private iamPath:string) { }
+
+  private tokenSubject = new BehaviorSubject<string|null>(localStorage.getItem(this.TOKEN_KEY));
+  token$ = this.tokenSubject.asObservable();
 
   async login(username: string, password: string): Promise<HttpResponse<token>> {
     try {
@@ -29,6 +32,7 @@ export class AuthService {
       );
       console.log('Token received:', response.body.token);
       this.storeToken(response.body.token);
+      this.tokenSubject.next(response.body.token);
       return response;
     } catch (error) {
       console.error('Error fetching token:', error);
@@ -39,6 +43,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     console.log('User logged out successfully.');
+    this.tokenSubject.next(null);
   }
 
   async registerPatient(username: string, email: string, phone: string, password: string): Promise<any> {

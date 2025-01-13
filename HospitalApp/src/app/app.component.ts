@@ -15,13 +15,19 @@ export class AppComponent implements OnInit {
   title = 'HospitalApp';
   token: string | null = null;
   username: string | null = null;
+  openCookieNotif: boolean = true;
   
   constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.token = localStorage.getItem('token');
-    if (!this.token) return;
-    this.username = this.authService.getUsernameFromToken(this.token);
+    this.authService.token$.subscribe((token) => {
+      this.token = token;
+      this.username = token ? this.authService.getUsernameFromToken(token) : null;
+    });
+    const value = localStorage.getItem('hasReadCookiePolicy');
+    console.log("value=",value);
+    if(!value) this.openCookieNotif = true;
+    else this.openCookieNotif = localStorage.getItem('hasReadCookiePolicy') == ' true ';
   }
 
   main(): void {
@@ -50,5 +56,10 @@ export class AppComponent implements OnInit {
 
   login(): void {
     this.router.navigate(['/login']);
+  }
+
+  closeCookiePolicy(){
+    localStorage.setItem('hasReadCookiePolicy', 'true');
+    this.openCookieNotif = false;
   }
 }

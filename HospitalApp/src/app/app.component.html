@@ -11,8 +11,8 @@
         <!-- Menu Items -->
         <div class="space-x-8 flex items-center">
             <button (click)="privacy()" class="hover:text-darkGrayishBlue p-6">Política de Privacidade</button>
-            <button (click)="aboutus()" class="hover:text-darkGrayishBlue p-6">Sobre Nós</button>
-            <button (click)="contacts()" class="hover:text-darkGrayishBlue p-6">Contactos</button>
+            <!--<button (click)="aboutus()" class="hover:text-darkGrayishBlue p-6">Sobre Nós</button>
+            <button (click)="contacts()" class="hover:text-darkGrayishBlue p-6">Contactos</button>-->
             <button (click)="hospitalfloor()" class="hover:text-darkGrayishBlue p-6">Visualização 3D</button>
             <div class="border border-black rounded-3xl hover:bg-gray-200 flex items-center">
                 <div *ngIf="token; else loginButton">
@@ -23,6 +23,27 @@
                 </ng-template>
             </div>
         </div>        
+        <div *ngIf="openCookieNotif" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center mx-auto">
+            <div style='background-color:rgb(255, 255, 255)'>
+            <div class="w-72 bg-white rounded-lg shadow-md p-6" style="cursor: auto;">
+              <div class="w-16 mx-auto relative -mt-10 mb-3">
+                <img class="-mt-1" src="https://www.svgrepo.com/show/30963/cookie.svg" alt="Cookie Icon SVG">
+              </div>
+              <span class="w-full sm:w-48  block leading-normal text-gray-800 text-md mb-3">Nós usamos cookies para lhe dar uma melhor experiência como utilizador.</span>
+              <div class="flex items-center justify-between">
+                <button (click)="openCookieNotif = false; privacy()" class="text-xs text-gray-400 mr-1 hover:text-gray-800">Política de Privacidade</button>
+                <div class="w-1/2">
+                  <button type="button" (click)="closeCookiePolicy()" class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">Aceitar</button>
+                </div>
+              </div>
+            </div>
+            </div>
+            </div>
     </div>
     </nav>
 <router-outlet></router-outlet>
+<footer class="py-6 border-t border-gray-300">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-gray-600 text-sm">© 2025 Hospital de Paranhos. All rights reserved.</p>
+    </div>
+  </footer>
